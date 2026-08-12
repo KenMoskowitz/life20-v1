@@ -1,25 +1,102 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPage, getSiteSettings } from '../lib/sanity';
+import { getPage } from '../lib/sanity';
 
 const cms = await getPage('private-advisory') as Record<string, any> | null;
-const settings = await getSiteSettings() as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
-const description = cms?.metaDescription ?? 'A high-touch, founder-led partnership for leaders ready to build a life that matches what they\'ve built. Start with a Clarity Call.';
-void settings;
+const description = cms?.metaDescription ?? 'Private, high-touch life advisory for ambitious founders and high performers. Founding client investment: $2,000/month. Apply for a Clarity Call.';
 
-const whatFor = [
-  'Diagnosing the actual Life 2.0 gap, not the symptom',
-  'Naming the skill or skills creating the most drag',
-  'Building a practical next-step plan, real actions, not a worksheet',
+const whatYouGet = [
+  {
+    title: 'Weekly Private Advisory Sessions',
+    body: [
+      'A private 1:1 session every week.',
+      "Some weeks, we'll meet you exactly where you are and work through the most important thing happening in your life right now. Other weeks, we'll zoom out and work systematically through the Life 2.0 curriculum and the bigger life you're building.",
+      "Immediate problems and long-term transformation. You don't have to choose between the two.",
+    ],
+  },
+  {
+    title: 'Your Personal Life 2.0 Roadmap',
+    body: [
+      "We start by getting radically clear on where you are, what is and isn't working, and what you actually want.",
+      "Together, we'll identify the gaps between your current life and your Life 2.0, and build a personalized roadmap for closing them. This becomes our north star for the work.",
+    ],
+  },
+  {
+    title: 'The Complete Life 2.0 Curriculum',
+    body: [
+      "You'll receive access to the Life 2.0 curriculum and frameworks designed to help you intentionally examine and upgrade the major areas of your life.",
+      "We won't just consume the material. We'll apply it directly to your life together.",
+    ],
+  },
+  {
+    title: 'Direct Access Between Sessions',
+    body: [
+      "Life doesn't conveniently happen once a week.",
+      "You'll have high-touch access to Laura between sessions via text and voice note for questions, decisions, breakthroughs, challenges, and moments when you need another brain in the room. And when something genuinely important can't wait for our next scheduled session, we'll have a mechanism for getting you additional support.",
+      "You don't have to hold everything until Tuesday at 2:00.",
+    ],
+  },
+  {
+    title: 'The Life 2.0 Community',
+    body: [
+      'Every active Life 2.0 client becomes part of the private Life 2.0 community.',
+      "This is intentionally not an audience or a giant free online group. It's a room full of people who are actively investing in building exceptional lives.",
+      "You'll have access to the people, conversations, ideas, recommendations, and collective intelligence inside that room for the duration of your engagement.",
+    ],
+  },
+  {
+    title: 'The Life 2.0 Resource Library',
+    body: [
+      "You shouldn't have to reinvent every part of a great life yourself.",
+      "We're building a living library of the best systems, resources, tools, frameworks, and recommendations we've found for making life work better. That can include practical playbooks for things like:",
+    ],
+    subList: [
+      'Hiring and working with a house manager',
+      'Finding, hiring, and building an exceptional relationship with a nanny',
+      'Delegating the invisible workload of life',
+      'Using AI to save time and reduce cognitive load',
+      'Creating better household systems',
+      'Finding trusted experts and service providers',
+      'Building systems that give you more time for the things only you can do',
+    ],
+    closing: "The goal isn't more information. It's fewer things you have to figure out alone.",
+  },
+  {
+    title: 'The Life 2.0 Expert Ecosystem',
+    body: [
+      "Sometimes the answer isn't another coaching conversation. Sometimes you need the right person.",
+      "As the Life 2.0 ecosystem grows, you'll have access to a curated network of trusted experts, specialists, and providers who can help solve specific problems and improve different areas of your life.",
+      "When appropriate, we'll help you figure out who or what you actually need next rather than leaving you to spend hours searching for the answer yourself.",
+    ],
+  },
+];
+
+const methodStages = [
+  { stage: 'Discover', body: "Get radically honest about the life you're living now." },
+  { stage: 'Define', body: 'Get clear on what your extraordinary life actually looks like.' },
+  { stage: 'Design', body: 'Build the systems, relationships, environment, habits, and support structure that make that life possible.' },
+  { stage: 'Execute', body: 'Turn insight into real-world changes, with accountability and support.' },
+  { stage: 'Evolve', body: 'Keep refining your life as you, your family, your ambitions, and your definition of success change.' },
+];
+
+const rhetoricalQuestions = [
+  'Is this actually the life I want?',
+  'What would make it extraordinary?',
+  "What am I tolerating that I don't want to tolerate anymore?",
+  'What would I change if I stopped assuming life had to work this way?',
 ];
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/private-advisory">
   <div class="page-hero wrap">
     <div class="eyebrow">Private Advisory</div>
-    <h1>Build the life your business was supposed to buy.</h1>
-    <p class="lede">This is the deepest version of Life 2.0 work. Founder-led, high-touch, built around your actual nine skills, not a generic curriculum. It starts with one conversation.</p>
+    <h1>Build a life that feels as successful as it looks.</h1>
+    <p class="lede">Private, high-touch life advisory for ambitious founders, entrepreneurs, and high performers who have built a lot, and are ready to intentionally build the rest of their life.</p>
+    <div class="hero-actions" style="margin-top:32px;">
+      <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
+      <a class="btn-text" href="#pricing">See founding client pricing</a>
+    </div>
   </div>
 
   <div class="founder-grid wrap" style="padding-bottom: 64px;">
@@ -27,22 +104,90 @@ const whatFor = [
       <img src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
     </div>
     <div>
-      <h2>The Clarity Call</h2>
-      <p class="body-copy" style="margin-top:20px;">A 60-minute conversation with Laura. You'll walk in with wherever you scored lowest on the 9 Skills, and walk out with a clear read on the real gap and a practical next step, whether or not you go further.</p>
-      <ul class="list-plain">
-        {whatFor.map((item) => <li>{item}</li>)}
-      </ul>
+      <h2>You know how to achieve.</h2>
+      <p class="body-copy" style="margin-top:20px;">But achievement alone doesn't guarantee that your relationships feel incredible. That your home runs smoothly. That you have time to think. That your health, family, friendships, purpose, and day-to-day life actually feel the way you want them to.</p>
+      <div class="emphasis-lines">
+        <p>Life 2.0 is about designing the whole thing.</p>
+        <p>Not abandoning your ambition.</p>
+        <p>Building a life big enough to hold it.</p>
+      </div>
     </div>
   </div>
 
   <section class="section wrap">
-    <h2>What happens after</h2>
-    <p class="body-copy">For the right fit, the Clarity Call is the start of ongoing Private Advisory work: direct access to Laura, built around your specific lowest-scoring skills, structured around your actual life rather than a fixed syllabus. Scope, term, and investment are confirmed on the call itself, based on what you actually need.</p>
+    <h2>The Life 2.0 Private Advisory</h2>
+    <p class="body-copy">This isn't a one-size-fits-all coaching program. It's a highly personalized advisory relationship designed around you, your life, and what matters most right now.</p>
+    <p class="body-copy">We'll work on the immediate challenges in front of you while simultaneously building toward a much bigger vision for your life.</p>
+    <p class="pull-statement">The goal is simple: to help you create a life you are wildly excited to wake up to.</p>
+  </section>
+
+  <section class="section wrap">
+    <h2>What you get</h2>
+    <div class="numbered-features">
+      {whatYouGet.map((item, i) => (
+        <div class="numbered-feature">
+          <div class="num">{String(i + 1).padStart(2, '0')}</div>
+          <div>
+            <h3>{item.title}</h3>
+            {item.body.map((p) => <p class="body-copy">{p}</p>)}
+            {item.subList && (
+              <ul class="sub-list">
+                {item.subList.map((s) => <li>{s}</li>)}
+              </ul>
+            )}
+            {item.closing && <p class="body-copy" style="font-weight:600; color:var(--forest);">{item.closing}</p>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <h2>The Life 2.0 Method</h2>
+    <p class="body-copy">Our work moves through five core stages:</p>
+    <div class="method-grid">
+      {methodStages.map((s, i) => (
+        <div class="method-item">
+          <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
+          <h3>{s.stage}</h3>
+          <p>{s.body}</p>
+        </div>
+      ))}
+    </div>
+    <p class="pull-statement">Life 2.0 isn't a finish line. It's a way of intentionally building your next chapter.</p>
+  </section>
+
+  <section class="section wrap">
+    <h2>Who this is for</h2>
+    <p class="body-copy">Life 2.0 Private Advisory is designed for people who are ambitious, capable, and willing to do the work. You may already have a successful business, career, family, or life on paper. But you're asking bigger questions now.</p>
+    <ul class="rhetorical-list">
+      {rhetoricalQuestions.map((q) => <li>{q}</li>)}
+    </ul>
+    <p class="pull-statement">And most importantly: what do I want my Life 2.0 to be?</p>
+  </section>
+
+  <section class="section wrap" id="pricing">
+    <h2>Founding client opportunity</h2>
+    <p class="body-copy">Life 2.0 is entering its founding chapter. Laura is opening a small number of spots for the first cohort of Life 2.0 Private Advisory clients. These founding clients will receive the full private advisory experience while also having a unique opportunity to help shape the future of Life 2.0.</p>
+
+    <div class="pricing-card">
+      <div class="eyebrow">Founding Client Investment</div>
+      <div class="price">$2,000<span>/month</span></div>
+      <p>Your founding rate is locked in while you remain continuously active in the Private Advisory. As Life 2.0 grows, the investment for new Private Advisory clients will increase.</p>
+      <p>This isn't a discounted version of Life 2.0. It's the opportunity to come in at the beginning.</p>
+      <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
+    </div>
+  </section>
+
+  <section class="footer-cta" style="margin: 40px clamp(12px,2vw,40px) 0;">
+    <h2>Your life is the biggest thing you'll ever build.</h2>
+    <p>You've spent years learning how to build companies, careers, teams, wealth, families, and accomplishments. Life 2.0 asks a different question: what if you brought that same level of intention to building your life? Not someday. Now.</p>
+    <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
   </section>
 
   <section class="section wrap" id="apply">
     <h2>Apply for a Clarity Call</h2>
-    <p class="body-copy">Laura reads every application herself. Tell her a little about where things stand.</p>
+    <p class="body-copy">Private Advisory is capacity-limited during the founding chapter. Laura reads every application herself and personally reviews it before booking your Clarity Call, this is the qualifying step, not an instant scheduler.</p>
     <!-- Submission wiring pending Phase 2 (Sanity 'application' document type). Currently posts nowhere. -->
     <form class="form-panel" style="margin-top:32px;" action="/api/private-advisory-application" method="post">
       <div class="form-field">
@@ -57,7 +202,7 @@ const whatFor = [
         <label for="context">What's going on right now?</label>
         <textarea id="context" name="context" rows="4"></textarea>
       </div>
-      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Submit application</button>
+      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Apply for a Clarity Call</button>
     </form>
   </section>
 </BaseLayout>
