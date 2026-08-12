@@ -1,0 +1,9 @@
+[build]
+  command = "node build.mjs"
+  publish = "dist"
+
+[[redirects]]
+  from = "/forms/*"
+  to = "https://laura-kelly.mykajabi.com/forms/:splat"
+  status = 200
+  force = true

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+    #kajabi-form.kajabi-form--inline { margin: 0; }
+  </style>
+</head>
+<body>
+  <script>
+    (function () {
+      const messageType = 'life20-kajabi-form';
+      const parentOrigin = 'https://thelife20.com';
+      const send = (payload) => window.parent.postMessage(
+        { source: messageType, ...payload },
+        parentOrigin
+      );
+      const reportHeight = () => {
+        const height = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight,
+          1
+        );
+        send({ type: 'resize', height });
+      };
+
+      window.addEventListener('load', () => {
+        reportHeight();
+        window.setTimeout(reportHeight, 100);
+      });
+      window.addEventListener('submit', (event) => {
+        if (event.target.matches('#kajabi-form form')) send({ type: 'submit-start' });
+      }, true);
+      new ResizeObserver(reportHeight).observe(document.documentElement);
+    }());
+  </script>
+  <script src="https://laura-kelly.mykajabi.com/forms/2149645914/embed.js"></script>
+</body>
+</html>

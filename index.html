@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<!--
+  Life 2.0 Homepage — Version 1
+  Design system: high-status warmth; editorial bone, deep forest, burnished gold;
+  direct pattern-recognition copy; no generic coaching language; mobile-first visual hierarchy.
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Life 2.0 helps accomplished business owners identify the patterns beneath success and build a life that can sustain it." />
+  <meta name="theme-color" content="#17281F" />
+  <title>Life 2.0 — Build the Life the Business Was Supposed to Buy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #17281f;
+      --ink-deep: #0d1711;
+      --pine: #234432;
+      --moss: #6f8965;
+      --bone: #f6f1e8;
+      --paper: #fffdf9;
+      --clay: #cf8a56;
+      --gold: #d7b36c;
+      --muted: #5d625d;
+      --line: rgba(23, 40, 31, 0.16);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "Manrope", Arial, sans-serif;
+      --mono: "DM Mono", monospace;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bone); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 1000; background: var(--paper); padding: 14px 20px; }
+    .skip-link:focus { left: 16px; top: 16px; }
+
+    .site-nav {
+      position: fixed; inset: 0 0 auto; z-index: 40; height: 76px; padding: 0 clamp(20px, 5vw, 72px);
+      display: flex; align-items: center; justify-content: space-between; color: #fff;
+      background: rgba(13, 23, 17, 0.89); border-bottom: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(14px);
+    }
+    .wordmark { font: 600 24px/1 var(--serif); letter-spacing: -.04em; text-decoration: none; }
+    .wordmark b { color: var(--gold); font-style: italic; font-weight: 500; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 2.6vw, 40px); }
+    .nav-link { color: rgba(255,255,255,.72); font: 500 10px/1 var(--mono); letter-spacing: .11em; text-decoration: none; text-transform: uppercase; transition: color 160ms var(--ease-out); }
+    .nav-link:hover, .nav-link:focus-visible { color: #fff; }
+    .nav-call { display: inline-flex; align-items: center; min-height: 38px; padding: 0 17px; border: 1px solid rgba(255,255,255,.32); color: #fff; font: 500 10px/1 var(--mono); letter-spacing: .11em; text-decoration: none; text-transform: uppercase; transition: background 160ms var(--ease-out), color 160ms var(--ease-out); }
+    .nav-call:hover, .nav-call:focus-visible { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); }
+
+    .hero { min-height: 100svh; padding-top: 76px; display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(420px, .98fr); background: var(--ink); }
+    .hero-copy { position: relative; padding: clamp(54px, 9vw, 128px) clamp(24px, 7.2vw, 116px) clamp(48px, 7vw, 104px); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .hero-copy::before { content: "01"; position: absolute; right: -18px; bottom: -70px; color: rgba(255,255,255,.035); font: 600 clamp(220px, 29vw, 460px)/1 var(--serif); pointer-events: none; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 24px; color: var(--gold); font: 500 10px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 32px; height: 1px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    .hero h1 { max-width: 750px; margin-bottom: 28px; color: #fff; font: 600 clamp(44px, 5.15vw, 84px)/.99 var(--serif); letter-spacing: -.058em; }
+    .hero h1 em { color: var(--gold); font-weight: 500; }
+    .hero-lede { max-width: 625px; margin: 0 0 20px; color: rgba(255,255,255,.82); font: 400 clamp(16px, 1.35vw, 20px)/1.6 var(--sans); }
+    .hero-lede + .hero-lede { color: rgba(255,255,255,.58); font-size: 15px; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 32px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border: 1px solid transparent; cursor: pointer; font: 700 11px/1 var(--sans); letter-spacing: .075em; text-decoration: none; text-transform: uppercase; transition: transform 160ms var(--ease-out), background 160ms var(--ease-out), color 160ms var(--ease-out), border-color 160ms var(--ease-out); }
+    .button:hover, .button:focus-visible { transform: translateY(-2px); }
+    .button:active { transform: scale(.97); }
+    .button-primary { background: var(--gold); color: var(--ink-deep); }
+    .button-primary:hover, .button-primary:focus-visible { background: #f0d28f; }
+    .button-text { min-height: 0; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.32); color: rgba(255,255,255,.8); font: 500 12px/1.4 var(--sans); letter-spacing: .02em; text-transform: none; }
+    .button-text:hover, .button-text:focus-visible { border-color: #fff; color: #fff; }
+    .hero-proof { display: flex; gap: 12px; align-items: center; margin-top: 48px; color: rgba(255,255,255,.45); font: 400 11px/1.45 var(--sans); }
+    .hero-proof::before { content: "↓"; color: var(--gold); font: 22px/1 var(--serif); }
+
+    .hero-image { position: relative; min-height: 620px; overflow: hidden; }
+    .hero-image img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center 42%; filter: saturate(.88) contrast(1.05); }
+    .hero-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,23,17,.3), transparent 35%), linear-gradient(0deg, rgba(13,23,17,.42), transparent 42%); }
+    .image-note { position: absolute; z-index: 1; right: clamp(24px, 4vw, 64px); bottom: 36px; max-width: 235px; margin: 0; padding-left: 16px; border-left: 1px solid var(--gold); color: rgba(255,255,255,.86); font: 500 13px/1.45 var(--sans); }
+
+    .stage-rail { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--paper); border-bottom: 1px solid var(--line); }
+    .stage { min-height: 148px; padding: 26px clamp(14px, 2vw, 34px); border-right: 1px solid var(--line); }
+    .stage:last-child { border: 0; background: var(--ink); color: #fff; }
+    .stage-no { display: block; margin-bottom: 13px; color: var(--clay); font: 500 10px/1 var(--mono); letter-spacing: .1em; }
+    .stage strong { display: block; margin-bottom: 8px; font: 600 20px/1.05 var(--serif); letter-spacing: -.03em; }
+    .stage p { margin-bottom: 0; color: var(--muted); font: 400 11px/1.45 var(--sans); }
+    .stage:last-child p { color: rgba(255,255,255,.58); }
+    .stage:last-child .stage-no { color: var(--gold); }
+
+    .section { padding: clamp(76px, 10vw, 150px) clamp(20px, 7.2vw, 116px); }
+    .section-heading { max-width: 815px; margin-bottom: 48px; font: 600 clamp(38px, 4.2vw, 68px)/1.03 var(--serif); letter-spacing: -.052em; }
+    .section-heading em { color: var(--pine); font-weight: 500; }
+    .section-copy { max-width: 620px; color: var(--muted); font: 400 16px/1.75 var(--sans); }
+
+    .assessment { background: var(--bone); scroll-margin-top: 74px; }
+    .assessment-top { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(280px, .7fr); gap: 70px; align-items: end; margin-bottom: 44px; }
+    .assessment-top .section-heading { margin: 0; }
+    .assessment-note { margin: 0; padding: 18px 0 0 22px; border-left: 2px solid var(--clay); color: var(--ink); font: 500 14px/1.62 var(--sans); }
+    .assessment-frame { position: relative; background: #fff; border: 1px solid var(--line); box-shadow: 0 24px 60px rgba(23,40,31,.1); }
+    .assessment-frame::before { content: "THE OVERFLOW ASSESSMENT"; position: absolute; z-index: 2; top: 14px; left: 18px; padding: 5px 7px; background: var(--ink); color: var(--gold); font: 500 8px/1 var(--mono); letter-spacing: .14em; pointer-events: none; }
+    .assessment-frame iframe { width: 100%; min-height: 905px; border: 0; display: block; background: #fff; }
+    .assessment-fallback { margin: 16px 0 0; color: var(--muted); font-size: 12px; }
+    .assessment-fallback a { color: var(--pine); font-weight: 700; }
+
+    .laura { display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); background: var(--ink-deep); color: #fff; }
+    .laura-image { min-height: 670px; }
+    .laura-image img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center center; filter: saturate(.82); }
+    .laura-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(74px, 9vw, 142px) clamp(28px, 8vw, 124px); }
+    .laura-copy .eyebrow { margin-bottom: 25px; }
+    .laura-copy h2 { max-width: 570px; margin-bottom: 28px; color: #fff; font: 600 clamp(38px, 4vw, 64px)/1.04 var(--serif); letter-spacing: -.052em; }
+    .laura-copy h2 em { color: var(--gold); font-weight: 500; }
+    .laura-copy p { max-width: 580px; margin-bottom: 28px; color: rgba(255,255,255,.68); font: 400 16px/1.78 var(--sans); }
+    .laura-copy p strong { color: #fff; font-weight: 600; }
+    .button-outline { align-self: flex-start; border-color: rgba(255,255,255,.45); color: #fff; background: transparent; }
+    .button-outline:hover, .button-outline:focus-visible { border-color: var(--gold); color: var(--gold); }
+
+    .next-level { background: var(--paper); }
+    .next-level-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, .8fr); gap: clamp(46px, 8vw, 140px); align-items: end; }
+    .next-level h2 { max-width: 670px; margin-bottom: 20px; font: 600 clamp(40px, 4.2vw, 68px)/1.02 var(--serif); letter-spacing: -.055em; }
+    .next-level h2 em { color: var(--clay); font-weight: 500; }
+    .next-level p { max-width: 665px; margin-bottom: 0; color: var(--muted); font: 400 17px/1.73 var(--sans); }
+    .next-level-card { padding: 30px; border-top: 3px solid var(--clay); background: var(--ink); color: #fff; }
+    .next-level-card .micro { display: block; margin-bottom: 18px; color: var(--gold); font: 500 10px/1 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+    .next-level-card p { margin-bottom: 25px; color: rgba(255,255,255,.65); font-size: 14px; }
+
+    .proof { background: var(--pine); color: #fff; }
+    .proof-grid { display: grid; grid-template-columns: minmax(0, .52fr) minmax(0, 1.48fr); gap: clamp(35px, 8vw, 126px); align-items: start; }
+    .proof-label { color: var(--gold); font: 500 10px/1.3 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+    .proof blockquote { max-width: 890px; margin: 0 0 30px; color: #fff; font: 500 clamp(29px, 3.25vw, 52px)/1.19 var(--serif); letter-spacing: -.042em; }
+    .proof cite { color: rgba(255,255,255,.62); font: 500 12px/1.55 var(--sans); font-style: normal; }
+
+    .mission { background: var(--bone); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+    .mission h2 { max-width: 740px; margin-bottom: 0; font: 600 clamp(40px, 4.4vw, 72px)/1.02 var(--serif); letter-spacing: -.06em; }
+    .mission h2 em { color: var(--pine); font-weight: 500; }
+    .mission-text { max-width: 470px; }
+    .mission-text p { color: var(--muted); font: 400 16px/1.75 var(--sans); }
+    .mission-link { background: none; border: 0; border-bottom: 1px solid var(--ink); padding: 0 0 4px; color: var(--ink); cursor: pointer; font: 700 11px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+
+    .closing { padding: clamp(74px, 10vw, 140px) clamp(20px, 7.2vw, 116px); background: var(--ink-deep); color: #fff; text-align: center; }
+    .closing h2 { max-width: 850px; margin: 0 auto 27px; font: 500 clamp(42px, 5vw, 78px)/1.02 var(--serif); letter-spacing: -.06em; }
+    .closing h2 em { color: var(--gold); }
+    .closing p { max-width: 530px; margin: 0 auto 33px; color: rgba(255,255,255,.63); font: 400 16px/1.7 var(--sans); }
+
+    footer { padding: 28px clamp(20px, 5vw, 72px); display: flex; align-items: center; justify-content: space-between; gap: 24px; background: #090f0b; color: rgba(255,255,255,.55); }
+    footer p { margin: 0; font: 500 10px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: rgba(255,255,255,.58); font: 500 10px/1.2 var(--mono); letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+
+    dialog { max-width: 650px; width: calc(100% - 40px); border: 0; padding: 0; background: var(--paper); color: var(--ink); box-shadow: 0 20px 80px rgba(0,0,0,.36); }
+    dialog::backdrop { background: rgba(7,14,9,.78); backdrop-filter: blur(4px); }
+    .dialog-inner { padding: clamp(32px, 6vw, 66px); }
+    .dialog-close { float: right; width: 36px; height: 36px; margin: -14px -14px 0 16px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; font-size: 21px; }
+    .dialog-inner h2 { margin-bottom: 20px; font: 600 clamp(32px, 4vw, 50px)/1.04 var(--serif); letter-spacing: -.04em; }
+    .dialog-inner p { color: var(--muted); font: 400 15px/1.72 var(--sans); }
+    .dialog-inner .button { margin-top: 18px; }
+
+    @media (max-width: 900px) {
+      .site-nav { height: 64px; }
+      .nav-links { gap: 16px; }
+      .nav-links .nav-link { display: none; }
+      .nav-call { min-height: 34px; padding: 0 12px; }
+      .hero { padding-top: 64px; grid-template-columns: 1fr; }
+      .hero-copy { min-height: auto; padding-top: 72px; padding-bottom: 62px; }
+      .hero h1 { font-size: clamp(42px, 12vw, 62px); }
+      .hero-image { min-height: 520px; }
+      .hero-image img { object-position: center 40%; }
+      .stage-rail { grid-template-columns: repeat(2, 1fr); }
+      .stage:last-child { grid-column: span 2; }
+      .assessment-top, .next-level-grid, .proof-grid, .mission { grid-template-columns: 1fr; gap: 34px; }
+      .assessment-frame iframe { min-height: 980px; }
+      .laura { grid-template-columns: 1fr; }
+      .laura-image { min-height: 460px; }
+      .laura-copy { padding-top: 66px; }
+      .mission { padding-top: 76px; padding-bottom: 76px; }
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 18px; }
+      .wordmark { font-size: 22px; }
+      .nav-call { font-size: 9px; letter-spacing: .08em; }
+      .hero-copy { padding-left: 22px; padding-right: 22px; }
+      .hero-lede { font-size: 16px; }
+      .hero-image { min-height: 445px; }
+      .image-note { left: 22px; right: 22px; bottom: 26px; }
+      .stage { min-height: 128px; padding: 20px 16px; }
+      .stage strong { font-size: 18px; }
+      .section { padding-left: 22px; padding-right: 22px; }
+      .assessment-frame iframe { min-height: 1040px; }
+      .laura-copy { padding-left: 22px; padding-right: 22px; }
+      footer { align-items: flex-start; flex-direction: column; padding: 26px 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the Assessment</a>
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a class="wordmark" href="#top" aria-label="Life 2.0 home">Life <b>2.0</b></a>
+    <div class="nav-links">
+      <a class="nav-link" href="#assessment">The Assessment</a>
+      <a class="nav-link" href="#laura">Meet Laura</a>
+      <a class="nav-link" href="#next-level">Next Level</a>
+      <a class="nav-call" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura" target="_blank" rel="noreferrer">Book a Clarity Call</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">For business owners who have built something real</p>
+        <h1 id="hero-title">You hit the goal you chased for years and feel <em>flat again</em> within a week.</h1>
+        <p class="hero-lede">You snap at the people you love over nothing, and somewhere underneath it, you know it was never really about them.</p>
+        <p class="hero-lede">That’s not who you are. It’s what happens when achievement becomes the only way you know how to feel like enough.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#assessment">Find Your Stage ↓</a>
+          <a class="button button-text" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura" target="_blank" rel="noreferrer">Already ready? Book a clarity call</a>
+        </div>
+        <p class="hero-proof">Start with the assessment. No separate page. No performance required.</p>
+      </div>
+      <div class="hero-image" aria-label="Laura Kelly outdoors">
+        <img src="assets/life20-home-hero.jpg" alt="Laura Kelly standing outdoors among birch trees" />
+        <p class="image-note">Success is not the finish line. It is the access point.</p>
+      </div>
+    </section>
+
+    <section class="stage-rail" aria-label="The five Life 2.0 stages">
+      <article class="stage"><span class="stage-no">01</span><strong>Contracted</strong><p>Narrowed. Reactive. Operating from scarcity.</p></article>
+      <article class="stage"><span class="stage-no">02</span><strong>Coping</strong><p>Managing. Functional. Getting through.</p></article>
+      <article class="stage"><span class="stage-no">03</span><strong>Comfortable</strong><p>Enough. Safe. The most dangerous level.</p></article>
+      <article class="stage"><span class="stage-no">04</span><strong>Complete</strong><p>What most people call success. What most people stop at.</p></article>
+      <article class="stage"><span class="stage-no">05</span><strong>Overflowing</strong><p>Surplus, not sacrifice. The only sustainable life.</p></article>
+    </section>
+
+    <section class="assessment section" id="assessment" aria-labelledby="assessment-title">
+      <div class="assessment-top">
+        <div>
+          <p class="eyebrow">The Overflow Assessment</p>
+          <h2 class="section-heading" id="assessment-title">Your cup must not just be full. <em>It must overflow.</em></h2>
+        </div>
+        <p class="assessment-note">Everyone tells you to fill your cup. That is not enough. Genuine surplus—not sacrifice—is what lets you lead, give, and live without disappearing in the process.</p>
+      </div>
+      <div class="assessment-frame">
+        <iframe src="overflow-assessment/" title="The Overflow Assessment" loading="eager"></iframe>
+      </div>
+      <p class="assessment-fallback">If the Assessment does not appear, <a href="overflow-assessment/" target="_blank" rel="noreferrer">open it in a new tab</a>.</p>
+    </section>
+
+    <section class="laura" id="laura" aria-labelledby="laura-title">
+      <div class="laura-image"><img src="assets/life20-home-founder.jpg" alt="Laura Kelly seated with her dog" /></div>
+      <div class="laura-copy">
+        <p class="eyebrow">Meet Laura</p>
+        <h2 id="laura-title">A bigger bank account does not fix a <em>nervous system.</em></h2>
+        <p>I’ve spent years living the exact pattern I now help people see in themselves, <strong>built a business with my husband doing over $100 million a year</strong>, and still had to learn the hard way that a bigger bank account does not fix a nervous system.</p>
+        <button class="button button-outline" type="button" data-dialog="story-dialog">Read My Story</button>
+      </div>
+    </section>
+
+    <section class="next-level section" id="next-level" aria-labelledby="next-level-title">
+      <div class="next-level-grid">
+        <div>
+          <p class="eyebrow">Next Level</p>
+          <h2 id="next-level-title">Stop being the bottleneck. <em>Build the life the business was supposed to buy.</em></h2>
+          <p>A six-month program for business owners ready to stop carrying every decision, every expectation, and every version of themselves alone.</p>
+        </div>
+        <aside class="next-level-card" aria-label="Next Level introduction">
+          <span class="micro">Six months of deliberate work</span>
+          <p>For the owner who is willing to be honest, get specific, and move from awareness into a more sustainable way of operating.</p>
+          <button class="button button-primary" type="button" data-dialog="next-level-dialog">Learn About Next Level</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="proof section" aria-labelledby="proof-title">
+      <div class="proof-grid">
+        <p class="proof-label" id="proof-title">Client perspective</p>
+        <div>
+          <blockquote>“Laura listens closely enough to recognize the patterns underneath what you’re saying, then helps you stop, examine them, and decide whether they’re actually moving you forward.”</blockquote>
+          <cite>Ken “Spanky” Moskowitz · Business owner</cite>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission section" id="mission" aria-labelledby="mission-title">
+      <h2 id="mission-title">Success should fund <em>access</em>, not just be measured by it.</h2>
+      <div class="mission-text">
+        <p>Life 2.0 exists for the person who has proven they can build. The next question is whether what they have built gives them more capacity to be present, connected, and fully alive.</p>
+        <button class="mission-link" type="button" data-dialog="mission-dialog">Read the Movement 2.0 note</button>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <h2 id="closing-title">You do not need a new personality. You need a life that can <em>hold what you have built.</em></h2>
+      <p>The first move is not a pitch. It is an honest look at where you are.</p>
+      <a class="button button-primary" href="#assessment">Find Your Stage ↓</a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="wordmark" href="#top">Life <b>2.0</b></a>
+    <p>Build the life the business was supposed to buy.</p>
+    <div class="footer-links"><a href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura" target="_blank" rel="noreferrer">Clarity Call</a></div>
+  </footer>
+
+  <dialog id="story-dialog" aria-labelledby="story-dialog-title">
+    <div class="dialog-inner">
+      <button class="dialog-close" type="button" aria-label="Close story" data-close-dialog>×</button>
+      <p class="eyebrow">Laura’s story</p>
+      <h2 id="story-dialog-title">The work is not about becoming less ambitious.</h2>
+      <p>It is about refusing to let achievement become the only proof that you are enough. Life 2.0 grew out of learning that a life can look successful, be genuinely full, and still leave no room to breathe.</p>
+      <p>The point is not to step away from what you are building. It is to build from enough internal capacity that the people and work you care about no longer receive what is left over.</p>
+      <a class="button button-primary" href="#assessment" data-close-dialog>Start With the Assessment</a>
+    </div>
+  </dialog>
+
+  <dialog id="next-level-dialog" aria-labelledby="next-level-dialog-title">
+    <div class="dialog-inner">
+      <button class="dialog-close" type="button" aria-label="Close Next Level details" data-close-dialog>×</button>
+      <p class="eyebrow">Next Level</p>
+      <h2 id="next-level-dialog-title">A six-month implementation path for owners who are ready to operate differently.</h2>
+      <p>Next Level is not a library of motivational ideas. It is a focused partnership for seeing the patterns that keep you overextended, getting clear on the leverage point, and building a way of leading and living that does not depend on self-abandonment.</p>
+      <a class="button button-primary" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura" target="_blank" rel="noreferrer">Book Your Clarity Call</a>
+    </div>
+  </dialog>
+
+  <dialog id="mission-dialog" aria-labelledby="mission-dialog-title">
+    <div class="dialog-inner">
+      <button class="dialog-close" type="button" aria-label="Close movement note" data-close-dialog>×</button>
+      <p class="eyebrow">Movement 2.0</p>
+      <h2 id="mission-dialog-title">Performance is a tool. It should not become a cage.</h2>
+      <p>Life 2.0 is a commitment to expanding the return on success: more room for connection, better leadership, more personal power, and a life that feels like it belongs to the person living it.</p>
+      <a class="button button-primary" href="#assessment" data-close-dialog>Find Your Stage</a>
+    </div>
+  </dialog>
+
+  <script>
+    document.querySelectorAll('[data-dialog]').forEach((trigger) => {
+      trigger.addEventListener('click', () => document.getElementById(trigger.dataset.dialog).showModal());
+    });
+    document.querySelectorAll('[data-close-dialog]').forEach((trigger) => {
+      trigger.addEventListener('click', () => trigger.closest('dialog').close());
+    });
+    document.querySelectorAll('dialog').forEach((dialog) => {
+      dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    });
+  </script>
+</body>
+</html>

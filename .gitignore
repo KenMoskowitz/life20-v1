@@ -1,0 +1,17 @@
+# Generated static output; rebuild with `node build.mjs`.
+dist/
+
+# Temporary local preview and visual-review artifacts.
+preview-server.mjs
+preview-captures/
+*.log
+*.tmp
+
+# Local verification artifacts and working notes.
+homepage_preview_notes.md
+next_level_preview_notes.md
+private_advisory_preview_notes.md
+private_advisory_copy_fidelity_report.txt
+homepage_visual_selection.md
+private_advisory_visual_selection.md
+verify-private-advisory-copy.mjs

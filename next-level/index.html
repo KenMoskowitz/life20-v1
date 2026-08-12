@@ -1,0 +1,154 @@
+<!-- Life 2.0 / Next Level: dark-forest editorial authority, warm competence, candid high-status voice. Use real Laura photography, generous whitespace, controlled brass accents, no generic coaching motifs. -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Next Level is a six-month, one-to-one Life 2.0 program for business owners ready to build the life their business was supposed to buy." />
+    <title>Next Level — Life 2.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+    <style>
+      /* Life 2.0 Next Level: warm editorial authority. Dark forest anchors decision points; bone space enables deep reading; brass signals action without spectacle. */
+      :root { --forest:#0e251c; --ink:#10231b; --bone:#f6f2e8; --paper:#fcfaf4; --sage:#7f9b82; --brass:#d7af60; --terracotta:#a94e39; --line:rgba(16,35,27,.16); --sans:"DM Sans",Arial,sans-serif; --serif:"Playfair Display",Georgia,serif; --mono:"DM Mono",monospace; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; color:var(--ink); background:var(--paper); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+      a { color:inherit; text-decoration:none; }
+      .wrap { width:min(1180px, calc(100% - 64px)); margin:0 auto; }
+      .nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:32px; }
+      .nav-shell { background:var(--forest); color:var(--bone); position:relative; z-index:2; }
+      .brand { font-family:var(--serif); font-size:28px; line-height:1; letter-spacing:-.06em; }
+      .brand b { color:var(--brass); font-weight:500; }
+      .nav-links { display:flex; align-items:center; gap:27px; font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.13em; }
+      .nav-links a:not(.nav-cta) { opacity:.82; }
+      .nav-cta, .btn { display:inline-flex; align-items:center; justify-content:center; border:1px solid currentColor; min-height:47px; padding:0 20px; font-family:var(--mono); font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; transition:transform .18s cubic-bezier(.23,1,.32,1), background .18s; }
+      .nav-cta:hover,.btn:hover { transform:translateY(-2px); }
+      .nav-cta { color:var(--bone); }
+      .nav-cta:hover { background:rgba(255,255,255,.1); }
+      .hero { position:relative; overflow:hidden; background:var(--forest); color:var(--bone); min-height:680px; }
+      .hero-grid { display:grid; grid-template-columns:1.08fr .92fr; min-height:680px; }
+      .hero-copy { padding:89px 24px 80px 0; align-self:center; position:relative; z-index:1; }
+      .kicker { display:flex; gap:13px; align-items:center; color:var(--brass); font:500 10px/1 var(--mono); letter-spacing:.17em; text-transform:uppercase; }
+      .kicker:before { content:""; width:35px; height:1px; background:currentColor; }
+      h1,h2,h3,p { margin-top:0; }
+      h1 { max-width:760px; margin:22px 0 28px; font:600 clamp(45px,5.2vw,80px)/.99 var(--serif); letter-spacing:-.065em; }
+      h1 em,h2 em { color:var(--brass); font-weight:500; }
+      .hero-lede { max-width:610px; color:rgba(246,242,232,.82); font-size:17px; line-height:1.64; }
+      .hero-note { margin:28px 0 32px; color:rgba(246,242,232,.55); font-size:13px; }
+      .btn-primary { background:var(--brass); border-color:var(--brass); color:var(--forest); }
+      .btn-primary:hover { background:#edd18c; border-color:#edd18c; }
+      .btn-ghost { color:var(--forest); }
+      .hero-image { position:relative; min-height:100%; overflow:hidden; }
+      .hero-image:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,var(--forest) 0%,rgba(14,37,28,.14) 29%,rgba(14,37,28,.14) 100%); }
+      .hero-image img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; filter:saturate(.88) contrast(1.02); }
+      .hero-caption { position:absolute; z-index:1; bottom:34px; right:34px; max-width:200px; color:var(--bone); border-left:1px solid var(--brass); padding-left:14px; font-size:11px; line-height:1.45; }
+      .strip { background:var(--brass); color:var(--forest); overflow:hidden; }
+      .strip-track { white-space:nowrap; font:500 11px/64px var(--mono); letter-spacing:.17em; text-transform:uppercase; }
+      .strip-track span { margin-right:45px; }
+      section { padding:118px 0; }
+      .section-grid { display:grid; grid-template-columns:5fr 7fr; gap:100px; align-items:start; }
+      .section-label { color:#7c705c; font:500 10px/1.4 var(--mono); letter-spacing:.16em; text-transform:uppercase; display:flex; align-items:center; gap:12px; }
+      .section-label:before { content:""; width:27px; height:1px; background:var(--brass); }
+      h2 { margin:16px 0 28px; font:600 clamp(34px,4.2vw,58px)/1.03 var(--serif); letter-spacing:-.055em; }
+      .body-copy { max-width:635px; font-size:17px; line-height:1.75; color:#344238; }
+      .body-copy p + p { margin-top:22px; }
+      .body-copy strong { color:var(--forest); font-weight:700; }
+      .pattern { background:#e8e1d2; }
+      .callout { margin-top:37px; padding:24px 0 1px 26px; border-left:2px solid var(--terracotta); color:var(--forest); font:500 26px/1.25 var(--serif); letter-spacing:-.03em; }
+      .principles { background:var(--forest); color:var(--bone); }
+      .principles .section-label { color:var(--brass); }
+      .principles h2 { max-width:690px; }
+      .principles h2 em { color:var(--brass); }
+      .principle-list { border-top:1px solid rgba(246,242,232,.22); margin-top:58px; }
+      .principle { display:grid; grid-template-columns:68px 1fr minmax(220px, .85fr); gap:30px; padding:31px 0; border-bottom:1px solid rgba(246,242,232,.22); }
+      .principle-num { color:var(--brass); font:500 11px/1.4 var(--mono); }
+      .principle h3 { margin:0; font:500 25px/1.15 var(--serif); letter-spacing:-.04em; }
+      .principle p { margin:0; color:rgba(246,242,232,.7); font-size:14px; line-height:1.65; }
+      .included { background:var(--paper); }
+      .stack { border-top:1px solid var(--line); }
+      .stack-item { display:grid; grid-template-columns:38px 1fr; gap:20px; padding:24px 0; border-bottom:1px solid var(--line); }
+      .stack-item span { color:var(--terracotta); font:500 10px/1.5 var(--mono); }
+      .stack-item p { margin:0; max-width:650px; font-size:15px; line-height:1.65; }
+      .investment { background:#e8e1d2; }
+      .price-intro { max-width:580px; color:#415047; font-size:17px; line-height:1.65; }
+      .price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:48px; }
+      .price-card { min-height:248px; display:flex; flex-direction:column; justify-content:space-between; padding:27px; border:1px solid rgba(16,35,27,.17); background:rgba(252,250,244,.55); }
+      .price-card.featured { background:var(--forest); color:var(--bone); border-color:var(--forest); }
+      .price-card .eyebrow { font:500 10px/1.4 var(--mono); letter-spacing:.14em; text-transform:uppercase; color:var(--terracotta); }
+      .price-card.featured .eyebrow { color:var(--brass); }
+      .price { margin:10px 0 8px; font:600 40px/.95 var(--serif); letter-spacing:-.05em; }
+      .price-card p { margin:0; font-size:13px; line-height:1.55; opacity:.76; }
+      .price-foot { margin-top:26px; font-size:13px; line-height:1.6; color:#4c594f; }
+      .proof { background:var(--forest); color:var(--bone); }
+      .quote { max-width:990px; margin:23px 0 34px; font:500 clamp(31px,4.5vw,58px)/1.12 var(--serif); letter-spacing:-.055em; }
+      .quote em { color:var(--brass); }
+      .attribution { color:rgba(246,242,232,.72); font:500 11px/1.4 var(--mono); letter-spacing:.07em; text-transform:uppercase; }
+      .fit { background:var(--paper); }
+      .fit-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:53px; }
+      .fit-card { padding:33px; min-height:292px; border:1px solid var(--line); }
+      .fit-card.no { background:#e8e1d2; }
+      .fit-card h3 { margin:17px 0; font:500 31px/1 var(--serif); letter-spacing:-.045em; }
+      .fit-card p { max-width:430px; margin:0; font-size:15px; line-height:1.7; color:#3b4a40; }
+      .founder { background:#243e32; color:var(--bone); }
+      .founder-layout { display:grid; grid-template-columns:.9fr 1.1fr; gap:90px; }
+      .founder h2 { max-width:570px; }
+      .founder .body-copy { color:rgba(246,242,232,.78); }
+      .founder .body-copy strong { color:var(--bone); }
+      .final { padding:150px 0; text-align:center; background:var(--forest); color:var(--bone); }
+      .final .kicker { justify-content:center; }
+      .final h2 { max-width:940px; margin:19px auto 27px; font-size:clamp(39px,5.2vw,72px); }
+      .final p { max-width:570px; margin:0 auto 33px; color:rgba(246,242,232,.72); font-size:17px; line-height:1.65; }
+      footer { padding:26px 0; background:#071810; color:rgba(246,242,232,.72); }
+      .footer-row { display:flex; align-items:center; justify-content:space-between; gap:20px; font-size:11px; }
+      .footer-links { display:flex; gap:18px; font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; }
+      @media (max-width:800px) { .wrap { width:min(100% - 40px, 600px); } .nav { min-height:64px; } .nav-links a:not(.nav-cta) { display:none; } .nav-cta { min-height:39px; padding:0 13px; font-size:9px; } .hero,.hero-grid { min-height:auto; } .hero-grid { display:block; } .hero-copy { padding:68px 0 50px; } h1 { font-size:clamp(44px,13vw,61px); } .hero-image { min-height:420px; } .hero-image:after { background:linear-gradient(180deg,var(--forest) 0%,rgba(14,37,28,.02) 22%,rgba(14,37,28,.1) 100%); } .hero-caption { right:20px; bottom:21px; } section { padding:78px 0; } .section-grid,.founder-layout { grid-template-columns:1fr; gap:36px; } .principle { grid-template-columns:38px 1fr; gap:13px; } .principle p { grid-column:2; } .price-grid,.fit-grid { grid-template-columns:1fr; } .price-card { min-height:190px; } .footer-row { align-items:flex-start; flex-direction:column; } }
+    </style>
+  </head>
+  <body>
+    <header class="nav-shell">
+      <div class="wrap nav">
+        <a href="../" class="brand" aria-label="Life 2.0 home">Life <b>2.0</b></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="../#assessment">The Assessment</a>
+          <a href="../#laura">Meet Laura</a>
+          <a href="#included">What is Included</a>
+          <a class="nav-cta" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Book a Clarity Call</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero" id="top">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <div class="kicker">Next Level / Six Months</div>
+            <h1>You built something real. You are still waiting to feel like it was <em>enough.</em></h1>
+            <p class="hero-lede">Somewhere in the last few years, the business started working. Revenue is real. The team is real. On paper, you won. And some mornings you still do not recognize the person running it.</p>
+            <p class="hero-note">Next Level is a six-month, one-to-one Life 2.0 program for business owners ready to build the life the business was supposed to buy them.</p>
+            <a class="btn btn-primary" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Book Your Clarity Call</a>
+          </div>
+          <div class="hero-image"><img src="../assets/life20-next-level.jpg" alt="Laura Kelly smiling in a warm portrait" /><span class="hero-caption">This is not about making your business smaller. It is about making your life bigger.</span></div>
+        </div>
+      </section>
+      <div class="strip"><div class="wrap strip-track"><span>Regulation before more strategy</span><span>Honest accountability</span><span>Six months of deliberate work</span><span>Regulation before more strategy</span></div></div>
+      <section class="pattern">
+        <div class="wrap section-grid"><div><div class="section-label">The real pattern</div><h2>Nothing is broken enough to force a change. <em>That is the problem.</em></h2></div><div class="body-copy"><p>When the business is working, it is easy to keep running the same pattern underneath the success. You solve problems. You take care of clients. You keep everything moving. And eventually, you may not recognize where the cost is landing.</p><p>Next Level is not another discipline system or productivity framework. It is a place to look honestly at the conditions shaping how you lead, decide, relate, and recover—then change the ones that no longer serve the life you are trying to build.</p><div class="callout">You can be brilliant and still be operating from a pattern that is costing more than it gives back.</div></div></div>
+      </section>
+      <section class="principles">
+        <div class="wrap"><div class="section-label">How Next Level works</div><h2>We start with the person running the business—not another <em>to-do list.</em></h2><div class="principle-list"><div class="principle"><div class="principle-num">01</div><h3>Regulation before optimization.</h3><p>Before goals or strategy, we get clearer on the baseline from which you are making decisions. A steadier operator can see more, choose better, and sustain the work.</p></div><div class="principle"><div class="principle-num">02</div><h3>Identity and environment together.</h3><p>We do not simply talk about who you are becoming. We examine the relationships, standards, systems, and surroundings that make the old way of operating easier to repeat.</p></div><div class="principle"><div class="principle-num">03</div><h3>The truth about pace.</h3><p>Real change deserves a real container. Six months is long enough to practice differently, notice the pattern when it returns, and build something more durable than a burst of motivation.</p></div><div class="principle"><div class="principle-num">04</div><h3>Coaching with clear boundaries.</h3><p>This is coaching, not therapy. If something needs a different kind of support, Laura will say so. Your wellbeing matters more than finishing a program as written.</p></div></div></div>
+      </section>
+      <section class="included" id="included">
+        <div class="wrap section-grid"><div><div class="section-label">What is included</div><h2>One-to-one work, built around what is actually <em>yours to change.</em></h2></div><div class="stack"><div class="stack-item"><span>01</span><p><strong>Six months, one to one.</strong> Weekly 60–90 minute calls built around the pattern your Overflow Assessment reveals—not a generic curriculum.</p></div><div class="stack-item"><span>02</span><p><strong>A specific outcome, defined at intake.</strong> You and Laura name a real target together. The work is not organized around a vague feeling or a borrowed ambition.</p></div><div class="stack-item"><span>03</span><p><strong>Self-chosen success work.</strong> At the end of every call, you choose the one thing you will do before the next. Some weeks that may be a hard conversation; other weeks, the appointment you have been avoiding.</p></div><div class="stack-item"><span>04</span><p><strong>Voice-note and text continuity.</strong> This is not a once-a-week relationship. You have meaningful support between calls when the work needs it.</p></div><div class="stack-item"><span>05</span><p><strong>Direct support for real moments.</strong> If a major struggle surfaces between sessions, Laura responds as soon as she is available—not through an anonymous support queue.</p></div><div class="stack-item"><span>06</span><p><strong>Closing integration session.</strong> At the end, you name what has changed, what still needs protecting, and what your next level now requires.</p></div></div></div>
+      </section>
+      <section class="investment">
+        <div class="wrap"><div class="section-label">The investment</div><h2>Pick what fits your cash flow. <em>Not your fear.</em></h2><p class="price-intro">Three ways to start. The first step is a clarity call to confirm fit and discuss the right payment path before any commitment is made.</p><div class="price-grid"><article class="price-card featured"><div><div class="eyebrow">Pay in full</div><div class="price">$15,000</div><p>The best price. Nothing added. Nothing to track.</p></div><a class="btn" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Discuss fit</a></article><article class="price-card"><div><div class="eyebrow">Three payments</div><div class="price">$5,500</div><p>$16,500 total, paid at the start, month two, and month four.</p></div><a class="btn btn-ghost" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Discuss fit</a></article><article class="price-card"><div><div class="eyebrow">Six payments</div><div class="price">$3,000</div><p>$18,000 total, one payment per month across the program.</p></div><a class="btn btn-ghost" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Discuss fit</a></article></div><p class="price-foot">The clarity call is where mutual fit, scope, and the right next step are determined directly.</p></div>
+      </section>
+      <section class="proof"><div class="wrap"><div class="section-label">Client perspective</div><blockquote class="quote">“Laura listens closely enough to recognize the patterns underneath what you are saying, then helps you stop, examine them, and decide whether they are actually moving you <em>forward.</em>”</blockquote><div class="attribution">Ken “Spanky” Moskowitz · Business owner</div></div></section>
+      <section class="fit"><div class="wrap"><div class="section-label">Fit matters</div><h2>This is real work, at a real pace, for people who are done pretending they do not <em>need it.</em></h2><div class="fit-grid"><article class="fit-card"><div class="section-label">This is for</div><h3>Owners who have already succeeded externally.</h3><p>People who know something is still missing. People who want to be told the truth, not managed. People ready to spend six months on themselves the way they spent years on the business.</p></article><article class="fit-card no"><div class="section-label">This is not for</div><h3>A quick tactic or a 30-day fix.</h3><p>If you want to be told you are right instead of told what is true, this is not it. Next Level asks for honesty, responsibility, and the willingness to work at a pace that lasts.</p></article></div></div></section>
+      <section class="founder"><div class="wrap founder-layout"><div><div class="section-label">Laura’s own Next Level</div><h2>“I was still waiting to feel like it was <em>enough.</em>”</h2></div><div class="body-copy"><p>Laura knows this pattern because she lived it. Revenue grew. The business expanded. Life looked good on paper. And she was still exhausted at the end of the day, still waiting for the next accomplishment to create a feeling it could not create.</p><p>Coming up on a birthday, she asked a harder question: <strong>What am I tolerating—in my business, in my marriage, in myself—that needs to change?</strong> Not ruthlessly. Well.</p><p>That question became her own next level. It is why this work is direct without being demeaning, aspirational without being detached, and built for people who have already proved that they can build.</p></div></div></section>
+      <section class="final"><div class="wrap"><div class="kicker">The next decisive move</div><h2>Accomplishment got you here. <em>Next Level</em> is how you build the rest of it.</h2><p>You already know which stage you are in and what it is costing you. The only real question is whether you keep waiting to feel like enough—or build toward it.</p><a class="btn btn-primary" href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Book Your Clarity Call</a></div></section>
+    </main>
+    <footer><div class="wrap footer-row"><a class="brand" href="../">Life <b>2.0</b></a><div class="footer-links"><a href="../#assessment">Assessment</a><a href="../#laura">Meet Laura</a><a href="https://calendly.com/laura-thelaurakelly/clarity-call-with-laura">Clarity Call</a></div></div></footer>
+  </body>
+</html>

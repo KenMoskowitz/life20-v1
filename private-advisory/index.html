@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Life 2.0 Private Advisory is a twelve-month, high-touch partnership for founders ready to move beyond external success." />
+    <title>Life 2.0 Private Advisory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
+    <style>
+      /* Life 2.0 Private Advisory: quiet executive intimacy. Forest and black ground confidential high-touch work; bone space makes the supplied long-form copy easy to read. */
+      :root { --forest:#0e251c; --ink:#10231b; --ink-soft:#344238; --bone:#f6f2e8; --paper:#fcfaf4; --brass:#d7af60; --terracotta:#a94e39; --mist:#e8e1d2; --night:#07110e; --line:rgba(16,35,27,.16); --sans:"DM Sans",Arial,sans-serif; --serif:"Playfair Display",Georgia,serif; --mono:"DM Mono",monospace; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; color:var(--ink); background:var(--paper); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+      a { color:inherit; text-decoration:none; }
+      .wrap { width:min(1180px, calc(100% - 64px)); margin:0 auto; }
+      .nav-shell { background:var(--night); color:var(--bone); position:relative; z-index:5; }
+      .nav { min-height:76px; display:flex; justify-content:space-between; align-items:center; gap:26px; }
+      .brand { font:500 28px/1 var(--serif); letter-spacing:-.06em; }
+      .brand b { color:var(--brass); font-weight:500; }
+      .nav-links { display:flex; align-items:center; gap:25px; font:500 10px/1 var(--mono); text-transform:uppercase; letter-spacing:.13em; }
+      .nav-links > a:not(.nav-cta) { opacity:.82; }
+      .nav-cta,.btn { display:inline-flex; align-items:center; justify-content:center; min-height:47px; padding:0 21px; border:1px solid currentColor; font:500 10px/1 var(--mono); letter-spacing:.1em; text-transform:uppercase; transition:transform .18s cubic-bezier(.23,1,.32,1),background .18s,border .18s; }
+      .nav-cta:hover,.btn:hover { transform:translateY(-2px); }
+      .nav-cta:hover { background:rgba(255,255,255,.1); }
+      .btn-primary { background:var(--brass); border-color:var(--brass); color:var(--forest); }
+      .btn-primary:hover { background:#efd38e; border-color:#efd38e; }
+      .btn-dark { color:var(--bone); background:var(--forest); border-color:var(--forest); }
+      .btn-dark:hover { background:#234637; border-color:#234637; }
+      .hero { background:var(--night); color:var(--bone); overflow:hidden; }
+      .hero-grid { display:grid; grid-template-columns:1.12fr .88fr; min-height:716px; }
+      .hero-copy { padding:88px 34px 82px 0; align-self:center; position:relative; z-index:1; }
+      .kicker { display:flex; align-items:center; gap:12px; color:var(--brass); font:500 10px/1 var(--mono); letter-spacing:.17em; text-transform:uppercase; }
+      .kicker:before { content:""; width:35px; height:1px; background:currentColor; }
+      h1,h2,h3,p { margin-top:0; }
+      h1 { max-width:725px; margin:23px 0 28px; font:600 clamp(48px,5.5vw,82px)/.98 var(--serif); letter-spacing:-.066em; }
+      h1 em,h2 em { color:var(--brass); font-weight:500; }
+      .hero-lede { max-width:620px; color:rgba(246,242,232,.82); font-size:17px; line-height:1.68; }
+      .hero-lede p + p { margin-top:20px; }
+      .hero-statement { margin:28px 0 34px; max-width:560px; color:var(--brass); font:500 22px/1.25 var(--serif); letter-spacing:-.03em; }
+      .hero-image { position:relative; min-height:100%; overflow:hidden; background:#010302; }
+      .hero-image:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,var(--night) 0%,rgba(7,17,14,.16) 31%,rgba(7,17,14,.05) 100%); }
+      .hero-image img { position:absolute; inset:0; height:100%; width:100%; object-fit:cover; object-position:center 40%; filter:saturate(.88) contrast(1.08); }
+      .hero-caption { position:absolute; z-index:1; right:30px; bottom:33px; max-width:210px; padding-left:14px; border-left:1px solid var(--brass); color:var(--bone); font-size:11px; line-height:1.45; }
+      .marquee { background:var(--brass); color:var(--forest); overflow:hidden; }
+      .marquee > div { white-space:nowrap; font:500 11px/64px var(--mono); letter-spacing:.16em; text-transform:uppercase; }
+      .marquee span { margin-right:45px; }
+      section { padding:120px 0; }
+      .section-grid { display:grid; grid-template-columns:5fr 7fr; gap:100px; align-items:start; }
+      .label { display:flex; align-items:center; gap:12px; color:#7c705c; font:500 10px/1.4 var(--mono); letter-spacing:.16em; text-transform:uppercase; }
+      .label:before { content:""; width:27px; height:1px; background:var(--brass); }
+      h2 { margin:16px 0 28px; font:600 clamp(35px,4.3vw,60px)/1.03 var(--serif); letter-spacing:-.056em; }
+      .body { max-width:650px; color:var(--ink-soft); font-size:17px; line-height:1.75; }
+      .body p + p { margin-top:22px; }
+      .problem { background:var(--mist); }
+      .authority { background:var(--paper); }
+      .authority-panel { max-width:650px; padding:35px; border-left:2px solid var(--terracotta); background:#fffdf8; color:#405047; font-size:17px; line-height:1.73; }
+      .future { color:var(--bone); background:var(--forest); }
+      .future .label { color:var(--brass); }
+      .future .body { color:rgba(246,242,232,.76); }
+      .offer { background:#243e32; color:var(--bone); }
+      .offer .label { color:var(--brass); }
+      .offer .body { color:rgba(246,242,232,.78); }
+      .offer-list { margin-top:48px; border-top:1px solid rgba(246,242,232,.2); }
+      .offer-item { display:grid; grid-template-columns:42px 1fr; gap:20px; padding:23px 0; border-bottom:1px solid rgba(246,242,232,.2); }
+      .offer-item span { color:var(--brass); font:500 10px/1.5 var(--mono); }
+      .offer-item p { max-width:690px; margin:0; color:rgba(246,242,232,.86); font-size:16px; line-height:1.65; }
+      .investment { background:var(--mist); }
+      .investment-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:85px; align-items:end; }
+      .price { margin:18px 0 17px; font:600 clamp(62px,8vw,102px)/.88 var(--serif); letter-spacing:-.08em; }
+      .price-note { max-width:570px; font-size:17px; line-height:1.7; color:#405047; }
+      .capacity { padding:30px; border:1px solid rgba(16,35,27,.17); background:rgba(252,250,244,.65); }
+      .capacity h3 { margin:0 0 13px; font:500 28px/1.05 var(--serif); letter-spacing:-.04em; }
+      .capacity p { margin:0; color:#435147; font-size:15px; line-height:1.7; }
+      .bonuses { background:var(--paper); }
+      .bonus-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:48px; }
+      .bonus { min-height:260px; padding:29px; border:1px solid var(--line); background:#fffdf8; }
+      .bonus-num { color:var(--terracotta); font:500 10px/1 var(--mono); letter-spacing:.14em; }
+      .bonus h3 { margin:18px 0 15px; font:500 28px/1.06 var(--serif); letter-spacing:-.045em; }
+      .bonus p { margin:0; color:#465448; font-size:15px; line-height:1.65; }
+      .guarantee { background:#f1eadc; }
+      .guarantee-card { max-width:825px; padding:46px; border:1px solid rgba(16,35,27,.18); background:var(--forest); color:var(--bone); }
+      .guarantee-card .label { color:var(--brass); }
+      .guarantee-card p { margin:20px 0 0; color:rgba(246,242,232,.8); font:500 24px/1.35 var(--serif); letter-spacing:-.03em; }
+      .proof { background:var(--night); color:var(--bone); }
+      .proof .label { color:var(--brass); }
+      .proof-copy { max-width:920px; margin:22px 0 0; font:500 clamp(29px,4.1vw,52px)/1.14 var(--serif); letter-spacing:-.055em; }
+      .faq { background:var(--paper); }
+      .faq-list { margin-top:46px; border-top:1px solid var(--line); }
+      details { border-bottom:1px solid var(--line); }
+      summary { position:relative; padding:25px 38px 25px 0; cursor:pointer; list-style:none; font:500 25px/1.15 var(--serif); letter-spacing:-.035em; }
+      summary::-webkit-details-marker { display:none; }
+      summary:after { content:"+"; position:absolute; right:2px; top:20px; color:var(--terracotta); font:400 29px/1 var(--serif); }
+      details[open] summary:after { content:"–"; }
+      details p { max-width:760px; margin:0 0 28px; color:#425147; font-size:16px; line-height:1.72; }
+      .closing { padding:148px 0; text-align:center; color:var(--bone); background:var(--forest); }
+      .closing .kicker { justify-content:center; }
+      .closing h2 { max-width:950px; margin:20px auto 26px; font-size:clamp(41px,5.4vw,76px); }
+      .closing p { max-width:700px; margin:0 auto 32px; color:rgba(246,242,232,.75); font-size:17px; line-height:1.7; }
+      .apply { background:var(--mist); }
+      .apply-panel { max-width:740px; margin:0 auto; padding:46px; background:var(--paper); border:1px solid var(--line); text-align:center; }
+      .apply-panel h2 { margin-bottom:16px; }
+      .apply-panel p { margin:0 auto; max-width:580px; color:#435147; font-size:16px; line-height:1.7; }
+      .application-form { display:grid; gap:17px; margin-top:32px; text-align:left; }
+      .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:17px; }
+      .field { display:grid; gap:8px; }
+      .field label { color:var(--forest); font:500 10px/1.35 var(--mono); letter-spacing:.11em; text-transform:uppercase; }
+      .field input,.field textarea,.field select { width:100%; border:1px solid rgba(16,35,27,.25); border-radius:0; padding:13px 14px; color:var(--ink); background:#fffdf8; font:400 15px/1.45 var(--sans); outline-color:var(--brass); }
+      .field textarea { min-height:124px; resize:vertical; }
+      .form-check { display:flex; align-items:flex-start; gap:10px; color:#4d5b50; font-size:13px; line-height:1.55; }
+      .form-check input { width:16px; height:16px; margin:2px 0 0; accent-color:var(--forest); }
+      .form-note { margin:0; color:#58655b; font-size:12px !important; line-height:1.6 !important; }
+      .hp-field { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+      footer { padding:27px 0; background:#07110e; color:rgba(246,242,232,.72); }
+      .footer-row { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+      .footer-links { display:flex; gap:18px; font:500 9px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+      @media (max-width:800px) {
+        .wrap { width:min(100% - 40px, 610px); }
+        .nav { min-height:64px; }
+        .nav-links a:not(.nav-cta) { display:none; }
+        .nav-cta { min-height:39px; padding:0 13px; font-size:9px; }
+        .hero-grid { display:block; min-height:auto; }
+        .hero-copy { padding:68px 0 50px; }
+        h1 { font-size:clamp(44px,13vw,62px); }
+        .hero-image { min-height:440px; }
+        .hero-image:after { background:linear-gradient(180deg,var(--night) 0%,rgba(7,17,14,.03) 24%,rgba(7,17,14,.18) 100%); }
+        .hero-caption { right:20px; bottom:23px; }
+        section { padding:78px 0; }
+        .section-grid,.investment-grid { grid-template-columns:1fr; gap:36px; }
+        .bonus-grid { grid-template-columns:1fr; }
+        .bonus { min-height:0; }
+        .guarantee-card,.apply-panel { padding:32px 25px; }
+        .form-grid { grid-template-columns:1fr; }
+        .guarantee-card p { font-size:22px; }
+        .footer-row { align-items:flex-start; flex-direction:column; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav-shell">
+      <div class="wrap nav">
+        <a href="../" class="brand" aria-label="Life 2.0 home">Life <b>2.0</b></a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="../#assessment">The Assessment</a>
+          <a href="../#laura">Meet Laura</a>
+          <a href="#included">What Is Included</a>
+          <a class="nav-cta" href="#apply">Apply Now</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <div class="kicker">Life 2.0: Moving beyond external success.</div>
+            <h1>For the founder who has reached the top but feels something is <em>missing.</em></h1>
+            <div class="hero-lede">
+              <p>You have done the hard part. You built the business. You secured the house, the family, and the life that everyone told you to want. Yet, behind the scenes, you keep wondering why the sense of fulfillment you were promised hasn't quite arrived.</p>
+              <p>You are not broken, and you are certainly not failing. You have just reached a level of success that the standard playbooks didn't prepare you for. You have outgrown your current environment.</p>
+              <p>If you find yourself questioning if this is all there is, you are in the right place. Let's talk about what happens when you stop performing and start living.</p>
+            </div>
+            <div class="hero-statement">Stop proving yourself to yourself.</div>
+            <a class="btn btn-primary" href="#apply">Apply for Your Advisory Slot</a>
+          </div>
+          <div class="hero-image"><img src="../assets/life20-private-advisory.jpg" alt="Laura Kelly in a studio portrait" /><span class="hero-caption">A private advisory for those who refuse to settle for good enough.</span></div>
+        </div>
+      </section>
+      <div class="marquee"><div class="wrap"><span>Private advisory</span><span>Twelve months</span><span>Direct access</span><span>Life 2.0</span><span>Private advisory</span></div></div>
+
+      <section class="problem">
+        <div class="wrap section-grid">
+          <div><div class="label">The problem</div><h2>It is lonely at the top when you have nobody to hold you accountable for the life you actually want to <em>live.</em></h2></div>
+          <div class="body">
+            <p>You are likely the smartest person in most of the rooms you enter. People come to you for answers, for funding, and for leadership. You carry the weight of your company and the weight of your family, often without a peer who actually understands the specific pressure you are under.</p>
+            <p>Most of your friends are too busy or too far behind your stage of life to provide the mirror you need. When you try to talk about feeling unfulfilled, people look at your achievements and assume you are complaining. So, you stop talking. You keep your head down and work harder, hoping that the next milestone will finally be the one that gives you that deep, lasting peace.</p>
+            <p>But the exhaustion isn't just about hours in the office. It is the mental strain of holding it all together while secretly knowing that you are capable of more, not in terms of revenue, but in terms of spirit. You are over-functioning in every area of your life, sacrificing your own needs to maintain the status quo. It is lonely at the top when you have nobody to hold you accountable for the life you actually want to live.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="authority">
+        <div class="wrap section-grid">
+          <div><div class="label">Laura’s perspective</div><h2>Having it all and enjoying it all were two very different <em>things.</em></h2></div>
+          <div class="body">
+            <p>I spent my early career grinding, just like you. I wanted the metrics of success, and I went out and grabbed them. The business grew. I got the house by the water and the life that looked perfect on paper. But I reached a point where I realized that having it all and enjoying it all were two very different things.</p>
+            <p>I realized that fulfillment has levels. You can reach the top of one mountain only to realize there is an even higher peak that actually matters to you personally. I had to learn to strip away the expectations of others and actually look at what I wanted for my own existence. It wasn't about quitting the business or walking away from responsibilities. It was about recalibrating my life to match my internal values.</p>
+            <div class="authority-panel">I am not here to tell you to just do more yoga or meditate your way to happiness. I am here as a partner who has been where you are and come out the other side. My work is built on the belief that you deserve a life that feels as good as it looks. You need someone in your corner who is crazy smart, kind, and willing to challenge the excuses you use to keep yourself small.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="future">
+        <div class="wrap section-grid">
+          <div><div class="label">The future</div><h2>Stop performing and start <em>living.</em></h2></div>
+          <div class="body">
+            <p>Imagine what it would feel like to wake up on a Tuesday morning without that subtle, background noise of anxiety nagging at you. Imagine having a business that continues to grow while your calendar actually reflects your personal priorities, not just your obligations.</p>
+            <p>You will no longer feel like you are waiting for your real life to start. You will be in it. You will have a clear, simple path for decision-making that allows you to be fully present with your kids or your partner, without your mind drifting to the next business fire you need to put out. You will know exactly why you are doing what you are doing.</p>
+            <p>The constant proving? That stops. You will no longer need to check external validation to feel like you have value. You will be making sharper, faster decisions because you have finally stopped the internal war between who you think you should be and who you actually are. You are building a life that is fundamentally yours.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="offer" id="included">
+        <div class="wrap section-grid">
+          <div><div class="label">The offer</div><h2>This is Life 2.0 Private <em>Advisory.</em></h2></div>
+          <div class="body">
+            <p>This is Life 2.0 Private Advisory. This is not a course, and it is not a group program where you get lost in the noise. It is a twelve-month, high-touch partnership where I act as your personal sounding board, your strategist, and your honest advisor.</p>
+            <p>We will move through a process of identifying what is keeping you stuck and methodically tearing it down. We will focus on your mental and emotional alignment as rigorously as you focus on your P&amp;L. I am here to help you build the systems, the boundaries, and the perspective you need to transition from surviving to thriving. This is for the founders who are ready to stop settling.</p>
+          </div>
+        </div>
+        <div class="wrap"><div class="offer-list">
+          <div class="offer-item"><span>01</span><p>Monthly 60-minute deep-dive strategy sessions to recalibrate your focus.</p></div>
+          <div class="offer-item"><span>02</span><p>Direct, priority access to me via secure messaging for those moments you need a quick, high-level perspective.</p></div>
+          <div class="offer-item"><span>03</span><p>Quarterly Life 2.0 audits to ensure your business goals never outpace your personal fulfillment targets.</p></div>
+          <div class="offer-item"><span>04</span><p>Access to a boutique, curated network of fellow high-achieving founders who get it.</p></div>
+          <div class="offer-item"><span>05</span><p>The Success Architecture kit delivered to your home to help you build your new environment.</p></div>
+          <div class="offer-item"><span>06</span><p>Complete clarity on how to simplify your business operations without sacrificing growth.</p></div>
+        </div></div>
+      </section>
+
+      <section class="investment">
+        <div class="wrap investment-grid">
+          <div><div class="label">The investment</div><h2>Invest in the only person who can actually drive that business—<em>you.</em></h2><div class="price">$22,500</div><div class="price-note"><p>You are already spending tens of thousands of dollars on masterminds and consultants to grow your revenue. Why wouldn't you invest that same level of resources into the only person who can actually drive that business—you? The Life 2.0 Private Advisory is an annual investment of $22,500.</p><p>When you consider the cost of continuing to burn out, the cost of making decisions from a place of scarcity or exhaustion, or the cost of missing out on the best years of your family life, this investment becomes an obvious choice. This is not an expense. This is an insurance policy for your sanity and a catalyst for your next level of growth.</p></div></div>
+          <aside class="capacity"><h3>Quality, not volume.</h3><p>I work with only a handful of clients at a time to ensure that you receive the focus and the intensity you need to make these changes. By limiting the number of people I work with, I ensure that my energy remains sharp and that your results remain the primary objective. This is about quality, not volume.</p></aside>
+        </div>
+      </section>
+
+      <section class="bonuses">
+        <div class="wrap"><div class="label">When you join</div><h2>More support for the life around the <em>work.</em></h2><div class="bonus-grid">
+          <article class="bonus"><div class="bonus-num">01</div><h3>Family-First Framework audit</h3><p>When you join, you will also receive the Family-First Framework audit. We will look at your home life with the same strategic eye we use for your business to ensure you are supported, not drained, by your environment.</p></article>
+          <article class="bonus"><div class="bonus-num">02</div><h3>Identity Reset session</h3><p>You also receive a private 90-minute Identity Reset session for you and your spouse. This is a game-changer for ensuring your personal life is aligned with your professional evolution.</p></article>
+          <article class="bonus"><div class="bonus-num">03</div><h3>VIP retreat invitation</h3><p>Finally, you get a VIP invitation to our exclusive, in-person retreat to recharge and connect with other leaders who are doing the work.</p></article>
+        </div></div>
+      </section>
+
+      <section class="guarantee"><div class="wrap"><div class="guarantee-card"><div class="label">The guarantee</div><p>I am looking for partners who are ready to show up and do the work. If, after our first 30 days of intensive auditing and strategy, you feel our styles are not a perfect match for the level of transformation you are seeking, I will provide a full refund. No hard feelings, just a mutual commitment to your success.</p></div></div></section>
+
+      <section class="proof">
+        <div class="wrap"><div class="label">Social proof</div><p class="proof-copy">Because this is a deeply private and personal advisory, the proof lies in the transformation of the individuals who have gone through this shift. I work with leaders who were on the verge of walking away from their companies, only to find a new, sustainable rhythm that allowed them to keep scaling while actually enjoying their lives. You will hear stories about founders who finally learned to delegate effectively enough to attend every school event without a phone in their hand, and leaders who stopped the cycle of over-functioning to reclaim their own joy. These aren't just business wins; these are life-changing shifts in perspective that ripple out to every person in their orbit.</p></div>
+      </section>
+
+      <section class="faq"><div class="wrap"><div class="label">FAQ</div><h2>Questions I keep getting <em>answered honestly.</em></h2><div class="faq-list">
+        <details><summary>Is this just for business owners?</summary><p>This is primarily for high-achieving founders and leaders who have already mastered the external game of success. If you are a high-level executive or an entrepreneur who is carrying immense responsibility and feeling the weight of it, we will be a great fit. If you are still in the very early, frantic stages of building your first dollar, this is likely too advanced for what you need right now.</p></details>
+        <details><summary>Do I have time for this?</summary><p>If you don't have time for a monthly strategy session, that is exactly why you need this advisory. We aren't adding more to your plate; we are clearing off the things that don't belong there. The time we spend together is designed to give you back hours of your week by refining your decision-making and your systems.</p></details>
+        <details><summary>What if I'm not sure this is right for me?</summary><p>That is exactly what the application process is for. We will have a conversation to determine if your goals and my approach are a match. I am just as selective as you are. If we don't feel like a perfect fit, I will be the first to tell you.</p></details>
+        <details><summary>Is this a coaching program?</summary><p>It is an advisory partnership. Coaching often implies helping you find your own answers. As an advisor, I am here to act as a partner, a strategist, and a sounding board who will give you my actual thoughts, my experience, and my perspective. I am invested in the outcome of your life and your business.</p></details>
+        <details><summary>What happens after I apply?</summary><p>Once you submit your application, I will review it personally. If it looks like we might be a good fit, you will receive an invite to book a private call. We will use that time to discuss your specific situation and see if this is the right path for your next year of growth.</p></details>
+      </div></div></section>
+
+      <section class="closing"><div class="wrap"><div class="kicker">The next level</div><h2>You have spent years building the life you thought you wanted. Now it is time to build the life you actually <em>deserve.</em></h2><p>The world has enough burnt-out leaders. We need people who are truly fulfilled, clear, and sharp enough to lead well.</p><p>If you are ready to stop settling for good enough and start navigating your next level with intention, apply for your advisory slot today. Let's see if we are a match to build your Life 2.0.</p><a class="btn btn-primary" href="#apply">Apply for Your Advisory Slot</a></div></section>
+
+      <section class="apply" id="apply"><div class="wrap"><div class="apply-panel"><div class="label" style="justify-content:center">Private application</div><h2>Apply for Your Advisory Slot</h2><p>Once you submit your application, I will review it personally. If it looks like we might be a good fit, you will receive an invite to book a private call.</p><form class="application-form" name="private-advisory-application" method="POST" action="/application-received/" data-netlify="true" netlify-honeypot="bot-field"><input type="hidden" name="form-name" value="private-advisory-application" /><p class="hp-field"><label>Leave this field empty if you are human <input name="bot-field" /></label></p><div class="form-grid"><div class="field"><label for="advisory-name">Name</label><input id="advisory-name" name="name" type="text" autocomplete="name" required /></div><div class="field"><label for="advisory-email">Email</label><input id="advisory-email" name="email" type="email" autocomplete="email" required /></div></div><div class="field"><label for="advisory-context">Company and role</label><input id="advisory-context" name="company-and-role" type="text" required /></div><div class="field"><label for="advisory-reality">What feels out of alignment right now?</label><textarea id="advisory-reality" name="current-reality" required></textarea></div><div class="field"><label for="advisory-why-now">Why is now the right time to address it?</label><textarea id="advisory-why-now" name="why-now" required></textarea></div><div class="field"><label for="advisory-readiness">Are you prepared to engage in a high-touch twelve-month partnership?</label><select id="advisory-readiness" name="partnership-readiness" required><option value="" selected disabled>Select one</option><option value="Yes">Yes</option><option value="I would like to discuss fit">I would like to discuss fit</option></select></div><label class="form-check"><input type="checkbox" name="consent-to-review" required /> <span>I understand this is an application, not a purchase, and that Laura will review it personally before inviting a qualified applicant to a private call.</span></label><button class="btn btn-dark" type="submit">Submit Private Application</button><p class="form-note">Your application is received privately through Life 2.0. No one is added to the Collective through this form.</p></form></div></div></section>
+    </main>
+    <footer><div class="wrap footer-row"><a class="brand" href="../">Life <b>2.0</b></a><div class="footer-links"><a href="../#assessment">Assessment</a><a href="../#laura">Meet Laura</a><a href="#apply">Apply</a></div></div></footer>
+  </body>
+</html>
