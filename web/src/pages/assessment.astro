@@ -1,44 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getPage, getSiteSettings } from '../lib/sanity';
+import { getPage } from '../lib/sanity';
 
 const cms = await getPage('assessment') as Record<string, any> | null;
-const settings = await getSiteSettings() as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'The Overflow Assessment | Life 2.0';
 const description = cms?.metaDescription ?? "Life 2.0's research-informed 9 Variables Overflow Assessment for leaders who want sustainable fulfillment. Six minutes, private, no email required to start.";
-const assessmentUrl = settings?.assessmentUrl ?? 'https://lifeoverflow-orhutjru.manus.space';
-
-const steps = [
-  { num: '01', label: 'Score honestly' },
-  { num: '02', label: 'See the pattern' },
-  { num: '03', label: 'Find the leak' },
-];
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/assessment">
-  <div class="page-hero wrap">
-    <div class="eyebrow">The Assessment</div>
-    <h1>Your cup must not just be full. It must overflow.</h1>
-    <p class="lede">Nine variables. One honest look at the conditions that make a fulfilling life sustainable. You'll score the parts of life that most shape your capacity to lead, give, and live without disappearing from your own life. About six minutes. Private by design.</p>
-  </div>
-
-  <div class="wrap">
-    <div class="assessment-embed">
-      <iframe src={assessmentUrl} title="Life 2.0 Overflow Assessment" loading="lazy"></iframe>
-    </div>
-
-    <div class="steps-row">
-      {steps.map((s) => (
-        <div class="step-item">
-          <div class="num">{s.num}</div>
-          <p>{s.label}</p>
-        </div>
-      ))}
-    </div>
-
-    <div style="text-align:center; margin: 64px 0 96px;">
-      <p class="body-copy">Want to talk through what you find?</p>
-      <a class="btn-primary" href="/private-advisory" style="margin-top:20px; display:inline-flex;">Book a Clarity Call</a>
-    </div>
-  </div>
+  <div id="assessment-app" style="padding-top: clamp(24px,5vw,48px);"></div>
 </BaseLayout>
+
+<script src="../scripts/assessment.ts"></script>
