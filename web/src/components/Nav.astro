@@ -1,0 +1,25 @@
+---
+interface Props {
+  currentPath?: string;
+}
+const { currentPath = '' } = Astro.props as Props;
+
+const links = [
+  { label: 'The 9 Variables', href: '/the-9-variables' },
+  { label: 'About', href: '/about' },
+  { label: 'The Collective', href: '/collective' },
+  { label: 'Private Advisory', href: '/private-advisory' },
+  { label: 'Journal', href: '/journal' },
+];
+---
+<nav class="nav">
+  <a class="nav-mark" href="/">
+    <span>Life <em>2.0</em></span>
+  </a>
+  <div class="nav-links">
+    {links.map((link) => (
+      <a class={`nav-link ${currentPath === link.href ? 'active' : ''}`} href={link.href}>{link.label}</a>
+    ))}
+    <a class="nav-cta" href="/assessment">Take the Assessment</a>
+  </div>
+</nav>

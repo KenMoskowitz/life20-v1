@@ -1,0 +1,22 @@
+---
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  body?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+const {
+  eyebrow,
+  heading,
+  body,
+  ctaLabel = 'Take the free assessment',
+  ctaHref = '/assessment',
+} = Astro.props as Props;
+---
+<section class="footer-cta">
+  {eyebrow && <div class="eyebrow" style="justify-content:center;">{eyebrow}</div>}
+  <h2>{heading}</h2>
+  {body && <p>{body}</p>}
+  <a class="btn-primary" href={ctaHref}>{ctaLabel} &rarr;</a>
+</section>

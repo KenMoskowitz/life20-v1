@@ -1,0 +1,58 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import { getSiteSettings, getNavigation } from '../lib/sanity';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalUrl: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const { title, description, canonicalUrl, ogImage, jsonLd, noindex = false } = Astro.props as Props;
+
+// Site-wide CMS content. Both calls fail soft to null (see src/lib/sanity.ts)
+// until the Sanity project is wired up, so this never breaks the build.
+const [siteSettings, navigation] = await Promise.all([getSiteSettings(), getNavigation()]);
+void siteSettings;
+void navigation;
+
+const defaultOgImage = 'https://thelife20.com/assets/og-default.jpg';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+  {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImage ?? defaultOgImage} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet" />
+
+  {jsonLd && (
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  )}
+
+  <!-- Analytics slot: GTM/GA4/Meta Pixel IDs not yet confirmed with Laura (see docs/master-plan.md Section 9). -->
+</head>
+<body>
+  <Nav currentPath={Astro.url.pathname} />
+  <slot />
+  <Footer />
+</body>
+</html>

@@ -1,0 +1,15 @@
+---
+const links = [
+  { label: 'About', href: '/about' },
+  { label: 'The 9 Variables', href: '/the-9-variables' },
+  { label: 'Journal', href: '/journal' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+<footer class="site-footer">
+  <span>Life 2.0 Ventures LLC</span>
+  <div class="foot-links">
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+  </div>
+</footer>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Contact | Life 2.0"
+  description="Get in touch with the Life 2.0 team."
+  canonicalUrl="https://thelife20.com/contact"
+>
+  <div class="page-hero wrap">
+    <h1>Get in touch.</h1>
+    <p class="lede">For coaching or advisory questions, start with a Clarity Call, it's the fastest real answer. For everything else, use the form below.</p>
+  </div>
+
+  <section class="section wrap">
+    <!-- Submission wiring pending Phase 2 (Sanity 'contactMessage' document type). Currently posts nowhere. -->
+    <form class="form-panel" action="/api/contact" method="post">
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+      </div>
+      <div class="form-field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Send message</button>
+    </form>
+  </section>
+</BaseLayout>

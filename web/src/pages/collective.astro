@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getPage, getSiteSettings } from '../lib/sanity';
+
+const cms = await getPage('collective') as Record<string, any> | null;
+const settings = await getSiteSettings() as Record<string, any> | null;
+
+const title = cms?.metaTitle ?? 'The Life 2.0 Collective | A Community for Ambitious People';
+const description = cms?.metaDescription ?? "A psychologically safe, low-performance community for people who are done performing and ready to think out loud. Join the waitlist for the Life 2.0 Collective.";
+const waitlistUrl = settings?.collectiveWaitlistUrl ?? '/contact';
+
+const whatFor = [
+  'Recurring reflection and connection, not one-and-done',
+  "A place to be honest about the gap between how your life looks and how it feels",
+  "People spread across the country, so it's built to work across time zones",
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/collective">
+  <div class="page-hero wrap">
+    <div class="eyebrow">The Life 2.0 Collective</div>
+    <h1>A room where you don't have to perform.</h1>
+    <p class="lede">Most rooms full of ambitious people are full of performance. Everyone's fine, everyone's crushing it, nobody says the actual sentence. The Life 2.0 Collective is built to be the opposite of that. A recurring, facilitated space for people who've built real success and are ready to stop performing it, at least for an hour.</p>
+  </div>
+
+  <div class="founder-grid wrap" style="padding-bottom: 64px;">
+    <div class="founder-photo">
+      <img src="/assets/laura-collective.jpg" alt="Life 2.0 Collective" />
+    </div>
+    <div>
+      <h2>What this actually is</h2>
+      <p class="body-copy" style="margin-top:20px;">Not a curriculum. Not another thing to keep up with. A room, held with real facilitation so everyone gets heard, where you can say the true thing, think out loud, and hear from people carrying a version of the same weight you are.</p>
+    </div>
+  </div>
+
+  <section class="section wrap">
+    <h2>What it's for</h2>
+    <ul class="list-plain">
+      {whatFor.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <CtaBand
+    heading="Want in when it opens?"
+    body="Early interest already includes dozens of people who said yes before this even had a name."
+    ctaLabel="Join the waitlist"
+    ctaHref={waitlistUrl}
+  />
+</BaseLayout>

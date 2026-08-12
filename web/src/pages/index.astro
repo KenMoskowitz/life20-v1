@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NineVariablesGrid from '../components/NineVariablesGrid.astro';
+import QuotePanel from '../components/QuotePanel.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getPage } from '../lib/sanity';
+
+const cms = await getPage('home') as Record<string, any> | null;
+
+const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
+const description = cms?.metaDescription ?? "Life 2.0 helps high-achieving leaders find where fulfillment is leaking and build a life that matches what they've built. Take the free assessment.";
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Laura Kelly',
+  url: 'https://thelife20.com',
+  jobTitle: 'Founder, Life 2.0',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Life 2.0 Ventures LLC',
+    url: 'https://thelife20.com',
+  },
+  sameAs: [],
+};
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalUrl="https://thelife20.com/"
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
+        <h1>Build the life that feels <em>as good</em> as it looks.</h1>
+        <p class="hero-lede">
+          {cms?.heroLede ?? "You mapped the business. Nobody ever handed you a map for the rest of it. The 9 Variables show you exactly where your fulfillment is leaking, so you know what to build next."}
+        </p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="/assessment">Take the free assessment &rarr;</a>
+          <a class="btn-text" href="/about">Meet Laura</a>
+        </div>
+        <div class="hero-trust"><div class="dash"></div> Research-grounded. Founder-led. Six minutes to your first real answer.</div>
+      </div>
+      <div style="position:relative;">
+        <div class="hero-photo-frame">
+          <img src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
+        </div>
+        <div class="hero-badge"><b>9</b><span>research-backed variables that shape a fulfilling life</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="phrase-band">
+    <div class="wrap">
+      <p>Accomplishment got you here. <span>Fulfillment</span> is what's missing.</p>
+    </div>
+  </section>
+
+  <NineVariablesGrid />
+
+  <section class="founder">
+    <div class="founder-grid">
+      <div class="founder-photo">
+        <img src="/assets/laura-teaching.jpg" alt="Laura Kelly" />
+      </div>
+      <div>
+        <div class="eyebrow">Hey, it's Laura</div>
+        <h2>I spent four years asleep at the wheel of a life that looked perfect on paper.</h2>
+        <p class="lede">The business worked. The house, the trips, the title, all of it worked. What I hadn't built was a way to actually feel it. Life 2.0 is the map I wish someone had handed me, built from research and tested on myself first.</p>
+        <div class="sig">Laura</div>
+      </div>
+    </div>
+  </section>
+
+  <QuotePanel />
+
+  <CtaBand
+    eyebrow="Start Here, Not With A Diagnosis"
+    heading="Find out where your fulfillment is leaking."
+    body="Six minutes. Nine variables. One honest, research-backed starting point for whatever you build next."
+  />
+</BaseLayout>

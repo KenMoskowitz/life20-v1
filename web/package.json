@@ -1,0 +1,19 @@
+{
+  "name": "life20-web",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.2.1",
+    "@astrojs/sitemap": "^3.7.3",
+    "@sanity/client": "^6.24.1",
+    "@sanity/image-url": "^1.1.0"
+  }
+}

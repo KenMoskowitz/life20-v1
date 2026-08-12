@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    { "source": "/next-level", "destination": "/private-advisory", "permanent": true },
+    { "source": "/next-level/:path*", "destination": "/private-advisory", "permanent": true },
+    { "source": "/assessment-diagnosis", "destination": "/assessment", "permanent": true },
+    { "source": "/assessment-diagnosis/:path*", "destination": "/assessment", "permanent": true },
+    { "source": "/life20-website", "destination": "/", "permanent": true },
+    { "source": "/forms/:path*", "destination": "https://laura-kelly.mykajabi.com/forms/:path*", "permanent": false }
+  ]
+}

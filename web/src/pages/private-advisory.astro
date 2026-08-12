@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPage, getSiteSettings } from '../lib/sanity';
+
+const cms = await getPage('private-advisory') as Record<string, any> | null;
+const settings = await getSiteSettings() as Record<string, any> | null;
+
+const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
+const description = cms?.metaDescription ?? 'A high-touch, founder-led partnership for leaders ready to build a life that matches what they\'ve built. Start with a Clarity Call.';
+void settings;
+
+const whatFor = [
+  'Diagnosing the actual Life 2.0 gap, not the symptom',
+  'Naming the variable or variables creating the most drag',
+  'Building a practical next-step plan, real actions, not a worksheet',
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/private-advisory">
+  <div class="page-hero wrap">
+    <div class="eyebrow">Private Advisory</div>
+    <h1>Build the life your business was supposed to buy.</h1>
+    <p class="lede">This is the deepest version of Life 2.0 work. Founder-led, high-touch, built around your actual nine variables, not a generic curriculum. It starts with one conversation.</p>
+  </div>
+
+  <div class="founder-grid wrap" style="padding-bottom: 64px;">
+    <div class="founder-photo">
+      <img src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
+    </div>
+    <div>
+      <h2>The Clarity Call</h2>
+      <p class="body-copy" style="margin-top:20px;">A 60-minute conversation with Laura. You'll walk in with wherever you scored lowest on the 9 Variables, and walk out with a clear read on the real gap and a practical next step, whether or not you go further.</p>
+      <ul class="list-plain">
+        {whatFor.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <section class="section wrap">
+    <h2>What happens after</h2>
+    <p class="body-copy">For the right fit, the Clarity Call is the start of ongoing Private Advisory work: direct access to Laura, built around your specific lowest-scoring variables, structured around your actual life rather than a fixed syllabus. Scope, term, and investment are confirmed on the call itself, based on what you actually need.</p>
+  </section>
+
+  <section class="section wrap" id="apply">
+    <h2>Apply for a Clarity Call</h2>
+    <p class="body-copy">Laura reads every application herself. Tell her a little about where things stand.</p>
+    <!-- Submission wiring pending Phase 2 (Sanity 'application' document type). Currently posts nowhere. -->
+    <form class="form-panel" style="margin-top:32px;" action="/api/private-advisory-application" method="post">
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+      </div>
+      <div class="form-field">
+        <label for="context">What's going on right now?</label>
+        <textarea id="context" name="context" rows="4"></textarea>
+      </div>
+      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Submit application</button>
+    </form>
+  </section>
+</BaseLayout>

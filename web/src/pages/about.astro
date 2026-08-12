@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getPage } from '../lib/sanity';
+
+const cms = await getPage('about') as Record<string, any> | null;
+
+const title = cms?.metaTitle ?? 'About Laura Kelly | Life 2.0';
+const description = cms?.metaDescription ?? "Laura Kelly built a business that worked and a life that didn't feel like hers. Here's how Life 2.0 and the 9 Variables came out of that gap.";
+
+const beliefs = [
+  'You do not have to stop being ambitious to become fulfilled.',
+  'A life can look exceptional and still leak fulfillment.',
+  'Awareness comes before change.',
+  "The goal isn't perfect emotional regulation. It's responding in ways that, for the most part, make you proud.",
+  'High performers often know how to optimize a business better than they know how to design a life.',
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/about">
+  <div class="page-hero wrap">
+    <div class="eyebrow">Hey, it's Laura</div>
+    <h1>I will become the person who figures it out.</h1>
+  </div>
+
+  <div class="founder-grid wrap" style="padding-bottom: 64px;">
+    <div class="founder-photo">
+      <img src="/assets/laura-kitchen.jpg" alt="Laura Kelly" />
+    </div>
+    <div>
+      <p class="body-copy">For four years I ran on adrenaline instead of purpose. From the outside, everything worked. The business, the house, the version of success everyone could see. Inside, I was reactive more than I was present, and proud of the wrong things.</p>
+      <p class="body-copy">That gap between how a life looks and how it actually feels is the whole reason Life 2.0 exists.</p>
+    </div>
+  </div>
+
+  <section class="section wrap">
+    <h2>The nine variables didn't come from a whiteboard.</h2>
+    <p class="body-copy">They came from asking a harder question than "how's business." Purpose. Relationships. Identity. Growth. Physical vitality. Financial security. Contribution. Presence. Character. Nine parts of a life that high performers usually leave unmapped, because nobody ever asked them to map it the way they map a P&amp;L.</p>
+  </section>
+
+  <section class="section wrap">
+    <h2>I'm not a perfected guru. I'm a fellow practitioner.</h2>
+    <p class="body-copy">I still ask myself, most days, "how can I create even more ease and peace in my life right now." I'm still learning to respond instead of react. I'm still building the habit of one full hour of undistracted time with my kids. Life 2.0 works best when I'm honest about being in it with you, not standing outside it, pointing.</p>
+  </section>
+
+  <section class="section wrap">
+    <h2>What I actually believe</h2>
+    <ul class="list-plain">
+      {beliefs.map((b) => <li>{b}</li>)}
+    </ul>
+  </section>
+
+  <CtaBand
+    heading="Ready to see where you actually stand?"
+    body="Take the free assessment, or book a Clarity Call to talk it through with Laura."
+    ctaLabel="Take the free assessment"
+    ctaHref="/assessment"
+  />
+</BaseLayout>

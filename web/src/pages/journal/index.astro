@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getJournalPosts } from '../../lib/sanity';
+import { journalPosts as fallbackPosts } from '../../data/journalPosts';
+
+const cmsPosts = await getJournalPosts() as any[] | null;
+const posts = cmsPosts && cmsPosts.length > 0 ? cmsPosts : fallbackPosts;
+---
+<BaseLayout
+  title="The Journal | Life 2.0"
+  description="Thoughtful essays for leaders who want more than performance from the life they've built."
+  canonicalUrl="https://thelife20.com/journal"
+>
+  <div class="page-hero wrap">
+    <h1>The Journal</h1>
+    <p class="lede">Founder-led essays on the gap between a life that looks good and a life that feels good. No filler, no guru voice.</p>
+  </div>
+
+  <div class="wrap" style="padding-bottom: 100px;">
+    <div class="journal-grid">
+      {posts.map((post: any) => (
+        <a class="journal-card" href={`/journal/${post.slug?.current ?? post.slug}`}>
+          <div class="date">{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
