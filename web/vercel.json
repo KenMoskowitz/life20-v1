@@ -5,6 +5,7 @@
     { "source": "/assessment-diagnosis", "destination": "/assessment", "permanent": true },
     { "source": "/assessment-diagnosis/:path*", "destination": "/assessment", "permanent": true },
     { "source": "/life20-website", "destination": "/", "permanent": true },
+    { "source": "/the-9-variables", "destination": "/the-9-skills", "permanent": true },
     { "source": "/forms/:path*", "destination": "https://laura-kelly.mykajabi.com/forms/:path*", "permanent": false }
   ]
 }

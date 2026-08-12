@@ -5,7 +5,7 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('assessment') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'The Overflow Assessment | Life 2.0';
-const description = cms?.metaDescription ?? "Life 2.0's research-informed 9 Variables Overflow Assessment for leaders who want sustainable fulfillment. Six minutes, private, no email required to start.";
+const description = cms?.metaDescription ?? "Life 2.0's research-informed 9 Skills Overflow Assessment for leaders who want sustainable fulfillment. Six minutes, private, no email required to start.";
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/assessment">
   <div id="assessment-app" style="padding-top: clamp(24px,5vw,48px);"></div>

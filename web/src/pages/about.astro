@@ -6,7 +6,7 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('about') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'About Laura Kelly | Life 2.0';
-const description = cms?.metaDescription ?? "Laura Kelly built a business that worked and a life that didn't feel like hers. Here's how Life 2.0 and the 9 Variables came out of that gap.";
+const description = cms?.metaDescription ?? "Laura Kelly built a business that worked and a life that didn't feel like hers. Here's how Life 2.0 and the 9 Skills came out of that gap.";
 
 const beliefs = [
   'You do not have to stop being ambitious to become fulfilled.',
@@ -33,7 +33,7 @@ const beliefs = [
   </div>
 
   <section class="section wrap">
-    <h2>The nine variables didn't come from a whiteboard.</h2>
+    <h2>The nine skills didn't come from a whiteboard.</h2>
     <p class="body-copy">They came from asking a harder question than "how's business." Purpose. Relationships. Identity. Growth. Physical vitality. Financial security. Contribution. Presence. Character. Nine parts of a life that high performers usually leave unmapped, because nobody ever asked them to map it the way they map a P&amp;L.</p>
   </section>
 

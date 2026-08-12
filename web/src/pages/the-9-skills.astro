@@ -3,15 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { getPage } from '../lib/sanity';
 
-const cms = await getPage('the-9-variables') as Record<string, any> | null;
+const cms = await getPage('the-9-skills') as Record<string, any> | null;
 
-const title = cms?.metaTitle ?? "The 9 Variables | Life 2.0's Framework for a Fulfilling Life";
-const description = cms?.metaDescription ?? 'A research-grounded framework for the parts of life most high performers never map. Nine variables, three groups, one honest starting point.';
+const title = cms?.metaTitle ?? "The 9 Skills | Life 2.0's Framework for a Fulfilling Life";
+const description = cms?.metaDescription ?? 'A research-grounded framework for the parts of life most high performers never map. Nine skills, three groups, one honest starting point.';
 
 const groups = [
   {
     title: 'Who you are',
-    variables: [
+    skills: [
       { name: 'Purpose & Meaning', body: "Whether you know what you're oriented toward, not just what you're achieving. Grounded in Carol Ryff's research on psychological well-being (1989), which found a clear sense of direction predicts long-term wellbeing better than a good mood does." },
       { name: 'Identity & Autonomy', body: "Whether you're living a life you authored or one you inherited. Self-Determination Theory (Deci & Ryan) found that acting from genuine choice predicts better wellbeing than acting from obligation, even when the behavior looks identical from the outside." },
       { name: 'Character & Virtue', body: "Acting in line with your values under pressure. Included as a core domain in Harvard's Human Flourishing Program, research (Weziak-Bialowolska et al., 2022) that treats traits like honesty and self-control as measurable predictors of a flourishing life." },
@@ -19,7 +19,7 @@ const groups = [
   },
   {
     title: 'How you connect',
-    variables: [
+    skills: [
       { name: 'Relationships', body: 'The Harvard Study of Adult Development, running over 80 years, found relationship quality was the single strongest predictor of long-term health and happiness, ahead of wealth, fame, or career success.' },
       { name: 'Contribution', body: "Erikson's research on adult development identified generativity, contributing to something beyond yourself, as central to a mature life. Separate research (Moll et al., 2006) found giving activates the same reward circuits in the brain as receiving." },
       { name: 'Presence & Aliveness', body: "Whether you're actually experiencing your life as it happens. A widely cited Harvard study (Killingsworth & Gilbert, 2010) found people are less happy when their mind wanders, even to pleasant things, than when they're fully engaged in whatever they're doing." },
@@ -27,7 +27,7 @@ const groups = [
   },
   {
     title: 'What fuels you',
-    variables: [
+    skills: [
       { name: 'Growth & Challenge', body: "Real engagement with difficulty, in service of getting better. Csikszentmihalyi's flow research found people do their best, most satisfying work at the edge of their skill against real challenge, not in comfort." },
       { name: 'Physical Vitality', body: 'The body as the foundation for everything else. Exercise research links physical activity to measurable improvements in mood and a lower risk of depression, not as a separate wellness category but as the base layer for emotional regulation and clear thinking.' },
       { name: 'Financial Security', body: 'Not a number. The relationship between money, freedom, and background stress. Research published in Science (Mani et al., 2013) found financial scarcity itself consumes real cognitive bandwidth, a measurable effect similar to a drop in available IQ under stress.' },
@@ -37,9 +37,9 @@ const groups = [
 
 const faqs = [
   { q: 'Is this a real clinical assessment?', a: "No. It's a self-assessment starting point for reflection, grounded in real published research, not a diagnostic tool." },
-  { q: 'What happens after I get my results?', a: "You'll see your lowest-scoring variable and some reflection questions to sit with. From there, some people keep exploring on their own, some book a Clarity Call with Laura." },
-  { q: 'Do I need to score high everywhere to be doing well?', a: 'No single variable is meant to hit ten. The point is knowing which one is lowest, not scoring perfectly across the board.' },
-  { q: 'How is this different from generic life coaching?', a: 'Every variable traces back to real, citable research. Nothing here is vibes-based.' },
+  { q: 'What happens after I get my results?', a: "You'll see your lowest-scoring skill and some reflection questions to sit with. From there, some people keep exploring on their own, some book a Clarity Call with Laura." },
+  { q: 'Do I need to score high everywhere to be doing well?', a: 'No single skill is meant to hit ten. The point is knowing which one is lowest, not scoring perfectly across the board.' },
+  { q: 'How is this different from generic life coaching?', a: 'Every skill traces back to real, citable research. Nothing here is vibes-based.' },
   { q: 'Is my score private?', a: 'Yes, this is a self-assessment for your own reflection, not something shared or published.' },
 ];
 
@@ -53,11 +53,11 @@ const faqJsonLd = {
   })),
 };
 ---
-<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/the-9-variables" jsonLd={faqJsonLd}>
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/the-9-skills" jsonLd={faqJsonLd}>
   <div class="page-hero wrap">
     <div class="eyebrow">The Framework</div>
     <h1>The map for everything the business side never covers.</h1>
-    <p class="lede">Most high performers have the business side mapped. Revenue, systems, growth targets, all of it tracked with real rigor. The 9 Variables are the same rigor, aimed at the rest of your life.</p>
+    <p class="lede">Most high performers have the business side mapped. Revenue, systems, growth targets, all of it tracked with real rigor. The 9 Skills are the same rigor, aimed at the rest of your life.</p>
     <p class="lede">Each one is scored honestly, one to ten. Whichever one scores lowest is where your life is leaking fulfillment, and it's the highest-leverage place to start. This isn't a diagnosis. It's a starting point.</p>
   </div>
 
@@ -65,10 +65,10 @@ const faqJsonLd = {
     <section class="section wrap">
       <h2>{group.title}</h2>
       <div class="card-grid" style="margin-top: 32px;">
-        {group.variables.map((v) => (
+        {group.skills.map((s) => (
           <div class="card">
-            <h3>{v.name}</h3>
-            <p class="body-copy">{v.body}</p>
+            <h3>{s.name}</h3>
+            <p class="body-copy">{s.body}</p>
           </div>
         ))}
       </div>
@@ -77,7 +77,7 @@ const faqJsonLd = {
 
   <CtaBand
     heading="Ready to see where you actually stand?"
-    body="Take the free assessment, six minutes, nine variables, one honest starting point."
+    body="Take the free assessment, six minutes, nine skills, one honest starting point."
   />
 
   <section class="section wrap">
