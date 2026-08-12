@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Life 2.0 — Homepage Mockup (Light &amp; Airy Direction)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #FBF7EF;
+    --paper-warm: #F5EFE2;
+    --white: #FFFFFF;
+    --forest: #1D2E22;
+    --forest-deep: #14201A;
+    --sage: #8A9A7C;
+    --gold: #C79A56;
+    --gold-light: #E4C688;
+    --ink: #2A322B;
+    --ink-soft: #5B645C;
+    --line: rgba(29, 46, 34, 0.12);
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: "Inter", Arial, sans-serif;
+    --mono: "DM Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); overflow-x: hidden; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, p { margin: 0; }
+
+  .wrap { max-width: 1360px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 72px); }
+
+  /* NAV */
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 28px clamp(24px,5vw,72px); }
+  .nav-mark { display: flex; align-items: center; gap: 12px; }
+  .nav-mark img { height: 34px; width: auto; }
+  .nav-mark span { font: 600 15px/1 var(--serif); letter-spacing: -0.01em; color: var(--forest); }
+  .nav-links { display: flex; align-items: center; gap: 40px; }
+  .nav-link { font: 500 11px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-soft); }
+  .nav-cta { font: 500 11px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--white); background: var(--forest); padding: 14px 22px; border-radius: 30px; }
+
+  /* HERO */
+  .hero { position: relative; padding: clamp(24px,5vw,72px) clamp(24px,5vw,72px) 0; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 40px; max-width: 1360px; margin: 0 auto; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; color: var(--gold); font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
+  .hero h1 { font: 500 clamp(42px, 4.6vw, 72px)/1.04 var(--serif); letter-spacing: -0.02em; color: var(--forest); max-width: 620px; }
+  .hero h1 em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .hero-lede { margin-top: 26px; font: 400 18px/1.65 var(--sans); color: var(--ink-soft); max-width: 460px; }
+  .hero-actions { display: flex; align-items: center; gap: 24px; margin-top: 40px; }
+  .btn-primary { background: var(--forest); color: var(--white); font: 500 12px/1 var(--sans); letter-spacing: .03em; padding: 18px 30px; border-radius: 34px; display: inline-flex; align-items: center; gap: 10px; }
+  .btn-text { font: 500 13px/1 var(--sans); color: var(--forest); border-bottom: 1px solid var(--forest); padding-bottom: 4px; }
+  .hero-photo-frame { position: relative; border-radius: 28px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 30px 60px -25px rgba(29,46,34,0.35); }
+  .hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-badge { position: absolute; left: -28px; bottom: 40px; background: var(--forest); color: var(--paper); padding: 20px 24px; border-radius: 18px; max-width: 210px; box-shadow: 0 20px 40px -20px rgba(20,32,26,0.5); }
+  .hero-badge b { display: block; font: 600 26px/1 var(--serif); color: var(--gold-light); margin-bottom: 6px; }
+  .hero-badge span { font: 400 12px/1.5 var(--sans); color: rgba(251,247,239,0.78); }
+  .hero-trust { margin: 56px 0 0; display: flex; align-items: center; gap: 14px; color: var(--ink-soft); font: 400 12px/1.5 var(--sans); }
+  .hero-trust .dash { width: 30px; height: 1px; background: var(--line); }
+
+  /* MARQUEE / PHRASE */
+  .phrase-band { padding: 96px 0; text-align: center; }
+  .phrase-band p { font: 500 italic clamp(24px, 2.6vw, 38px)/1.4 var(--serif); color: var(--forest); max-width: 820px; margin: 0 auto; }
+  .phrase-band p span { color: var(--gold); }
+
+  /* THE 9 VARIABLES SIGNATURE SECTION */
+  .variables { background: var(--forest); color: var(--paper); padding: 110px clamp(24px,5vw,72px); border-radius: 40px; margin: 0 clamp(12px,2vw,40px); position: relative; overflow: hidden; }
+  .variables-head { max-width: 620px; margin: 0 auto 64px; text-align: center; }
+  .variables-head .eyebrow { justify-content: center; color: var(--gold-light); }
+  .variables-head .eyebrow::before { background: var(--gold-light); }
+  .variables-head h2 { font: 500 clamp(30px,3.4vw,46px)/1.15 var(--serif); }
+  .variables-head p { margin-top: 18px; font: 400 16px/1.7 var(--sans); color: rgba(251,247,239,0.7); }
+  .triad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1080px; margin: 0 auto; }
+  .triad-card { background: rgba(251,247,239,0.05); border: 1px solid rgba(251,247,239,0.14); border-radius: 22px; padding: 32px 26px; }
+  .triad-card .mark { width: 34px; height: 34px; margin-bottom: 22px; opacity: 0.9; }
+  .triad-card h3 { font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 18px; }
+  .triad-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .triad-card li { font: 500 18px/1.3 var(--serif); color: var(--paper); }
+
+  /* ABOUT / FOUNDER STRIP */
+  .founder { padding: 130px clamp(24px,5vw,72px); }
+  .founder-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: center; max-width: 1360px; margin: 0 auto; }
+  .founder-photo { border-radius: 24px; overflow: hidden; aspect-ratio: 3/4; }
+  .founder-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .founder h2 { font: 500 clamp(28px,3vw,42px)/1.2 var(--serif); color: var(--forest); max-width: 520px; }
+  .founder p.lede { margin-top: 24px; font: 400 17px/1.7 var(--sans); color: var(--ink-soft); max-width: 520px; }
+  .founder .sig { margin-top: 32px; font: 500 italic 20px/1 var(--serif); color: var(--gold); }
+
+  /* QUOTE PANEL */
+  .quote-panel { padding: 40px clamp(24px,5vw,72px) 130px; }
+  .quote-card { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 0.6fr 1.4fr; background: var(--white); border-radius: 28px; overflow: hidden; border: 1px solid var(--line); }
+  .quote-card img { width: 100%; height: 100%; object-fit: cover; }
+  .quote-copy { padding: 56px 52px; display: flex; flex-direction: column; justify-content: center; }
+  .quote-copy p { font: 500 italic clamp(20px,2vw,26px)/1.5 var(--serif); color: var(--forest); }
+  .quote-copy .who { margin-top: 22px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--sage); }
+
+  /* FOOTER CTA */
+  .footer-cta { background: var(--paper-warm); padding: 120px clamp(24px,5vw,72px); text-align: center; border-radius: 40px; margin: 0 clamp(12px,2vw,40px) 40px; }
+  .footer-cta h2 { font: 500 clamp(30px,3.6vw,52px)/1.1 var(--serif); color: var(--forest); max-width: 700px; margin: 0 auto; }
+  .footer-cta p { margin: 22px auto 0; font: 400 17px/1.7 var(--sans); color: var(--ink-soft); max-width: 480px; }
+  .footer-cta .btn-primary { margin-top: 36px; }
+
+  footer { padding: 40px clamp(24px,5vw,72px) 60px; display: flex; justify-content: space-between; align-items: center; color: var(--ink-soft); font: 400 12px/1.5 var(--sans); }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-mark">
+      <span style="font:600 20px/1 var(--serif); color:var(--forest);">Life <em style="color:var(--gold); font-style:italic;">2.0</em></span>
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" href="#">The 9 Variables</a>
+      <a class="nav-link" href="#">The Collective</a>
+      <a class="nav-link" href="#">Private Advisory</a>
+      <a class="nav-link" href="#">Journal</a>
+      <a class="nav-cta" href="#">Take the Assessment</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Life 2.0 &nbsp;·&nbsp; Laura Kelly</div>
+        <h1>Build the life that feels <em>as good</em> as it looks.</h1>
+        <p class="hero-lede">You mapped the business. Nobody ever handed you a map for the rest of it. The 9 Variables show you exactly where your fulfillment is leaking, so you know what to build next.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#">Take the free assessment →</a>
+          <a class="btn-text" href="#">Meet Laura</a>
+        </div>
+        <div class="hero-trust"><div class="dash"></div> Research-grounded. Founder-led. Six minutes to your first real answer.</div>
+      </div>
+      <div style="position:relative;">
+        <div class="hero-photo-frame">
+          <img src="assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
+        </div>
+        <div class="hero-badge"><b>9</b><span>research-backed variables that shape a fulfilling life</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="phrase-band">
+    <div class="wrap">
+      <p>Accomplishment got you here. <span>Fulfillment</span> is what's missing.</p>
+    </div>
+  </section>
+
+  <section class="variables">
+    <div class="variables-head">
+      <div class="eyebrow">The Framework</div>
+      <h2>Nine variables. Three groups. One honest look at your life.</h2>
+      <p>A research-grounded self-assessment, not a personality quiz. Score each one honestly and your lowest score becomes your starting point, not your diagnosis.</p>
+    </div>
+    <div class="triad-grid">
+      <div class="triad-card">
+        <svg class="mark" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="30" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="33" cy="62" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="67" cy="62" r="18" stroke="#C79A56" stroke-width="6"/></svg>
+        <h3>Who you are</h3>
+        <ul>
+          <li>Purpose &amp; Meaning</li>
+          <li>Identity &amp; Autonomy</li>
+          <li>Character &amp; Virtue</li>
+        </ul>
+      </div>
+      <div class="triad-card">
+        <svg class="mark" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="30" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="33" cy="62" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="67" cy="62" r="18" stroke="#C79A56" stroke-width="6"/></svg>
+        <h3>How you connect</h3>
+        <ul>
+          <li>Relationships</li>
+          <li>Contribution</li>
+          <li>Presence &amp; Aliveness</li>
+        </ul>
+      </div>
+      <div class="triad-card">
+        <svg class="mark" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="30" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="33" cy="62" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="67" cy="62" r="18" stroke="#C79A56" stroke-width="6"/></svg>
+        <h3>What fuels you</h3>
+        <ul>
+          <li>Growth &amp; Challenge</li>
+          <li>Physical Vitality</li>
+          <li>Financial Security</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="founder">
+    <div class="founder-grid">
+      <div class="founder-photo">
+        <img src="assets/laura-teaching.jpg" alt="Laura Kelly writing" />
+      </div>
+      <div>
+        <div class="eyebrow">Hey, it's Laura</div>
+        <h2>I spent four years asleep at the wheel of a life that looked perfect on paper.</h2>
+        <p class="lede">The business worked. The house, the trips, the title, all of it worked. What I hadn't built was a way to actually feel it. Life 2.0 is the map I wish someone had handed me, built from research and tested on myself first.</p>
+        <div class="sig">Laura</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-panel">
+    <div class="quote-card">
+      <img src="assets/laura-closeup.jpg" alt="Laura Kelly" />
+      <div class="quote-copy">
+        <p>"An empty cup isn't failure. It's information. Fill your cup, then let it spill."</p>
+        <div class="who">Laura Kelly, Founder</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer-cta">
+    <div class="eyebrow" style="justify-content:center;">Start Here, Not With A Diagnosis</div>
+    <h2>Find out where your fulfillment is leaking.</h2>
+    <p>Six minutes. Nine variables. One honest, research-backed starting point for whatever you build next.</p>
+    <a class="btn-primary" href="#">Take the free assessment →</a>
+  </section>
+
+  <footer>
+    <span>Life 2.0 Ventures LLC</span>
+    <span>Homepage mockup — light &amp; airy direction — draft 1</span>
+  </footer>
+
+</body>
+</html>

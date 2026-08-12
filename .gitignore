@@ -1,6 +1,9 @@
 # Generated static output; rebuild with `node build.mjs`.
 dist/
 
+# Raw source photography staging (unselected/uncropped), not final site assets.
+pics-raw/
+
 # Temporary local preview and visual-review artifacts.
 preview-server.mjs
 preview-captures/
