@@ -237,7 +237,7 @@ footer.site-footer .foot-links a:hover { color: var(--forest); }
 .next-moves { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
 .next-move-item { display: flex; gap: 16px; align-items: flex-start; }
 .next-move-item .num { font: 600 20px/1.4 var(--mono); color: var(--gold); flex-shrink: 0; }
-.next-move-item p { font: 400 20px/1.6 var(--sans); color: var(--ink-soft); }
+.next-move-item p { font: 400 20px/1.6 var(--sans); color: rgba(251,247,239,0.78); }
 
 .email-copy-form { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
 .email-copy-form input { flex: 1; min-width: 220px; font: 400 20px/1.5 var(--sans); padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); }
