@@ -17,6 +17,13 @@ const config: ClientConfig = {
 
 export const sanityClient = projectId ? createClient(config) : null;
 
+// Server-only write client for API routes (form submissions). Never import
+// this from client-side code or a component that ships to the browser —
+// the token must not end up in a client bundle.
+const writeToken = import.meta.env.SANITY_TOKEN as string | undefined;
+export const sanityWriteClient =
+  projectId && writeToken ? createClient({ ...config, token: writeToken, useCdn: false }) : null;
+
 const builder = sanityClient ? imageUrlBuilder(sanityClient) : null;
 export function urlFor(source: unknown) {
   return builder ? builder.image(source as never) : null;

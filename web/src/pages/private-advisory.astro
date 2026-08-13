@@ -7,6 +7,8 @@ const cms = await getPage('private-advisory') as Record<string, any> | null;
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
 const description = cms?.metaDescription ?? 'Private, high-touch life advisory for ambitious founders and high performers. Founding client investment: $2,000/month. Apply for a Clarity Call.';
 
+const applyError = Astro.url.searchParams.get('error');
+
 const whatYouGet = [
   {
     title: 'Weekly Private Advisory Sessions',
@@ -188,7 +190,11 @@ const rhetoricalQuestions = [
   <section class="section wrap" id="apply">
     <h2>Apply for a Clarity Call</h2>
     <p class="body-copy">Private Advisory is capacity-limited during the founding chapter. Laura reads every application herself and personally reviews it before booking your Clarity Call, this is the qualifying step, not an instant scheduler.</p>
-    <!-- Submission wiring pending Phase 2 (Sanity 'application' document type). Currently posts nowhere. -->
+    {applyError && (
+      <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
+        {applyError === 'missing-fields' ? 'Please fill in your name and email before applying.' : 'Something went wrong submitting your application. Please try again in a moment.'}
+      </p>
+    )}
     <form class="form-panel" style="margin-top:32px;" action="/api/private-advisory-application" method="post">
       <div class="form-field">
         <label for="name">Name</label>

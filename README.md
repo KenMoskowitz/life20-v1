@@ -1,33 +1,52 @@
-# Life 2.0 — Version 1
+# Life 2.0 — thelife20.com
 
-This private repository contains the approved Life 2.0 Version 1 public-site source. It includes the Overflow Assessment homepage experience, Next Level page, Private Advisory sales page and native Netlify application form, published Journal routes, guide PDF, and the existing Kajabi guide-form integration.
+Monorepo for Laura Kelly's Life 2.0 site: Astro frontend + Sanity CMS, deployed on Vercel.
+
+## Layout
+
+- `web/` — Astro site (all 11 pages, native Overflow Assessment, application forms)
+- `studio/` — Sanity Studio (schemas, seed script)
+- `legacy/` — the old Netlify-era static site, kept for reference only, not deployed
+- `docs/` — Step 1 master plan and approved homepage design mockup
+- `pics-raw/` — raw client photography (gitignored, local only)
+
+## Current state
+
+- **Domain:** thelife20.com, registered at Namecheap. **DNS currently points at Netlify**, not Vercel — the live public site is a separate Netlify deployment (`life20-site.netlify.app`), unrelated to this repo. DNS has NOT been cut over yet; do not change it until the Vercel production deployment below is verified.
+- **Hosting:** Vercel project `life2-0` under team `laura-kelly-s-projects`. **Currently blocked**: the Vercel team's billing subscription is suspended, so no deploy (and no env var writes) can succeed until that's resolved at vercel.com/teams/laura-kelly-s-projects/settings/billing. `web/` is already linked to this project (`web/.vercel/project.json`) and ready to deploy the moment billing clears.
+- **Deploy branch:** `main`.
+- **Sanity project:** `4keg86n3` ("Life 2.0"), dataset `production`, org `oE1RoZeG3`.
+- **Sanity Studio:** deployed at https://life20.sanity.studio/
+- **Sanity token:** lives in `studio/.env` and `web/.env` as `SANITY_TOKEN` (both gitignored, Developer-role token). Needs to also be added as a Vercel production env var (`SANITY_TOKEN`, no `PUBLIC_` prefix — server-only) once billing unblocks env var writes, alongside `PUBLIC_SANITY_PROJECT_ID=4keg86n3` and `PUBLIC_SANITY_DATASET=production`.
 
 ## Build
 
-The project is a static site. Build the deployable output with:
-
 ```bash
-node build.mjs
+cd web && npm install && npm run build
 ```
 
-The command creates `dist/`, which Netlify publishes according to `netlify.toml`.
+## Sanity
 
-## Important routes
+```bash
+cd studio && npm install
+npm run seed     # idempotent, createOrReplace — reseeds siteSettings/navigation/pages/journal posts
+npm run deploy   # redeploy the Studio after a schema change
+```
 
-| Route | Purpose |
-|---|---|
-| `/` | Life 2.0 homepage with embedded Overflow Assessment |
-| `/next-level/` | Next Level offer page |
-| `/private-advisory/` | Private Advisory sales page and native Netlify application form |
-| `/application-received/` | Private Advisory application confirmation page |
-| `/blog/` | Life 2.0 Journal index |
-| `/blog/strategy-isnt-coldness-its-care/` | Published Journal article |
-| `/form-embed.html` | Existing guide-form integration document |
+## Forms
 
-## Netlify behavior
+Two Astro API routes (`web/src/pages/api/private-advisory-application.ts`, `.../contact.ts`) write directly to Sanity as `application` and `contactMessage` documents, viewable in the Studio. Both require `output`'s Vercel adapter (already configured) and the `SANITY_TOKEN` env var to be present at runtime — without it they redirect back to the form with `?error=unavailable` and log a warning instead of silently failing.
 
-The site uses a Netlify native form named `private-advisory-application`. When deployed, applications are captured in the Netlify dashboard. The existing `/forms/*` redirect continues to proxy the Kajabi guide form and should be retained until the guide flow is deliberately replaced.
+## Route notes
 
-## Repository scope
+- `/the-9-skills` — renamed from the originally planned `/the-9-variables`; a permanent redirect from the old path lives in `web/vercel.json`.
+- `/assessment` — fully native (no iframe). Logic and copy reverse-engineered and verified against the live Manus-hosted assessment; see `web/src/scripts/assessment.ts` and `web/src/data/assessmentCopy.ts` for the verification notes.
+- `/application-received` is `noindex`; see `NOINDEX_PATHS` in `web/astro.config.mjs`.
 
-This repository intentionally excludes generated `dist/` output, local preview servers, capture images, and working review notes. Run the build command before deployment to regenerate the publish directory.
+## Redirects preserved from the old site (`web/vercel.json`)
+
+- `/next-level` → `/private-advisory`
+- `/assessment-diagnosis` → `/assessment`
+- `/life20-website` → `/`
+- `/the-9-variables` → `/the-9-skills`
+- `/forms/*` → the existing Kajabi guide-form integration (unchanged)
