@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteSettings } from '../lib/sanity';
+
+const settings = await getSiteSettings() as Record<string, any> | null;
+const clarityCallUrl = settings?.clarityCallUrl ?? 'https://calendly.com/laura-thelaurakelly/clarity-call-with-laura';
 ---
 <BaseLayout
   title="Application Received | Life 2.0"
@@ -9,18 +13,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
   <div class="page-hero wrap" style="text-align:center; max-width: 640px;">
     <div class="eyebrow" style="justify-content:center;">Application Received</div>
-    <h1>Got it. Laura will read this herself.</h1>
-    <p class="lede">Your application is in. Laura reads every one personally, not a team, not a filter. If it's a fit, you'll hear back within a few days to schedule your Clarity Call.</p>
+    <h1>Got it. Now pick your time.</h1>
+    <p class="lede">Your application is in, Laura reads every one personally, not a team, not a filter. Go ahead and grab a time on her calendar now, she'll come prepared having already seen what you shared.</p>
+    <div style="margin-top: 40px;">
+      <a class="btn-primary" href={clarityCallUrl} target="_blank" rel="noopener">Book your Clarity Call &rarr;</a>
+    </div>
   </div>
 
   <section class="section wrap" style="text-align:center;">
-    <h2>While you wait, two things worth doing</h2>
+    <h2>While you're at it</h2>
     <ul class="list-plain" style="max-width: 480px; margin: 24px auto 0; text-align:left;">
       <li>Take the free 9 Skills assessment if you haven't yet, it'll make your Clarity Call sharper.</li>
       <li>Read a recent essay in the Journal.</li>
     </ul>
     <div style="margin-top: 40px; display:flex; gap:24px; justify-content:center; flex-wrap:wrap;">
-      <a class="btn-primary" href="/assessment">Take the assessment</a>
+      <a class="btn-text" href="/assessment">Take the assessment</a>
       <a class="btn-text" href="/journal">Read the Journal</a>
     </div>
   </section>

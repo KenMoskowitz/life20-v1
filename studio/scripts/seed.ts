@@ -79,7 +79,7 @@ const pages = [
 const siteSettings = {
   _id: 'siteSettings',
   _type: 'siteSettings',
-  clarityCallUrl: null,
+  clarityCallUrl: 'https://calendly.com/laura-thelaurakelly/clarity-call-with-laura',
   assessmentUrl: null,
   collectiveWaitlistUrl: null,
 };
