@@ -1,5 +1,8 @@
 import { assessmentVariables } from '../data/assessmentVariables';
 import { assessmentIntro, assessmentQuestionCopy, resultsCopy, bandForCapacity } from '../data/assessmentCopy';
+import { getSiteSettings } from '../lib/sanity';
+
+const FALLBACK_CLARITY_CALL_URL = 'https://calendly.com/laura-thelaurakelly/clarity-call-with-laura';
 
 type Screen = 'intro' | 'question' | 'results';
 
@@ -164,7 +167,10 @@ function renderQuestion() {
   }
 }
 
-function renderResults() {
+async function renderResults() {
+  const settings = (await getSiteSettings()) as Record<string, any> | null;
+  const clarityCallUrl = settings?.clarityCallUrl ?? FALLBACK_CLARITY_CALL_URL;
+
   const finalScores = scores as number[];
   const arithmeticMean = finalScores.reduce((a, b) => a + b, 0) / finalScores.length;
   const harmonicMean = finalScores.length / finalScores.reduce((a, b) => a + 1 / b, 0);
@@ -253,20 +259,19 @@ function renderResults() {
         <div class="assess-ledger">${ledgerRows}</div>
       </div>
 
-      <div class="assess-card" style="margin-top:40px; text-align:center;">
-        <h2>${escapeHtml(resultsCopy.moveHeading)}</h2>
-        <p class="research">${escapeHtml(resultsCopy.moveBody(leverage.name))}</p>
-        <a class="btn-primary" href="/private-advisory#apply" style="margin-top:24px; display:inline-flex;">${escapeHtml(resultsCopy.moveCta)}</a>
-      </div>
-
       <div class="assess-card" style="margin-top:40px;">
         <h2 style="font-size:24px;">${escapeHtml(resultsCopy.emailHeading)}</h2>
-        <p class="research">${escapeHtml(resultsCopy.emailBody)}</p>
         <form class="email-copy-form" id="assess-email-form">
           <input type="email" id="assess-email-input" placeholder="you@email.com" required />
           <button type="submit" class="btn-primary">${escapeHtml(resultsCopy.emailCta)}</button>
         </form>
         <div id="assess-email-status"></div>
+      </div>
+
+      <div class="assess-card" id="assess-next-move" style="margin-top:40px; text-align:center; display:none;">
+        <h2>${escapeHtml(resultsCopy.moveHeading)}</h2>
+        <p class="research">${escapeHtml(resultsCopy.moveBody(leverage.name))}</p>
+        <a class="btn-primary" href="${clarityCallUrl}" target="_blank" rel="noopener" style="margin-top:24px; display:inline-flex;">${escapeHtml(resultsCopy.moveCta)}</a>
       </div>
 
       <p class="assess-hint" style="margin-top:40px;">${escapeHtml(resultsCopy.footer)}</p>
@@ -321,6 +326,11 @@ function renderResults() {
 
       if (res.ok && data.ok) {
         status.textContent = `Sent. Check ${email} for your results.`;
+        const nextMoveBox = document.getElementById('assess-next-move');
+        if (nextMoveBox) {
+          nextMoveBox.style.display = 'block';
+          nextMoveBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       } else {
         status.className = 'email-copy-status email-copy-status--error';
         status.textContent = "Couldn't send that email right now. Please try again in a moment.";
