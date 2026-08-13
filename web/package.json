@@ -15,6 +15,7 @@
     "@astrojs/vercel": "^11.0.5",
     "@sanity/client": "^6.24.1",
     "@sanity/image-url": "^1.1.0",
-    "astro": "^7.2.1"
+    "astro": "^7.2.1",
+    "resend": "^6.20.0"
   }
 }

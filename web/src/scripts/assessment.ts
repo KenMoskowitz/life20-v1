@@ -281,33 +281,57 @@ function renderResults() {
     render();
   });
 
-  document.getElementById('assess-email-form')!.addEventListener('submit', (e) => {
+  document.getElementById('assess-email-form')!.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = document.getElementById('assess-email-input') as HTMLInputElement;
+    const submitBtn = (e.target as HTMLFormElement).querySelector('button[type="submit"]') as HTMLButtonElement;
     const email = input.value.trim();
     const status = document.getElementById('assess-email-status')!;
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       status.className = 'email-copy-status email-copy-status--error';
       status.textContent = resultsCopy.emailError;
       return;
     }
-    const subject = 'My Life 2.0 Overflow Assessment results';
-    const lines = [
-      'Life 2.0 - The Overflow Assessment',
-      '',
-      `Current level: ${arithmeticMean.toFixed(1)}/10`,
-      `Overflow capacity: ${harmonicMean.toFixed(1)}/10 (${band.label})`,
-      '',
-      `Primary leverage point: ${leverage.name} (${minScore}/10)`,
-      `Source of support: ${support.name} (${maxScore}/10)`,
-      '',
-      ...assessmentVariables.map((v, i) => `${String(v.order).padStart(2, '0')}. ${v.name}: ${finalScores[i]}/10`),
-      '',
-      'This is a starting point, not a diagnosis.',
-    ];
-    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '.6';
     status.className = 'email-copy-status';
-    status.textContent = 'Your email app is opening with a prepared copy of these results.';
+    status.textContent = 'Sending...';
+
+    try {
+      const res = await fetch('/api/assessment-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          currentLevel: arithmeticMean,
+          overflowCapacity: harmonicMean,
+          bandLevel: band.level,
+          bandLabel: band.label,
+          bandSubtitle: band.subtitle,
+          leverageSkill: leverage.name,
+          leverageScore: minScore,
+          supportSkill: support.name,
+          supportScore: maxScore,
+          scores: assessmentVariables.map((v, i) => ({ skill: v.name, score: finalScores[i] })),
+        }),
+      });
+      const data = await res.json().catch(() => ({ ok: false }));
+
+      if (res.ok && data.ok) {
+        status.textContent = `Sent. Check ${email} for your results.`;
+      } else {
+        status.className = 'email-copy-status email-copy-status--error';
+        status.textContent = "Couldn't send that email right now. Please try again in a moment.";
+      }
+    } catch {
+      status.className = 'email-copy-status email-copy-status--error';
+      status.textContent = "Couldn't send that email right now. Please try again in a moment.";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+    }
   });
 }
 

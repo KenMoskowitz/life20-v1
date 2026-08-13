@@ -5,6 +5,7 @@ import journalPost from './journalPost';
 import testimonial from './testimonial';
 import application from './application';
 import contactMessage from './contactMessage';
+import assessmentLead from './assessmentLead';
 
 export const schemaTypes = [
   siteSettings,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   testimonial,
   application,
   contactMessage,
+  assessmentLead,
 ];

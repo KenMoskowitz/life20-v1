@@ -27,6 +27,7 @@ export default defineConfig({
             S.divider(),
             S.documentTypeListItem('application').title('Private Advisory Applications'),
             S.documentTypeListItem('contactMessage').title('Contact Messages'),
+            S.documentTypeListItem('assessmentLead').title('Assessment Leads'),
           ]),
     }),
     visionTool(),

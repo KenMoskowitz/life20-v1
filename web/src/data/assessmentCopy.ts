@@ -101,7 +101,7 @@ export const resultsCopy = {
   moveBody: (leverageName: string) => `Your biggest leak right now is ${leverageName}. A Clarity Call is the fastest way to turn that into an actual plan.`,
   moveCta: 'Book your Clarity Call',
   emailHeading: 'Want a copy of this result?',
-  emailBody: 'Enter your email to open a prepared copy in your own email app. It is optional, and nothing on this page is gated behind it.',
+  emailBody: "Enter your email and we'll send a copy of these results straight to your inbox. It is optional, and nothing on this page is gated behind it.",
   emailCta: 'Email my result',
   emailError: 'Enter a valid email address to prepare your result email.',
   footer: 'Life 2.0 · The Overflow Assessment · A starting point, not a diagnosis.',
