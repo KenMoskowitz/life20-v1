@@ -16,10 +16,55 @@ const links = [
   <a class="nav-mark" href="/">
     <span>Life <em>2.0</em></span>
   </a>
-  <div class="nav-links">
+
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="site-menu"
+  >
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-links" id="site-menu">
     {links.map((link) => (
       <a class={`nav-link dz-underline ${currentPath === link.href ? 'active' : ''}`} href={link.href}>{link.label}</a>
     ))}
     <a class="nav-cta" href="/assessment">Take the Assessment</a>
   </div>
 </nav>
+<div class="nav-backdrop" hidden></div>
+
+<script is:inline>
+  (function () {
+    var toggle = document.querySelector('.nav-toggle');
+    var menu = document.getElementById('site-menu');
+    var backdrop = document.querySelector('.nav-backdrop');
+    if (!toggle || !menu || !backdrop) return;
+
+    function setOpen(open) {
+      document.documentElement.classList.toggle('nav-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      backdrop.hidden = !open;
+    }
+
+    toggle.addEventListener('click', function () {
+      setOpen(!document.documentElement.classList.contains('nav-open'));
+    });
+    backdrop.addEventListener('click', function () { setOpen(false); });
+    // Navigating to the current page won't reload, so close on any link tap.
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+    // Leaving the drawer breakpoint while open would otherwise strand the
+    // scroll lock. Keep this width in sync with the media query in global.css.
+    window.matchMedia('(min-width: 1340px)').addEventListener('change', function (e) {
+      if (e.matches) setOpen(false);
+    });
+  })();
+</script>
