@@ -45,18 +45,33 @@ function cupSvg(percent: number, opts: { overflow?: boolean; size?: number } = {
         </clipPath>
       </defs>
       <g clip-path="url(#${id}-clip)">
-        <rect x="10" y="${waterY}" width="100" height="${glassBottom - glassTop + 20}" fill="url(#${id}-water)" />
-        <path d="M10 ${waterY} Q30 ${waterY - 4} 60 ${waterY} T110 ${waterY}" stroke="var(--gold-light)" stroke-width="2" fill="none" />
+        <g class="dz-cup-water" style="--dz-fill:${(glassBottom - waterY).toFixed(1)}px">
+          <rect x="10" y="${waterY}" width="100" height="${glassBottom - glassTop + 20}" fill="url(#${id}-water)" />
+          <path d="M10 ${waterY} Q30 ${waterY - 4} 60 ${waterY} T110 ${waterY}" stroke="var(--gold-light)" stroke-width="2" fill="none" />
+        </g>
       </g>
       <path d="M22 ${glassTop} L98 ${glassTop} L88 ${glassBottom} Q60 ${glassBottom + 10} 32 ${glassBottom} Z" stroke="var(--forest)" stroke-width="3" stroke-linejoin="round" />
       ${overflow ? `
+      <g class="dz-cup-spill">
         <path d="M30 ${glassTop} Q26 2 34 -6" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" fill="none" />
         <circle cx="35" cy="-10" r="3" fill="var(--gold)" />
         <path d="M88 ${glassTop} Q94 4 86 -4" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" fill="none" />
         <circle cx="85" cy="-8" r="2.5" fill="var(--gold)" />
+      </g>
       ` : ''}
     </svg>
   `;
+}
+
+// The cups render at their empty state, then release on the next frame so the
+// water visibly rises to the score rather than simply appearing at it.
+function triggerCupFill() {
+  if (!root) return;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      root!.querySelectorAll('.assess-intro-cup, .cup-gauge').forEach((el) => el.classList.add('dz-cup-filled'));
+    });
+  });
 }
 
 function render() {
@@ -88,6 +103,7 @@ function renderIntro() {
       <p class="assess-hint" style="margin-top:24px;">${escapeHtml(assessmentIntro.disclaimer)}</p>
     </div>
   `;
+  triggerCupFill();
   document.getElementById('assess-begin')!.addEventListener('click', () => {
     screen = 'question';
     currentIndex = 0;
@@ -190,7 +206,7 @@ async function renderResults() {
       const tag = resultsCopy.ledgerTag(score, isMax);
       const tagClass = isMax ? 'ledger-status--support' : score <= 6 ? 'ledger-status--leak' : '';
       return `
-        <div class="ledger-row">
+        <div class="ledger-row dz-enter" style="--dz-enter-delay:${(i * 0.05).toFixed(2)}s">
           <span>${String(v.order).padStart(2, '0')} &nbsp; ${escapeHtml(v.name)}</span>
           <span>
             <span class="ledger-status ${tagClass}">${escapeHtml(tag)}</span>
@@ -278,6 +294,7 @@ async function renderResults() {
     </div>
   `;
 
+  triggerCupFill();
   document.getElementById('assess-restart')!.addEventListener('click', () => {
     scores = assessmentVariables.map(() => null);
     currentIndex = 0;

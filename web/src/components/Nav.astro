@@ -18,7 +18,7 @@ const links = [
   </a>
   <div class="nav-links">
     {links.map((link) => (
-      <a class={`nav-link ${currentPath === link.href ? 'active' : ''}`} href={link.href}>{link.label}</a>
+      <a class={`nav-link dz-underline ${currentPath === link.href ? 'active' : ''}`} href={link.href}>{link.label}</a>
     ))}
     <a class="nav-cta" href="/assessment">Take the Assessment</a>
   </div>

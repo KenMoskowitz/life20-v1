@@ -92,20 +92,20 @@ const rhetoricalQuestions = [
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/private-advisory">
   <div class="page-hero wrap">
-    <div class="eyebrow">Private Advisory</div>
-    <h1>Build a life that feels as successful as it looks.</h1>
-    <p class="lede">Private, high-touch life advisory for ambitious founders, entrepreneurs, and high performers who have built a lot, and are ready to intentionally build the rest of their life.</p>
-    <div class="hero-actions" style="margin-top:32px;">
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Private Advisory</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build a life that feels as successful as it looks.</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Private, high-touch life advisory for ambitious founders, entrepreneurs, and high performers who have built a lot, and are ready to intentionally build the rest of their life.</p>
+    <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
       <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
       <a class="btn-text" href="#pricing">See founding client pricing</a>
     </div>
   </div>
 
   <div class="founder-grid wrap" style="padding-bottom: 64px;">
-    <div class="founder-photo">
-      <img src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
+    <div class="founder-photo dz-reveal">
+      <img class="dz-kenburns" src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
     </div>
-    <div>
+    <div class="dz-reveal" style="--dz-delay:0.1s">
       <h2>You know how to achieve.</h2>
       <p class="body-copy" style="margin-top:20px;">But achievement alone doesn't guarantee that your relationships feel incredible. That your home runs smoothly. That you have time to think. That your health, family, friendships, purpose, and day-to-day life actually feel the way you want them to.</p>
       <div class="emphasis-lines">
@@ -116,7 +116,7 @@ const rhetoricalQuestions = [
     </div>
   </div>
 
-  <section class="section wrap">
+  <section class="section wrap dz-reveal">
     <h2>The Life 2.0 Private Advisory</h2>
     <p class="body-copy">This isn't a one-size-fits-all coaching program. It's a highly personalized advisory relationship designed around you, your life, and what matters most right now.</p>
     <p class="body-copy">We'll work on the immediate challenges in front of you while simultaneously building toward a much bigger vision for your life.</p>
@@ -124,10 +124,10 @@ const rhetoricalQuestions = [
   </section>
 
   <section class="section wrap">
-    <h2>What you get</h2>
+    <h2 class="dz-reveal">What you get</h2>
     <div class="numbered-features">
       {whatYouGet.map((item, i) => (
-        <div class="numbered-feature">
+        <div class="numbered-feature dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
           <div class="num">{String(i + 1).padStart(2, '0')}</div>
           <div>
             <h3>{item.title}</h3>
@@ -145,11 +145,11 @@ const rhetoricalQuestions = [
   </section>
 
   <section class="section wrap">
-    <h2>The Life 2.0 Method</h2>
-    <p class="body-copy">Our work moves through five core stages:</p>
+    <h2 class="dz-reveal">The Life 2.0 Method</h2>
+    <p class="body-copy dz-reveal">Our work moves through five core stages:</p>
     <div class="method-grid">
       {methodStages.map((s, i) => (
-        <div class="method-item">
+        <div class="method-item dz-reveal" style={`--dz-delay:${i * 0.1}s`}>
           <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
           <h3>{s.stage}</h3>
           <p>{s.body}</p>
@@ -159,7 +159,7 @@ const rhetoricalQuestions = [
     <p class="pull-statement">Life 2.0 isn't a finish line. It's a way of intentionally building your next chapter.</p>
   </section>
 
-  <section class="section wrap">
+  <section class="section wrap dz-reveal">
     <h2>Who this is for</h2>
     <p class="body-copy">Life 2.0 Private Advisory is designed for people who are ambitious, capable, and willing to do the work. You may already have a successful business, career, family, or life on paper. But you're asking bigger questions now.</p>
     <ul class="rhetorical-list">
@@ -169,10 +169,10 @@ const rhetoricalQuestions = [
   </section>
 
   <section class="section wrap" id="pricing">
-    <h2>Founding client opportunity</h2>
-    <p class="body-copy">Life 2.0 is entering its founding chapter. Laura is opening a small number of spots for the first cohort of Life 2.0 Private Advisory clients. These founding clients will receive the full private advisory experience while also having a unique opportunity to help shape the future of Life 2.0.</p>
+    <h2 class="dz-reveal">Founding client opportunity</h2>
+    <p class="body-copy dz-reveal">Life 2.0 is entering its founding chapter. Laura is opening a small number of spots for the first cohort of Life 2.0 Private Advisory clients. These founding clients will receive the full private advisory experience while also having a unique opportunity to help shape the future of Life 2.0.</p>
 
-    <div class="pricing-card">
+    <div class="pricing-card dz-reveal" style="--dz-delay:0.1s">
       <div class="eyebrow">Founding Client Investment</div>
       <div class="price">$2,000<span>/month</span></div>
       <p>Your founding rate is locked in while you remain continuously active in the Private Advisory. As Life 2.0 grows, the investment for new Private Advisory clients will increase.</p>
@@ -181,12 +181,13 @@ const rhetoricalQuestions = [
     </div>
   </section>
 
-  <section class="footer-cta" style="margin: 40px clamp(12px,2vw,40px) 0;">
+  <section class="footer-cta dz-reveal" style="margin: 40px clamp(12px,2vw,40px) 0;">
     <h2>Your life is the biggest thing you'll ever build.</h2>
     <p>You've spent years learning how to build companies, careers, teams, wealth, families, and accomplishments. Life 2.0 asks a different question: what if you brought that same level of intention to building your life? Not someday. Now.</p>
     <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
   </section>
 
+  <!-- No dz-reveal here: this is an anchor target (#apply), it must be visible the instant it's jumped to. -->
   <section class="section wrap" id="apply">
     <h2>Apply for a Clarity Call</h2>
     <p class="body-copy">Private Advisory is capacity-limited during the founding chapter. Laura reads every application herself and personally reviews it before booking your Clarity Call, this is the qualifying step, not an instant scheduler.</p>

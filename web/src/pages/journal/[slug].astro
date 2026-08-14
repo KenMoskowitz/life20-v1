@@ -30,12 +30,12 @@ const body: string[] = post.body ?? [];
     <div class="page-hero" style="padding-left:0; padding-right:0;">
       <a class="btn-text" href="/journal">&larr; Back to the Journal</a>
     </div>
-    <h1>{post.title}</h1>
-    <div class="meta">By Laura Kelly &middot; {post.category} &middot; {post.readTime}</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0s">{post.title}</h1>
+    <div class="meta dz-enter" style="--dz-enter-delay:0.08s">By Laura Kelly &middot; {post.category} &middot; {post.readTime}</div>
     <div class="body">
       {body.map((para) => <p>{para}</p>)}
     </div>
-    <div style="margin-top: 56px; display:flex; gap:24px; flex-wrap:wrap;">
+    <div class="dz-reveal" style="margin-top: 56px; display:flex; gap:24px; flex-wrap:wrap;">
       <a class="btn-primary" href="/the-9-skills">Explore the 9 Skills</a>
       <a class="btn-text" href="/assessment">Take the free assessment</a>
     </div>

@@ -202,10 +202,17 @@ footer.site-footer .foot-links a:hover { color: var(--forest); }
 
 .journal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 48px; }
 @media (max-width: 780px) { .journal-grid { grid-template-columns: 1fr; } }
-.journal-card { display: block; }
+.journal-card {
+  display: block;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 32px 30px;
+}
 .journal-card .date { font: 600 20px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--sage); }
 .journal-card h3 { margin-top: 14px; font: 500 24px/1.3 var(--serif); color: var(--forest); }
 .journal-card p { margin-top: 10px; font: 400 20px/1.65 var(--sans); color: var(--ink-soft); }
+.journal-card .read-on { display: inline-block; margin-top: 18px; font: 600 20px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--gold); }
 
 .journal-post { max-width: 720px; margin: 0 auto; padding: 0 clamp(24px,5vw,72px) 100px; }
 .journal-post h1 { font: 500 clamp(32px,4vw,50px)/1.15 var(--serif); color: var(--forest); }
@@ -284,3 +291,132 @@ footer.site-footer .foot-links a:hover { color: var(--forest); }
 .email-copy-form input { flex: 1; min-width: 220px; font: 400 20px/1.5 var(--sans); padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); }
 .email-copy-status { margin-top: 10px; font: 400 20px/1.5 var(--sans); color: var(--sage); }
 .email-copy-status--error { color: #B5533C; }
+
+/* ============================================================
+   MOTION & INTERACTION POLISH
+   Editorial restraint: no glows, no pulses, no attention-grabbing.
+   Everything below respects prefers-reduced-motion.
+   ============================================================ */
+
+/* Everything below is gated behind `html.dz-ready`, a class added by an inline
+   script in the document head. Content is therefore VISIBLE BY DEFAULT and only
+   hidden-to-be-animated once JS has proven it's alive to un-hide it. Without
+   this gate, a JS failure or a no-JS client renders a permanently blank page. */
+
+/* --- Scroll Reveal: sections and cards rise as they enter view --- */
+.dz-ready .dz-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: var(--dz-delay, 0s);
+}
+.dz-ready .dz-reveal.dz-in { opacity: 1; transform: translateY(0); }
+
+/* --- Line Draw: the gold eyebrow rule draws itself in after its section lands --- */
+.dz-ready .dz-reveal .eyebrow::before {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.25s;
+}
+.dz-ready .dz-reveal.dz-in .eyebrow::before { transform: scaleX(1); }
+/* Above the fold there's no scroll trigger, so these draw on a timed delay instead */
+.dz-ready .eyebrow.dz-enter::before,
+.dz-ready .hero-trust .dash {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: dz-draw-x 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+.dz-ready .eyebrow.dz-enter::before { animation-delay: 0.3s; }
+.dz-ready .hero-trust .dash { animation-delay: 0.9s; }
+@keyframes dz-draw-x { to { transform: scaleX(1); } }
+
+/* --- Hero entrance: one short sequence on load, above the fold only --- */
+.dz-ready .dz-enter {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: dz-enter-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: var(--dz-enter-delay, 0s);
+}
+@keyframes dz-enter-up { to { opacity: 1; transform: translateY(0); } }
+/* Applied by a failsafe timer if the entrance animation never advanced
+   (e.g. page opened in a background tab, where the timeline is frozen). */
+.dz-ready .dz-enter.dz-shown { opacity: 1; transform: none; animation: none; }
+
+/* --- Ken Burns: slow cinematic drift on portraits --- */
+.dz-kenburns { animation: dz-kenburns 26s ease-out both; will-change: transform; }
+@keyframes dz-kenburns { from { transform: scale(1); } to { transform: scale(1.07); } }
+/* Reversed so repeated portraits down the page don't read as copy-paste */
+.dz-kenburns--rev { animation: dz-kenburns-rev 26s ease-out both; will-change: transform; }
+@keyframes dz-kenburns-rev { from { transform: scale(1.07); } to { transform: scale(1); } }
+
+/* --- Underline Slide: nav and footer links --- */
+.dz-underline { position: relative; }
+.dz-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.dz-underline:hover::after { transform: scaleX(1); }
+
+/* --- Button polish: buttons had no hover feedback at all before this --- */
+.btn-primary {
+  transition:
+    transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background 0.25s ease;
+}
+.btn-primary:hover {
+  background: var(--forest-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -12px rgba(20, 32, 26, 0.55);
+}
+.btn-primary:active { transform: translateY(0); }
+.nav-cta { transition: background 0.25s ease, transform 0.25s ease; }
+.nav-cta:hover { background: var(--forest-deep); transform: translateY(-1px); }
+.btn-text { transition: opacity 0.2s ease; }
+.btn-text:hover { opacity: 0.65; }
+
+/* --- Card Lift: journal cards only, because those actually go somewhere --- */
+.dz-lift {
+  transition:
+    transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+.dz-lift:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 2px 4px rgba(29, 46, 34, 0.04),
+    0 12px 24px rgba(29, 46, 34, 0.08),
+    0 28px 48px rgba(29, 46, 34, 0.10);
+}
+.journal-card img, .journal-card .thumb { transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+/* --- Assessment cup: water rises to the score instead of appearing at it --- */
+.dz-cup-water {
+  transform: translateY(var(--dz-fill, 0px));
+  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dz-cup-filled .dz-cup-water { transform: translateY(0); }
+.dz-cup-spill { opacity: 0; transition: opacity 0.5s ease 1.2s; }
+.dz-cup-filled .dz-cup-spill { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dz-ready .dz-reveal { opacity: 1; transform: none; transition: none; }
+  .dz-ready .dz-reveal .eyebrow::before,
+  .dz-ready .eyebrow.dz-enter::before { transform: scaleX(1); transition: none; animation: none; }
+  .dz-ready .hero-trust .dash { transform: scaleX(1); animation: none; }
+  .dz-ready .dz-enter { opacity: 1; transform: none; animation: none; }
+  .dz-kenburns, .dz-kenburns--rev { animation: none; }
+  .dz-underline::after { transition: none; }
+  .btn-primary, .btn-primary:hover, .dz-lift, .dz-lift:hover { transform: none; transition: none; }
+  .dz-cup-water { transform: translateY(0); transition: none; }
+  .dz-cup-spill { opacity: 1; transition: none; }
+}

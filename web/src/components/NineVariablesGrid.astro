@@ -17,14 +17,14 @@ const triad = [
 ];
 ---
 <section class="variables">
-  <div class="variables-head">
+  <div class="variables-head dz-reveal">
     <div class="eyebrow">{eyebrow}</div>
     <h2>{heading}</h2>
     <p>{intro}</p>
   </div>
   <div class="triad-grid">
-    {triad.map((group) => (
-      <div class="triad-card">
+    {triad.map((group, i) => (
+      <div class="triad-card dz-reveal" style={`--dz-delay:${i * 0.12}s`}>
         <svg class="mark" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="30" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="33" cy="62" r="18" stroke="#C79A56" stroke-width="6"/><circle cx="67" cy="62" r="18" stroke="#C79A56" stroke-width="6"/></svg>
         <h3>{group.title}</h3>
         <ul>

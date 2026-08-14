@@ -12,17 +12,18 @@ const posts = cmsPosts && cmsPosts.length > 0 ? cmsPosts : fallbackPosts;
   canonicalUrl="https://thelife20.com/journal"
 >
   <div class="page-hero wrap">
-    <h1>The Journal</h1>
-    <p class="lede">Founder-led essays on the gap between a life that looks good and a life that feels good. No filler, no guru voice.</p>
+    <h1 class="dz-enter" style="--dz-enter-delay:0s">The Journal</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.08s">Founder-led essays on the gap between a life that looks good and a life that feels good. No filler, no guru voice.</p>
   </div>
 
   <div class="wrap" style="padding-bottom: 100px;">
     <div class="journal-grid">
-      {posts.map((post: any) => (
-        <a class="journal-card" href={`/journal/${post.slug?.current ?? post.slug}`}>
+      {posts.map((post: any, i: number) => (
+        <a class="journal-card dz-lift dz-reveal" style={`--dz-delay:${i * 0.1}s`} href={`/journal/${post.slug?.current ?? post.slug}`}>
           <div class="date">{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
           <h3>{post.title}</h3>
           <p>{post.excerpt}</p>
+          <span class="read-on">Read on &rarr;</span>
         </a>
       ))}
     </div>

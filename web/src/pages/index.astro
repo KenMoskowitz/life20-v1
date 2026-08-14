@@ -33,27 +33,27 @@ const jsonLd = {
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
-        <h1>Build the life that feels <em>as good</em> as it looks.</h1>
-        <p class="hero-lede">
+        <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build the life that feels <em>as good</em> as it looks.</h1>
+        <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">
           {cms?.heroLede ?? "You mapped the business. Nobody ever handed you a map for the rest of it. The 9 Skills show you exactly where your fulfillment is leaking, so you know what to build next."}
         </p>
-        <div class="hero-actions">
+        <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s">
           <a class="btn-primary" href="/assessment">Take the free assessment &rarr;</a>
           <a class="btn-text" href="/about">Meet Laura</a>
         </div>
-        <div class="hero-trust"><div class="dash"></div> Research-grounded. Founder-led. Six minutes to your first real answer.</div>
+        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> Research-grounded. Founder-led. Six minutes to your first real answer.</div>
       </div>
       <div style="position:relative;">
-        <div class="hero-photo-frame">
-          <img src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
+        <div class="hero-photo-frame dz-enter" style="--dz-enter-delay:0.12s">
+          <img class="dz-kenburns" src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
         </div>
-        <div class="hero-badge"><b>9</b><span>research-backed skills that shape a fulfilling life</span></div>
+        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>9</b><span>research-backed skills that shape a fulfilling life</span></div>
       </div>
     </div>
   </section>
 
-  <section class="phrase-band">
+  <section class="phrase-band dz-reveal">
     <div class="wrap">
       <p>Accomplishment got you here. <span>Fulfillment</span> is what's missing.</p>
     </div>
@@ -63,10 +63,10 @@ const jsonLd = {
 
   <section class="founder">
     <div class="founder-grid">
-      <div class="founder-photo">
-        <img src="/assets/laura-teaching.jpg" alt="Laura Kelly" />
+      <div class="founder-photo dz-reveal">
+        <img class="dz-kenburns--rev" src="/assets/laura-teaching.jpg" alt="Laura Kelly" />
       </div>
-      <div>
+      <div class="dz-reveal" style="--dz-delay:0.1s">
         <div class="eyebrow">Hey, it's Laura</div>
         <h2>I spent four years asleep at the wheel of a life that looked perfect on paper.</h2>
         <p class="lede">The business worked. The house, the trips, the title, all of it worked. What I hadn't built was a way to actually feel it. Life 2.0 is the map I wish someone had handed me, built from research and tested on myself first.</p>

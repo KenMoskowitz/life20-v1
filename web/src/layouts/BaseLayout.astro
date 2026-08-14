@@ -49,10 +49,52 @@ const defaultOgImage = 'https://thelife20.com/assets/og-default.jpg';
   )}
 
   <!-- Analytics slot: GTM/GA4/Meta Pixel IDs not yet confirmed with Laura (see docs/master-plan.md Section 9). -->
+
+  <script is:inline>
+    // Motion gate. All hide-then-reveal CSS is scoped to html.dz-ready, so if
+    // JS never runs the page renders fully visible instead of blank. Set here
+    // in <head> so it applies before first paint (no flash of unhidden content).
+    document.documentElement.classList.add('dz-ready');
+  </script>
 </head>
 <body>
   <Nav currentPath={Astro.url.pathname} />
   <slot />
   <Footer />
+
+  <script is:inline>
+    // Single shared observer for every scroll-triggered effect on the site.
+    (function () {
+      var targets = document.querySelectorAll('.dz-reveal');
+      function revealAll() {
+        for (var i = 0; i < targets.length; i++) targets[i].classList.add('dz-in');
+      }
+      try {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduced || !('IntersectionObserver' in window)) { revealAll(); return; }
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('dz-in');
+            observer.unobserve(entry.target); // fire once, don't re-animate on scroll up
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+        for (var i = 0; i < targets.length; i++) observer.observe(targets[i]);
+      } catch (err) {
+        revealAll(); // never let a scripting failure leave content hidden
+      }
+    })();
+
+    // Failsafe for the load-time hero entrance: if its animation never advanced
+    // (page opened in a background tab freezes the timeline), force the content
+    // visible. On a normal visit the animation has long since finished and this
+    // finds nothing to fix.
+    setTimeout(function () {
+      var els = document.querySelectorAll('.dz-enter');
+      for (var i = 0; i < els.length; i++) {
+        if (parseFloat(getComputedStyle(els[i]).opacity) < 0.99) els[i].classList.add('dz-shown');
+      }
+    }, 2500);
+  </script>
 </body>
 </html>

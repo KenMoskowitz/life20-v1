@@ -18,31 +18,31 @@ const beliefs = [
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/about">
   <div class="page-hero wrap">
-    <div class="eyebrow">Hey, it's Laura</div>
-    <h1>I will become the person who figures it out.</h1>
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Hey, it's Laura</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">I will become the person who figures it out.</h1>
   </div>
 
   <div class="founder-grid wrap" style="padding-bottom: 64px;">
-    <div class="founder-photo">
-      <img src="/assets/laura-kitchen.jpg" alt="Laura Kelly" />
+    <div class="founder-photo dz-reveal">
+      <img class="dz-kenburns" src="/assets/laura-kitchen.jpg" alt="Laura Kelly" />
     </div>
-    <div>
+    <div class="dz-reveal" style="--dz-delay:0.1s">
       <p class="body-copy">For four years I ran on adrenaline instead of purpose. From the outside, everything worked. The business, the house, the version of success everyone could see. Inside, I was reactive more than I was present, and proud of the wrong things.</p>
       <p class="body-copy">That gap between how a life looks and how it actually feels is the whole reason Life 2.0 exists.</p>
     </div>
   </div>
 
-  <section class="section wrap">
+  <section class="section wrap dz-reveal">
     <h2>The nine skills didn't come from a whiteboard.</h2>
     <p class="body-copy">They came from asking a harder question than "how's business." Purpose. Relationships. Identity. Growth. Physical vitality. Financial security. Contribution. Presence. Character. Nine parts of a life that high performers usually leave unmapped, because nobody ever asked them to map it the way they map a P&amp;L.</p>
   </section>
 
-  <section class="section wrap">
+  <section class="section wrap dz-reveal">
     <h2>I'm not a perfected guru. I'm a fellow practitioner.</h2>
     <p class="body-copy">I still ask myself, most days, "how can I create even more ease and peace in my life right now." I'm still learning to respond instead of react. I'm still building the habit of one full hour of undistracted time with my kids. Life 2.0 works best when I'm honest about being in it with you, not standing outside it, pointing.</p>
   </section>
 
-  <section class="section wrap">
+  <section class="section wrap dz-reveal">
     <h2>What I actually believe</h2>
     <ul class="list-plain">
       {beliefs.map((b) => <li>{b}</li>)}

@@ -18,22 +18,22 @@ const whatFor = [
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/collective">
   <div class="page-hero wrap">
-    <div class="eyebrow">The Life 2.0 Collective</div>
-    <h1>A room where you don't have to perform.</h1>
-    <p class="lede">Most rooms full of ambitious people are full of performance. Everyone's fine, everyone's crushing it, nobody says the actual sentence. The Life 2.0 Collective is built to be the opposite of that. A recurring, facilitated space for people who've built real success and are ready to stop performing it, at least for an hour.</p>
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">The Life 2.0 Collective</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">A room where you don't have to perform.</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Most rooms full of ambitious people are full of performance. Everyone's fine, everyone's crushing it, nobody says the actual sentence. The Life 2.0 Collective is built to be the opposite of that. A recurring, facilitated space for people who've built real success and are ready to stop performing it, at least for an hour.</p>
   </div>
 
   <div class="founder-grid wrap" style="padding-bottom: 64px;">
-    <div class="founder-photo">
-      <img src="/assets/laura-collective.jpg" alt="Life 2.0 Collective" />
+    <div class="founder-photo dz-reveal">
+      <img class="dz-kenburns--rev" src="/assets/laura-collective.jpg" alt="Life 2.0 Collective" />
     </div>
-    <div>
+    <div class="dz-reveal" style="--dz-delay:0.1s">
       <h2>What this actually is</h2>
       <p class="body-copy" style="margin-top:20px;">Not a curriculum. Not another thing to keep up with. A room, held with real facilitation so everyone gets heard, where you can say the true thing, think out loud, and hear from people carrying a version of the same weight you are.</p>
     </div>
   </div>
 
-  <section class="section wrap">
+  <section class="section wrap dz-reveal">
     <h2>What it's for</h2>
     <ul class="list-plain">
       {whatFor.map((item) => <li>{item}</li>)}

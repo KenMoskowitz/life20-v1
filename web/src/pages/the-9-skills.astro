@@ -55,18 +55,18 @@ const faqJsonLd = {
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/the-9-skills" jsonLd={faqJsonLd}>
   <div class="page-hero wrap">
-    <div class="eyebrow">The Framework</div>
-    <h1>The map for everything the business side never covers.</h1>
-    <p class="lede">Most high performers have the business side mapped. Revenue, systems, growth targets, all of it tracked with real rigor. The 9 Skills are the same rigor, aimed at the rest of your life.</p>
-    <p class="lede">Each one is scored honestly, one to ten. Whichever one scores lowest is where your life is leaking fulfillment, and it's the highest-leverage place to start. This isn't a diagnosis. It's a starting point.</p>
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">The Framework</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">The map for everything the business side never covers.</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Most high performers have the business side mapped. Revenue, systems, growth targets, all of it tracked with real rigor. The 9 Skills are the same rigor, aimed at the rest of your life.</p>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.24s">Each one is scored honestly, one to ten. Whichever one scores lowest is where your life is leaking fulfillment, and it's the highest-leverage place to start. This isn't a diagnosis. It's a starting point.</p>
   </div>
 
   {groups.map((group) => (
     <section class="section wrap">
-      <h2>{group.title}</h2>
+      <h2 class="dz-reveal">{group.title}</h2>
       <div class="card-grid" style="margin-top: 32px;">
-        {group.skills.map((s) => (
-          <div class="card">
+        {group.skills.map((s, i) => (
+          <div class="card dz-reveal" style={`--dz-delay:${i * 0.12}s`}>
             <h3>{s.name}</h3>
             <p class="body-copy">{s.body}</p>
           </div>
@@ -81,10 +81,10 @@ const faqJsonLd = {
   />
 
   <section class="section wrap">
-    <h2>FAQs</h2>
+    <h2 class="dz-reveal">FAQs</h2>
     <div class="faq">
-      {faqs.map((f) => (
-        <div class="faq-item">
+      {faqs.map((f, i) => (
+        <div class="faq-item dz-reveal" style={`--dz-delay:${Math.min(i * 0.08, 0.4)}s`}>
           <h3>{f.q}</h3>
           <p>{f.a}</p>
         </div>
