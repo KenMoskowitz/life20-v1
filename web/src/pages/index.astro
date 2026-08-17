@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NineVariablesGrid from '../components/NineVariablesGrid.astro';
+import NineSkillsGrid from '../components/NineSkillsGrid.astro';
 import QuotePanel from '../components/QuotePanel.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { getPage } from '../lib/sanity';
@@ -8,7 +8,16 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('home') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
-const description = cms?.metaDescription ?? "Life 2.0 helps high-achieving leaders find where fulfillment is leaking and build a life that matches what they've built. Take the free assessment.";
+const description = cms?.metaDescription ?? 'You learned the skills of achievement. Nobody taught you the skills of fulfillment. The 9 Skills of Fulfillment show you where to start. Take the free assessment.';
+
+// Part 3 of the alignment brief: the achievement-to-fulfillment bridge.
+const achievementLines = [
+  'Build the business.',
+  'Lead the team.',
+  'Make the money.',
+  'Solve the problems.',
+  'Perform under pressure.',
+];
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -36,30 +45,44 @@ const jsonLd = {
         <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build the life that feels <em>as good</em> as it looks.</h1>
         <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">
-          {cms?.heroLede ?? "You mapped the business. Nobody ever handed you a map for the rest of it. The 9 Skills show you exactly where your fulfillment is leaking, so you know what to build next."}
+          {cms?.heroLede ?? 'You mapped the business. Nobody ever handed you a map for the rest of it. The 9 Skills help you see which part of your fulfillment may deserve the most attention right now, so you know where to start.'}
         </p>
         <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s">
           <a class="btn-primary" href="/assessment">Take the free assessment &rarr;</a>
           <a class="btn-text" href="/about">Meet Laura</a>
         </div>
-        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> Research-grounded. Founder-led. Six minutes to your first real answer.</div>
+        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> Research-informed. Founder-led. Nine learnable skills.</div>
       </div>
       <div style="position:relative;">
         <div class="hero-photo-frame dz-enter" style="--dz-enter-delay:0.12s">
           <img class="dz-kenburns" src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
         </div>
-        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>9</b><span>research-backed skills that shape a fulfilling life</span></div>
+        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>9</b><span>learnable skills that shape a fulfilling life</span></div>
       </div>
     </div>
   </section>
 
-  <section class="phrase-band dz-reveal">
-    <div class="wrap">
-      <p>Accomplishment got you here. <span>Fulfillment</span> is what's missing.</p>
+  <!-- The problem, then the insight (message hierarchy steps 2 and 3) -->
+  <section class="bridge-band">
+    <div class="bridge-inner">
+      <p class="bridge-open dz-reveal">You learned the skills of achievement.</p>
+      <ul class="bridge-list">
+        {achievementLines.map((line, i) => (
+          <li class="dz-reveal" style={`--dz-delay:${i * 0.08}s`}>{line}</li>
+        ))}
+      </ul>
+      <p class="bridge-turn dz-reveal">But nobody ever taught you the skills of <em>fulfillment</em>.</p>
+      <p class="bridge-close dz-reveal">Life 2.0 does.</p>
     </div>
   </section>
 
-  <NineVariablesGrid />
+  <NineSkillsGrid />
+
+  <!-- Part 4: reframe immediately after introducing the nine -->
+  <section class="section-narrow dz-reveal" style="text-align:center;">
+    <p class="body-copy" style="margin:0 auto;">These are not nine areas of life you need to perfect. They are nine capacities that influence how you create and experience your life. You may already be highly developed in several.</p>
+    <p class="pull-statement" style="margin:24px auto 0;">Usually the goal is not to fix everything. It's to identify the skill that deserves your attention now.</p>
+  </section>
 
   <section class="founder">
     <div class="founder-grid">
@@ -68,8 +91,8 @@ const jsonLd = {
       </div>
       <div class="dz-reveal" style="--dz-delay:0.1s">
         <div class="eyebrow">Hey, it's Laura</div>
-        <h2>I spent four years asleep at the wheel of a life that looked perfect on paper.</h2>
-        <p class="lede">The business worked. The house, the trips, the title, all of it worked. What I hadn't built was a way to actually feel it. Life 2.0 is the map I wish someone had handed me, built from research and tested on myself first.</p>
+        <h2>The people who achieved the most weren't necessarily the people who felt the most fulfilled.</h2>
+        <p class="lede">I had a front-row seat to achievement, and I started noticing something I couldn't unsee. My own life could look incredible on paper and still not always feel the way I expected it to from inside it. That raised the question that became Life 2.0.</p>
         <div class="sig">Laura</div>
       </div>
     </div>
@@ -78,8 +101,8 @@ const jsonLd = {
   <QuotePanel />
 
   <CtaBand
-    eyebrow="Start Here, Not With A Diagnosis"
-    heading="Find out where your fulfillment is leaking."
-    body="Six minutes. Nine skills. One honest, research-backed starting point for whatever you build next."
+    eyebrow="Start Here"
+    heading="See which skill deserves your attention right now."
+    body="Nine skills. One honest starting point. Three questions to sit with, and one small experiment to try this week."
   />
 </BaseLayout>

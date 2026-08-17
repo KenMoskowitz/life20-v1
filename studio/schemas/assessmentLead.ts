@@ -1,22 +1,22 @@
 import { defineType, defineField } from 'sanity';
 
-// Captured whenever someone requests an emailed copy of their Overflow
-// Assessment results. Not a form submission Laura needs to act on
-// individually, just visibility into who's engaging with the assessment.
+// Captured whenever someone requests an emailed copy of their Fulfillment
+// Assessment results. Not a form submission Laura needs to action one by one,
+// just visibility into who is engaging with the assessment and which of the
+// 9 Skills is coming up as the one to explore first.
 export default defineType({
   name: 'assessmentLead',
   title: 'Assessment Lead',
   type: 'document',
   fields: [
     defineField({ name: 'email', title: 'Email', type: 'string', validation: (R) => R.required() }),
-    defineField({ name: 'currentLevel', title: 'Current level', type: 'number' }),
-    defineField({ name: 'overflowCapacity', title: 'Overflow capacity', type: 'number' }),
-    defineField({ name: 'bandLabel', title: 'Capacity band', type: 'string' }),
-    defineField({ name: 'leverageSkill', title: 'Primary leverage point', type: 'string' }),
-    defineField({ name: 'supportSkill', title: 'Source of support', type: 'string' }),
+    defineField({ name: 'exploreSkill', title: 'Skill to explore first', type: 'string' }),
+    defineField({ name: 'exploreScore', title: 'Score for that skill', type: 'number' }),
+    defineField({ name: 'strengthSkill', title: 'Most developed skill', type: 'string' }),
+    defineField({ name: 'strengthScore', title: 'Score for that skill', type: 'number' }),
     defineField({
       name: 'scores',
-      title: 'All 9 scores',
+      title: 'All 9 skill scores',
       type: 'array',
       of: [
         {
@@ -25,6 +25,7 @@ export default defineType({
             defineField({ name: 'skill', title: 'Skill', type: 'string' }),
             defineField({ name: 'score', title: 'Score', type: 'number' }),
           ],
+          preview: { select: { title: 'skill', subtitle: 'score' } },
         },
       ],
     }),
@@ -32,6 +33,6 @@ export default defineType({
   ],
   orderings: [{ title: 'Newest first', name: 'submittedAtDesc', by: [{ field: 'submittedAt', direction: 'desc' }] }],
   preview: {
-    select: { title: 'email', subtitle: 'bandLabel' },
+    select: { title: 'email', subtitle: 'exploreSkill' },
   },
 });

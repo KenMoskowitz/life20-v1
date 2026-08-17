@@ -1,108 +1,81 @@
-// Results-page copy verified live against lifeoverflow-orhutjru.manus.space
-// on 2026-08-12 (tested at overflow-capacity values 2.0, 4.0, 4.7, 6.0, 8.0,
-// 9.0 to confirm band boundaries and exact wording). The locally bundled
-// build in legacy/overflow-assessment/ was stale and does not match; do not
-// use it as a source.
-export interface CapacityBand {
-  level: number; // 1-5
-  label: string;
-  subtitle: string;
-  paragraph: string;
-}
-
-export const capacityBands: CapacityBand[] = [
-  {
-    level: 1,
-    label: 'Contracted',
-    subtitle: 'Your capacity is carrying too much.',
-    paragraph: 'This is not a verdict. It is a signal that one or more conditions are consuming more of you than they return. The first move is not reinvention, it is reducing the demand at the leak.',
-  },
-  {
-    level: 2,
-    label: 'Coping',
-    subtitle: 'Functional is not the same as resourced.',
-    paragraph: 'You are making it work, but your score pattern suggests a life that may be costing more energy than it gives back. Stabilize one leak before you optimize anything else.',
-  },
-  {
-    level: 3,
-    label: 'Comfortable',
-    subtitle: 'Some things are working. Reserve is the question.',
-    paragraph: 'Comfort can disguise a lack of surplus. Your next level is not another accomplishment; it is examining the areas that have become merely tolerable.',
-  },
-  {
-    level: 4,
-    label: 'Complete',
-    subtitle: 'You have built a life with real support.',
-    paragraph: 'Much of the system is working. The work now is to protect the conditions that replenish you and to address the one area that could quietly drain what you have built.',
-  },
-  {
-    level: 5,
-    label: 'Overflowing',
-    subtitle: 'You are operating from meaningful reserve.',
-    paragraph: 'Your scores suggest broad, supported capacity. Protect the practices and relationships that allow you to lead, give, and live without disappearing from your own life.',
-  },
-];
-
-// Overflow capacity (harmonic mean of the 9 scores) -> band level.
-// Verified boundaries: 2.0->1, 4.0->2, 4.7->2, 6.0->3, 8.0->4, 9.0->5.
-export function bandForCapacity(capacity: number): CapacityBand {
-  const level = Math.min(5, Math.max(1, Math.floor((capacity - 1) / 2) + 1));
-  return capacityBands[level - 1];
-}
+// Copy for The Life 2.0 Fulfillment Assessment.
+//
+// Naming, intro and results structure follow Laura's alignment brief.
+// Language rules being enforced here (brief Parts 10 and 12):
+//   - Never: deficient, failing, broken, poor, unhealthy, bad at, weak.
+//   - Instead: less developed, deserves attention, opportunity for
+//     development, currently under-supported, skill to explore, starting point.
+//   - "A starting point" over "a diagnosis". "Which skill deserves attention?"
+//     over "what's wrong?". Skills are developed, practiced, strengthened.
+//   - The target feeling is "oh, that makes sense", never "here's another
+//     thing wrong with me".
 
 export const assessmentIntro = {
-  eyebrow: 'A research-informed reflection',
-  kicker: 'The Overflow Assessment',
-  heading: 'Your cup must not just be full.',
-  headingEmphasis: 'It must overflow.',
-  body1: 'Nine skills. One honest look at the conditions that make a fulfilling life sustainable.',
-  body2: 'You will score the parts of life that most shape your capacity to lead, give, and live without disappearing from your own life. This takes about six minutes.',
+  eyebrow: 'A reflective starting point',
+  kicker: 'The Life 2.0 Fulfillment Assessment',
+  supportingLine: 'Discover which of the 9 Skills of Fulfillment may deserve your attention right now.',
+  body: [
+    "A fulfilling life isn't one thing.",
+    'You can have extraordinary relationships and feel stuck professionally. You can have financial freedom and very little aliveness. You can have purpose but struggle with regulation. You can be incredibly healthy and feel disconnected.',
+    'Life 2.0 looks at fulfillment through nine learnable skills. This short assessment helps you reflect on where each skill currently stands, and identify where developing a skill may create the greatest improvement in your life right now.',
+  ],
   ctaLabel: 'Begin the assessment',
   privacyNote: 'Private by design. No email required.',
-  disclaimer: 'This is a starting point, not a diagnosis. Your results are a self-reflection tool, not a clinical assessment or prediction.',
+  disclaimer: "This isn't a diagnosis. It's a starting point. Your results are a self-reflection tool, not a clinical assessment or prediction.",
 };
 
 export const assessmentQuestionCopy = {
   encouragement: 'There is no right answer. There is only an honest one.',
-  eyebrow: 'Take a real look',
-  scoreLabel: 'Your score today',
-  chooseLabel: 'Choose your score',
-  hint1: 'Use the scale or select a number. Do not score the version of you other people see.',
-  hint2: 'Take your time. You can revise any score.',
+  instruction: 'Rate how true each statement feels right now, from 1 (not true) to 10 (very true). Score the life you are actually living, not the version other people see.',
+  scaleLow: 'Not true',
+  scaleHigh: 'Very true',
   back: 'Back',
   continue: 'Continue',
-  finish: 'Reveal my pattern',
+  finish: 'See my results',
+  progressLabel: (current: number, total: number) => `Skill ${current} of ${total}`,
 };
 
 export const resultsCopy = {
-  eyebrow: 'Your Overflow Assessment',
+  eyebrow: 'Your Fulfillment Assessment',
   startOver: 'Start again',
-  capacityHeading: 'Your current capacity',
-  capacitySubheading: 'The result is not the number. It is what the pattern makes visible.',
-  currentLevelLabel: 'Current level',
-  overflowCapacityLabel: 'Overflow capacity',
-  leverageLabel: 'Primary leverage point',
-  leverageBody: (score: number) => `At ${score}/10, this is the place most likely to be draining sustainable fulfillment.`,
-  supportLabel: 'Your source of support',
-  supportBody: (name: string, score: number) => `${name} scored ${score}/10. Do not take it for granted; it may be helping the rest of the system hold.`,
-  changesHeading: 'What changes first',
-  changesSubheading: 'Find the leak. Then decide what changes.',
-  nextMoves: (leverageName: string) => [
-    `Name the pattern. Read the reflection question for ${leverageName} again. The first honest answer is usually more useful than another strategy.`,
-    'Choose a seven-day experiment. Make one conversation, boundary, or practice small enough to try this week and specific enough to notice.',
-    'Protect your support. Your strongest area is not a reward for good behavior; it is part of the infrastructure that lets the rest of your life work.',
-  ],
-  ledgerHeading: 'The Tidal Ledger',
-  ledgerSubheading: 'Your 9 Skills, at a glance.',
-  ledgerExplainer: 'Scores of six or below are marked as leaks. They are not failures; they are the most likely places to find leverage.',
-  ledgerTag: (score: number, isMax: boolean) => (isMax ? 'Source of support' : score <= 6 ? 'Leak to examine' : 'Holding steady'),
-  moveHeading: 'Your next decisive move',
-  moveSubheading: 'Turn the leak into a plan.',
-  moveBody: (leverageName: string) => `Your biggest leak right now is ${leverageName}. A Clarity Call is the fastest way to turn that into an actual plan.`,
-  moveCta: 'Book your Clarity Call',
+
+  snapshotHeading: 'Your current skill snapshot',
+  snapshotIntro:
+    'All nine skills, as you scored them today. Higher simply means more developed right now. None of these are meant to sit at ten, and a life can be genuinely good with real variation across the nine.',
+
+  exploreHeading: 'Your skill to explore first',
+  exploreBody: (name: string) => `Your results suggest ${name} may deserve some attention right now.`,
+  exploreCaveat:
+    'This is an invitation to investigate, not a verdict. It may be the most useful place to begin, and context still matters more than the number.',
+  nearTieNote: (names: string[]) => {
+    const list =
+      names.length <= 2
+        ? names.join(' and ')
+        : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+    return `${list} scored close enough together that any of them would be a reasonable place to start. Begin with whichever one feels most alive in your actual week.`;
+  },
+
+  meansHeading: 'What this skill means',
+  lowerHeading: 'What less development can feel like',
+  strongerHeading: 'What stronger development can create',
+  reflectionHeading: 'Three questions to sit with',
+  experimentHeading: 'One small experiment',
+
+  strengthHeading: 'Where you are already strong',
+  strengthBody: (name: string) =>
+    `${name} is your most developed skill today. Worth protecting, not taking for granted, since it is part of what lets the rest of your life work.`,
+
+  ctaHeading: 'Want help understanding what your results mean for your actual life?',
+  ctaBody:
+    'The assessment creates awareness. A conversation provides context and direction. A Clarity Call is sixty minutes with Laura to talk through what your results actually mean for the life you are building.',
+  ctaLabel: 'Book a Life 2.0 Clarity Call',
+
   emailHeading: 'Want a copy of this result?',
-  emailBody: "Enter your email and we'll send a copy of these results straight to your inbox. It is optional, and nothing on this page is gated behind it.",
-  emailCta: 'Email my result',
-  emailError: 'Enter a valid email address to prepare your result email.',
-  footer: 'Life 2.0 · The Overflow Assessment · A starting point, not a diagnosis.',
+  emailCta: 'Email my results',
+  emailError: 'Enter a valid email address so we can send your results.',
+  emailSending: 'Sending...',
+  emailSent: (email: string) => `Sent. Check ${email} for your results.`,
+  emailFailed: "Couldn't send that email right now. Please try again in a moment.",
+
+  footer: 'Life 2.0 · The Fulfillment Assessment · A starting point, not a diagnosis.',
 };

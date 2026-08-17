@@ -2,19 +2,24 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { getPage } from '../lib/sanity';
+import { skills } from '../data/skills';
 
 const cms = await getPage('about') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'About Laura Kelly | Life 2.0';
-const description = cms?.metaDescription ?? "Laura Kelly built a business that worked and a life that didn't feel like hers. Here's how Life 2.0 and the 9 Skills came out of that gap.";
+const description = cms?.metaDescription ?? 'Laura Kelly had a front-row seat to achievement, and noticed the people who achieved the most were not necessarily the people who felt the most fulfilled. That question became Life 2.0.';
 
 const beliefs = [
   'You do not have to stop being ambitious to become fulfilled.',
-  'A life can look exceptional and still leak fulfillment.',
+  'Fulfillment is a capability, not a destination.',
+  'A life can look exceptional from the outside and still not feel the way you expected from inside it.',
   'Awareness comes before change.',
   "The goal isn't perfect emotional regulation. It's responding in ways that, for the most part, make you proud.",
   'High performers often know how to optimize a business better than they know how to design a life.',
+  'Skills can be learned. That is the whole reason this is hopeful.',
 ];
+
+const skillNames = skills.map((s) => s.name).join('. ');
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/about">
   <div class="page-hero wrap">
@@ -27,14 +32,24 @@ const beliefs = [
       <img class="dz-kenburns" src="/assets/laura-kitchen.jpg" alt="Laura Kelly" />
     </div>
     <div class="dz-reveal" style="--dz-delay:0.1s">
-      <p class="body-copy">For four years I ran on adrenaline instead of purpose. From the outside, everything worked. The business, the house, the version of success everyone could see. Inside, I was reactive more than I was present, and proud of the wrong things.</p>
-      <p class="body-copy">That gap between how a life looks and how it actually feels is the whole reason Life 2.0 exists.</p>
+      <h2>I had a front-row seat to achievement.</h2>
+      <p class="body-copy" style="margin-top:20px;">I built a $10 million business and spent years coaching successful leaders through programs and retreats whose collective wealth exceeds $2.6 billion. I learned a tremendous amount about achievement.</p>
+      <p class="body-copy">And I started noticing something I couldn't unsee.</p>
+      <p class="pull-statement">The people who achieved the most weren't necessarily the people who felt the most fulfilled.</p>
     </div>
   </div>
 
+  <section class="section-narrow dz-reveal">
+    <p class="body-copy">I experienced versions of that contradiction myself. My life could look incredible on paper and still not always feel the way I expected it to feel from inside it.</p>
+    <p class="body-copy">For four years I ran on adrenaline instead of purpose. From the outside, everything worked. The business, the house, the version of success everyone could see. Inside, I was reactive more than I was present, and proud of the wrong things.</p>
+    <p class="body-copy">That raised the question that eventually became Life 2.0:</p>
+    <p class="pull-statement">What actually makes a human life feel fulfilling?</p>
+  </section>
+
   <section class="section wrap dz-reveal">
     <h2>The nine skills didn't come from a whiteboard.</h2>
-    <p class="body-copy">They came from asking a harder question than "how's business." Purpose. Relationships. Identity. Growth. Physical vitality. Financial security. Contribution. Presence. Character. Nine parts of a life that high performers usually leave unmapped, because nobody ever asked them to map it the way they map a P&amp;L.</p>
+    <p class="body-copy">They came from asking a harder question than "how's business." {skillNames}. Nine capacities that high performers usually leave unmapped, because nobody ever asked them to map it the way they map a P&amp;L.</p>
+    <p class="body-copy">The framework synthesizes decades of research across human flourishing, psychological wellbeing, self-determination, relationships, health, meaning, financial security and positive psychology. And it is built on a single idea: these are skills, which means they can be developed.</p>
   </section>
 
   <section class="section wrap dz-reveal">
@@ -50,7 +65,7 @@ const beliefs = [
   </section>
 
   <CtaBand
-    heading="Ready to see where you actually stand?"
+    heading="See which skill deserves your attention right now."
     body="Take the free assessment, or book a Clarity Call to talk it through with Laura."
     ctaLabel="Take the free assessment"
     ctaHref="/assessment"
