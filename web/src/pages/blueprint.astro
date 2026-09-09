@@ -1,0 +1,264 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getWebinar } from '../lib/sanity';
+
+// Everything variable about this event lives in Sanity so Laura can set the
+// date, agenda and copy herself. The page is written to degrade honestly:
+// a section with no content is omitted rather than filled with placeholder
+// text, and the page stays out of Google until `status` says it's real.
+const webinar = (await getWebinar('blueprint')) as Record<string, any> | null;
+
+const EVENT_NAME = webinar?.title ?? 'The High Achievers Fulfillment Blueprint';
+
+const status: string = webinar?.status ?? 'draft';
+const isLive = status === 'upcoming' || status === 'replay';
+const isReplay = status === 'replay';
+const isClosed = status === 'closed';
+
+// Only index once there's a real event behind the page.
+const noindex = !isLive;
+
+const startsAt: string | null = webinar?.startsAt ?? null;
+const durationMinutes: number | null = webinar?.durationMinutes ?? null;
+const priceNote: string | null = webinar?.priceNote ?? null;
+
+const learn: Array<{ title: string; body?: string }> = webinar?.whatYouWillLearn ?? [];
+const forWhom: string[] = webinar?.whoThisIsFor ?? [];
+const hostNote: string | null = webinar?.hostNote ?? null;
+const replayNote: string | null = webinar?.replayNote ?? null;
+
+const externalUrl: string | null = webinar?.externalRegistrationUrl ?? null;
+const ctaLabel: string = webinar?.ctaLabel ?? (isLive ? 'Save my seat' : 'Tell me when registration opens');
+
+// This page is prerendered (static) so it stays fast for ad traffic, which
+// means query params can't be read here at build time. The post-submit
+// states are rendered up front and toggled client-side instead.
+
+const title = webinar?.metaTitle ?? `${EVENT_NAME} | Life 2.0`;
+const description =
+  webinar?.metaDescription ??
+  `${EVENT_NAME}, a live training with Laura Kelly for high achievers who have built real success and want a life that feels as good as it looks.`;
+
+const headline = webinar?.heroHeadline ?? EVENT_NAME;
+const subhead = webinar?.heroSubhead ?? null;
+
+// Server-rendered fallback in UTC; a small script below rewrites it into the
+// visitor's own timezone, since timezone confusion is the main reason people
+// miss a webinar they registered for.
+function formatUtc(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleString('en-US', {
+    weekday: 'long', month: 'long', day: 'numeric',
+    hour: 'numeric', minute: '2-digit',
+    timeZone: 'UTC', timeZoneName: 'short',
+  });
+}
+
+// Event structured data is emitted only when there is a genuine date, so we
+// never publish invented event markup to Google.
+const jsonLd =
+  isLive && startsAt
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: EVENT_NAME,
+        description,
+        startDate: startsAt,
+        ...(durationMinutes ? { endDate: new Date(new Date(startsAt).getTime() + durationMinutes * 60000).toISOString() } : {}),
+        eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+        eventStatus: 'https://schema.org/EventScheduled',
+        location: {
+          '@type': 'VirtualLocation',
+          url: 'https://thelife20.com/blueprint',
+        },
+        organizer: { '@type': 'Organization', name: 'Life 2.0', url: 'https://thelife20.com' },
+        performer: { '@type': 'Person', name: 'Laura Kelly' },
+        ...(priceNote && /free/i.test(priceNote)
+          ? { offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: 'https://thelife20.com/blueprint' } }
+          : {}),
+      }
+    : undefined;
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalUrl="https://thelife20.com/blueprint"
+  jsonLd={jsonLd}
+  noindex={noindex}
+>
+  <div class="page-hero wrap webinar-hero">
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">
+      {isReplay ? 'On-demand training' : 'Live training with Laura Kelly'}
+    </div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{headline}</h1>
+    {subhead && <p class="lede dz-enter" style="--dz-enter-delay:0.16s">{subhead}</p>}
+
+    {(startsAt || durationMinutes || priceNote) && (
+      <ul class="webinar-facts dz-enter" style="--dz-enter-delay:0.24s">
+        {startsAt && (
+          <li>
+            <span class="fact-label">When</span>
+            <time class="fact-value" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>
+          </li>
+        )}
+        {durationMinutes && (
+          <li>
+            <span class="fact-label">Length</span>
+            <span class="fact-value">{durationMinutes} minutes</span>
+          </li>
+        )}
+        {priceNote && (
+          <li>
+            <span class="fact-label">Cost</span>
+            <span class="fact-value">{priceNote}</span>
+          </li>
+        )}
+      </ul>
+    )}
+
+    {!isClosed && (
+      <div class="hero-actions dz-enter" style="--dz-enter-delay:0.32s">
+        {externalUrl
+          ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
+          : <a class="btn-primary" href="#register">{ctaLabel} &rarr;</a>}
+      </div>
+    )}
+
+    {replayNote && <p class="webinar-replay-note">{replayNote}</p>}
+  </div>
+
+  {learn.length > 0 && (
+    <section class="section wrap">
+      <h2 class="dz-reveal">What you'll learn</h2>
+      <div class="card-grid" style="margin-top:32px;">
+        {learn.map((item, i) => (
+          <div class="card dz-reveal" style={`--dz-delay:${Math.min(i * 0.1, 0.4)}s`}>
+            <h3 class="webinar-point">{item.title}</h3>
+            {item.body && <p class="body-copy">{item.body}</p>}
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {forWhom.length > 0 && (
+    <section class="section wrap dz-reveal">
+      <h2>Who this is for</h2>
+      <ul class="list-plain">
+        {forWhom.map((line) => <li>{line}</li>)}
+      </ul>
+    </section>
+  )}
+
+  {hostNote && (
+    <div class="founder-grid wrap webinar-host">
+      <div class="founder-photo dz-reveal">
+        <img src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
+      </div>
+      <div class="dz-reveal" style="--dz-delay:0.1s">
+        <div class="eyebrow">Your host</div>
+        <h2>Laura Kelly</h2>
+        <p class="body-copy" style="margin-top:20px;">{hostNote}</p>
+      </div>
+    </div>
+  )}
+
+  <section class="section wrap" id="register">
+    <!-- Both states ship in the HTML; the script at the bottom reveals the
+         right one from the query string. Without JS the form shows, which is
+         the correct default. -->
+    <div data-state="confirmed" hidden>
+      <div class="webinar-confirm">
+        <div class="eyebrow">You're registered</div>
+        <h2>You're in.</h2>
+        <p class="body-copy">
+          {webinar?.confirmationMessage ??
+            (isLive
+              ? "Check your inbox for the confirmation. We'll send a reminder before it starts."
+              : "We'll email you as soon as the date is set. Nothing else, and nothing in the meantime.")}
+        </p>
+      </div>
+    </div>
+
+    <div data-state="default">
+      {isClosed ? (
+        <div class="webinar-confirm">
+          <div class="eyebrow">Registration closed</div>
+          <h2>This one has wrapped.</h2>
+          <p class="body-copy">Registration for this session is closed. In the meantime, the free assessment is the best place to start.</p>
+          <a class="btn-primary" href="/assessment" style="margin-top:24px; display:inline-flex;">Take the free assessment &rarr;</a>
+        </div>
+      ) : externalUrl ? (
+        <div class="webinar-confirm">
+          <h2>Ready when you are.</h2>
+          <p class="body-copy">Registration is handled on the next page. It takes about a minute.</p>
+          <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener" style="margin-top:24px; display:inline-flex;">{ctaLabel} &rarr;</a>
+        </div>
+      ) : (
+        <>
+          <h2>{isLive ? 'Save your seat' : 'Be first to know'}</h2>
+          <p class="body-copy">
+            {isLive
+              ? "Add your name and we'll send the link, plus a reminder before it starts."
+              : "The date is being finalized. Leave your name and we'll tell you before it's announced anywhere else."}
+          </p>
+          <p class="body-copy" data-state="error" hidden style="color:#B5533C; font-weight:600; margin-top:20px;"></p>
+          <form class="form-panel" style="margin-top:32px;" action="/api/webinar-registration" method="post">
+            <input type="hidden" name="webinarTitle" value={EVENT_NAME} />
+            <div class="form-field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">{ctaLabel}</button>
+          </form>
+        </>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  // Show the start time in the visitor's own timezone. The server renders UTC
+  // so the page is still correct without JS; this just makes it unambiguous.
+  (function () {
+    var el = document.querySelector('[data-webinar-date]');
+    if (!el) return;
+    var iso = el.getAttribute('datetime');
+    if (!iso) return;
+    try {
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return;
+      el.textContent = d.toLocaleString(undefined, {
+        weekday: 'long', month: 'long', day: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+      });
+    } catch (err) {
+      /* keep the server-rendered UTC string */
+    }
+  })();
+
+  // Reveal the post-submit state from the query string.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var confirmed = document.querySelector('[data-state="confirmed"]');
+    var def = document.querySelector('[data-state="default"]');
+    var errEl = document.querySelector('[data-state="error"]');
+
+    if (params.get('registered') === '1' && confirmed && def) {
+      confirmed.hidden = false;
+      def.hidden = true;
+      return;
+    }
+    var err = params.get('error');
+    if (err && errEl) {
+      errEl.textContent = err === 'missing-fields'
+        ? 'Please add your name and email so we know where to send it.'
+        : 'Something went wrong on our end. Please try again in a moment.';
+      errEl.hidden = false;
+    }
+  })();
+</script>

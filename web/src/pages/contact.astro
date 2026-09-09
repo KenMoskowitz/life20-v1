@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// Rendered per-request: this page reads ?sent / ?error from the URL after the
+// contact form posts, which a prerendered page cannot do.
+export const prerender = false;
+
 const sent = Astro.url.searchParams.get('sent') === '1';
 const error = Astro.url.searchParams.get('error');
 ---

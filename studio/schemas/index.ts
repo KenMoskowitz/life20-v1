@@ -6,6 +6,8 @@ import testimonial from './testimonial';
 import application from './application';
 import contactMessage from './contactMessage';
 import assessmentLead from './assessmentLead';
+import webinar from './webinar';
+import webinarRegistration from './webinarRegistration';
 
 export const schemaTypes = [
   siteSettings,
@@ -16,4 +18,6 @@ export const schemaTypes = [
   application,
   contactMessage,
   assessmentLead,
+  webinar,
+  webinarRegistration,
 ];

@@ -96,6 +96,23 @@ const navigation = {
   ],
 };
 
+
+// The webinar landing page at /blueprint. Deliberately seeded in "draft"
+// with no date and no agenda: those are Laura's to fill in, and the page is
+// built to omit any section she leaves empty rather than show placeholder
+// text. It stays out of Google until status is set to "upcoming".
+const webinar = {
+  _id: 'webinar-blueprint',
+  _type: 'webinar',
+  slug: { current: 'blueprint' },
+  title: 'The High Achievers Fulfillment Blueprint',
+  status: 'draft',
+  ctaLabel: 'Tell me when registration opens',
+  metaTitle: 'The High Achievers Fulfillment Blueprint | Life 2.0',
+  metaDescription:
+    'A live training with Laura Kelly for high achievers who have built real success and want a life that feels as good as it looks.',
+};
+
 const journalPosts = [
   {
     _id: 'journal-strategy-isnt-coldness',
@@ -110,7 +127,7 @@ const journalPosts = [
 ];
 
 async function seed() {
-  const docs = [siteSettings, navigation, ...pages, ...journalPosts];
+  const docs = [siteSettings, navigation, ...pages, ...journalPosts, webinar];
   for (const doc of docs) {
     await client.createOrReplace(doc as any);
     console.log(`seeded ${doc._id}`);

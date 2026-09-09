@@ -15,7 +15,13 @@ const config: ClientConfig = {
   useCdn: true,
 };
 
+// Browser reads go through the CDN: cached, fast, and generous on rate limits.
 export const sanityClient = projectId ? createClient(config) : null;
+
+// Build-time reads bypass the CDN. It can still be serving the previous
+// version seconds after an edit is published, so a deploy triggered right
+// after a CMS change would otherwise ship a build that silently ignores it.
+const buildClient = projectId ? createClient({ ...config, useCdn: false }) : null;
 
 // Server-only write client for API routes (form submissions). Never import
 // this from client-side code or a component that ships to the browser —
@@ -30,9 +36,10 @@ export function urlFor(source: unknown) {
 }
 
 export async function sanityFetch<T>(query: string, params: Record<string, unknown> = {}): Promise<T | null> {
-  if (!sanityClient) return null;
+  const client = import.meta.env.SSR ? buildClient : sanityClient;
+  if (!client) return null;
   try {
-    return await sanityClient.fetch<T>(query, params);
+    return await client.fetch<T>(query, params);
   } catch (error) {
     console.warn('[sanity] fetch failed, using fallback copy:', error);
     return null;
@@ -57,4 +64,8 @@ export async function getJournalPosts() {
 
 export async function getJournalPost(slug: string) {
   return sanityFetch(`*[_type == "journalPost" && slug.current == $slug][0]`, { slug });
+}
+
+export async function getWebinar(slug: string) {
+  return sanityFetch(`*[_type == "webinar" && slug.current == $slug][0]`, { slug });
 }
