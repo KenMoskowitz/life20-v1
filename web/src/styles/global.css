@@ -602,3 +602,18 @@ footer.site-footer .foot-links a:hover { color: var(--forest); }
   .webinar-facts li { padding: 14px 18px; flex: 1 1 100%; }
   .webinar-host { padding-bottom: 40px; }
 }
+
+/* Landing-page chrome: wordmark only, no nav, minimal legal footer. */
+.bare-header { padding: 28px clamp(24px,5vw,72px); display: flex; justify-content: center; }
+.bare-footer {
+  padding: 48px clamp(24px,5vw,72px) 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+  color: var(--ink-soft);
+  font: 400 20px/1.5 var(--sans);
+}

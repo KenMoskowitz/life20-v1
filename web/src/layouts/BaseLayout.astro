@@ -11,9 +11,17 @@ interface Props {
   ogImage?: string;
   jsonLd?: Record<string, unknown>;
   noindex?: boolean;
+  /**
+   * Landing-page mode. Drops the site nav and full footer so a conversion
+   * page has no escape routes. Keeps the wordmark and a minimal legal
+   * footer, since ad platforms expect a reachable privacy policy.
+   */
+  bare?: boolean;
 }
 
-const { title, description, canonicalUrl, ogImage, jsonLd, noindex = false } = Astro.props as Props;
+const { title, description, canonicalUrl, ogImage, jsonLd, noindex = false, bare = false } = Astro.props as Props;
+
+const year = new Date().getFullYear();
 
 // Site-wide CMS content. Both calls fail soft to null (see src/lib/sanity.ts)
 // until the Sanity project is wired up, so this never breaks the build.
@@ -58,9 +66,24 @@ const defaultOgImage = 'https://thelife20.com/assets/og-default.jpg';
   </script>
 </head>
 <body>
-  <Nav currentPath={Astro.url.pathname} />
+  {bare ? (
+    <header class="bare-header">
+      <a class="nav-mark" href="/"><span>Life <em>2.0</em></span></a>
+    </header>
+  ) : (
+    <Nav currentPath={Astro.url.pathname} />
+  )}
+
   <slot />
-  <Footer />
+
+  {bare ? (
+    <footer class="bare-footer">
+      <span>&copy; {year} Life 2.0 Ventures LLC</span>
+      <a class="dz-underline" href="/privacy-policy">Privacy Policy</a>
+    </footer>
+  ) : (
+    <Footer />
+  )}
 
   <script is:inline>
     // Single shared observer for every scroll-triggered effect on the site.
