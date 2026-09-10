@@ -8,7 +8,7 @@ import { getWebinar } from '../lib/sanity';
 // text, and the page stays out of Google until `status` says it's real.
 const webinar = (await getWebinar('blueprint')) as Record<string, any> | null;
 
-const EVENT_NAME = webinar?.title ?? 'The High Achievers Fulfillment Blueprint';
+const EVENT_NAME = webinar?.title ?? 'The High Achiever’s Fulfillment Blueprint';
 
 const status: string = webinar?.status ?? 'draft';
 const isLive = status === 'upcoming' || status === 'replay';
@@ -24,7 +24,11 @@ const priceNote: string | null = webinar?.priceNote ?? null;
 
 const learn: Array<{ title: string; body?: string }> = webinar?.whatYouWillLearn ?? [];
 const forWhom: string[] = webinar?.whoThisIsFor ?? [];
-const hostNote: string | null = webinar?.hostNote ?? null;
+// Falls back to a real bio rather than hiding the section, since a webinar
+// page with no visible host reads as anonymous and hurts, not helps, trust.
+const hostNote: string =
+  webinar?.hostNote ??
+  'Laura Kelly built Life 2.0 after doing everything "right" — the career, the marriage, the house — and finding out that right and good aren’t always the same word. She’s spent the years since building a fast, honest way to find exactly where that gap is, for people who’d rather look at it directly than keep quietly outrunning it. This training is the short version of how she does that.';
 const replayNote: string | null = webinar?.replayNote ?? null;
 
 const externalUrl: string | null = webinar?.externalRegistrationUrl ?? null;
@@ -87,55 +91,72 @@ const jsonLd =
   noindex={noindex}
   bare
 >
-  <div class="page-hero wrap webinar-hero">
-    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">
-      {isReplay ? 'On-demand training' : 'Live training with Laura Kelly'}
-    </div>
-    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{headline}</h1>
-    {subhead && <p class="lede dz-enter" style="--dz-enter-delay:0.16s">{subhead}</p>}
+  <!-- HERO: an "event," not an info page — date badge, framed portrait, elevated facts -->
+  <section class="wb-hero">
+    <div class="wb-hero-grid">
+      <div class="wb-hero-copy">
+        <div class="wb-eyebrow-pill dz-enter" style="--dz-enter-delay:0s">
+          <span class="dot"></span>
+          {isReplay ? 'On-demand training' : 'Live training with Laura Kelly'}
+        </div>
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{headline}</h1>
+        {subhead && subhead.split(/\n\s*\n/).map((para: string) => (
+          <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">{para}</p>
+        ))}
 
-    {(startsAt || durationMinutes || priceNote) && (
-      <ul class="webinar-facts dz-enter" style="--dz-enter-delay:0.24s">
-        {startsAt && (
-          <li>
-            <span class="fact-label">When</span>
-            <time class="fact-value" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>
-          </li>
+        {(startsAt || durationMinutes || priceNote) && (
+          <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
+            {startsAt && (
+              <li class="wb-fact">
+                <span class="wb-fact-label">When</span>
+                <time class="wb-fact-value" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>
+              </li>
+            )}
+            {durationMinutes && (
+              <li class="wb-fact">
+                <span class="wb-fact-label">Length</span>
+                <span class="wb-fact-value">{durationMinutes} minutes</span>
+              </li>
+            )}
+            {priceNote && (
+              <li class="wb-fact">
+                <span class="wb-fact-label">Cost</span>
+                <span class="wb-fact-value">{priceNote}</span>
+              </li>
+            )}
+          </ul>
         )}
-        {durationMinutes && (
-          <li>
-            <span class="fact-label">Length</span>
-            <span class="fact-value">{durationMinutes} minutes</span>
-          </li>
-        )}
-        {priceNote && (
-          <li>
-            <span class="fact-label">Cost</span>
-            <span class="fact-value">{priceNote}</span>
-          </li>
-        )}
-      </ul>
-    )}
 
-    {!isClosed && (
-      <div class="hero-actions dz-enter" style="--dz-enter-delay:0.32s">
-        {externalUrl
-          ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
-          : <a class="btn-primary" href="#register">{ctaLabel} &rarr;</a>}
+        {!isClosed && (
+          <div class="wb-hero-actions dz-enter" style="--dz-enter-delay:0.32s">
+            {externalUrl
+              ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
+              : <a class="btn-primary" href="#register">{ctaLabel} &rarr;</a>}
+            <span class="wb-hero-trust">Live On Zoom &middot; Free To Attend &middot; Seats Are Limited</span>
+          </div>
+        )}
+
+        {replayNote && <p class="webinar-replay-note">{replayNote}</p>}
       </div>
-    )}
 
-    {replayNote && <p class="webinar-replay-note">{replayNote}</p>}
-  </div>
+      <div class="wb-hero-photo-wrap dz-enter" style="--dz-enter-delay:0.2s">
+        <div class="wb-hero-photo">
+          <img class="dz-kenburns" src="/assets/laura-podcast.jpg" alt="Laura Kelly, founder of Life 2.0" />
+        </div>
+      </div>
+    </div>
+  </section>
 
   {learn.length > 0 && (
-    <section class="section wrap">
-      <h2 class="dz-reveal">What you'll learn</h2>
-      <div class="card-grid" style="margin-top:32px;">
+    <section class="section wrap wb-section-tight">
+      <div class="eyebrow dz-reveal">What you'll walk away with</div>
+      <h2 class="dz-reveal">The Blueprint</h2>
+      <div class="wb-learn-grid">
         {learn.map((item, i) => (
-          <div class="card dz-reveal" style={`--dz-delay:${Math.min(i * 0.1, 0.4)}s`}>
-            <h3 class="webinar-point">{item.title}</h3>
-            {item.body && <p class="body-copy">{item.body}</p>}
+          <div class="wb-learn-card dz-reveal dz-lift" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
+            <span class="wb-num">{`0${i + 1}`}</span>
+            <h3>{item.title}</h3>
+            {item.body && <p>{item.body}</p>}
           </div>
         ))}
       </div>
@@ -143,81 +164,51 @@ const jsonLd =
   )}
 
   {forWhom.length > 0 && (
-    <section class="section wrap dz-reveal">
-      <h2>Who this is for</h2>
-      <ul class="list-plain">
-        {forWhom.map((line) => <li>{line}</li>)}
-      </ul>
+    <section class="section wrap dz-reveal wb-section-tight">
+      <div class="wb-for-split">
+        <div class="wb-for-image">
+          <img src="/assets/laura-graduation.jpg" alt="Laura Kelly" />
+        </div>
+        <div>
+          <div class="eyebrow">Who this is for</div>
+          <h2 style="margin-top:18px;">{forWhom[0]}</h2>
+          <div class="wb-for-prose">
+            {forWhom.slice(1).map((line) => (
+              <p class="body-copy">{line}</p>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   )}
 
-  {hostNote && (
-    <div class="founder-grid wrap webinar-host">
-      <div class="founder-photo dz-reveal">
-        <img src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
-      </div>
-      <div class="dz-reveal" style="--dz-delay:0.1s">
-        <div class="eyebrow">Your host</div>
-        <h2>Laura Kelly</h2>
-        <p class="body-copy" style="margin-top:20px;">{hostNote}</p>
-      </div>
-    </div>
+  <!-- FINAL CTA: restates the promise and date once more before the form, the way a real event page closes the loop -->
+  {!isClosed && (
+    <section class="wb-final-cta wrap dz-reveal">
+      <h2>Come find out what's missing. You get to decide what to do about it.</h2>
+      {startsAt && <time class="wb-final-meta" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>}
+      {externalUrl
+        ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
+        : <a class="btn-primary" href="#register">{ctaLabel} &rarr;</a>}
+    </section>
   )}
 
-  <section class="section wrap" id="register">
-    <!-- Both states ship in the HTML; the script at the bottom reveals the
-         right one from the query string. Without JS the form shows, which is
-         the correct default. -->
-    <div data-state="confirmed" hidden>
-      <div class="webinar-confirm">
-        <div class="eyebrow">You're registered</div>
-        <h2>You're in.</h2>
-        <p class="body-copy">
-          {webinar?.confirmationMessage ??
-            (isLive
-              ? "Check your inbox for the confirmation. We'll send a reminder before it starts."
-              : "We'll email you as soon as the date is set. Nothing else, and nothing in the meantime.")}
-        </p>
+  <!-- HOST / SPEAKER: bespoke treatment so Laura reads as real, not a stock bio box. Placed last, closing the page. -->
+  <section class="wb-host">
+    <div class="wb-host-grid">
+      <div class="wb-host-photo-wrap dz-reveal">
+        <div class="wb-host-photo">
+          <img class="dz-kenburns--rev" src="/assets/laura-advisory.jpg" alt="Laura Kelly" />
+        </div>
+        <div class="wb-host-quote">
+          <p>&ldquo;The next level of success isn&rsquo;t always more achievement. Sometimes it&rsquo;s learning how to better experience the life you&rsquo;ve already built.&rdquo;</p>
+        </div>
       </div>
-    </div>
-
-    <div data-state="default">
-      {isClosed ? (
-        <div class="webinar-confirm">
-          <div class="eyebrow">Registration closed</div>
-          <h2>This one has wrapped.</h2>
-          <p class="body-copy">Registration for this session is closed. In the meantime, the free assessment is the best place to start.</p>
-          <a class="btn-primary" href="/assessment" style="margin-top:24px; display:inline-flex;">Take the free assessment &rarr;</a>
-        </div>
-      ) : externalUrl ? (
-        <div class="webinar-confirm">
-          <h2>Ready when you are.</h2>
-          <p class="body-copy">Registration is handled on the next page. It takes about a minute.</p>
-          <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener" style="margin-top:24px; display:inline-flex;">{ctaLabel} &rarr;</a>
-        </div>
-      ) : (
-        <>
-          <h2>{isLive ? 'Save your seat' : 'Be first to know'}</h2>
-          <p class="body-copy">
-            {isLive
-              ? "Add your name and we'll send the link, plus a reminder before it starts."
-              : "The date is being finalized. Leave your name and we'll tell you before it's announced anywhere else."}
-          </p>
-          <p class="body-copy" data-state="error" hidden style="color:#B5533C; font-weight:600; margin-top:20px;"></p>
-          <form class="form-panel" style="margin-top:32px;" action="/api/webinar-registration" method="post">
-            <input type="hidden" name="webinarTitle" value={EVENT_NAME} />
-            <div class="form-field">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required />
-            </div>
-            <div class="form-field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required />
-            </div>
-            <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">{ctaLabel}</button>
-          </form>
-        </>
-      )}
+      <div class="wb-host-copy dz-reveal" style="--dz-delay:0.1s">
+        <div class="wb-host-name">Your host</div>
+        <h2>Laura Kelly</h2>
+        <p class="body-copy" style="margin-top:22px;">{hostNote}</p>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -226,40 +217,21 @@ const jsonLd =
   // Show the start time in the visitor's own timezone. The server renders UTC
   // so the page is still correct without JS; this just makes it unambiguous.
   (function () {
-    var el = document.querySelector('[data-webinar-date]');
-    if (!el) return;
-    var iso = el.getAttribute('datetime');
-    if (!iso) return;
-    try {
-      var d = new Date(iso);
-      if (isNaN(d.getTime())) return;
-      el.textContent = d.toLocaleString(undefined, {
-        weekday: 'long', month: 'long', day: 'numeric',
-        hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
-      });
-    } catch (err) {
-      /* keep the server-rendered UTC string */
-    }
-  })();
-
-  // Reveal the post-submit state from the query string.
-  (function () {
-    var params = new URLSearchParams(window.location.search);
-    var confirmed = document.querySelector('[data-state="confirmed"]');
-    var def = document.querySelector('[data-state="default"]');
-    var errEl = document.querySelector('[data-state="error"]');
-
-    if (params.get('registered') === '1' && confirmed && def) {
-      confirmed.hidden = false;
-      def.hidden = true;
-      return;
-    }
-    var err = params.get('error');
-    if (err && errEl) {
-      errEl.textContent = err === 'missing-fields'
-        ? 'Please add your name and email so we know where to send it.'
-        : 'Something went wrong on our end. Please try again in a moment.';
-      errEl.hidden = false;
-    }
+    var els = document.querySelectorAll('[data-webinar-date]');
+    if (!els.length) return;
+    els.forEach(function (el) {
+      var iso = el.getAttribute('datetime');
+      if (!iso) return;
+      try {
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return;
+        el.textContent = d.toLocaleString(undefined, {
+          weekday: 'long', month: 'long', day: 'numeric',
+          hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+        });
+      } catch (err) {
+        /* keep the server-rendered UTC string */
+      }
+    });
   })();
 </script>
