@@ -28,7 +28,7 @@ const forWhom: string[] = webinar?.whoThisIsFor ?? [];
 // page with no visible host reads as anonymous and hurts, not helps, trust.
 const hostNote: string =
   webinar?.hostNote ??
-  'Laura Kelly built Life 2.0 after doing everything "right" — the career, the marriage, the house — and finding out that right and good aren’t always the same word. She’s spent the years since building a fast, honest way to find exactly where that gap is, for people who’d rather look at it directly than keep quietly outrunning it. This training is the short version of how she does that.';
+  'Laura Kelly built Life 2.0 after doing everything "right" — the career, the marriage, the house — and finding out that right and good aren’t always the same word. She’s spent the years since building a fast, honest way to find exactly where that gap is, for people who’d rather look at it directly than keep outrunning it. This training is the short version of how she does that.';
 const replayNote: string | null = webinar?.replayNote ?? null;
 
 const externalUrl: string | null = webinar?.externalRegistrationUrl ?? null;
@@ -150,7 +150,7 @@ const jsonLd =
   {learn.length > 0 && (
     <section class="section wrap wb-section-tight">
       <div class="eyebrow dz-reveal">What you'll walk away with</div>
-      <h2 class="dz-reveal">The Blueprint</h2>
+      <h2 class="dz-reveal">The Session</h2>
       <div class="wb-learn-grid">
         {learn.map((item, i) => (
           <div class="wb-learn-card dz-reveal dz-lift" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
@@ -185,7 +185,7 @@ const jsonLd =
   <!-- FINAL CTA: restates the promise and date once more before the form, the way a real event page closes the loop -->
   {!isClosed && (
     <section class="wb-final-cta wrap dz-reveal">
-      <h2>Come find out what's missing. You get to decide what to do about it.</h2>
+      <h2>Come Find Your Next Level</h2>
       {startsAt && <time class="wb-final-meta" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>}
       {externalUrl
         ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
