@@ -9,6 +9,7 @@ const links = [
   { label: 'About', href: '/about' },
   { label: 'The Collective', href: '/collective' },
   { label: 'Private Advisory', href: '/private-advisory' },
+  { label: 'Team', href: '/team' },
   { label: 'Journal', href: '/journal' },
 ];
 ---
@@ -63,7 +64,7 @@ const links = [
     });
     // Leaving the drawer breakpoint while open would otherwise strand the
     // scroll lock. Keep this width in sync with the media query in global.css.
-    window.matchMedia('(min-width: 1340px)').addEventListener('change', function (e) {
+    window.matchMedia('(min-width: 1441px)').addEventListener('change', function (e) {
       if (e.matches) setOpen(false);
     });
   })();
