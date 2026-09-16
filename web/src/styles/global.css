@@ -48,11 +48,12 @@ h1, h2, h3, p { margin: 0; }
 .nav-toggle span { display: block; width: 26px; height: 2px; background: var(--forest); border-radius: 2px; transition: transform .3s ease, opacity .2s ease; }
 .nav-backdrop { position: fixed; inset: 0; background: rgba(20,32,26,0.45); z-index: 190; }
 
-/* Measured: the six nav items + logo + padding need 1309px at the 20px type
-   floor. Below that the row physically cannot fit, so the menu becomes a
+/* Measured: the seven nav items + logo + padding need roughly 1309px at the
+   20px type floor, plus room for "Team" added after that measurement. Below
+   this breakpoint the row physically cannot fit, so the menu becomes a
    drawer rather than overflowing or wrapping into a 300px-tall block.
    Keep this breakpoint in sync with the matchMedia query in Nav.astro. */
-@media (max-width: 1339px) {
+@media (max-width: 1440px) {
   .nav-toggle { display: flex; }
   .nav-links {
     position: fixed; top: 0; right: 0; bottom: 0;
