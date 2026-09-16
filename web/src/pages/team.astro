@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Meet the Team | Life 2.0';
+const description = 'The people behind Life 2.0: Laura Kelly and the team that helps run it.';
+
+const team = [
+  { name: 'Laura Kelly', role: 'Founder & Owner | Chief Visionary', photo: 'team-laura.jpg' },
+  { name: 'Brydie Hiller', role: 'Chief Operating Officer', photo: 'team-brydie.jpg' },
+  { name: 'M.J. Levine', role: 'Director of Operations & Client Success', photo: 'team-mj.jpg' },
+  { name: 'Angel Montoya', role: 'Content & Social Media Coordinator', photo: 'team-angel.jpg' },
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/team">
+  <div class="page-hero wrap">
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Meet the team</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">The people behind Life 2.0</h1>
+  </div>
+
+  <section class="section wrap team-section">
+    <div class="team-grid">
+      {team.map((member, i) => (
+        <div class="team-card dz-reveal" style={`--dz-delay:${Math.min(i * 0.1, 0.3)}s`}>
+          <div class="team-photo-placeholder">
+            <img src={`/assets/${member.photo}`} alt={member.name} />
+          </div>
+          <h3>{member.name}</h3>
+          <p class="role">{member.role}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
