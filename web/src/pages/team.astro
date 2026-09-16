@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Meet the Team | Life 2.0';
+const description = 'The people behind Life 2.0: Laura Kelly and the team that helps run it.';
+
+const team = [
+  {
+    name: 'Laura Kelly',
+    role: 'Founder & Chief Possibility Officer',
+    bio: 'Sees what could be, asks the question nobody else is asking, and has a habit of making people rethink what "next level" even means.',
+    photo: 'team-laura.jpg',
+  },
+  {
+    name: 'Brydie Hiller',
+    role: 'Chief Momentum Officer',
+    bio: 'Turns ideas into action, keeps priorities moving, and makes sure the big picture becomes a real one.',
+    photo: 'team-brydie.jpg',
+    focus: '50% 12%',
+  },
+  {
+    name: 'M.J. Levine',
+    role: 'Director of Branding & Client Experience',
+    bio: 'Turns "we should do this" into "it’s live," with a sharp eye for what sounds right, feels right, and belongs in Life 2.0.',
+    photo: 'team-mj.jpg',
+  },
+  {
+    name: 'Angel Montoya',
+    role: 'Content Production & Social Media Manager',
+    bio: 'Makes Life 2.0 worth stopping for, then keeps the socials fed, organized, and moving.',
+    photo: 'team-angel.jpg',
+  },
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/team">
+  <div class="page-hero wrap">
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Meet the team</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">The people behind Life 2.0</h1>
+  </div>
+
+  <section class="section wrap team-section">
+    <div class="team-grid">
+      {team.map((member, i) => (
+        <div class="team-card dz-reveal" style={`--dz-delay:${Math.min(i * 0.1, 0.3)}s`}>
+          <div class="team-photo-placeholder">
+            <img src={`/assets/${member.photo}`} alt={member.name} style={member.focus ? `object-position: ${member.focus};` : undefined} />
+          </div>
+          <h3>{member.name}</h3>
+          <p class="role">{member.role}</p>
+          <p class="bio">{member.bio}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
