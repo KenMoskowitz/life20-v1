@@ -8,6 +8,7 @@ import contactMessage from './contactMessage';
 import assessmentLead from './assessmentLead';
 import webinar from './webinar';
 import webinarRegistration from './webinarRegistration';
+import collectiveWaitlistSignup from './collectiveWaitlistSignup';
 
 export const schemaTypes = [
   siteSettings,
@@ -20,4 +21,5 @@ export const schemaTypes = [
   assessmentLead,
   webinar,
   webinarRegistration,
+  collectiveWaitlistSignup,
 ];
