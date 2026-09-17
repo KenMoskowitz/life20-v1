@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const title = 'Working With Laura | Life 2.0';
+const description = "Who Laura Kelly has worked with, what they say, and what actually changed.";
+
+// Client Stories section is left off entirely until that material is ready,
+// rather than shown as an empty placeholder block — same rule the rest of
+// this site follows (see /blueprint).
+//
+// Adding another logo later: drop the file in public/assets/ and add one
+// line here. No redesign needed — the marquee lays itself out and the
+// track duration scales with however many logos are in this list.
+const logos = [
+  'logo-1.png', 'logo-2.png', 'logo-3.png', 'logo-4.png',
+  'logo-5.png', 'logo-6.png', 'logo-7.png', 'logo-8.png',
+  'logo-9.png', 'logo-10.png', 'logo-11.png', 'logo-12.png',
+];
+
+const testimonials = [
+  {
+    name: 'Brett W.',
+    title: 'Owner & Founder, D&H Air Conditioning, Heating, & Plumbing',
+    videoId: 'gb-XcTk8Iuc',
+    quote: 'Working with Laura Kelly has been an exponential boost to who I am as a person, as a leader, as a husband.',
+  },
+  {
+    name: 'Angela C.',
+    title: 'Owner & Founder, Unique Genius',
+    videoId: 'XJQMTBq1wcM',
+    quote: 'Laura has such a warm heart and light spirit that is contagious. … Be ready to take your life to the next level.',
+  },
+  {
+    name: 'Ken M.',
+    title: 'Owner & Founder, Ad Zombies',
+    videoId: 'IL-xZ1JxtuQ',
+    quote: 'It’s amazing to me to watch her work and to watch the transformation of people who work with her.',
+  },
+  {
+    name: 'Keith M.',
+    title: 'Owner & Founder, Ethical Influence Global',
+    videoId: 'lJ3Uqx_bWqs',
+    quote: 'There’s a genuine nature to her, about the way that she’s going about this work, that is unique. It’s rare.',
+  },
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/working-with-laura" noindex>
+  <div class="page-hero wrap">
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Working With Laura</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">I've spent my career in the room with ambitious people and organizations, as a coach, a speaker, and someone building something alongside them. Here's who I've worked with, what they say about it, and what actually changed.</p>
+  </div>
+
+  <section class="section wrap wb-section-tight">
+    <div class="eyebrow eyebrow-center dz-reveal">People and organizations I've worked with</div>
+  </section>
+  <section class="logo-marquee dz-reveal" aria-label="Brands and organizations Laura has worked with">
+    <div class="logo-marquee-track" style={`--logo-count:${logos.length};`}>
+      {[...logos, ...logos].map((logo, i) => (
+        <div class="logo-marquee-item" aria-hidden={i >= logos.length ? 'true' : undefined}>
+          <img src={`/assets/${logo}`} alt="Partner or client logo" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="eyebrow dz-reveal">What people say</div>
+
+    <div class="testimonial-feature dz-reveal">
+      <div class="testimonial-feature-copy">
+        <p class="testimonial-feature-quote" id="tf-quote">&ldquo;{testimonials[0].quote}&rdquo;</p>
+        <p class="testimonial-feature-who" id="tf-who">{testimonials[0].name}</p>
+        <p class="testimonial-feature-title" id="tf-title" style={testimonials[0].title ? undefined : 'display:none;'}>{testimonials[0].title}</p>
+      </div>
+      <div class="testimonial-feature-video">
+        <iframe
+          id="tf-iframe"
+          src={`https://www.youtube-nocookie.com/embed/${testimonials[0].videoId}`}
+          title="Video testimonial about working with Laura Kelly"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+
+    <div class="testimonial-thumbs" role="tablist" aria-label="Choose a testimonial to watch">
+      {testimonials.map((t, i) => (
+        <button
+          type="button"
+          class="testimonial-thumb"
+          role="tab"
+          aria-pressed={i === 0 ? 'true' : 'false'}
+          data-video-id={t.videoId}
+          data-name={t.name}
+          data-title={t.title}
+          data-quote={t.quote}
+        >
+          <img src={`https://img.youtube.com/vi/${t.videoId}/hqdefault.jpg`} alt="" loading="lazy" />
+          <span>{t.name}</span>
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var iframe = document.getElementById('tf-iframe');
+      var quoteEl = document.getElementById('tf-quote');
+      var whoEl = document.getElementById('tf-who');
+      var titleEl = document.getElementById('tf-title');
+      var thumbs = document.querySelectorAll('.testimonial-thumb');
+      if (!iframe || !quoteEl || !whoEl || !titleEl || !thumbs.length) return;
+
+      thumbs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (btn.getAttribute('aria-pressed') === 'true') return;
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + btn.getAttribute('data-video-id');
+          quoteEl.textContent = '“' + btn.getAttribute('data-quote') + '”';
+          whoEl.textContent = btn.getAttribute('data-name');
+          var title = btn.getAttribute('data-title') || '';
+          titleEl.textContent = title;
+          titleEl.style.display = title ? '' : 'none';
+          thumbs.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        });
+      });
+    })();
+  </script>
+
+  <CtaBand
+    heading="Interested in working together?"
+    body="Private Advisory is the most direct way to start."
+    ctaLabel="See Private Advisory"
+    ctaHref="/private-advisory"
+  />
+</BaseLayout>
