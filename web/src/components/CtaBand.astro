@@ -5,6 +5,8 @@ interface Props {
   body?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
 }
 const {
   eyebrow,
@@ -12,6 +14,8 @@ const {
   body,
   ctaLabel = 'Take the free assessment',
   ctaHref = '/assessment',
+  secondaryLabel,
+  secondaryHref,
 } = Astro.props as Props;
 ---
 <section class="footer-cta dz-reveal">
@@ -19,4 +23,7 @@ const {
   <h2>{heading}</h2>
   {body && <p>{body}</p>}
   <a class="btn-primary" href={ctaHref}>{ctaLabel} &rarr;</a>
+  {secondaryLabel && secondaryHref && (
+    <a class="btn-text" href={secondaryHref} style="display:block; margin-top:20px;">{secondaryLabel}</a>
+  )}
 </section>

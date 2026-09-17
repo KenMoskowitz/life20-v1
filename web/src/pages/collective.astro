@@ -1,14 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CtaBand from '../components/CtaBand.astro';
-import { getPage, getSiteSettings } from '../lib/sanity';
+import { getPage } from '../lib/sanity';
+
+// Rendered per-request: this page reads ?joined / ?error from the URL after
+// the waitlist form posts, which a prerendered page cannot do.
+export const prerender = false;
 
 const cms = await getPage('collective') as Record<string, any> | null;
-const settings = await getSiteSettings() as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'The Life 2.0 Collective | A Community for Ambitious People';
 const description = cms?.metaDescription ?? "A psychologically safe, low-performance community for people who are done performing and ready to think out loud. Join the waitlist for the Life 2.0 Collective.";
-const waitlistUrl = settings?.collectiveWaitlistUrl ?? '/contact';
+
+const joined = Astro.url.searchParams.get('joined') === '1';
+const error = Astro.url.searchParams.get('error');
 
 const whatFor = [
   'Recurring reflection and connection, not one-and-done',
@@ -40,10 +44,29 @@ const whatFor = [
     </ul>
   </section>
 
-  <CtaBand
-    heading="Want in when it opens?"
-    body="Early interest already includes dozens of people who said yes before this even had a name."
-    ctaLabel="Join the waitlist"
-    ctaHref={waitlistUrl}
-  />
+  <section class="footer-cta dz-reveal" id="waitlist">
+    <h2>Want in when it opens?</h2>
+    <p>Early interest already includes dozens of people who said yes before this even had a name.</p>
+    {joined && (
+      <p class="body-copy" style="color:var(--forest); font-weight:600; margin-top:20px;">
+        You're on the list. We'll be in touch when the Collective opens.
+      </p>
+    )}
+    {error && (
+      <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
+        {error === 'missing-fields' ? 'Please fill in your name and a valid email.' : 'Something went wrong joining the waitlist. Please try again in a moment.'}
+      </p>
+    )}
+    <form class="form-panel" action="/api/collective-waitlist" method="post" style="margin-top:32px; text-align:left;">
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+      </div>
+      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Join the waitlist</button>
+    </form>
+  </section>
 </BaseLayout>

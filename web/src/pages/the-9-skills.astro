@@ -37,7 +37,7 @@ const groups = [
 
 const faqs = [
   { q: 'Is this a real clinical assessment?', a: "No. It's a self-assessment starting point for reflection, grounded in real published research, not a diagnostic tool." },
-  { q: 'What happens after I get my results?', a: "You'll see your lowest-scoring skill and some reflection questions to sit with. From there, some people keep exploring on their own, some book a Clarity Call with Laura." },
+  { q: 'What happens after I get my results?', a: "You'll see your lowest-scoring skill and some reflection questions to sit with. From there, some people keep exploring on their own, some book a Clarity Call with Laura.", linkText: 'book a Clarity Call', linkHref: '/private-advisory#apply' },
   { q: 'Do I need to score high everywhere to be doing well?', a: 'No single skill is meant to hit ten. The point is knowing which one is lowest, not scoring perfectly across the board.' },
   { q: 'How is this different from generic life coaching?', a: 'Every skill traces back to real, citable research. Nothing here is vibes-based.' },
   { q: 'Is my score private?', a: 'Yes, this is a self-assessment for your own reflection, not something shared or published.' },
@@ -86,7 +86,15 @@ const faqJsonLd = {
       {faqs.map((f, i) => (
         <div class="faq-item dz-reveal" style={`--dz-delay:${Math.min(i * 0.08, 0.4)}s`}>
           <h3>{f.q}</h3>
-          <p>{f.a}</p>
+          <p>
+            {f.linkText && f.linkHref ? (
+              <>
+                {f.a.split(f.linkText)[0]}
+                <a href={f.linkHref} style="color:var(--forest); text-decoration:underline;">{f.linkText}</a>
+                {f.a.split(f.linkText)[1]}
+              </>
+            ) : f.a}
+          </p>
         </div>
       ))}
     </div>

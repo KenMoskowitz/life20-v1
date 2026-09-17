@@ -95,11 +95,7 @@ h1, h2, h3, p { margin: 0; }
 .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 40px; max-width: 1360px; margin: 0 auto; }
 .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; color: var(--gold); font: 600 20px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
 .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
-/* True centered label with a line on both sides, so the text itself sits at
-   center instead of the [line + text] pair (a single leading line reads as
-   off-center once justify-content centers the whole pair as one block). */
 .eyebrow-center { justify-content: center; }
-.eyebrow-center::after { content: ""; width: 34px; height: 1px; background: var(--gold); }
 .hero h1 { font: 500 clamp(42px, 4.6vw, 72px)/1.04 var(--serif); letter-spacing: -0.02em; color: var(--forest); max-width: 620px; }
 .hero h1 em { font-style: italic; color: var(--gold); font-weight: 500; }
 .hero-lede { margin-top: 26px; font: 400 20px/1.65 var(--sans); color: var(--ink-soft); max-width: 460px; }
