@@ -2,7 +2,7 @@ import { assessmentVariables } from '../data/assessmentVariables';
 import { assessmentIntro, assessmentQuestionCopy, resultsCopy, bandForCapacity } from '../data/assessmentCopy';
 import { getSiteSettings } from '../lib/sanity';
 
-const FALLBACK_CLARITY_CALL_URL = 'https://calendly.com/laura-thelaurakelly/clarity-call-with-laura';
+const FALLBACK_CLARITY_CALL_URL = 'https://calendly.com/thelife_20/clarity-call-with-laura';
 
 type Screen = 'intro' | 'question' | 'results';
 
