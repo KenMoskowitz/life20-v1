@@ -8,36 +8,17 @@ export const prerender = false;
 const title = 'Access Your Next Level | Life 2.0';
 const description = 'A 6-week small-group Life 2.0 coaching experience for high achievers who are doing well, but know another level is available in business and life.';
 
-const COHORT_START_DATE = '[DATE]'; // TODO: confirm founding cohort start date
-
 const joined = Astro.url.searchParams.get('joined') === '1';
 const checkoutError = Astro.url.searchParams.get('error');
 
-const outcomes = [
-  {
-    title: 'Get clear on what your next level actually looks like',
-    body: "Not a vague sense that more is possible. A specific, honest picture of what you're actually building toward, in your business and in your life.",
-  },
-  {
-    title: 'See the patterns that keep costing you',
-    body: "The same friction keeps showing up in different rooms wearing different outfits. We'll name the patterns underneath it, so you stop paying the same tax twice.",
-  },
-  {
-    title: 'Stop living by rules you never consciously chose',
-    body: "Somewhere along the way you inherited a definition of success, effort, and enough. Some of it still serves you. Some of it is quietly running your life without your permission.",
-  },
-  {
-    title: 'Make better decisions with less internal friction',
-    body: "When you know what you actually value and why, decisions stop requiring so much internal negotiation. Clarity is faster than second-guessing.",
-  },
-  {
-    title: 'Make sure your business is actually serving your life',
-    body: "Your business should be a vehicle for the life you want, not the thing your life gets scheduled around. We'll look directly at which direction that relationship is running.",
-  },
-  {
-    title: 'Leave with a clear direction for what comes next',
-    body: "Not a worksheet you'll never open again. A real answer to what your next level requires, and a place to start.",
-  },
+const tensionSlides = [
+  'You know how to work hard.',
+  'You know how to solve problems.',
+  'You know how to make things happen.',
+  'It stops being “How do I do more?” and becomes “What am I building this for?”',
+  'Is my business serving my life, or has my life started serving the business?',
+  'It’s about becoming more deliberate about where that ambition is actually taking you.',
+  'Achievement without direction can become a very expensive way of running in circles.',
 ];
 
 const nextLevelCards = [
@@ -126,61 +107,62 @@ const whoNotFor = [
 ];
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level">
-  <div class="page-hero wrap">
+  <div class="page-hero ayn-hero-wide wrap">
     <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Access Your Next Level</div>
-    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">A 6-week coaching experience for what comes next.</h1>
-    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">For high achievers who are doing well, but know there's another level available in business and life.</p>
-    <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
-      <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
-      <a class="btn-text" href="#included">See what's included</a>
-    </div>
-    <div class="ayn-hero-price dz-enter" style="--dz-enter-delay:0.32s">
-      <span>$1,500 paid in full</span>
-      <span>or 2 payments of $850</span>
-      <span>Maximum 10 people</span>
-    </div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">A 6-week Life 2.0 coaching experience for what comes next.</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">For high achievers who are doing well, but know there is another level available in business and life.</p>
   </div>
 
-  <section class="section wrap dz-reveal">
-    <h2>You've already proven you can achieve.</h2>
-    <div class="emphasis-lines" style="margin-top:28px;">
-      <p>You know how to work hard.</p>
-      <p>You know how to solve problems.</p>
-      <p>But eventually the question changes.</p>
-    </div>
-    <ul class="rhetorical-list">
-      <li>It stops being &ldquo;How do I do more?&rdquo; and becomes &ldquo;What am I building this for?&rdquo;</li>
-      <li>Is my business serving my life, or has my life started serving the business?</li>
-    </ul>
-  </section>
-
-  <section class="section wrap dz-reveal">
-    <h2>This is not about becoming less ambitious.</h2>
-    <p class="body-copy">It's about becoming more deliberate about where that ambition is actually taking you. Ambition without direction doesn't stop moving. It just stops being sure it's moving you anywhere you'd choose.</p>
-    <p class="pull-statement">Achievement without direction can become a very expensive way of running in circles.</p>
-  </section>
-
-  <section class="section wrap">
-    <h2 class="dz-reveal">What changes over these six weeks?</h2>
-    <div class="numbered-features">
-      {outcomes.map((item, i) => (
-        <div class="numbered-feature dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
-          <div class="num">{String(i + 1).padStart(2, '0')}</div>
-          <div>
-            <h3>{item.title}</h3>
-            <p class="body-copy">{item.body}</p>
+  <section class="wrap ayn-tension-banner-wrap dz-reveal">
+    <div class="ayn-tension-banner">
+      <img class="ayn-tension-banner-img dz-kenburns" src="/assets/laura-closeup.jpg" alt="Laura Kelly" loading="lazy" />
+      <div class="ayn-tension-banner-scrim" aria-hidden="true"></div>
+      <div class="ayn-tension-banner-content">
+        <div class="ayn-price-block">
+          <div class="ayn-price-block-label">Founding Cohort</div>
+          <div class="ayn-price-block-main">$1,500 paid in full</div>
+          <div class="ayn-price-block-alt">or 2 payments of $850</div>
+          <div class="ayn-price-block-note">Maximum 10 people</div>
+          <div class="ayn-price-block-actions">
+            <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+            <a class="btn-text" href="#included">See what's included</a>
           </div>
         </div>
-      ))}
+
+        <div class="ayn-tension-copy">
+          <h2>You've already proven you can achieve.</h2>
+
+          <div class="ayn-carousel-wrap" id="ayn-tension-carousel">
+            <div class="ayn-carousel-track">
+              {tensionSlides.map((line, i) => (
+                <div class={`ayn-carousel-slide${i === 0 ? ' is-active' : ''}`}>
+                  <p>{line}</p>
+                </div>
+              ))}
+            </div>
+            <div class="ayn-carousel-controls">
+              <button class="ayn-carousel-arrow ayn-carousel-arrow--prev" type="button" aria-label="Previous statement">&larr;</button>
+              <div class="ayn-carousel-dots" role="tablist" aria-label="Choose a statement">
+                {tensionSlides.map((_, i) => (
+                  <button type="button" class="ayn-carousel-dot" role="tab" aria-pressed={i === 0 ? 'true' : 'false'}></button>
+                ))}
+              </div>
+              <button class="ayn-carousel-arrow ayn-carousel-arrow--next" type="button" aria-label="Next statement">&rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   {/* TODO: Add case study 1 here when approved client story is ready. */}
 
-  <section class="section wrap">
-    <h2 class="dz-reveal">What would your next level change?</h2>
-    <p class="body-copy dz-reveal">You don't need a fully formed answer to start. You just need to be honest about where it's showing up.</p>
-    <div class="card-grid" style="margin-top:40px;">
+  <section class="section wrap wb-section-tight">
+    <div class="ayn-section-head dz-reveal">
+      <h2>What would your next level change?</h2>
+      <p class="body-copy">You don't need a fully formed answer to start. You just need to be honest about where it's showing up.</p>
+    </div>
+    <div class="card-grid ayn-next-grid" style="margin-top:40px;">
       {nextLevelCards.map((c, i) => (
         <div class={`card dz-reveal${i === 2 ? ' dz-highlight' : ''}`} style={`--dz-delay:${i * 0.1}s`}>
           <h3>{c.title}</h3>
@@ -190,56 +172,90 @@ const whoNotFor = [
     </div>
   </section>
 
-  <section class="section wrap">
-    <h2 class="dz-reveal">How We Get You There</h2>
-    <p class="body-copy dz-reveal">The six-week curriculum gives us the framework. The coaching makes it yours.</p>
-    <div class="numbered-features">
+  <section class="section wrap wb-section-tight">
+    <div class="ayn-section-head dz-reveal">
+      <h2>How we get you there</h2>
+      <p class="body-copy">The six-week curriculum gives us the framework. The coaching makes it yours.</p>
+    </div>
+    <div class="ayn-week-grid">
       {curriculum.map((w, i) => (
-        <div class="numbered-feature dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
-          <div class="num">{String(i + 1).padStart(2, '0')}</div>
-          <div>
-            <h3>{w.week}: {w.title}</h3>
-            <p class="body-copy">{w.body}</p>
-          </div>
+        <div class="ayn-week-card dz-reveal" style={`--dz-delay:${Math.min(i * 0.05, 0.3)}s`}>
+          <div class="ayn-week-label">{w.week}</div>
+          <h3>{w.title}</h3>
+          <p class="body-copy">{w.body}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <section class="section wrap dz-reveal">
-    <h2>This is not passive learning.</h2>
-    <p class="body-copy">Watch &rarr; Reflect &rarr; Coach &rarr; Apply. That's the rhythm, every week.</p>
-    <div class="method-grid">
+  <section class="section wrap dz-reveal wb-section-tight">
+    <div class="ayn-section-head">
+      <h2>This is not passive learning.</h2>
+    </div>
+    <div class="ayn-rhythm">
       {methodSteps.map((s, i) => (
-        <div class="method-item dz-reveal" style={`--dz-delay:${i * 0.1}s`}>
-          <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
-          <h3>{s.stage}</h3>
-          <p>{s.body}</p>
-        </div>
+        <>
+          <div class="method-item ayn-rhythm-step dz-reveal" style={`--dz-delay:${i * 0.08}s`}>
+            <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
+            <h3>{s.stage}</h3>
+            <p>{s.body}</p>
+          </div>
+          {i < methodSteps.length - 1 && <div class="ayn-rhythm-arrow" aria-hidden="true">&rarr;</div>}
+        </>
       ))}
     </div>
-    <ul class="list-plain" style="margin-top:32px;">
-      <li>No giant workbook</li>
-      <li>No 50-hour content library</li>
-      <li>The goal is movement, not more to consume</li>
-    </ul>
+    <div class="ayn-rhythm-notes">
+      <p>No giant workbook.</p>
+      <p>No 50-hour content library.</p>
+      <p>The goal is movement, not more to consume.</p>
+    </div>
   </section>
 
-  <section class="section wrap dz-reveal">
-    <h2>Why group?</h2>
-    <p class="body-copy">The right room changes the quality of your thinking. Ten capable people looking honestly at their own lives create a kind of clarity you don't get thinking alone, or performing in a room of hundreds.</p>
-    <ul class="list-plain" style="margin-top:24px;">
-      <li>Maximum 10 people</li>
-      <li>Enough perspective to create a genuinely powerful room</li>
-      <li>Small enough that you never disappear into an audience</li>
-    </ul>
+  <section class="section wrap dz-reveal wb-section-tight">
+    <div class="wb-for-split">
+      <div class="wb-for-image">
+        <img src="/assets/success-team.jpg" alt="A small group of people in conversation" loading="lazy" />
+      </div>
+      <div>
+        <div class="eyebrow">Why Group?</div>
+        <h2 style="margin-top:18px;">The right room changes the quality of your thinking.</h2>
+        <div class="wb-for-prose">
+          <p class="body-copy">Ten capable people looking honestly at their own lives create a kind of clarity you don't get thinking alone, or performing in a room of hundreds.</p>
+        </div>
+        <ul class="list-plain" style="margin-top:20px;">
+          <li>Maximum 10 people</li>
+          <li>Enough perspective to create a genuinely powerful room</li>
+          <li>Small enough that you never disappear into an audience</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
-  <section class="section wrap" id="included">
-    <h2 class="dz-reveal">What's Included</h2>
-    <ul class="list-plain dz-reveal" style="--dz-delay:0.05s;">
-      {includedItems.map((item) => <li>{item}</li>)}
-    </ul>
+  <section class="section wrap wb-section-tight" id="included">
+    <div class="ayn-section-head dz-reveal">
+      <h2>What's Included</h2>
+    </div>
+
+    <div class="ayn-checklist-panel dz-reveal" style="--dz-delay:0.05s;">
+      <div class="ayn-checklist">
+        <div class="ayn-checklist-col">
+          {includedItems.filter((_, i) => i % 2 === 0).map((item) => (
+            <div class="ayn-checklist-item">
+              <span class="ayn-check">&#10003;</span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+        <div class="ayn-checklist-col">
+          {includedItems.filter((_, i) => i % 2 === 1).map((item) => (
+            <div class="ayn-checklist-item">
+              <span class="ayn-check">&#10003;</span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
 
     <div class="ayn-included-sub dz-reveal" style="--dz-delay:0.1s;">
       <div>
@@ -251,93 +267,255 @@ const whoNotFor = [
         <p class="body-copy">Access to the relevant Life 2.0 frameworks and resources that support the curriculum, so the work doesn't stop when the call ends.</p>
       </div>
       <div>
-        <h3>Your Life 2.0 Integration Board</h3>
+        <h3>Life 2.0 Integration Board</h3>
         <p class="body-copy">A final digital Integration Board that captures your patterns, your primary question, and your direction, built to actually use after the six weeks end.</p>
       </div>
     </div>
   </section>
 
   <div class="ayn-who-grid wrap">
-    <section class="section dz-reveal" style="padding-top:0;">
+    <div class="ayn-who-card ayn-who-for dz-reveal">
       <h2>Who this is for</h2>
       <ul class="list-plain">
         {whoFor.map((item) => <li>{item}</li>)}
       </ul>
-    </section>
-    <section class="section dz-reveal" style="padding-top:0; --dz-delay:0.1s;">
+    </div>
+    <div class="ayn-who-card ayn-who-not dz-reveal" style="--dz-delay:0.1s;">
       <h2>Who this is not for</h2>
       <ul class="list-plain">
         {whoNotFor.map((item) => <li>{item}</li>)}
       </ul>
-    </section>
+    </div>
   </div>
 
   {/* TODO: Add 2-3 short testimonials here once real client language is approved. */}
 
-  <section class="section wrap" id="join">
-    <h2 class="dz-reveal">Founding Cohort</h2>
-    <p class="body-copy dz-reveal">Access Your Next Level</p>
-
-    <div class="pricing-card ayn-pricing-card dz-reveal" style="--dz-delay:0.1s">
-      <div class="eyebrow">6-Week Small-Group Coaching Experience</div>
-      <div class="price">$1,500</div>
-      <p>or 2 payments of $850</p>
-      <p>Starts: {COHORT_START_DATE}</p>
-      <p>Maximum 10 places available</p>
-
-      {joined && (
-        <p class="ayn-checkout-status">You're in. Check your email for next steps.</p>
-      )}
-      {checkoutError && (
-        <p class="ayn-checkout-status ayn-checkout-status--error">
-          Something went wrong starting checkout. Please try again in a moment.
-        </p>
-      )}
-
-      <div class="ayn-plan-actions">
-        <a class="btn-primary" href="/api/checkout?plan=full">Pay in full &mdash; $1,500 &rarr;</a>
-        <a class="btn-primary ayn-btn-secondary" href="/api/checkout?plan=installment">2 payments of $850/mo &rarr;</a>
-      </div>
+  <section class="section wrap wb-section-tight" id="join">
+    <div class="dz-reveal ayn-join-head">
+      <h2>Founding Cohort</h2>
     </div>
 
-    <div class="dz-reveal" style="--dz-delay:0.16s; margin-top:48px; max-width:680px; margin-left:auto; margin-right:auto;">
-      <h3 class="ayn-subhead">Why the founding price?</h3>
-      <p class="body-copy">Access Your Next Level is entering its first cohort. Founding members get the full experience at the founding rate, and a real hand in shaping what this becomes as it grows. As future cohorts open, the investment will increase.</p>
+    <div class="ayn-join-grid">
+      <div class="ayn-join-card-col">
+        <div class="pricing-card ayn-pricing-card dz-reveal" style="--dz-delay:0.1s">
+          <div class="eyebrow">6-Week Small-Group Coaching Experience</div>
+          <div class="price">$1,500</div>
+          <p>paid in full, or 2 payments of $850</p>
+          <p>Maximum 10 places available</p>
+
+          {joined && (
+            <p class="ayn-checkout-status">You're in. Check your email for next steps.</p>
+          )}
+          {checkoutError && (
+            <p class="ayn-checkout-status ayn-checkout-status--error">
+              Something went wrong starting checkout. Please try again in a moment.
+            </p>
+          )}
+
+          <div class="ayn-plan-actions">
+            <a class="btn-primary" href="/api/checkout?plan=full">Pay in full &mdash; $1,500 &rarr;</a>
+            <a class="btn-primary ayn-btn-secondary" href="/api/checkout?plan=installment">2 payments of $850 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dz-reveal ayn-join-note" style="--dz-delay:0.16s;">
+        <h3 class="ayn-subhead">Why the founding price?</h3>
+        <p class="body-copy">Access Your Next Level is entering its first cohort. Founding members get the full experience at the founding rate, and a real hand in shaping what this becomes as it grows. As future cohorts open, the investment will increase.</p>
+      </div>
     </div>
   </section>
 
-  <section class="footer-cta dz-reveal">
-    <h2>If nothing changed over the next year, would you be happy with where your current patterns, decisions, and priorities are taking you?</h2>
-    <p><strong>Access Your Next Level.</strong> Six weeks to get clearer, move deliberately, and build more of the life you actually want.</p>
-    <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+  <section class="wrap ayn-final-banner-wrap dz-reveal">
+    <div class="ayn-final-banner">
+      <img class="ayn-final-banner-img dz-kenburns--rev" src="/assets/laura-hero.jpg" alt="Laura Kelly" loading="lazy" />
+      <div class="ayn-final-banner-scrim" aria-hidden="true"></div>
+      <div class="ayn-final-banner-content">
+        <h2>If nothing changed over the next year, would you be happy with where your current patterns, decisions, and priorities are taking you?</h2>
+        <p><strong>Access Your Next Level.</strong> Six weeks to get clearer, move deliberately, and build more of the life you actually want.</p>
+        <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+      </div>
+    </div>
   </section>
 </BaseLayout>
 
 <style>
-  .ayn-hero-price {
-    margin-top: 28px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    font: 600 20px/1 var(--mono);
-    letter-spacing: 0.02em;
-    color: var(--ink-soft);
-  }
-  .ayn-hero-price span:not(:last-child)::after {
-    content: '\00b7';
-    margin-left: 20px;
-    color: var(--gold);
-  }
+  /* Wider than the default .page-hero cap (900px) so the headline doesn't
+     read as narrow next to the full-width image sections below it. */
+  .ayn-hero-wide { max-width: 1100px; }
 
-  .card.dz-highlight { border-color: var(--gold); }
-
-  .ayn-plan-actions {
-    margin-top: 28px;
+  /* --- Hero price block --- */
+  .ayn-price-block {
+    flex: 0 0 320px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 6px;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 32px;
   }
+  .ayn-price-block-label { font: 600 15px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
+  .ayn-price-block-main { margin-top: 4px; font: 500 22px/1.3 var(--serif); color: var(--forest); }
+  .ayn-price-block-alt { font: 400 17px/1.4 var(--sans); color: var(--ink-soft); }
+  .ayn-price-block-note { margin-top: 4px; font: 600 15px/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--gold); }
+  .ayn-price-block-actions {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* --- Centered section intros, used throughout the page --- */
+  .ayn-section-head { max-width: 720px; margin: 0 auto; text-align: center; }
+  .ayn-section-head .body-copy { margin-left: auto; margin-right: auto; }
+
+  /* --- Opening tension: full photo banner with the rotating line overlaid
+     directly on it, instead of sharing space with a separate text block.
+     Visible-by-default, JS-enhanced: every slide renders in the DOM, and
+     only gets hidden once ayn-carousel--active is added at runtime, so a
+     JS failure just shows all seven lines stacked instead of losing them. */
+  .ayn-tension-banner-wrap { padding: 8px clamp(24px, 5vw, 72px); }
+  .ayn-tension-banner {
+    position: relative;
+    border-radius: 32px;
+    overflow: hidden;
+    min-height: clamp(500px, 50vw, 700px);
+    box-shadow: 0 24px 50px -28px rgba(29, 46, 34, 0.35);
+  }
+  .ayn-tension-banner-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+  .ayn-tension-banner-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20, 32, 26, 0) 28%, rgba(20, 32, 26, 0.6) 68%, rgba(20, 32, 26, 0.88) 100%);
+  }
+  .ayn-tension-banner-content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 4vw, 56px);
+    padding: clamp(32px, 5vw, 64px);
+  }
+  .ayn-tension-copy { flex: 1 1 auto; min-width: 0; max-width: 640px; }
+  .ayn-tension-banner-content h2 {
+    font: 500 16px/1 var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 18px;
+    /* DM Mono only loads weight 500 site-wide; -webkit-text-stroke fakes a
+       heavier look without needing another font weight, and the shadow
+       keeps it visible against busy, variable-brightness photo backgrounds. */
+    -webkit-text-stroke: 0.6px currentColor;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  }
+  .ayn-carousel-wrap { display: block; }
+  .ayn-carousel-track { min-width: 0; }
+  .ayn-carousel-slide { text-align: left; }
+  .ayn-carousel-slide + .ayn-carousel-slide { margin-top: 14px; }
+  .ayn-carousel-wrap.ayn-carousel--active .ayn-carousel-slide { display: none; }
+  .ayn-carousel-wrap.ayn-carousel--active .ayn-carousel-slide.is-active { display: block; }
+  .ayn-carousel-slide p { font: 500 italic clamp(30px, 4.6vw, 58px)/1.3 var(--serif); color: var(--paper); }
+  .ayn-carousel-controls { display: none; align-items: center; gap: 16px; margin-top: 28px; }
+  .ayn-carousel-wrap.ayn-carousel--active .ayn-carousel-controls { display: flex; }
+  .ayn-carousel-arrow {
+    flex: 0 0 auto;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(251, 247, 239, 0.35);
+    background: rgba(251, 247, 239, 0.1);
+    color: var(--paper);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .ayn-carousel-arrow:hover { background: rgba(251, 247, 239, 0.22); transform: translateY(-1px); }
+  .ayn-carousel-dots { display: flex; gap: 10px; }
+  .ayn-carousel-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(251, 247, 239, 0.35); border: none; cursor: pointer; padding: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .ayn-carousel-dot[aria-pressed="true"] { background: var(--gold); transform: scale(1.3); }
+  @media (max-width: 860px) {
+    .ayn-tension-banner { min-height: 820px; }
+    .ayn-tension-banner-content { flex-direction: column; justify-content: center; }
+    .ayn-price-block { flex: 0 0 auto; width: 100%; max-width: 360px; }
+    .ayn-tension-copy { max-width: none; width: 100%; }
+  }
+
+  /* --- Full-width image break --- */
+  .ayn-image-break-wrap { padding: 8px clamp(24px, 5vw, 72px); }
+  .ayn-image-break { border-radius: 32px; overflow: hidden; aspect-ratio: 16/7; box-shadow: 0 24px 50px -28px rgba(29, 46, 34, 0.3); }
+  .ayn-image-break img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  @media (max-width: 860px) { .ayn-image-break { aspect-ratio: 4/3; } }
+
+  /* --- Next-level cards --- */
+  .ayn-next-grid .card { display: flex; flex-direction: column; gap: 12px; }
+  .ayn-next-grid .card h3 { font: 500 22px/1.3 var(--serif); color: var(--forest); text-transform: none; letter-spacing: 0; }
+  .ayn-next-grid .card.dz-highlight { border-color: var(--gold); background: var(--paper-warm); }
+
+  /* --- Curriculum week cards --- */
+  .ayn-week-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+  @media (max-width: 980px) { .ayn-week-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .ayn-week-grid { grid-template-columns: 1fr; } }
+  .ayn-week-card { background: var(--white); border: 1px solid var(--line); border-radius: 20px; padding: 26px 24px; }
+  .ayn-week-label { font: 600 15px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .ayn-week-card h3 { margin-top: 10px; font: 500 21px/1.3 var(--serif); color: var(--forest); }
+  .ayn-week-card .body-copy { margin-top: 10px; }
+
+  /* --- Watch/Reflect/Coach/Apply rhythm --- */
+  .ayn-rhythm { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 40px; flex-wrap: wrap; }
+  .ayn-rhythm-step { flex: 1 1 200px; max-width: 240px; }
+  .ayn-rhythm-arrow { font: 600 28px/1 var(--serif); color: var(--gold); flex: 0 0 auto; }
+  .ayn-rhythm-notes { margin-top: 32px; max-width: 420px; margin-left: auto; margin-right: auto; text-align: center; display: flex; flex-direction: column; gap: 6px; }
+  .ayn-rhythm-notes p { font: 500 20px/1.5 var(--sans); color: var(--ink-soft); }
+  @media (max-width: 760px) {
+    .ayn-rhythm { flex-direction: column; align-items: stretch; }
+    .ayn-rhythm-step { max-width: none; }
+    .ayn-rhythm-arrow { transform: rotate(90deg); align-self: center; }
+  }
+
+  /* --- Included checklist --- */
+  .ayn-checklist-panel { margin-top: 40px; background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: clamp(28px, 4vw, 44px); }
+  /* Two independent flex columns, not a grid: a grid ties row heights
+     together across both columns, so a two-line item on one side pushes
+     an unrelated single-line item on the other side down with it, leaving
+     an uneven gap above its checkmark. Independent columns let each side
+     flow at its own pace. */
+  .ayn-checklist { display: flex; gap: 32px; }
+  .ayn-checklist-col { flex: 1 1 0; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  @media (max-width: 760px) { .ayn-checklist { flex-direction: column; gap: 18px; } }
+  .ayn-checklist-item { display: flex; align-items: flex-start; gap: 14px; font: 400 20px/1.5 var(--sans); color: var(--ink); }
+  .ayn-check {
+    flex-shrink: 0; width: 26px; height: 26px; margin-top: 1px;
+    border-radius: 50%; background: var(--forest); color: var(--paper);
+    display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;
+  }
+
+  .ayn-included-sub { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .ayn-included-sub h3 { font: 600 20px/1.2 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px; }
+  @media (max-width: 900px) { .ayn-included-sub { grid-template-columns: 1fr; } }
+
+  /* --- Who for / not for --- */
+  .ayn-who-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding-bottom: 40px; align-items: stretch; }
+  .ayn-who-card { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 36px 32px; }
+  .ayn-who-not { background: var(--paper-warm); }
+  .ayn-who-card .list-plain { margin-top: 20px; gap: 12px; }
+  @media (max-width: 860px) { .ayn-who-grid { grid-template-columns: 1fr; } }
+
+  /* --- Pricing / join section --- */
+  .ayn-plan-actions { margin-top: 28px; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 16px; }
   .ayn-pricing-card .btn-primary { background: var(--gold); color: var(--forest-deep); margin-top: 0; }
   .ayn-pricing-card .btn-primary:hover { background: var(--gold-light); }
   .ayn-pricing-card .ayn-btn-secondary {
@@ -348,38 +526,98 @@ const whoNotFor = [
   .ayn-pricing-card .ayn-btn-secondary:hover { background: rgba(251, 247, 239, 0.08); }
   .ayn-checkout-status { margin-top: 20px; font-weight: 600; color: var(--gold-light); }
   .ayn-checkout-status--error { color: #E8A488; }
+  @media (max-width: 560px) { .ayn-plan-actions { flex-direction: column; align-items: stretch; } }
 
-  .ayn-included-sub {
-    margin-top: 48px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
-  .ayn-included-sub h3 {
-    font: 600 20px/1.2 var(--mono);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 12px;
-  }
+  .ayn-subhead { font: 500 24px/1.3 var(--serif); color: var(--forest); }
 
-  .ayn-who-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    padding-bottom: 40px;
+  /* --- Founding Cohort: pricing card and the "why the founding price"
+     note side by side instead of stacked one under the other. --- */
+  .ayn-join-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: stretch; }
+  .ayn-join-card-col { display: flex; flex-direction: column; }
+  .ayn-join-head { margin-bottom: 20px; }
+  .ayn-pricing-card.ayn-pricing-card { margin-left: 0; margin-right: 0; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .ayn-join-note {
+    max-width: 480px;
+    height: 100%;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: clamp(32px, 5vw, 56px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-  .ayn-who-grid .section { padding-bottom: 0; }
-
-  .ayn-subhead {
-    font: 500 24px/1.3 var(--serif);
-    color: var(--forest);
-  }
-
   @media (max-width: 900px) {
-    .ayn-included-sub { grid-template-columns: 1fr; }
+    .ayn-join-grid { grid-template-columns: 1fr; gap: 32px; }
+    .ayn-join-head, .ayn-pricing-card.ayn-pricing-card, .ayn-join-note { text-align: center; margin-left: auto; margin-right: auto; }
   }
-  @media (max-width: 860px) {
-    .ayn-who-grid { grid-template-columns: 1fr; gap: 0; }
+
+  /* --- Final CTA: same cinematic photo-banner treatment as the opening
+     tension section, closing the page the way it opened. --- */
+  .ayn-final-banner-wrap { padding: 8px clamp(24px, 5vw, 72px) 48px; }
+  .ayn-final-banner {
+    position: relative;
+    border-radius: 32px;
+    overflow: hidden;
+    min-height: clamp(420px, 42vw, 560px);
+    display: flex;
+    box-shadow: 0 24px 50px -28px rgba(29, 46, 34, 0.35);
   }
+  .ayn-final-banner-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+  .ayn-final-banner-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20, 32, 26, 0.5) 0%, rgba(20, 32, 26, 0.72) 100%);
+  }
+  .ayn-final-banner-content {
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    max-width: 760px;
+    text-align: center;
+    padding: clamp(32px, 5vw, 64px);
+  }
+  .ayn-final-banner-content h2 { font: 500 clamp(28px, 3.4vw, 46px)/1.25 var(--serif); color: var(--paper); }
+  .ayn-final-banner-content p { margin-top: 22px; font: 400 20px/1.7 var(--sans); color: rgba(251, 247, 239, 0.85); max-width: 480px; margin-left: auto; margin-right: auto; }
+  .ayn-final-banner-content .btn-primary { margin-top: 32px; background: var(--paper); color: var(--forest); }
+  .ayn-final-banner-content .btn-primary:hover { background: var(--white); }
 </style>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById('ayn-tension-carousel');
+    if (!root) return;
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.ayn-carousel-slide'));
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.ayn-carousel-dot'));
+    var prevBtn = root.querySelector('.ayn-carousel-arrow--prev');
+    var nextBtn = root.querySelector('.ayn-carousel-arrow--next');
+    if (slides.length < 2) return;
+
+    var index = 0;
+    var timer = null;
+    var AUTO_MS = 5000;
+    var reduced = false;
+    try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) {}
+
+    function show(i) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach(function (slide, j) { slide.classList.toggle('is-active', j === index); });
+      dots.forEach(function (dot, j) { dot.setAttribute('aria-pressed', j === index ? 'true' : 'false'); });
+    }
+    function next() { show(index + 1); }
+    function prev() { show(index - 1); }
+    function stopAuto() { if (timer) { window.clearInterval(timer); timer = null; } }
+    function startAuto() { if (reduced) return; stopAuto(); timer = window.setInterval(next, AUTO_MS); }
+    function restart() { stopAuto(); startAuto(); }
+
+    if (nextBtn) nextBtn.addEventListener('click', function () { next(); restart(); });
+    if (prevBtn) prevBtn.addEventListener('click', function () { prev(); restart(); });
+    dots.forEach(function (dot, j) {
+      dot.addEventListener('click', function () { show(j); restart(); });
+    });
+    root.addEventListener('mouseenter', stopAuto);
+    root.addEventListener('mouseleave', startAuto);
+
+    show(0);
+    root.classList.add('ayn-carousel--active');
+    startAuto();
+  })();
+</script>
