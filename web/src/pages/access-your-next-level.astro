@@ -1,0 +1,385 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Reads ?error / ?joined off the URL after a Stripe Checkout redirect back
+// to this page, so this can't be prerendered to static HTML.
+export const prerender = false;
+
+const title = 'Access Your Next Level | Life 2.0';
+const description = 'A 6-week small-group Life 2.0 coaching experience for high achievers who are doing well, but know another level is available in business and life.';
+
+const COHORT_START_DATE = '[DATE]'; // TODO: confirm founding cohort start date
+
+const joined = Astro.url.searchParams.get('joined') === '1';
+const checkoutError = Astro.url.searchParams.get('error');
+
+const outcomes = [
+  {
+    title: 'Get clear on what your next level actually looks like',
+    body: "Not a vague sense that more is possible. A specific, honest picture of what you're actually building toward, in your business and in your life.",
+  },
+  {
+    title: 'See the patterns that keep costing you',
+    body: "The same friction keeps showing up in different rooms wearing different outfits. We'll name the patterns underneath it, so you stop paying the same tax twice.",
+  },
+  {
+    title: 'Stop living by rules you never consciously chose',
+    body: "Somewhere along the way you inherited a definition of success, effort, and enough. Some of it still serves you. Some of it is quietly running your life without your permission.",
+  },
+  {
+    title: 'Make better decisions with less internal friction',
+    body: "When you know what you actually value and why, decisions stop requiring so much internal negotiation. Clarity is faster than second-guessing.",
+  },
+  {
+    title: 'Make sure your business is actually serving your life',
+    body: "Your business should be a vehicle for the life you want, not the thing your life gets scheduled around. We'll look directly at which direction that relationship is running.",
+  },
+  {
+    title: 'Leave with a clear direction for what comes next',
+    body: "Not a worksheet you'll never open again. A real answer to what your next level requires, and a place to start.",
+  },
+];
+
+const nextLevelCards = [
+  {
+    title: 'Maybe it is business',
+    body: "A ceiling you keep hitting, a version of growth that stopped feeling exciting, or a business that runs you instead of the other way around.",
+  },
+  {
+    title: 'Maybe it is personal',
+    body: "The relationships, health, or sense of self that got quietly deprioritized while you were busy succeeding at everything else.",
+  },
+  {
+    title: 'Maybe you cannot name it yet',
+    body: "Just a feeling that something is off, or that you're capable of more than the life you're currently living. That's a valid place to start.",
+  },
+];
+
+const curriculum = [
+  {
+    week: 'Week 1',
+    title: 'Pattern Recognition',
+    body: 'Get honest about the patterns actually running your decisions, your relationships, and your business, many of which you\'ve never named out loud.',
+  },
+  {
+    week: 'Week 2',
+    title: 'Your Rich Life',
+    body: 'Define what a rich life actually means for you, specifically, instead of borrowing someone else\'s definition of success.',
+  },
+  {
+    week: 'Week 3',
+    title: 'Values & Rules',
+    body: 'Separate the values you actually hold from the rules you inherited and never questioned. They are not always the same thing.',
+  },
+  {
+    week: 'Week 4',
+    title: 'Your Primary Question',
+    body: 'Identify the real question underneath this season of your life, the one that\'s actually driving everything else.',
+  },
+  {
+    week: 'Week 5',
+    title: 'Business as a Vehicle',
+    body: 'Look directly at whether your business is serving your life or the other way around, and what would need to change either way.',
+  },
+  {
+    week: 'Week 6',
+    title: 'Integration',
+    body: 'Bring the previous five weeks together into one clear, workable direction for what comes next.',
+  },
+];
+
+const methodSteps = [
+  { stage: 'Watch', body: 'A short, focused Life 2.0 module before each call. No lecture marathon.' },
+  { stage: 'Reflect', body: 'A guided pre-call reflection that gets you honest before you get coached.' },
+  { stage: 'Coach', body: 'A live group coaching session with Laura, applied to what\'s actually true for you.' },
+  { stage: 'Apply', body: 'One clear thing to do differently before the next week starts.' },
+];
+
+const includedItems = [
+  '6 structured Life 2.0 modules',
+  '6 guided pre-call reflections',
+  '6 live group coaching sessions with Laura',
+  'Maximum 10 participants',
+  'Access to The Life 2.0 Room during the program',
+  'Access to relevant Life 2.0 frameworks and resources',
+  'Access to the broader Life 2.0 environment during the program',
+  'Your final digital Life 2.0 Integration Board',
+];
+
+const whoFor = [
+  'Ambitious and do not want to apologize for it',
+  'Already created some degree of success',
+  'Know another level is available',
+  'Want business success and a great life',
+  'Willing to look at your own patterns',
+  'Want coaching, not just content',
+  'Value being around other capable people',
+  'Ready to make decisions and do something with what you discover',
+];
+
+const whoNotFor = [
+  'Want someone else to tell you exactly how your life should look',
+  'Want motivation without self-reflection',
+  'Want another course to watch halfway and forget about',
+  'Looking for therapy or treatment for a mental-health condition',
+  'Want change without changing anything',
+];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level">
+  <div class="page-hero wrap">
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Access Your Next Level</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">A 6-week coaching experience for what comes next.</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">For high achievers who are doing well, but know there's another level available in business and life.</p>
+    <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
+      <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+      <a class="btn-text" href="#included">See what's included</a>
+    </div>
+    <div class="ayn-hero-price dz-enter" style="--dz-enter-delay:0.32s">
+      <span>$1,500 paid in full</span>
+      <span>or 2 payments of $850</span>
+      <span>Maximum 10 people</span>
+    </div>
+  </div>
+
+  <section class="section wrap dz-reveal">
+    <h2>You've already proven you can achieve.</h2>
+    <div class="emphasis-lines" style="margin-top:28px;">
+      <p>You know how to work hard.</p>
+      <p>You know how to solve problems.</p>
+      <p>But eventually the question changes.</p>
+    </div>
+    <ul class="rhetorical-list">
+      <li>It stops being &ldquo;How do I do more?&rdquo; and becomes &ldquo;What am I building this for?&rdquo;</li>
+      <li>Is my business serving my life, or has my life started serving the business?</li>
+    </ul>
+  </section>
+
+  <section class="section wrap dz-reveal">
+    <h2>This is not about becoming less ambitious.</h2>
+    <p class="body-copy">It's about becoming more deliberate about where that ambition is actually taking you. Ambition without direction doesn't stop moving. It just stops being sure it's moving you anywhere you'd choose.</p>
+    <p class="pull-statement">Achievement without direction can become a very expensive way of running in circles.</p>
+  </section>
+
+  <section class="section wrap">
+    <h2 class="dz-reveal">What changes over these six weeks?</h2>
+    <div class="numbered-features">
+      {outcomes.map((item, i) => (
+        <div class="numbered-feature dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
+          <div class="num">{String(i + 1).padStart(2, '0')}</div>
+          <div>
+            <h3>{item.title}</h3>
+            <p class="body-copy">{item.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* TODO: Add case study 1 here when approved client story is ready. */}
+
+  <section class="section wrap">
+    <h2 class="dz-reveal">What would your next level change?</h2>
+    <p class="body-copy dz-reveal">You don't need a fully formed answer to start. You just need to be honest about where it's showing up.</p>
+    <div class="card-grid" style="margin-top:40px;">
+      {nextLevelCards.map((c, i) => (
+        <div class={`card dz-reveal${i === 2 ? ' dz-highlight' : ''}`} style={`--dz-delay:${i * 0.1}s`}>
+          <h3>{c.title}</h3>
+          <p class="body-copy">{c.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <h2 class="dz-reveal">How We Get You There</h2>
+    <p class="body-copy dz-reveal">The six-week curriculum gives us the framework. The coaching makes it yours.</p>
+    <div class="numbered-features">
+      {curriculum.map((w, i) => (
+        <div class="numbered-feature dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
+          <div class="num">{String(i + 1).padStart(2, '0')}</div>
+          <div>
+            <h3>{w.week}: {w.title}</h3>
+            <p class="body-copy">{w.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap dz-reveal">
+    <h2>This is not passive learning.</h2>
+    <p class="body-copy">Watch &rarr; Reflect &rarr; Coach &rarr; Apply. That's the rhythm, every week.</p>
+    <div class="method-grid">
+      {methodSteps.map((s, i) => (
+        <div class="method-item dz-reveal" style={`--dz-delay:${i * 0.1}s`}>
+          <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
+          <h3>{s.stage}</h3>
+          <p>{s.body}</p>
+        </div>
+      ))}
+    </div>
+    <ul class="list-plain" style="margin-top:32px;">
+      <li>No giant workbook</li>
+      <li>No 50-hour content library</li>
+      <li>The goal is movement, not more to consume</li>
+    </ul>
+  </section>
+
+  <section class="section wrap dz-reveal">
+    <h2>Why group?</h2>
+    <p class="body-copy">The right room changes the quality of your thinking. Ten capable people looking honestly at their own lives create a kind of clarity you don't get thinking alone, or performing in a room of hundreds.</p>
+    <ul class="list-plain" style="margin-top:24px;">
+      <li>Maximum 10 people</li>
+      <li>Enough perspective to create a genuinely powerful room</li>
+      <li>Small enough that you never disappear into an audience</li>
+    </ul>
+  </section>
+
+  <section class="section wrap" id="included">
+    <h2 class="dz-reveal">What's Included</h2>
+    <ul class="list-plain dz-reveal" style="--dz-delay:0.05s;">
+      {includedItems.map((item) => <li>{item}</li>)}
+    </ul>
+
+    <div class="ayn-included-sub dz-reveal" style="--dz-delay:0.1s;">
+      <div>
+        <h3>The Life 2.0 Room</h3>
+        <p class="body-copy">Access to The Life 2.0 Room during the program, a space to keep processing what's coming up between live sessions, not just during them.</p>
+      </div>
+      <div>
+        <h3>Life 2.0 Frameworks</h3>
+        <p class="body-copy">Access to the relevant Life 2.0 frameworks and resources that support the curriculum, so the work doesn't stop when the call ends.</p>
+      </div>
+      <div>
+        <h3>Your Life 2.0 Integration Board</h3>
+        <p class="body-copy">A final digital Integration Board that captures your patterns, your primary question, and your direction, built to actually use after the six weeks end.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ayn-who-grid wrap">
+    <section class="section dz-reveal" style="padding-top:0;">
+      <h2>Who this is for</h2>
+      <ul class="list-plain">
+        {whoFor.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+    <section class="section dz-reveal" style="padding-top:0; --dz-delay:0.1s;">
+      <h2>Who this is not for</h2>
+      <ul class="list-plain">
+        {whoNotFor.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+  </div>
+
+  {/* TODO: Add 2-3 short testimonials here once real client language is approved. */}
+
+  <section class="section wrap" id="join">
+    <h2 class="dz-reveal">Founding Cohort</h2>
+    <p class="body-copy dz-reveal">Access Your Next Level</p>
+
+    <div class="pricing-card ayn-pricing-card dz-reveal" style="--dz-delay:0.1s">
+      <div class="eyebrow">6-Week Small-Group Coaching Experience</div>
+      <div class="price">$1,500</div>
+      <p>or 2 payments of $850</p>
+      <p>Starts: {COHORT_START_DATE}</p>
+      <p>Maximum 10 places available</p>
+
+      {joined && (
+        <p class="ayn-checkout-status">You're in. Check your email for next steps.</p>
+      )}
+      {checkoutError && (
+        <p class="ayn-checkout-status ayn-checkout-status--error">
+          Something went wrong starting checkout. Please try again in a moment.
+        </p>
+      )}
+
+      <div class="ayn-plan-actions">
+        <a class="btn-primary" href="/api/checkout?plan=full">Pay in full &mdash; $1,500 &rarr;</a>
+        <a class="btn-primary ayn-btn-secondary" href="/api/checkout?plan=installment">2 payments of $850/mo &rarr;</a>
+      </div>
+    </div>
+
+    <div class="dz-reveal" style="--dz-delay:0.16s; margin-top:48px; max-width:680px; margin-left:auto; margin-right:auto;">
+      <h3 class="ayn-subhead">Why the founding price?</h3>
+      <p class="body-copy">Access Your Next Level is entering its first cohort. Founding members get the full experience at the founding rate, and a real hand in shaping what this becomes as it grows. As future cohorts open, the investment will increase.</p>
+    </div>
+  </section>
+
+  <section class="footer-cta dz-reveal">
+    <h2>If nothing changed over the next year, would you be happy with where your current patterns, decisions, and priorities are taking you?</h2>
+    <p><strong>Access Your Next Level.</strong> Six weeks to get clearer, move deliberately, and build more of the life you actually want.</p>
+    <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .ayn-hero-price {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font: 600 20px/1 var(--mono);
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+  }
+  .ayn-hero-price span:not(:last-child)::after {
+    content: '\00b7';
+    margin-left: 20px;
+    color: var(--gold);
+  }
+
+  .card.dz-highlight { border-color: var(--gold); }
+
+  .ayn-plan-actions {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .ayn-pricing-card .btn-primary { background: var(--gold); color: var(--forest-deep); margin-top: 0; }
+  .ayn-pricing-card .btn-primary:hover { background: var(--gold-light); }
+  .ayn-pricing-card .ayn-btn-secondary {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid rgba(251, 247, 239, 0.4);
+  }
+  .ayn-pricing-card .ayn-btn-secondary:hover { background: rgba(251, 247, 239, 0.08); }
+  .ayn-checkout-status { margin-top: 20px; font-weight: 600; color: var(--gold-light); }
+  .ayn-checkout-status--error { color: #E8A488; }
+
+  .ayn-included-sub {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .ayn-included-sub h3 {
+    font: 600 20px/1.2 var(--mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 12px;
+  }
+
+  .ayn-who-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    padding-bottom: 40px;
+  }
+  .ayn-who-grid .section { padding-bottom: 0; }
+
+  .ayn-subhead {
+    font: 500 24px/1.3 var(--serif);
+    color: var(--forest);
+  }
+
+  @media (max-width: 900px) {
+    .ayn-included-sub { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 860px) {
+    .ayn-who-grid { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
