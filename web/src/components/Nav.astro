@@ -10,7 +10,6 @@ const links = [
   { label: 'The Collective', href: '/collective' },
   { label: 'Private Advisory', href: '/private-advisory' },
   { label: 'Team', href: '/team' },
-  { label: 'Journal', href: '/journal' },
 ];
 ---
 <nav class="nav">
@@ -32,7 +31,6 @@ const links = [
     {links.map((link) => (
       <a class={`nav-link dz-underline ${currentPath === link.href ? 'active' : ''}`} href={link.href}>{link.label}</a>
     ))}
-    <a class="nav-cta" href="/assessment">Take the Assessment</a>
   </div>
 </nav>
 <div class="nav-backdrop" hidden></div>

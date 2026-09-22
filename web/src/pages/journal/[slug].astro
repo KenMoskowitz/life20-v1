@@ -25,6 +25,7 @@ const body: string[] = post.body ?? [];
   title={post.metaTitle ?? `${post.title} | Life 2.0 Journal`}
   description={post.metaDescription ?? post.excerpt}
   canonicalUrl={`https://thelife20.com/journal/${slug}`}
+  noindex
 >
   <article class="journal-post">
     <div class="page-hero" style="padding-left:0; padding-right:0;">
