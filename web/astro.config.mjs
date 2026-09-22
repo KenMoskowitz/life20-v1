@@ -4,7 +4,7 @@ import vercel from '@astrojs/vercel';
 
 // Route paths (relative to site root) always excluded from the sitemap and
 // marked noindex. Keep in sync with the `noindex` prop passed to BaseLayout.
-export const NOINDEX_PATHS = ['/application-received'];
+export const NOINDEX_PATHS = ['/application-received', '/assessment', '/journal'];
 
 // Some pages are only indexable once their CMS content is real. The webinar
 // landing page marks itself noindex until its status is Upcoming or Replay,
