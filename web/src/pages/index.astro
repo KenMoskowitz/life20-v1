@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NineVariablesGrid from '../components/NineVariablesGrid.astro';
 import QuotePanel from '../components/QuotePanel.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { getPage } from '../lib/sanity';
@@ -8,7 +7,7 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('home') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
-const description = cms?.metaDescription ?? "Life 2.0 helps high-achieving leaders find where fulfillment is leaking and build a life that matches what they've built. Take the free assessment.";
+const description = cms?.metaDescription ?? "A 6-week small-group Life 2.0 coaching experience for high achievers who are doing well, but know another level is available in business and life.";
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -36,19 +35,19 @@ const jsonLd = {
         <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build the life that feels <em>as good</em> as it looks.</h1>
         <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">
-          {cms?.heroLede ?? "You mapped the business. Nobody ever handed you a map for the rest of it. The 9 Skills show you exactly where your fulfillment is leaking, so you know what to build next."}
+          {cms?.heroLede ?? "You mapped the business. Nobody ever handed you a map for the rest of it. Access Your Next Level is a 6-week small-group coaching experience for high achievers who know another level is available."}
         </p>
         <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s">
-          <a class="btn-primary" href="/assessment">Take the free assessment &rarr;</a>
+          <a class="btn-primary" href="/access-your-next-level">Join the founding cohort &rarr;</a>
           <a class="btn-text" href="/about">Meet Laura</a>
         </div>
-        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> Research-grounded. Founder-led. Six minutes to your first real answer.</div>
+        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> Research-grounded. Founder-led. Six weeks to your next level.</div>
       </div>
       <div style="position:relative;">
         <div class="hero-photo-frame dz-enter" style="--dz-enter-delay:0.12s">
           <img class="dz-kenburns" src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
         </div>
-        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>9</b><span>research-backed skills that shape a fulfilling life</span></div>
+        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>10</b><span>max spots in the founding cohort</span></div>
       </div>
     </div>
   </section>
@@ -58,8 +57,6 @@ const jsonLd = {
       <p>Accomplishment got you here. <span>Fulfillment</span> is what's missing.</p>
     </div>
   </section>
-
-  <NineVariablesGrid />
 
   <section class="founder">
     <div class="founder-grid">
@@ -78,8 +75,8 @@ const jsonLd = {
   <QuotePanel />
 
   <CtaBand
-    eyebrow="Start Here, Not With A Diagnosis"
-    heading="Find out where your fulfillment is leaking."
-    body="Six minutes. Nine skills. One honest, research-backed starting point for whatever you build next."
+    eyebrow="Access Your Next Level"
+    heading="A 6-week Life 2.0 coaching experience for what comes next."
+    body="Founding cohort: $1,500 paid in full, or 2 payments of $850. Maximum 10 people."
   />
 </BaseLayout>

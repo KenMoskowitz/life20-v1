@@ -12,8 +12,8 @@ const {
   eyebrow,
   heading,
   body,
-  ctaLabel = 'Take the free assessment',
-  ctaHref = '/assessment',
+  ctaLabel = 'Join the founding cohort',
+  ctaHref = '/access-your-next-level',
   secondaryLabel,
   secondaryHref,
 } = Astro.props as Props;
@@ -24,6 +24,6 @@ const {
   {body && <p>{body}</p>}
   <a class="btn-primary" href={ctaHref}>{ctaLabel} &rarr;</a>
   {secondaryLabel && secondaryHref && (
-    <a class="btn-text" href={secondaryHref} style="display:block; margin-top:20px;">{secondaryLabel}</a>
+    <a class="btn-text" href={secondaryHref} style="display:block; width:fit-content; margin:20px auto 0;">{secondaryLabel}</a>
   )}
 </section>
