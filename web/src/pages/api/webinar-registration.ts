@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { sanityWriteClient, getWebinar } from '../../lib/sanity';
+import { codeWebinars, formatEventRange } from '../../data/webinars';
 
 export const prerender = false;
 
@@ -16,25 +17,34 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const form = await request.formData();
   const name = String(form.get('name') ?? '').trim();
   const email = String(form.get('email') ?? '').trim();
-  const webinarTitle = String(form.get('webinarTitle') ?? '').trim() || 'The High Achievers Fulfillment Blueprint';
+  // Webinars defined in code (src/data/webinars.ts) post their slug; anything
+  // else is treated as the Sanity-driven /blueprint page, as before.
+  const codeEvent = codeWebinars[String(form.get('webinar') ?? '')] ?? null;
+  const basePath = codeEvent ? `/${codeEvent.slug}` : '/blueprint';
+  const webinarTitle = codeEvent?.title ?? (String(form.get('webinarTitle') ?? '').trim() || 'The High Achievers Fulfillment Blueprint');
 
   if (!name || !isValidEmail(email)) {
-    return redirect('/blueprint?error=missing-fields#register');
+    return redirect(`${basePath}?error=missing-fields#register`);
   }
 
-  // Pull the event so the confirmation email can carry real details when they
-  // exist, and stay deliberately vague when they don't.
-  const webinar = (await getWebinar('blueprint')) as Record<string, any> | null;
-  const startsAt: string | null = webinar?.startsAt ?? null;
-  const isLive = webinar?.status === 'upcoming' || webinar?.status === 'replay';
+  let whenLine: string | null;
+  if (codeEvent) {
+    whenLine = formatEventRange(codeEvent, { year: true });
+  } else {
+    // Pull the event so the confirmation email can carry real details when they
+    // exist, and stay deliberately vague when they don't.
+    const webinar = (await getWebinar('blueprint')) as Record<string, any> | null;
+    const startsAt: string | null = webinar?.startsAt ?? null;
+    const isLive = webinar?.status === 'upcoming' || webinar?.status === 'replay';
 
-  const whenLine =
-    isLive && startsAt
-      ? new Date(startsAt).toLocaleString('en-US', {
-          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-          hour: 'numeric', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short',
-        })
-      : null;
+    whenLine =
+      isLive && startsAt
+        ? new Date(startsAt).toLocaleString('en-US', {
+            weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+            hour: 'numeric', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short',
+          })
+        : null;
+  }
 
   let confirmationSent = false;
   const apiKey = import.meta.env.RESEND_API_KEY as string | undefined;
@@ -77,7 +87,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   // unavailable we surface a real error rather than pretending it worked.
   if (!sanityWriteClient) {
     console.error('[webinar-registration] SANITY_TOKEN not configured; registration dropped.');
-    return redirect('/blueprint?error=unavailable#register');
+    return redirect(`${basePath}?error=unavailable#register`);
   }
 
   try {
@@ -91,8 +101,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     });
   } catch (err) {
     console.error('[webinar-registration] Sanity write failed:', err);
-    return redirect('/blueprint?error=unavailable#register');
+    return redirect(`${basePath}?error=unavailable#register`);
   }
 
-  return redirect('/blueprint?registered=1#register');
+  return redirect(`${basePath}?registered=1#register`);
 };
