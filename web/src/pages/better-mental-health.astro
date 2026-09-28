@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { betterMentalHealth as event, durationMinutes, formatEventRange } from '../data/webinars';
+
+// Reads ?registered / ?error off the URL after the registration form posts,
+// so this can't be prerendered to static HTML.
+export const prerender = false;
+
+const registered = Astro.url.searchParams.get('registered') === '1';
+const error = Astro.url.searchParams.get('error');
+
+const canonicalUrl = `https://thelife20.com/${event.slug}`;
+const title = `${event.title} | Life 2.0 Live Training`;
+const description =
+  'A free live training with Laura Kelly: the evidence-backed stuff, the weird stuff, and what she wishes she’d known sooner about mental health, and what the research says about each.';
+
+const isPast = new Date(event.endsAt).getTime() < Date.now();
+
+const learn = [
+  {
+    title: 'The evidence-backed stuff',
+    body: 'The things that helped most, what changed, and what the psychological research says about each one.',
+  },
+  {
+    title: 'The weird stuff',
+    body: 'The less conventional things that made a real difference, and an honest look at whether there’s anything behind them.',
+  },
+  {
+    title: 'What I wish I’d known sooner',
+    body: 'The shortcuts, the dead ends, and what I’d tell myself if I were starting again.',
+  },
+  {
+    title: 'Where it lost the plot',
+    body: 'Where the self-optimization world may have slightly lost the plot, and how to feel good without turning your life into a protocol.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: event.title,
+  description,
+  startDate: event.startsAt,
+  endDate: event.endsAt,
+  eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'VirtualLocation', url: canonicalUrl },
+  organizer: { '@type': 'Organization', name: 'Life 2.0', url: 'https://thelife20.com' },
+  performer: { '@type': 'Person', name: 'Laura Kelly' },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: canonicalUrl },
+};
+---
+<BaseLayout title={title} description={description} canonicalUrl={canonicalUrl} jsonLd={jsonLd} bare>
+  <section class="wb-hero">
+    <div class="wb-hero-grid">
+      <div class="wb-hero-copy">
+        <div class="wb-eyebrow-pill dz-enter" style="--dz-enter-delay:0s">
+          <span class="dot"></span>
+          Live training with Laura Kelly
+        </div>
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{event.title}</h1>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">The evidence-backed stuff, the weird stuff, and what I wish I’d known sooner.</p>
+
+        <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
+          <li class="wb-fact">
+            <span class="wb-fact-label">When</span>
+            <time class="wb-fact-value" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
+          </li>
+          <li class="wb-fact">
+            <span class="wb-fact-label">Length</span>
+            <span class="wb-fact-value">{durationMinutes(event)} minutes</span>
+          </li>
+          <li class="wb-fact">
+            <span class="wb-fact-label">Cost</span>
+            <span class="wb-fact-value">Free to attend</span>
+          </li>
+        </ul>
+
+        {!isPast && (
+          <div class="wb-hero-actions dz-enter" style="--dz-enter-delay:0.32s">
+            <a class="btn-primary" href="#register">Save my seat &rarr;</a>
+            <span class="wb-hero-trust">Live On Zoom &middot; Free To Attend &middot; Seats Are Limited</span>
+          </div>
+        )}
+      </div>
+
+      <div class="wb-hero-photo-wrap dz-enter" style="--dz-enter-delay:0.2s">
+        <div class="wb-hero-photo">
+          <img class="dz-kenburns" src="/assets/laura-interview.jpg" alt="Laura Kelly, founder of Life 2.0" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap dz-reveal wb-section-tight">
+    <div class="wb-for-split wah-for-split">
+      <div class="wb-for-image">
+        <img src="/assets/laura-bookshelf.jpg" alt="Laura Kelly" loading="lazy" />
+      </div>
+      <div>
+        <div class="eyebrow">Why this session</div>
+        <h2 style="margin-top:18px;">Better mental health isn’t a test of willpower.</h2>
+        <div class="wb-for-prose">
+          <p class="body-copy">For years I believed that if I just worked out enough, slept eight hours, drank enough water, meditated every morning and kept up the gratitude journal, I’d have this handled on my own. Which is a fascinating amount of ego to bring to biochemistry.</p>
+          <p class="wah-callout">My brain does not award bonus points for suffering unnecessarily.</p>
+          <p class="body-copy">In this session I’ll walk through what has helped me most, what changed, and what the research says about each one. Including where the self-optimization world may have slightly lost the plot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="eyebrow dz-reveal">What we’ll cover</div>
+    <h2 class="dz-reveal">The Session</h2>
+    <div class="wb-learn-grid wah-learn-grid">
+      {learn.map((item, i) => (
+        <div class="wb-learn-card dz-reveal dz-lift" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
+          <span class="wb-num">{`0${i + 1}`}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap wah-quote-wrap dz-reveal">
+    <div class="wah-quote">
+      <img class="wah-quote-img dz-kenburns--rev" src="/assets/laura-conversation.jpg" alt="" loading="lazy" />
+      <div class="wah-quote-scrim" aria-hidden="true"></div>
+      <div class="wah-quote-content">
+        <p class="wah-quote-line">Because I want to feel good.</p>
+        <p class="wah-quote-line">But I also want to live an enjoyable bloody life.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight" id="register">
+    <div class="wah-register dz-reveal">
+      <div class="wah-register-copy">
+        <div class="eyebrow">{isPast ? 'This session has ended' : 'Save your seat'}</div>
+        <h2 style="margin-top:18px;">{event.title}</h2>
+        <time class="wb-final-meta" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
+        <p class="body-copy" style="margin-top:18px;">Live on Zoom. Free to attend. Register and we’ll email you the joining link and a reminder before it starts.</p>
+        <p class="wah-disclaimer">This session shares personal experience and published research. It isn’t medical advice or a substitute for professional care.</p>
+      </div>
+
+      {isPast ? (
+        <div class="form-panel wah-form">
+          <p class="body-copy">Thanks for your interest. Registration for this session is closed.</p>
+        </div>
+      ) : registered ? (
+        <div class="form-panel wah-form">
+          <h3 class="wah-success-title">You’re registered.</h3>
+          <p class="body-copy">Check your inbox for a confirmation. We’ll send the Zoom link before it starts.</p>
+        </div>
+      ) : (
+        <form class="form-panel wah-form" action="/api/webinar-registration" method="post">
+          {error && (
+            <p class="wah-error">
+              {error === 'missing-fields' ? 'Please add your name and a valid email.' : 'Something went wrong saving your seat. Please try again in a moment.'}
+            </p>
+          )}
+          <input type="hidden" name="webinar" value={event.slug} />
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Save my seat &rarr;</button>
+        </form>
+      )}
+    </div>
+  </section>
+
+  <section class="wb-host">
+    <div class="wb-host-grid">
+      <div class="wb-host-photo-wrap dz-reveal">
+        <div class="wb-host-photo">
+          <img class="dz-kenburns--rev" src="/assets/laura-advisory.jpg" alt="Laura Kelly" />
+        </div>
+      </div>
+      <div class="wb-host-copy dz-reveal" style="--dz-delay:0.1s">
+        <div class="wb-host-name">Your host</div>
+        <h2>Laura Kelly</h2>
+        <p class="body-copy" style="margin-top:22px;">Laura Kelly built Life 2.0 after doing everything “right” and finding out that right and good aren’t always the same word. This session is the honest version of what she’s tried for her own mental health: what worked, what didn’t, and what the research says.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Four points: 2x2 instead of the shared 3-up grid, which orphans the fourth card. */
+  @media (min-width: 700px) { .wah-learn-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  /* --- Pull-quote photo banner, same treatment as the Access Your Next Level banners --- */
+  .wah-quote-wrap { padding: 8px clamp(24px, 5vw, 72px); }
+  .wah-quote {
+    position: relative;
+    border-radius: 32px;
+    overflow: hidden;
+    min-height: clamp(360px, 36vw, 480px);
+    display: flex;
+    box-shadow: 0 24px 50px -28px rgba(29, 46, 34, 0.35);
+  }
+  .wah-quote-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .wah-quote-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 32, 26, 0.45) 0%, rgba(20, 32, 26, 0.75) 100%); }
+  .wah-quote-content { position: relative; z-index: 1; margin: auto; max-width: 820px; text-align: center; padding: clamp(32px, 5vw, 64px); }
+  .wah-quote-line { font: 500 italic clamp(28px, 4vw, 50px)/1.3 var(--serif); color: var(--paper); }
+  .wah-quote-line + .wah-quote-line { margin-top: 14px; color: var(--gold-light); }
+
+  /* --- "Why this session" emphasis lines --- */
+  .wah-callout {
+    margin: 6px 0;
+    padding-left: 18px;
+    border-left: 3px solid var(--gold);
+    font: 500 italic clamp(22px, 2.2vw, 28px)/1.35 var(--serif);
+    color: var(--forest);
+  }
+
+  /* Photo stretches to the text's height on desktop, so the copy never has
+     to be trimmed to fit a fixed 3:4 frame. */
+  @media (min-width: 861px) {
+    .wah-for-split { align-items: stretch; }
+    .wah-for-split .wb-for-image { aspect-ratio: auto; min-height: 480px; }
+  }
+
+  /* --- Registration: copy beside the form --- */
+  .wah-register { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .wah-form { width: 100%; margin: 0; }
+  .wah-disclaimer { margin-top: 18px; font: 400 14px/1.6 var(--sans); color: var(--ink-soft); }
+  .wah-error { margin-bottom: 18px; font-weight: 600; color: #B5533C; }
+  .wah-success-title { font: 500 26px/1.3 var(--serif); color: var(--forest); margin-bottom: 10px; }
+  @media (max-width: 860px) {
+    .wah-register { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+
+<script is:inline define:vars={{ START: event.startsAt, END: event.endsAt }}>
+  // Rewrite the event time into the visitor's own timezone. The server renders
+  // it in Pacific so the page is still correct without JS.
+  (function () {
+    var els = document.querySelectorAll('[data-event-range]');
+    if (!els.length) return;
+    try {
+      var s = new Date(START), e = new Date(END);
+      var day = s.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+      var from = s.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+      var to = e.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+      els.forEach(function (el) { el.textContent = day + ', ' + from + ' – ' + to; });
+    } catch (err) {
+      /* keep the server-rendered Pacific string */
+    }
+  })();
+</script>
