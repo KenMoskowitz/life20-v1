@@ -5,86 +5,49 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('private-advisory') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
-const description = cms?.metaDescription ?? 'Private, high-touch life advisory for ambitious founders and high performers. Founding client investment: $2,000/month. Apply for a Clarity Call.';
+const description = cms?.metaDescription ?? 'The same six-week Life 2.0 framework as Access Your Next Level, fully individualized for ambitious founders and high performers. Founding client investment: $2,000/month. Apply for Private Advisory.';
 
 const applyError = Astro.url.searchParams.get('error');
 
 const whatYouGet = [
   {
-    title: 'Weekly Private Advisory Sessions',
+    title: 'The Same Six-Week Framework, Fully Individualized',
     body: [
-      'A private 1:1 session every week.',
-      "Some weeks, we'll meet you exactly where you are and work through the most important thing happening in your life right now. Other weeks, we'll zoom out and work systematically through the Life 2.0 curriculum and the bigger life you're building.",
+      "Private Advisory runs on the identical curriculum, Pattern Recognition through Integration, built entirely around your life.",
+      "The pace and depth are set by exactly what's going on for you, session to session.",
+    ],
+  },
+  {
+    title: 'Six Private Sessions With Laura',
+    body: [
+      "One private session for each week of the curriculum, where we apply that week's module directly to what's happening in your business and your life.",
       "Immediate problems and long-term transformation. You don't have to choose between the two.",
-    ],
-  },
-  {
-    title: 'Your Personal Life 2.0 Roadmap',
-    body: [
-      "We start by getting radically clear on where you are, what is and isn't working, and what you actually want.",
-      "Together, we'll identify the gaps between your current life and your Life 2.0, and build a personalized roadmap for closing them. This becomes our north star for the work.",
-    ],
-  },
-  {
-    title: 'The Complete Life 2.0 Curriculum',
-    body: [
-      "You'll receive access to the Life 2.0 curriculum and frameworks designed to help you intentionally examine and upgrade the major areas of your life.",
-      "We won't just consume the material. We'll apply it directly to your life together.",
     ],
   },
   {
     title: 'Direct Access Between Sessions',
     body: [
       "Life doesn't conveniently happen once a week.",
-      "You'll have high-touch access to Laura between sessions via text and voice note for questions, decisions, breakthroughs, challenges, and moments when you need another brain in the room. And when something genuinely important can't wait for our next scheduled session, we'll have a mechanism for getting you additional support.",
-      "You don't have to hold everything until Tuesday at 2:00.",
+      "You'll have high-touch access to Laura between sessions via text and voice note for questions, decisions, breakthroughs, and moments when you need another brain in the room.",
+      "You don't have to hold everything until your next scheduled session.",
     ],
   },
   {
-    title: 'The Life 2.0 Community',
+    title: 'Your Final Digital Life 2.0 Integration Board',
     body: [
-      'Every active Life 2.0 client becomes part of the private Life 2.0 community.',
-      "This is intentionally not an audience or a giant free online group. It's a room full of people who are actively investing in building exceptional lives.",
-      "You'll have access to the people, conversations, ideas, recommendations, and collective intelligence inside that room for the duration of your engagement.",
+      "The same personalized deliverable Access Your Next Level members leave with: a final board that captures your patterns, your primary question, and your direction, built to use after the six weeks end.",
     ],
   },
   {
-    title: 'The Life 2.0 Resource Library',
+    title: 'Access to the Broader Life 2.0 Ecosystem',
     body: [
-      "You shouldn't have to reinvent every part of a great life yourself.",
-      "We're building a living library of the best systems, resources, tools, frameworks, and recommendations we've found for making life work better. That can include practical playbooks for things like:",
-    ],
-    subList: [
-      'Hiring and working with a house manager',
-      'Finding, hiring, and building an exceptional relationship with a nanny',
-      'Delegating the invisible workload of life',
-      'Using AI to save time and reduce cognitive load',
-      'Creating better household systems',
-      'Finding trusted experts and service providers',
-      'Building systems that give you more time for the things only you can do',
-    ],
-    closing: "The goal isn't more information. It's fewer things you have to figure out alone.",
-  },
-  {
-    title: 'The Life 2.0 Expert Ecosystem',
-    body: [
-      "Sometimes the answer isn't another coaching conversation. Sometimes you need the right person.",
-      "As the Life 2.0 ecosystem grows, you'll have access to a curated network of trusted experts, specialists, and providers who can help solve specific problems and improve different areas of your life.",
-      "When appropriate, we'll help you figure out who or what you actually need next rather than leaving you to spend hours searching for the answer yourself.",
+      "You'll have access to relevant Life 2.0 frameworks, resources, and the wider Life 2.0 environment as part of your engagement.",
     ],
   },
-];
-
-const methodStages = [
-  { stage: 'Discover', body: "Get radically honest about the life you're living now." },
-  { stage: 'Define', body: 'Get clear on what your extraordinary life actually looks like.' },
-  { stage: 'Design', body: 'Build the systems, relationships, environment, habits, and support structure that make that life possible.' },
-  { stage: 'Execute', body: 'Turn insight into real-world changes, with accountability and support.' },
-  { stage: 'Evolve', body: 'Keep refining your life as you, your family, your ambitions, and your definition of success change.' },
 ];
 
 const rhetoricalQuestions = [
-  'Is this actually the life I want?',
+  'Is this the life I want?',
   'What would make it extraordinary?',
   "What am I tolerating that I don't want to tolerate anymore?",
   'What would I change if I stopped assuming life had to work this way?',
@@ -94,36 +57,33 @@ const rhetoricalQuestions = [
   <div class="page-hero wrap">
     <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Private Advisory</div>
     <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build a life that feels as successful as it looks.</h1>
-    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Private, high-touch life advisory for ambitious founders, entrepreneurs, and high performers who have built a lot, and are ready to intentionally build the rest of their life.</p>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">The same six-week Life 2.0 framework as Access Your Next Level, delivered privately and built entirely around your life, at a depth a group format can't match.</p>
     <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
-      <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
+      <a class="btn-primary" href="#apply">Apply for Private Advisory &rarr;</a>
       <a class="btn-text" href="#pricing">See founding client pricing</a>
     </div>
   </div>
 
-  <div class="founder-grid wrap" style="padding-bottom: 64px;">
+  <div class="founder-grid pa-founder-grid wrap" style="padding-bottom: 40px;">
     <div class="founder-photo dz-reveal">
       <img class="dz-kenburns" src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
     </div>
     <div class="dz-reveal" style="--dz-delay:0.1s">
       <h2>You know how to achieve.</h2>
-      <p class="body-copy" style="margin-top:20px;">But achievement alone doesn't guarantee that your relationships feel incredible. That your home runs smoothly. That you have time to think. That your health, family, friendships, purpose, and day-to-day life actually feel the way you want them to.</p>
+      <p class="body-copy" style="margin-top:20px;">But achievement alone doesn't guarantee that your relationships feel incredible. That your home runs smoothly. That you have time to think. That your health, family, friendships, purpose, and day-to-day life feel the way you want them to.</p>
       <div class="emphasis-lines">
         <p>Life 2.0 is about designing the whole thing.</p>
         <p>Not abandoning your ambition.</p>
         <p>Building a life big enough to hold it.</p>
       </div>
+      <h3 class="pa-founder-subhead">The Life 2.0 Private Advisory</h3>
+      <p class="body-copy">It's six focused weeks, fully individualized and built around exactly what's going on in your life right now.</p>
+      <p class="body-copy">We'll work on what's in front of you right now while building toward the direction you want your life to take.</p>
+      <p class="pull-statement">The goal is simple: to help you create a life you are wildly excited to wake up to.</p>
     </div>
   </div>
 
-  <section class="section wrap dz-reveal">
-    <h2>The Life 2.0 Private Advisory</h2>
-    <p class="body-copy">This isn't a one-size-fits-all coaching program. It's a highly personalized advisory relationship designed around you, your life, and what matters most right now.</p>
-    <p class="body-copy">We'll work on the immediate challenges in front of you while simultaneously building toward a much bigger vision for your life.</p>
-    <p class="pull-statement">The goal is simple: to help you create a life you are wildly excited to wake up to.</p>
-  </section>
-
-  <section class="section wrap">
+  <section class="section wb-section-tight wrap">
     <h2 class="dz-reveal">What you get</h2>
     <div class="numbered-features">
       {whatYouGet.map((item, i) => (
@@ -142,55 +102,46 @@ const rhetoricalQuestions = [
         </div>
       ))}
     </div>
+    <a class="btn-text dz-reveal" href="/access-your-next-level#included" style="display:inline-block; margin-top:32px;">See the full six-week curriculum &rarr;</a>
   </section>
 
-  <section class="section wrap">
-    <h2 class="dz-reveal">The Life 2.0 Method</h2>
-    <p class="body-copy dz-reveal">Our work moves through five core stages:</p>
-    <div class="method-grid">
-      {methodStages.map((s, i) => (
-        <div class="method-item dz-reveal" style={`--dz-delay:${i * 0.1}s`}>
-          <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
-          <h3>{s.stage}</h3>
-          <p>{s.body}</p>
-        </div>
-      ))}
+  <section class="section wb-section-tight wrap dz-reveal">
+    <div class="wb-for-split pa-who-split">
+      <div class="wb-for-image">
+        <img src="/assets/laura-bookshelf.jpg" alt="Laura Kelly" loading="lazy" />
+      </div>
+      <div class="pa-who-text">
+        <h2>Who this is for</h2>
+        <p class="body-copy">Life 2.0 Private Advisory is designed for people who are ambitious, capable, and willing to do the work. You may already have a successful business, career, family, or life on paper. But you're asking bigger questions now.</p>
+        <ul class="rhetorical-list">
+          {rhetoricalQuestions.map((q) => <li>{q}</li>)}
+        </ul>
+        <p class="pull-statement pa-who-closer">And most importantly: what do I want my Life 2.0 to be?</p>
+      </div>
     </div>
-    <p class="pull-statement">Life 2.0 isn't a finish line. It's a way of intentionally building your next chapter.</p>
   </section>
 
-  <section class="section wrap dz-reveal">
-    <h2>Who this is for</h2>
-    <p class="body-copy">Life 2.0 Private Advisory is designed for people who are ambitious, capable, and willing to do the work. You may already have a successful business, career, family, or life on paper. But you're asking bigger questions now.</p>
-    <ul class="rhetorical-list">
-      {rhetoricalQuestions.map((q) => <li>{q}</li>)}
-    </ul>
-    <p class="pull-statement">And most importantly: what do I want my Life 2.0 to be?</p>
-  </section>
-
-  <section class="section wrap" id="pricing">
-    <h2 class="dz-reveal">Founding client opportunity</h2>
-    <p class="body-copy dz-reveal">Life 2.0 is entering its founding chapter. Laura is opening a small number of spots for the first cohort of Life 2.0 Private Advisory clients. These founding clients will receive the full private advisory experience while also having a unique opportunity to help shape the future of Life 2.0.</p>
+  <section class="section wb-section-tight wrap pa-pricing-split" id="pricing">
+    <div class="dz-reveal pa-pricing-intro pa-pricing-intro-boxed">
+      <h2 class="pa-pricing-eyebrow">Founding client opportunity</h2>
+      <p class="body-copy">Life 2.0 is entering its founding chapter. Laura is opening a small number of spots for the first cohort of Life 2.0 Private Advisory clients. These founding clients will receive the full private advisory experience while also having a unique opportunity to help shape the future of Life 2.0.</p>
+      <a class="btn-primary" href="#apply" style="margin-top:28px; align-self:center;">Apply for Private Advisory &rarr;</a>
+    </div>
 
     <div class="pricing-card dz-reveal" style="--dz-delay:0.1s">
-      <div class="eyebrow">Founding Client Investment</div>
+      <div class="eyebrow">Six-Week Private Advisory</div>
       <div class="price">$2,000<span>/month</span></div>
-      <p>Your founding rate is locked in while you remain continuously active in the Private Advisory. As Life 2.0 grows, the investment for new Private Advisory clients will increase.</p>
+      <p>Delivered privately, at the same depth as the group program. Your founding rate is locked in while you remain continuously active in the Private Advisory.</p>
       <p>This isn't a discounted version of Life 2.0. It's the opportunity to come in at the beginning.</p>
-      <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
     </div>
-  </section>
-
-  <section class="footer-cta dz-reveal" style="margin: 40px clamp(12px,2vw,40px) 0;">
-    <h2>Your life is the biggest thing you'll ever build.</h2>
-    <p>You've spent years learning how to build companies, careers, teams, wealth, families, and accomplishments. Life 2.0 asks a different question: what if you brought that same level of intention to building your life? Not someday. Now.</p>
-    <a class="btn-primary" href="#apply">Apply for a Clarity Call &rarr;</a>
   </section>
 
   <!-- No dz-reveal here: this is an anchor target (#apply), it must be visible the instant it's jumped to. -->
   <section class="section wrap" id="apply">
-    <h2>Apply for a Clarity Call</h2>
-    <p class="body-copy">Private Advisory is capacity-limited during the founding chapter. Laura reads every application herself and personally reviews it before booking your Clarity Call, this is the qualifying step, not an instant scheduler.</p>
+    <div class="pa-apply-head">
+      <h2>Apply for Private Advisory</h2>
+      <p class="body-copy">Private Advisory is capacity-limited during the founding chapter. Laura reads every application herself and personally reviews it before booking your Clarity Call, this is the qualifying step, not an instant scheduler.</p>
+    </div>
     {applyError && (
       <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
         {applyError === 'missing-fields' ? 'Please fill in your name and email before applying.' : 'Something went wrong submitting your application. Please try again in a moment.'}
@@ -209,7 +160,68 @@ const rhetoricalQuestions = [
         <label for="context">What's going on right now?</label>
         <textarea id="context" name="context" rows="4"></textarea>
       </div>
-      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Apply for a Clarity Call</button>
+      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Apply for Private Advisory</button>
     </form>
   </section>
 </BaseLayout>
+
+<style>
+  /* "You know how to achieve." had no font rule of its own anywhere in the
+     site (only .section h2, .founder h2, etc. exist) — it was quietly
+     rendering as a plain bold system heading instead of the branded serif
+     used everywhere else. Style it here, and size both it and the "Life 2.0
+     Private Advisory" copy folded in below it down to fit as supporting
+     column text beside the photo, not a full page-width section heading. */
+  .pa-founder-grid h2 { font: 500 clamp(26px, 2.6vw, 34px)/1.2 var(--serif); color: var(--forest); }
+  .pa-founder-subhead { margin-top: 32px; margin-bottom: 12px; font: 500 clamp(21px, 2vw, 26px)/1.3 var(--serif); color: var(--forest); }
+  .pa-founder-grid .pull-statement { font-size: 20px; max-width: none; }
+
+  /* The rhetorical questions above it are already italic serif, so the
+     closing line in that same style read as just one more item in the list
+     instead of the punch line. Make it upright and bolder so it lands. */
+  .pa-who-closer { font-style: normal; font-weight: 700; font-size: clamp(24px, 2.6vw, 32px); }
+
+  /* One "Founding client opportunity" heading instead of it and the pricing
+     card's own "Founding Client Investment" eyebrow both saying the same
+     thing, side by side instead of stacked so the card doesn't sit under a
+     full-width intro paragraph with nothing beside it. */
+  .pa-pricing-split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
+  .pa-pricing-split .pricing-card { margin-top: 0; }
+  @media (max-width: 860px) { .pa-pricing-split { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* Match the "Founding client opportunity" heading to the eyebrow tag style
+     used for "Private Advisory" at the top of the page (mono, uppercase,
+     letter-spaced, gold), instead of the default big serif section heading. */
+  .pa-pricing-eyebrow { display: flex; align-items: center; gap: 12px; font: 600 clamp(18px, 1.8vw, 22px)/1.3 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+  .pa-pricing-eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); flex-shrink: 0; }
+
+  .pa-pricing-intro .body-copy { margin-top: 16px; }
+
+  /* A bordered box matching the pricing card's shape and weight, instead of
+     plain unboxed text that read as thin and small beside it. Bigger body
+     text too, to hold its own next to the card's bold price and copy. */
+  .pa-pricing-intro-boxed {
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: clamp(32px, 5vw, 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .pa-pricing-intro-boxed .body-copy { font-size: clamp(20px, 1.7vw, 24px); line-height: 1.7; }
+
+
+  /* Center the apply heading + intro to match the centered form below it. */
+  .pa-apply-head { max-width: 560px; margin: 0 auto; text-align: center; }
+  .pa-apply-head .body-copy { margin-top: 16px; }
+
+  /* The heading, paragraph, question list, and closing line had three
+     different fixed gaps between them (20px, 18px, 32px), which read as
+     lumpy rather than an even rhythm running the length of the photo.
+     space-between looked like the fix, but this column's content is
+     already about as tall as the photo, so there was no slack left for it
+     to distribute — every gap just collapsed to 0. A single consistent
+     gap gets the even rhythm without depending on leftover space. */
+  .pa-who-text { display: flex; flex-direction: column; gap: 28px; }
+  .pa-who-text .body-copy, .pa-who-text .rhetorical-list, .pa-who-text .pull-statement { margin-top: 0; }
+</style>

@@ -6,7 +6,7 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('about') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'About Laura Kelly | Life 2.0';
-const description = cms?.metaDescription ?? "Laura Kelly built a business that worked and a life that didn't feel like hers. Here's how Life 2.0 and the 9 Skills came out of that gap.";
+const description = cms?.metaDescription ?? "Laura Kelly built a business that worked and a life that didn't feel like hers. Here's how Life 2.0 and Access Your Next Level came out of that gap.";
 
 const beliefs = [
   'You do not have to stop being ambitious to become fulfilled.',
@@ -18,43 +18,105 @@ const beliefs = [
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/about">
   <div class="page-hero wrap">
-    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Hey, it's Laura</div>
-    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">I will become the person who figures it out.</h1>
+    <div class="eyebrow about-hero-eyebrow dz-enter" style="--dz-enter-delay:0s">Hey, it's Laura</div>
   </div>
 
-  <div class="founder-grid wrap" style="padding-bottom: 64px;">
-    <div class="founder-photo dz-reveal">
+  <div class="wrap about-flow" style="padding-bottom: 40px;">
+    <div class="founder-photo about-flow-photo dz-reveal">
       <img class="dz-kenburns" src="/assets/laura-kitchen.jpg" alt="Laura Kelly" />
     </div>
-    <div class="dz-reveal" style="--dz-delay:0.1s">
-      <p class="body-copy">For four years I ran on adrenaline instead of purpose. From the outside, everything worked. The business, the house, the version of success everyone could see. Inside, I was reactive more than I was present, and proud of the wrong things.</p>
-      <p class="body-copy">That gap between how a life looks and how it actually feels is the whole reason Life 2.0 exists.</p>
-    </div>
-  </div>
-
-  <section class="section wrap dz-reveal">
-    <h2>The nine skills didn't come from a whiteboard.</h2>
-    <p class="body-copy">They came from asking a harder question than "how's business." Purpose. Relationships. Identity. Growth. Physical vitality. Financial security. Contribution. Presence. Character. Nine parts of a life that high performers usually leave unmapped, because nobody ever asked them to map it the way they map a P&amp;L.</p>
-  </section>
-
-  <section class="section wrap dz-reveal">
+    <p class="body-copy">For four years I ran on adrenaline instead of purpose. From the outside, everything worked. The business, the house, the version of success everyone could see. Inside, I was reactive more than I was present, and proud of the wrong things.</p>
+    <p class="body-copy">That gap between how a life looks and how it actually feels is the whole reason Life 2.0 exists.</p>
     <h2>I'm not a perfected guru. I'm a fellow practitioner.</h2>
     <p class="body-copy">I still ask myself, most days, "how can I create even more ease and peace in my life right now." I'm still learning to respond instead of react. I'm still building the habit of one full hour of undistracted time with my kids. Life 2.0 works best when I'm honest about being in it with you, not standing outside it, pointing.</p>
+  </div>
+
+  <section class="section wb-section-tight wrap dz-reveal about-believe">
+    <h2>What I actually believe</h2>
+    <div class="about-beliefs-grid">
+      <ul class="list-plain about-beliefs-col">
+        {beliefs.filter((_, i) => i % 2 === 0).map((b) => <li>{b}</li>)}
+      </ul>
+      <ul class="list-plain about-beliefs-col">
+        {beliefs.filter((_, i) => i % 2 === 1).map((b) => <li>{b}</li>)}
+      </ul>
+    </div>
   </section>
 
-  <section class="section wrap dz-reveal">
-    <h2>What I actually believe</h2>
-    <ul class="list-plain">
-      {beliefs.map((b) => <li>{b}</li>)}
-    </ul>
+  <section class="section wb-section-tight wrap dz-reveal about-story">
+    <div class="about-break-photo dz-reveal">
+      <img src="/assets/laura-podcast.jpg" alt="Laura Kelly recording the Life 2.0 podcast" loading="lazy" />
+    </div>
   </section>
 
   <CtaBand
-    heading="Ready to see where you actually stand?"
-    body="Take the free assessment to see where you stand."
-    ctaLabel="Take the free assessment"
-    ctaHref="/assessment"
+    heading="Ready to access your next level?"
+    body="A 6-week small-group coaching experience for what comes next."
+    ctaLabel="Join the founding cohort"
+    ctaHref="/access-your-next-level"
     secondaryLabel="Or book a Clarity Call to talk it through with Laura"
     secondaryHref="/private-advisory#apply"
   />
 </BaseLayout>
+
+<style>
+  /* This eyebrow is now the whole hero (the h1 above it was removed), so it
+     needs more visual weight than the small tag-style default. */
+  .about-hero-eyebrow { font-size: clamp(26px, 3vw, 38px); gap: 18px; }
+  .about-hero-eyebrow::before { width: 48px; }
+
+  /* A short intro (two paragraphs) next to a tall 3:4 portrait always left a
+     large empty block below the text, at every width and every alignment —
+     the photo is just taller than that little text will ever be as a fixed
+     column. Floating the photo instead lets the text wrap around it and
+     keep flowing once it clears the bottom, so the same copy plus the next
+     heading and paragraph fill the space rather than stopping short in a
+     boxed column with nothing after it. */
+  .about-flow::after { content: ""; display: block; clear: both; }
+  .about-flow-photo {
+    float: left;
+    width: 42%;
+    max-width: 460px;
+    margin: 0 40px 24px 0;
+  }
+  .about-flow h2 { font-size: clamp(30px, 3.2vw, 42px); margin: 36px 0 28px; clear: none; }
+  .about-flow .body-copy { font-size: clamp(20px, 1.4vw, 22px); line-height: 1.75; }
+  @media (max-width: 700px) {
+    .about-flow-photo { float: none; width: 100%; max-width: none; margin: 0 0 24px; }
+  }
+
+  /* A second photo as a full-width break before the beliefs list, so the
+     page reads as an editorial spread rather than a wall of paragraphs. */
+  .about-break-photo { border-radius: 24px; overflow: hidden; aspect-ratio: 16/7; }
+  .about-break-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  @media (max-width: 700px) { .about-break-photo { aspect-ratio: 4/3; } }
+
+  /* Move this section up slightly — the default .section top padding read
+     as too big a gap after the flowing intro text above it. */
+  .about-believe { padding-top: 8px; }
+
+  /* Five short one-line beliefs read as a sparse, overly tall single column
+     at this width; two columns keep the line length readable. Two real,
+     independent <ul> columns (not one wrapped flex row) so a taller item in
+     one column can't push down where the next item in the OTHER column
+     starts — that coupling was what made "High performers…" look like it
+     sat too low, floating below an uneven gap. */
+  .about-beliefs-grid { display: flex; gap: 56px; }
+  .about-beliefs-col { flex: 1 1 0; margin: 24px 0 0; gap: 22px; min-width: 0; }
+  /* The shared .list-plain arrow is absolutely positioned against a fixed
+     padding-left, which drifts out of line with the text on wrapped, multi-
+     line beliefs. Lay each item out as a real flex row instead so the arrow
+     stays a fixed, consistent distance from the text at any length. */
+  .about-beliefs-col li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding-left: 0;
+  }
+  .about-beliefs-col li::before {
+    position: static;
+    flex: 0 0 auto;
+    line-height: 1.6;
+  }
+  @media (max-width: 700px) { .about-beliefs-grid { flex-direction: column; gap: 22px; } }
+</style>

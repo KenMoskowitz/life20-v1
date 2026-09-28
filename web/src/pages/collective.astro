@@ -2,29 +2,23 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage } from '../lib/sanity';
 
-// Rendered per-request: this page reads ?joined / ?error from the URL after
-// the waitlist form posts, which a prerendered page cannot do.
-export const prerender = false;
-
 const cms = await getPage('collective') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'The Life 2.0 Collective | A Community for Ambitious People';
-const description = cms?.metaDescription ?? "A psychologically safe, low-performance community for people who are done performing and ready to think out loud. Join the waitlist for the Life 2.0 Collective.";
-
-const joined = Astro.url.searchParams.get('joined') === '1';
-const error = Astro.url.searchParams.get('error');
+const description = cms?.metaDescription ?? "A psychologically safe, low-performance community for people who are done performing and ready to think out loud. Included with Access Your Next Level.";
 
 const whatFor = [
+  'Part of your Access Your Next Level experience, not a separate program',
   'Recurring reflection and connection, not one-and-done',
   "A place to be honest about the gap between how your life looks and how it feels",
   "People spread across the country, so it's built to work across time zones",
 ];
 ---
-<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/collective">
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/collective" noindex>
   <div class="page-hero wrap">
     <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">The Life 2.0 Collective</div>
     <h1 class="dz-enter" style="--dz-enter-delay:0.08s">A room where you don't have to perform.</h1>
-    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Most rooms full of ambitious people are full of performance. Everyone's fine, everyone's crushing it, nobody says the actual sentence. The Life 2.0 Collective is built to be the opposite of that. A recurring, facilitated space for people who've built real success and are ready to stop performing it, at least for an hour.</p>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">The Collective is included with Access Your Next Level and lives in our private Skool community. It's open now, alongside the six-week program, not a separate purchase or waitlist. A standalone option may come later, but for now, joining Access Your Next Level is how you get in.</p>
   </div>
 
   <div class="founder-grid wrap" style="padding-bottom: 64px;">
@@ -44,29 +38,9 @@ const whatFor = [
     </ul>
   </section>
 
-  <section class="footer-cta dz-reveal" id="waitlist">
-    <h2>Want in when it opens?</h2>
-    <p>Early interest already includes dozens of people who said yes before this even had a name.</p>
-    {joined && (
-      <p class="body-copy" style="color:var(--forest); font-weight:600; margin-top:20px;">
-        You're on the list. We'll be in touch when the Collective opens.
-      </p>
-    )}
-    {error && (
-      <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
-        {error === 'missing-fields' ? 'Please fill in your name and a valid email.' : 'Something went wrong joining the waitlist. Please try again in a moment.'}
-      </p>
-    )}
-    <form class="form-panel" action="/api/collective-waitlist" method="post" style="margin-top:32px; text-align:left;">
-      <div class="form-field">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" required />
-      </div>
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required />
-      </div>
-      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Join the waitlist</button>
-    </form>
+  <section class="footer-cta dz-reveal">
+    <h2>How to get in</h2>
+    <p>The Collective comes with Access Your Next Level, on Skool, for as long as you're active in the program.</p>
+    <a class="btn-primary" href="/access-your-next-level#join">Join Access Your Next Level &rarr;</a>
   </section>
 </BaseLayout>

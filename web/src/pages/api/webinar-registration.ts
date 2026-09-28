@@ -59,8 +59,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
                  </div>
                  <p style="font-family:Arial,sans-serif; font-size:15px; color:#5B645C; line-height:1.6;">We'll send the joining link and a reminder before it starts.</p>`
               : `<p style="font-family:Arial,sans-serif; font-size:15px; color:#5B645C; line-height:1.6;">The date is being finalized. You'll hear from us as soon as it's set, and not before.</p>`}
-            <p style="font-family:Arial,sans-serif; font-size:15px; color:#5B645C; line-height:1.6;">In the meantime, the free assessment is the best place to start.</p>
-            <a href="https://thelife20.com/assessment" style="display:inline-block; background:#1D2E22; color:#FBF7EF; font-family:Arial,sans-serif; font-size:13px; padding:14px 24px; border-radius:30px; text-decoration:none; margin-top:8px;">Take the free assessment &rarr;</a>
+            <p style="font-family:Arial,sans-serif; font-size:15px; color:#5B645C; line-height:1.6;">In the meantime, Access Your Next Level is the best place to start.</p>
+            <a href="https://thelife20.com/access-your-next-level" style="display:inline-block; background:#1D2E22; color:#FBF7EF; font-family:Arial,sans-serif; font-size:13px; padding:14px 24px; border-radius:30px; text-decoration:none; margin-top:8px;">Join the founding cohort &rarr;</a>
             <p style="font-family:Arial,sans-serif; font-size:12px; color:#8A9A7C; margin-top:30px;">Life 2.0 &middot; thelife20.com</p>
           </div>`,
       });
