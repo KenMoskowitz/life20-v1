@@ -1,4 +1,7 @@
 {
+  "crons": [
+    { "path": "/api/circle-onboarding-sync", "schedule": "0 15 * * *" }
+  ],
   "redirects": [
     { "source": "/next-level", "destination": "/private-advisory", "permanent": true },
     { "source": "/next-level/:path*", "destination": "/private-advisory", "permanent": true },

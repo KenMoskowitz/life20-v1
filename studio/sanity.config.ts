@@ -31,6 +31,8 @@ export default defineConfig({
             S.divider(),
             S.documentTypeListItem('webinar').title('Webinars'),
             S.documentTypeListItem('webinarRegistration').title('Webinar Registrations'),
+            S.divider(),
+            S.documentTypeListItem('circleOnboarding').title('Circle Onboarding'),
           ]),
     }),
     visionTool(),
