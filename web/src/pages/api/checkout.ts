@@ -30,7 +30,7 @@ export const GET: APIRoute = async ({ url, redirect }) => {
   const session = await stripeClient.checkout.sessions.create({
     mode: plan === 'full' ? 'payment' : 'subscription',
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${origin}${RETURN_PATH}?joined=1`,
+    success_url: `${origin}${RETURN_PATH}?joined=1#join`,
     cancel_url: `${origin}${RETURN_PATH}?checkout=cancelled#join`,
     ...(plan === 'installment'
       ? { subscription_data: { metadata: { plan: 'installment', cycles: '2' } } }
