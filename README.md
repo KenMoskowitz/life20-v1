@@ -12,12 +12,12 @@ Monorepo for Laura Kelly's Life 2.0 site: Astro frontend + Sanity CMS, deployed 
 
 ## Current state
 
-- **Domain:** thelife20.com, registered at Namecheap. **DNS currently points at Netlify**, not Vercel — the live public site is a separate Netlify deployment (`life20-site.netlify.app`), unrelated to this repo. DNS has NOT been cut over yet; do not change it until the Vercel production deployment below is verified.
-- **Hosting:** Vercel project `life2-0` under team `laura-kelly-s-projects`. **Currently blocked**: the Vercel team's billing subscription is suspended, so no deploy (and no env var writes) can succeed until that's resolved at vercel.com/teams/laura-kelly-s-projects/settings/billing. `web/` is already linked to this project (`web/.vercel/project.json`) and ready to deploy the moment billing clears.
+- **Domain:** thelife20.com, registered at Namecheap, served by the Vercel project below (production deploys from `main`).
+- **Hosting:** Vercel project `life2-0` under team `laura-kelly-s-projects`. Team is on the Pro plan (active). `web/` is linked to this project (`web/.vercel/project.json`).
 - **Deploy branch:** `main`.
 - **Sanity project:** `4keg86n3` ("Life 2.0"), dataset `production`, org `oE1RoZeG3`.
 - **Sanity Studio:** deployed at https://life20.sanity.studio/
-- **Sanity token:** lives in `studio/.env` and `web/.env` as `SANITY_TOKEN` (both gitignored, Developer-role token). Needs to also be added as a Vercel production env var (`SANITY_TOKEN`, no `PUBLIC_` prefix — server-only) once billing unblocks env var writes, alongside `PUBLIC_SANITY_PROJECT_ID=4keg86n3` and `PUBLIC_SANITY_DATASET=production`.
+- **Sanity token:** lives in `studio/.env` and `web/.env` as `SANITY_TOKEN` (both gitignored, Developer-role token). Also set in Vercel (`SANITY_TOKEN`, no `PUBLIC_` prefix — server-only), alongside `PUBLIC_SANITY_PROJECT_ID=4keg86n3` and `PUBLIC_SANITY_DATASET=production`.
 
 ## Build
 
