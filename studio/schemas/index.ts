@@ -9,6 +9,7 @@ import assessmentLead from './assessmentLead';
 import webinar from './webinar';
 import webinarRegistration from './webinarRegistration';
 import collectiveWaitlistSignup from './collectiveWaitlistSignup';
+import circleOnboarding from './circleOnboarding';
 
 export const schemaTypes = [
   siteSettings,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   webinar,
   webinarRegistration,
   collectiveWaitlistSignup,
+  circleOnboarding,
 ];
