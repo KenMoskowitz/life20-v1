@@ -72,7 +72,7 @@ const pages = [
     title: 'Private Advisory',
     slug: { current: 'private-advisory' },
     metaTitle: 'Private Advisory | Life 2.0',
-    metaDescription: 'Private, high-touch life advisory for ambitious founders and high performers. Founding client investment: $2,000/month. Apply for a Clarity Call.',
+    metaDescription: 'Private, high-touch life advisory for ambitious founders and high performers. Founding client investment: $3,000/month. Apply for a Clarity Call.',
   },
 ];
 
@@ -97,17 +97,21 @@ const navigation = {
 };
 
 
-// The webinar landing page at /blueprint. Deliberately seeded in "draft"
-// with no date and no agenda: those are Laura's to fill in, and the page is
-// built to omit any section she leaves empty rather than show placeholder
-// text. It stays out of Google until status is set to "upcoming".
+// The webinar landing page at /blueprint. Keep the seed aligned with the
+// current live event so a future content reset cannot replace its date or
+// registration destination with an inactive draft.
 const webinar = {
   _id: 'webinar-blueprint',
   _type: 'webinar',
   slug: { current: 'blueprint' },
   title: 'The High Achievers Fulfillment Blueprint',
-  status: 'draft',
-  ctaLabel: 'Tell me when registration opens',
+  status: 'upcoming',
+  startsAt: '2026-10-29T20:00:00Z',
+  durationMinutes: 75,
+  priceNote: 'Free to attend',
+  ctaLabel: 'Save My Spot',
+  externalRegistrationUrl:
+    'https://us02web.zoom.us/webinar/register/WN_rKC4JEEAT8ujG-knyNvzGw',
   metaTitle: 'The High Achievers Fulfillment Blueprint | Life 2.0',
   metaDescription:
     'A live training with Laura Kelly for high achievers who have built real success and want a life that feels as good as it looks.',

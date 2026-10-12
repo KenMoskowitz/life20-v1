@@ -1,21 +1,178 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Standard-language policy. Keep the service list in sync with what the site
+// really uses (Stripe, Resend, Sanity, Zoom, Calendly, Tally, Circle, Vercel),
+// and update LAST_UPDATED whenever the wording changes.
+const LAST_UPDATED = 'October 12, 2026';
+
+const sections = [
+  { id: 'collect', title: 'Information we collect' },
+  { id: 'use', title: 'How we use your information' },
+  { id: 'cookies', title: 'Cookies and analytics' },
+  { id: 'sharing', title: 'How we share information' },
+  { id: 'retention', title: 'How long we keep it' },
+  { id: 'security', title: 'How we protect it' },
+  { id: 'rights', title: 'Your choices and rights' },
+  { id: 'children', title: 'Children’s privacy' },
+  { id: 'changes', title: 'Changes to this policy' },
+  { id: 'contact', title: 'Contact us' },
+];
 ---
 <BaseLayout
   title="Privacy Policy | Life 2.0"
-  description="Life 2.0 Ventures LLC privacy policy."
+  description="How Life 2.0 Ventures LLC collects, uses and protects your personal information."
   canonicalUrl="https://thelife20.com/privacy-policy"
 >
   <div class="page-hero wrap">
     <h1>Privacy Policy</h1>
     <p class="lede">
-      This is placeholder structure only. Final legal language must be reviewed by Laura's own counsel
-      before this page goes live (see docs/master-plan.md Section 10.10). Do not publish as-is.
+      Your trust matters to us. This policy explains what information we collect when you use thelife20.com,
+      why we collect it, and the choices you have.
     </p>
+    <p class="legal-updated">Last updated: {LAST_UPDATED}</p>
   </div>
 
-  <section class="section-narrow">
-    <p class="body-copy">Life 2.0 Ventures LLC ("Life 2.0," "we," "us") is the data controller for information collected through thelife20.com. This policy is governed by the laws of the State of Arizona.</p>
-    <p class="body-copy">Sections to complete with counsel: information we collect, how we use it, cookies and analytics, third-party services (assessment tool, email, scheduling), data retention, your rights, contact information.</p>
+  <section class="section-narrow legal">
+    <nav class="legal-toc" aria-label="On this page">
+      <p class="legal-toc-label">On this page</p>
+      <ol>
+        {sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
+      </ol>
+    </nav>
+
+    <p class="body-copy">
+      This Privacy Policy applies to Life 2.0 Ventures LLC (&ldquo;Life 2.0,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;)
+      and describes how we handle personal information collected through thelife20.com and the programs, events
+      and communities offered through it (together, the &ldquo;Services&rdquo;). By using the Services, you agree to the
+      practices described here.
+    </p>
+
+    <h2 id="collect">1. Information we collect</h2>
+    <p class="body-copy"><strong>Information you give us.</strong> When you take the assessment, register for a webinar, join a waitlist, apply for coaching or advisory work, make a purchase, or contact us, we collect what you choose to share. This typically includes:</p>
+    <ul class="legal-list">
+      <li>Your name and email address</li>
+      <li>Your assessment answers and results</li>
+      <li>Answers you provide in applications, questionnaires and contact forms</li>
+      <li>Purchase details such as the program you bought and your billing name and address</li>
+    </ul>
+    <p class="body-copy">Payment card details are entered directly with our payment processor, Stripe. We never see or store your full card number.</p>
+    <p class="body-copy"><strong>Information collected automatically.</strong> When you visit the site, our hosting provider and analytics tools may collect standard technical information, such as your IP address, browser type, device type, pages visited, referring website and the date and time of your visit.</p>
+
+    <h2 id="use">2. How we use your information</h2>
+    <p class="body-copy">We use personal information to:</p>
+    <ul class="legal-list">
+      <li>Deliver your assessment results and the programs, events and communities you sign up for</li>
+      <li>Process payments and send receipts and account-related messages</li>
+      <li>Send webinar confirmations, reminders and replays</li>
+      <li>Respond to your questions and applications</li>
+      <li>Send newsletters and updates you have opted in to (you can unsubscribe at any time)</li>
+      <li>Understand how the site is used so we can improve it</li>
+      <li>Prevent fraud, keep the Services secure, and meet our legal obligations</li>
+    </ul>
+    <p class="body-copy">We do not sell your personal information.</p>
+
+    <h2 id="cookies">3. Cookies and analytics</h2>
+    <p class="body-copy">
+      We use cookies and similar technologies to keep the site working, remember your preferences, and understand
+      how visitors use it. We may also use analytics and advertising tools (such as Google Analytics or the Meta Pixel)
+      to measure how our pages and ads perform and to show you relevant ads on other platforms. These tools may set
+      their own cookies and collect information about your visit, such as the pages you view and actions you take.
+    </p>
+    <p class="body-copy">You can limit this tracking at any time:</p>
+    <ul class="legal-list">
+      <li>Block or delete cookies in your browser settings (some parts of the site may not work as intended if you do)</li>
+      <li>Opt out of Google Analytics with the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics opt-out browser add-on</a></li>
+      <li>Manage how Meta uses your information for ads in your <a href="https://www.facebook.com/adpreferences" target="_blank" rel="noopener">Meta ad preferences</a></li>
+      <li>Opt out of interest-based ads from many companies at <a href="https://optout.aboutads.info" target="_blank" rel="noopener">optout.aboutads.info</a></li>
+    </ul>
+
+    <h2 id="sharing">4. How we share information</h2>
+    <p class="body-copy">We share information only with trusted service providers who help us run the Services, and only as needed for them to do that work. These include:</p>
+    <ul class="legal-list">
+      <li><strong>Stripe</strong> for payment processing</li>
+      <li><strong>Resend</strong> for sending email</li>
+      <li><strong>Sanity</strong> for securely storing form submissions and site content</li>
+      <li><strong>Vercel</strong> for website hosting</li>
+      <li><strong>Zoom</strong> for live webinars and calls</li>
+      <li><strong>Calendly</strong> for scheduling calls</li>
+      <li><strong>Tally</strong> for program questionnaires</li>
+      <li><strong>Circle</strong> for our private member community</li>
+    </ul>
+    <p class="body-copy">
+      Each provider handles your information under its own privacy policy. We may also disclose information if
+      required by law, to protect our rights or the safety of others, or as part of a merger, sale or transfer of our business.
+    </p>
+
+    <h2 id="retention">5. How long we keep it</h2>
+    <p class="body-copy">
+      We keep personal information for as long as needed to provide the Services, maintain business and tax records,
+      resolve disputes and enforce our agreements. When it is no longer needed, we delete it or make it anonymous.
+    </p>
+
+    <h2 id="security">6. How we protect it</h2>
+    <p class="body-copy">
+      We use reasonable administrative, technical and physical safeguards to protect your information, including
+      encrypted (HTTPS) connections across the site. No method of transmission or storage is completely secure,
+      so we cannot guarantee absolute security.
+    </p>
+
+    <h2 id="rights">7. Your choices and rights</h2>
+    <p class="body-copy">You can:</p>
+    <ul class="legal-list">
+      <li>Unsubscribe from marketing emails using the link at the bottom of any email</li>
+      <li>Ask to see, correct or delete the personal information we hold about you</li>
+      <li>Ask us to stop using your information for marketing</li>
+    </ul>
+    <p class="body-copy">
+      Depending on where you live, you may have additional rights under local law. To make a request, contact us
+      using the details below. We will respond within the time required by applicable law.
+    </p>
+
+    <h2 id="children">8. Children&rsquo;s privacy</h2>
+    <p class="body-copy">
+      The Services are intended for adults and are not directed to children under 18. We do not knowingly collect
+      personal information from children. If you believe a child has given us information, please contact us and we will delete it.
+    </p>
+
+    <h2 id="changes">9. Changes to this policy</h2>
+    <p class="body-copy">
+      We may update this policy from time to time. When we do, we will change the &ldquo;Last updated&rdquo; date at the top
+      of this page. Continued use of the Services after an update means you accept the revised policy.
+    </p>
+
+    <h2 id="contact">10. Contact us</h2>
+    <p class="body-copy">
+      Questions about this policy or your information? Reach us through our <a href="/contact">contact page</a>.
+    </p>
+    <p class="body-copy legal-address">
+      Life 2.0 Ventures LLC<br />
+      Arizona, United States
+    </p>
+    <p class="body-copy">This policy is governed by the laws of the State of Arizona.</p>
   </section>
 </BaseLayout>
+
+<style>
+  .legal-updated { margin-top: 20px; font: 500 16px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+  .legal { padding-top: 24px; }
+  .legal h2 { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); font: 500 30px/1.25 var(--serif); color: var(--forest); scroll-margin-top: 96px; }
+  .legal h2 + .body-copy { margin-top: 16px; }
+  .legal .body-copy a, .legal-list a { color: var(--forest); text-decoration: underline; }
+  .legal strong { color: var(--ink); font-weight: 600; }
+  .legal-list { margin: 16px 0 0; padding-left: 24px; font: 400 20px/1.75 var(--sans); color: var(--ink-soft); }
+  .legal-list li + li { margin-top: 6px; }
+  .legal-list li::marker { color: var(--gold); }
+  .legal-list + .body-copy { margin-top: 16px; }
+  .legal-address { color: var(--ink); }
+  .legal-toc { margin-bottom: 40px; padding: 28px 32px; background: var(--paper-warm); border: 1px solid var(--line); border-radius: 12px; }
+  .legal-toc-label { margin-bottom: 14px; font: 600 16px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+  .legal-toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 32px; font: 400 18px/1.9 var(--sans); }
+  .legal-toc a { color: var(--forest); text-decoration: none; }
+  .legal-toc a:hover { text-decoration: underline; }
+  @media (max-width: 640px) {
+    .legal-toc { padding: 22px 20px; }
+    .legal-toc ol { columns: 1; }
+    .legal h2 { font-size: 26px; }
+  }
+</style>

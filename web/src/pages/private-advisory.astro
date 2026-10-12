@@ -5,7 +5,7 @@ import { getPage } from '../lib/sanity';
 const cms = await getPage('private-advisory') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
-const description = cms?.metaDescription ?? 'The same six-week Life 2.0 framework as Access Your Next Level, fully individualized for ambitious founders and high performers. Founding client investment: $2,000/month. Apply for Private Advisory.';
+const description = cms?.metaDescription ?? 'The same six-week Life 2.0 framework as Access Your Next Level, fully individualized for ambitious founders and high performers. Founding client investment: $3,000/month. Apply for Private Advisory.';
 
 const applyError = Astro.url.searchParams.get('error');
 
@@ -130,7 +130,7 @@ const rhetoricalQuestions = [
 
     <div class="pricing-card dz-reveal" style="--dz-delay:0.1s">
       <div class="eyebrow">Six-Week Private Advisory</div>
-      <div class="price">$2,000<span>/month</span></div>
+      <div class="price">$3,000<span>/month</span></div>
       <p>Delivered privately, at the same depth as the group program. Your founding rate is locked in while you remain continuously active in the Private Advisory.</p>
       <p>This isn't a discounted version of Life 2.0. It's the opportunity to come in at the beginning.</p>
     </div>

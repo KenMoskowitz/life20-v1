@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/merissalevine/Documents/GitHub/life20-v1/.codex/hooks/pull-current-state.sh'",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

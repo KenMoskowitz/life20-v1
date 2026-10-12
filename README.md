@@ -10,6 +10,8 @@ Monorepo for Laura Kelly's Life 2.0 site: Astro frontend + Sanity CMS, deployed 
 - `docs/` — Step 1 master plan and approved homepage design mockup
 - `pics-raw/` — raw client photography (gitignored, local only)
 
+See `docs/folder-map.md` for the local Mac folder map and Claude/Codex project notes.
+
 ## Current state
 
 - **Domain:** thelife20.com, registered at Namecheap, served by the Vercel project below (production deploys from `main`).
