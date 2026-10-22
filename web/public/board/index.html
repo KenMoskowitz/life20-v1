@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#14201a">
+<title>Life 2.0 Board Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+/* Layout: forest sidebar with module pills, a title card on the left and one question at a time on the right, finishing on a nine-tile poster board. */
+:root{
+  color-scheme:light;
+  --paper:#fbf7ef; --paper-warm:#f5efe2; --forest:#1d2e22; --forest-deep:#14201a;
+  --sage:#8a9a7c; --gold:#c79a56; --gold-light:#e4c688;
+  --bg:#fbf7ef; --surface:#ffffff; --fg:#2a322b; --fg-soft:#5b645c; --head:#1d2e22;
+  --line:#1d2e221f; --btn-bg:#1d2e22; --btn-fg:#ffffff;
+  --tile:#eee5d2; --tile-done:#cdbf9f; --soft:#f5efe2;
+  --side-bg:#14201a; --acc:#c79a56; --acc-ink:#8a5f1f;
+  --font-display:'Playfair Display',Georgia,serif; --font-body:'Inter',system-ui,sans-serif; --font-mono:'DM Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1712; --surface:#16231a; --fg:#eee8da; --fg-soft:#a9b3a6; --head:#f3ede0;
+  --line:#f3ede01f; --btn-bg:#e4c688; --btn-fg:#14201a; --tile:#22332a; --tile-done:#3d5545; --soft:#1b2a20; --side-bg:#0a110d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1712; --surface:#16231a; --fg:#eee8da; --fg-soft:#a9b3a6; --head:#f3ede0;
+  --line:#f3ede01f; --btn-bg:#e4c688; --btn-fg:#14201a; --tile:#22332a; --tile-done:#3d5545; --soft:#1b2a20; --side-bg:#0a110d; color-scheme:dark}
+html,body{height:100%;margin:0}img{max-width:100%}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100%}
+.side{background:var(--side-bg);color:#f6f0e2;padding-block:30px;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:22px;display:flex;flex-direction:column;gap:26px}
+.logo{font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1;color:#f6f0e2}
+.logo i{color:var(--gold-light);font-style:italic}
+.prog{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a9b3a6;margin-top:8px}
+.pills{display:flex;flex-direction:column;gap:12px}
+.pill{display:flex;align-items:center;gap:12px;background:#fbf7ef;color:#1d2e22;border:0;border-radius:999px;padding:9px 18px 9px 12px;text-align:left;width:100%}
+.pill .pl{display:flex;flex-direction:column;line-height:1.15;font-weight:600;font-size:14px}
+.pill small{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;color:#6b7468;font-weight:500}
+.pill.active{box-shadow:0 0 0 4px rgba(228,198,136,.5)}
+.ck{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid #cfc7b4;display:grid;place-items:center;color:transparent}
+.ck.on{background:var(--gold);border-color:var(--gold);color:#14201a}
+.sidefoot{margin-top:auto;font-size:12px;color:#a9b3a6;line-height:1.5}.sf{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:10px}.lk2{background:none;border:0;color:#d9d2c0;text-decoration:underline;text-underline-offset:3px;padding:4px 0;font-size:12px;text-align:left}.topbar{display:flex;justify-content:flex-end;margin-bottom:18px}#imgprev img{max-width:min(420px,100%);border-radius:12px;margin-top:14px;border:1px solid var(--line)}
+.main{padding-block:20px 48px;padding-left:32px;padding-right:max(24px,env(safe-area-inset-right,0px));min-width:0}
+.demo{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;justify-content:space-between;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:10px 16px;margin-bottom:24px;font-size:13px;color:var(--fg-soft)}
+.demo b{color:var(--head);font-weight:600}
+.demo .lk{background:none;border:0;padding:4px 2px;text-decoration:underline;text-underline-offset:3px;color:var(--head);font-size:13px}
+.saved{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.stage{display:grid;grid-template-columns:minmax(280px,390px) minmax(0,1fr);gap:36px;align-items:stretch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:34px 32px 28px;display:flex;flex-direction:column;min-width:0}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc-ink)}
+h1{font-family:var(--font-display);font-weight:600;color:var(--head);font-size:clamp(30px,3.3vw,44px);line-height:1.08;margin:12px 0 18px;text-wrap:balance}
+h1 i{font-style:italic;color:var(--acc-ink)}
+.card p{margin:0 0 14px;font-size:17px;color:var(--fg)}
+.note{display:inline-block;background:var(--soft);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--fg-soft);margin-top:4px}
+.ref{border-left:3px solid var(--acc);padding:2px 0 2px 14px;margin:6px 0 14px}
+.ref small{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-soft)}
+.ref span{font-family:var(--font-display);font-size:19px;color:var(--head)}
+.thumbwrap{margin-top:auto;padding-top:28px}
+.thumbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-soft);margin-bottom:8px}
+.thumb{width:210px;max-width:100%;display:grid;gap:5px;grid-template-columns:repeat(3,1fr);grid-template-areas:"hd hd hd" "mi mi mi" "to rl aw" "re pv vi" "go go go" "pq pq pq";grid-auto-rows:13px}
+.th{background:var(--tile);border-radius:4px}.th.on{background:var(--tile-done)}.th.cur{background:var(--acc)}
+.th.hd{grid-area:hd;height:9px;background:var(--tile-done);opacity:.7}
+.th.mi{grid-area:mi}.th.to{grid-area:to}.th.rl{grid-area:rl}.th.aw{grid-area:aw}.th.re{grid-area:re}.th.pv{grid-area:pv}.th.vi{grid-area:vi}.th.go{grid-area:go}.th.pq{grid-area:pq}
+.thumb .th.to,.thumb .th.rl,.thumb .th.aw,.thumb .th.re,.thumb .th.pv,.thumb .th.vi{height:26px}
+.thumb .th.to,.thumb .th.aw{grid-row:3 / span 1}
+.thumbc{font-size:12px;color:var(--fg-soft);margin-top:8px}
+.pane{padding-top:6px;min-width:0}
+.tabs{display:flex;flex-wrap:wrap;gap:6px 30px;margin-bottom:34px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:6px 2px 8px;font-weight:600;font-size:16px;color:var(--fg-soft)}
+.tab.on{color:var(--head);border-bottom-color:var(--acc)}
+.frow{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-bottom:6px}
+.flab{color:var(--acc-ink);font-weight:600;font-size:18px}
+.fmax{font-size:14px;color:var(--fg-soft);white-space:nowrap}
+.hint{color:var(--fg-soft);font-size:15px;margin:0 0 10px}
+.pre{font-family:var(--font-display);font-style:italic;color:var(--fg-soft);font-size:20px;margin-bottom:2px}
+.ans{display:block;width:100%;border:0;border-bottom:2px solid var(--acc);background:transparent;color:var(--head);font-family:var(--font-display);font-weight:500;font-size:clamp(22px,2.5vw,31px);line-height:1.3;padding:6px 0 10px;resize:none;overflow:hidden;border-radius:0}
+.ans:focus{outline:none;box-shadow:0 2px 0 var(--acc)}
+.cnt{text-align:right;font-family:var(--font-mono);font-size:12px;color:var(--fg-soft);margin-top:4px;min-height:18px}
+.cnt.over{color:#b3401f}
+.actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:26px}
+.btn{background:var(--btn-bg);color:var(--btn-fg);border:0;border-radius:34px;padding:16px 32px;font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--head);border:1.5px solid var(--line);box-shadow:inset 0 0 0 0 transparent}
+.link{background:none;border:0;padding:6px 2px;color:var(--fg-soft);text-decoration:underline;text-underline-offset:3px;font-size:14px}
+.after{color:var(--fg-soft);font-size:14px;margin-top:14px;max-width:34ch}
+.dots{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}
+.dot{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:transparent;display:grid;place-items:center;color:var(--fg-soft);font-weight:500}
+.dot.fl{border-color:var(--acc);color:var(--head)}
+.dot.on{background:var(--btn-bg);border-color:var(--btn-bg);color:var(--btn-fg)}
+.dot:disabled{opacity:.35;cursor:not-allowed}
+.rows{border-top:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row .n{width:26px;color:var(--fg-soft);font-size:20px}
+.row .t{flex:1;min-width:0;font-family:var(--font-display);font-size:clamp(20px,2.2vw,28px);font-weight:500;color:var(--head);overflow-wrap:anywhere}
+.row .ctl{display:flex;align-items:center;gap:6px}
+.ib{width:34px;height:34px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;color:var(--head)}
+.ib:disabled{opacity:.25;cursor:not-allowed}
+.ib.rm{background:var(--fg-soft);color:var(--surface);margin-left:6px}
+.rows.edit input{flex:1;min-width:0;border:0;border-bottom:1.5px solid var(--line);background:transparent;color:var(--head);font-family:var(--font-display);font-size:24px;padding:4px 0}
+.opts{display:grid;gap:12px}
+.opt{text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:18px 20px;font-size:17px;color:var(--fg)}
+.opt.on{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 30%,transparent)}
+.introtab p.lead{font-size:20px;max-width:52ch;margin:0 0 18px}
+blockquote{margin:0 0 18px;padding:14px 18px;background:var(--soft);border-radius:16px;font-family:var(--font-display);font-style:italic;font-size:20px;color:var(--head);max-width:52ch}
+.sci{font-size:14px;color:var(--fg-soft);max-width:56ch;margin:0 0 20px}
+.sci b{color:var(--acc-ink);font-family:var(--font-mono);font-weight:500;letter-spacing:.1em;text-transform:uppercase;font-size:11px;margin-right:6px}
+.full{background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:clamp(28px,5vw,64px);max-width:860px}
+.full p{font-size:19px;max-width:56ch;margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px}
+.chip{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--head)}
+.bctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:760px;margin-bottom:20px}
+.bctl label{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-soft);margin-bottom:4px}
+.bctl input{width:100%;border:0;border-bottom:2px solid var(--acc);background:transparent;color:var(--head);font-family:var(--font-display);font-size:24px;padding:4px 0}
+.tpls{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+.tp{width:118px;border:2px solid transparent;border-radius:16px;padding:4px;background:transparent;text-align:center;font-size:13px;color:var(--fg-soft)}
+.tp .sw{height:58px;border-radius:12px;display:block;margin-bottom:6px;border:1px solid var(--line)}
+.tp.on{border-color:var(--acc);color:var(--head)}
+.bact{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
+.toast{font-size:14px;color:var(--fg-soft)}
+/* Board */
+.board{container-type:inline-size;border-radius:22px;overflow:hidden;box-shadow:0 18px 50px -24px rgba(20,32,26,.45)}
+.bd{--u:1cqw;background:var(--b-bg);color:var(--b-fg);padding:calc(var(--u)*2.8);display:grid;gap:calc(var(--u)*1.5);grid-template-columns:1.25fr .95fr 1.25fr;grid-template-areas:"hd hd hd" "mi mi mi" "to rl aw" "re pv vi" "go go go" "pq pq pq";font-family:var(--font-body)}
+.tile{border:1px solid var(--b-line);background:var(--b-tile);border-radius:calc(var(--u)*1.6);padding:calc(var(--u)*1.8);min-width:0}
+.tile h4{margin:0 0 calc(var(--u)*.9);font:500 calc(var(--u)*.95)/1.2 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--b-acc)}
+.bd .hd{grid-area:hd;display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*2);padding:0 calc(var(--u)*.4) calc(var(--u)*.4)}
+.hd .lg{font:600 calc(var(--u)*2.6)/1 var(--font-display)}.hd .lg i{color:var(--b-acc)}
+.hd .nm{font:600 calc(var(--u)*3)/1.1 var(--font-display);text-align:center;flex:1}
+.hd .co{font:500 calc(var(--u)*.95)/1.3 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;text-align:right;color:var(--b-acc);max-width:20%}
+.mi{grid-area:mi;display:flex;align-items:baseline;gap:calc(var(--u)*2.4);flex-wrap:wrap}.mi h4{margin:0}
+.mi .tx,.pq .tx{font:500 calc(var(--u)*2.3)/1.3 var(--font-display)}
+.pq{grid-area:pq;display:flex;align-items:baseline;gap:calc(var(--u)*2.4);flex-wrap:wrap}.pq h4{margin:0}.pq .tx{font-style:italic}
+.to{grid-area:to}.aw{grid-area:aw}.rl{grid-area:rl}.re{grid-area:re}.pv{grid-area:pv}.vi{grid-area:vi}.go{grid-area:go}
+.vl{list-style:none;margin:0;padding:0;display:grid;gap:calc(var(--u)*1)}
+.vl li{font-size:calc(var(--u)*1.15);line-height:1.4}.vl b{display:block;font-weight:600;font-size:calc(var(--u)*1.3)}.vl span{display:block;opacity:.86}
+.rl .ln{font-size:calc(var(--u)*1.15);line-height:1.4;margin:0 0 calc(var(--u)*.8)}.rl .ln b{font-weight:600}
+.rl .em{font:500 calc(var(--u)*1.05)/1.3 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--b-acc);margin-top:calc(var(--u)*1)}
+.re p,.pv p{margin:0;font:500 calc(var(--u)*1.45)/1.4 var(--font-display)}
+.vi ol{margin:0;padding:0;list-style:none;display:grid;gap:calc(var(--u)*.7)}.vi li{font:500 calc(var(--u)*1.7)/1.2 var(--font-display)}
+.go .gl{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*2)}.go .g b{display:block;font-weight:600;font-size:calc(var(--u)*1.25);line-height:1.35}.go .g span{display:block;font-size:calc(var(--u)*1.05);opacity:.86;margin-top:calc(var(--u)*.4)}
+@container (max-width:760px){
+  .bd{--u:2.5cqw;grid-template-columns:1fr;grid-template-areas:"hd" "mi" "to" "aw" "rl" "re" "pv" "vi" "go" "pq"}
+  .hd{flex-direction:column;text-align:center}.hd .co{text-align:center;max-width:none}
+  .mi,.pq{flex-direction:column;gap:calc(var(--u)*.8)}
+  .go .gl{grid-template-columns:1fr}
+}
+.tpl-forest{--b-bg:radial-gradient(110% 80% at 90% 0%,#2f4a38 0%,transparent 60%),radial-gradient(90% 70% at 0% 100%,#243a2c 0%,transparent 55%),#14201a;--b-fg:#f6f0e2;--b-acc:#e4c688;--b-line:rgba(228,198,136,.38);--b-tile:rgba(255,255,255,.035)}
+.tpl-paper{--b-bg:radial-gradient(100% 80% at 100% 0%,#f1e7d0 0%,transparent 60%),#fbf7ef;--b-fg:#1d2e22;--b-acc:#8a5f1f;--b-line:rgba(29,46,34,.24);--b-tile:rgba(255,255,255,.6)}
+.tpl-sage{--b-bg:radial-gradient(100% 80% at 0% 0%,#eef2e6 0%,transparent 60%),#cdd7bf;--b-fg:#1d2e22;--b-acc:#3f5236;--b-line:rgba(29,46,34,.26);--b-tile:rgba(255,255,255,.34)}
+.tpl-gold{--b-bg:linear-gradient(135deg,#ecd5a2 0%,#c79a56 100%);--b-fg:#14201a;--b-acc:#14201a;--b-line:rgba(20,32,26,.32);--b-tile:rgba(255,255,255,.22)}
+.sw.tpl-forest,.sw.tpl-paper,.sw.tpl-sage,.sw.tpl-gold{background:var(--b-bg)}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}.side{min-width:0}
+  .side{flex-direction:row;flex-wrap:wrap;align-items:center;padding-block:18px;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));gap:14px}
+  .side .brand{flex:1 0 100%}.pills{flex-direction:row;overflow-x:auto;width:100%;padding:4px 4px 8px}.pill{width:auto;flex:none}.sidefoot{flex:1 0 100%;margin-top:0}.sf{flex-direction:row;flex-wrap:wrap;gap:4px 16px}
+  .main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .stage{grid-template-columns:1fr;gap:24px}
+  .thumbwrap{padding-top:18px}
+}
+@media (prefers-reduced-motion:no-preference){.btn,.dot,.pill,.opt{transition:transform .15s,opacity .15s}.btn:not(:disabled):hover{transform:translateY(-1px)}}
+</style>
+</head><body>
+<div class="app" id="app"></div>
+<script>
+(function(){
+var I={
+ check:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+ up:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
+ down:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+ minus:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M7 12h10"/></svg>',
+ pencil:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/></svg>',
+ rank:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>'
+};
+var TN={mi:'My Mission',rl:'My Rich Life',to:'Towards Values & Rules',aw:'Away From Values & Rules',re:'My Relationship Vision',pv:'My Professional Vision',vi:'My Power Virtues',go:'My 90-Day Goals',pq:'My Primary Question'};
+var LS='l2-nextlevel-board-v1';
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function get(o,p){return p.split('.').reduce(function(x,k){return x==null?undefined:x[k]},o)}
+function setp(o,p,val){var ks=p.split('.'),x=o;ks.forEach(function(k,i){if(i===ks.length-1){x[k]=val}else{if(x[k]==null)x[k]=/^\d+$/.test(ks[i+1])?[]:{};x=x[k]}})}
+function wc(t){t=(t||'').trim();return t?t.split(/\s+/).length:0}
+function top(arr,n){return (arr||[]).filter(function(x){return x&&x.v&&x.v.trim()}).slice(0,n)}
+
+function emptyA(){return{m1:{},richLife:{emotions:[]},towards:[],away:[],goals:[{},{},{}],virtues:[],role:'',name:'',cohort:'Next Level',tpl:'forest'}}
+
+var MODS=[
+{n:1,name:'Patterns',title:'Pattern Recognition',acc:'#8a9a7c',ink:['#55664a','#a9b99a'],
+ intro:'We start by looking at what keeps repeating. When we can name a pattern, we can choose what to do with it. The two answers in this module stay private. They will not appear on your board.',
+ done:'You named a pattern and what it costs. That takes honesty, and it is where change starts. These answers stay private.',
+ ex:[
+ {id:'m1a',title:'Name the Pattern',tile:null,priv:true,kind:'steps',
+  prompt:['Think of something that keeps showing up in your life. It might be a feeling, a reaction, or a result you did not choose.','What is the pattern?'],
+  why:'Patterns run best when no one is looking at them. Writing one down is the first step toward choosing something different.',example:'I say yes to everything, then resent the time it takes from home.',
+  steps:function(){return[{label:'The pattern',fields:[{path:'m1.pattern',max:300,rows:3,ph:'I notice that I…'}]}]}},
+ {id:'m1b',title:'What It Costs',tile:null,priv:true,kind:'steps',
+  prompt:['Every pattern gives us something and costs us something.','What has this one cost you? Think about your energy, your relationships and your work.'],
+  why:'We keep patterns because they protect us in some way. Seeing the cost helps us stay curious instead of hard on ourselves.',example:'I am tired, short with my kids, and the work I love feels heavy.',
+  steps:function(){return[{label:'The cost',fields:[{path:'m1.cost',max:300,rows:3,ph:'It has cost me…'}]}]}}
+ ]},
+{n:2,name:'Rich Life',title:'Your Rich Life',acc:'#c79a56',ink:['#8a5f1f','#e4c688'],
+ intro:'Now we picture a life that feels rich in every way. We write it in your own words, then find the purpose underneath it.',
+ done:'You described a life that feels rich, how you want to feel in it, and the purpose underneath. These are the foundation of your board.',
+ ex:[
+ {id:'m2a',title:'My Rich Life',tile:'rl',kind:'steps',
+  prompt:['Picture your life three years from now. It feels rich in every way that matters to you.','Write one sentence for each part of your life. We will take them one at a time.'],
+  why:'A rich life looks different for each of us. Writing it as if it is already true helps us recognize it when we see it.',example:'We are debt free and have six months of savings set aside.',
+  steps:function(){return[
+   {label:'Personal life',fields:[{path:'richLife.personal',max:150,rows:3,ph:'In my personal life…'}]},
+   {label:'Professional life',fields:[{path:'richLife.professional',max:150,rows:3,ph:'In my professional life…'}]},
+   {label:'Financial life',fields:[{path:'richLife.financial',max:150,rows:3,ph:'In my financial life…'}]}]}},
+ {id:'m2b',title:'How I Want to Feel',tile:'rl',kind:'list',path:'richLife.emotions',min:3,max:3,maxc:30,
+  first:'Write the first feeling that comes to mind…',
+  prompt:['Across all three parts of your life, how do you most want to feel?','Write the three feelings you want to have most often. One at a time.'],
+  why:'Feelings are what we are really after. Goals are the road to them.',example:'Calm, Pride, Joy'},
+ {id:'m2c',title:'My Relationship Vision',tile:'re',kind:'steps',
+  prompt:['Think about the person you share your life with, or the close relationships you want to build.','In two sentences, describe the relationship you are creating. Write it as if it is already true.'],
+  why:'Writing it in the present tense lets us feel it now, and we start to notice what moves us toward it.',example:'We laugh easily and tell each other the truth. Our home is the place we both rest.',
+  science:'Close, warm relationships are among the strongest predictors of well-being across a lifetime (Harvard Study of Adult Development).',
+  steps:function(){return[{label:'Our relationship',fields:[{path:'relationship',max:220,rows:4,ph:'Our relationship…'}]}]}},
+ {id:'m2d',title:'My Mission',tile:'mi',kind:'steps',
+  prompt:['Your mission is the purpose behind the life you just described. It can be small and it can be simple.','Finish this sentence: My mission is to ______, so that ______.'],
+  why:'A mission gives a life direction. We keep it short so we can remember it on a hard day.',example:'To help people grow into their best selves, so that my family and team feel free.',
+  science:'Purpose in life is one of the core dimensions of psychological well-being (Ryff, 1989).',
+  steps:function(){return[{label:'My mission (25 words or fewer)',fields:[{path:'mission',max:200,words:25,rows:3,ph:'To…, so that…'}]}]}}
+ ]},
+{n:3,name:'Values',title:'Values & Rules',acc:'#b8683f',ink:['#9a4f2a','#e0a07c'],
+ intro:'We look at what we are moving toward and what we are moving away from. Values are the compass. Rules decide how often we feel them.',
+ done:'You know what you are moving toward and away from, and the rules that decide how often you feel each one.',
+ ex:[
+ {id:'m3a',title:'Order Your Towards Values',tile:'to',kind:'list',path:'towards',min:3,max:8,maxc:50,
+  first:'Write out the first value that comes to mind…',
+  prompt:['What do you most want to feel in your life?','These are your Towards Values. Write them one at a time, then put them in order.'],
+  why:'Our values decide what we notice and what we choose. Putting them in order shows us what wins when two of them compete.',example:'Love, Health, Growth',
+  science:'Acting from values we have chosen ourselves supports well-being (Self-Determination Theory, Ryan & Deci, 2000).'},
+ {id:'m3b',title:'Towards Rules',tile:'to',kind:'steps',
+  prompt:['A rule is how we decide whether we are living a value.','Rules that are easy to meet bring more joy. Finish each sentence in a way you can meet most days.'],
+  why:'If our rule for feeling loved is that everyone agrees with us, we will rarely feel it. A kinder rule lets the value show up every day.',example:'Anytime I am present, or choose warmth over being right.',
+  steps:function(A){return top(A.towards,3).map(function(x,i){return{label:x.v,hint:'What lets you feel '+x.v.toLowerCase()+'? Keep it easy to meet.',prefix:'Anytime I',fields:[{path:'towards.'+i+'.rule',max:150,rows:3,ph:'…'}]}})}},
+ {id:'m3c',title:'Order Your Away From Values',tile:'aw',kind:'list',path:'away',min:2,max:6,maxc:50,
+  first:'Write out the first feeling you want to avoid…',
+  prompt:['What do you most want to avoid feeling?','These are your Away From Values. Name them one at a time, then put them in order.'],
+  why:'Naming what we move away from takes away some of its power. It also helps us notice it early.',example:'Overwhelm, Shame'},
+ {id:'m3d',title:'Away From Rules',tile:'aw',kind:'steps',
+  prompt:['Our Away From rules are often very strict. That is why we feel them so often.','Finish each sentence with what you would have to do, and what you would remember instead.'],
+  why:'A strict rule makes a painful feeling easy to trigger. A wider rule gives us room to come back to ourselves.',example:'Only if I were to consistently hide my mistakes, instead of remembering that honesty builds trust.',
+  steps:function(A){return top(A.away,2).map(function(x,i){return{label:x.v,hint:'What would you have to keep doing to feel '+x.v.toLowerCase()+' all the time?',prefix:'Only if I were to consistently',fields:[{path:'away.'+i+'.rule',max:200,rows:3,ph:'…, instead of remembering…'}]}})}}
+ ]},
+{n:4,name:'Question',title:'Primary Question',acc:'#4f7c78',ink:['#2f5a56','#8fc2bd'],
+ intro:'The questions we ask ourselves shape what we notice. In this module we find the question we ask now, and choose a better one.',
+ done:'You have a new question to ask yourself. Try saying it out loud this week.',
+ ex:[
+ {id:'m4a',title:'My Current Question',tile:'pq',kind:'steps',
+  prompt:['Every day we ask ourselves a question, often without noticing.','What question do you ask yourself most when things get hard?'],
+  why:'Our questions shape what we notice and how we feel. Seeing the one we use now makes it easier to choose a better one.',example:'Why can I never get everything done?',
+  steps:function(){return[{label:'My current question',fields:[{path:'pqOld',max:150,rows:3,ph:'Why…'}]}]}},
+ {id:'m4b',title:'My New Primary Question',tile:'pq',kind:'steps',
+  ref:function(A){return A.pqOld?['Your current question',A.pqOld]:null},
+  prompt:['Now we choose a question that moves you toward the life you described.','Start with "How can I…" and keep it kind.'],
+  why:'A good question makes us curious and calm. It turns pressure into a direction.',example:'How can I make today lighter and more loving?',
+  steps:function(){return[{label:'My new primary question',fields:[{path:'pqNew',max:150,rows:3,ph:'How can I…'}]}]}}
+ ]},
+{n:5,name:'Work',title:'Work as a Vehicle',acc:'#6b8a4e',ink:['#47622f','#a9c98a'],
+ intro:'Work can be a vehicle for the life we want. Whether you own a business, lead a team, or are building something else, we name what it is for.',
+ done:'You named what your work is for. That gives everything you do a direction.',
+ ex:[
+ {id:'m5a',title:'Where I Work',tile:'pv',kind:'choice',path:'role',
+  prompt:['Where does most of your working life happen?','Your answer shapes the next question. Every answer is welcome here.'],
+  why:'Work shows up in many ways. We want your vision to fit your life, whatever it looks like.',
+  options:[['owner','I own or run a business'],['leader','I lead a team or work inside an organization'],['other','I am building something else, like a family, a calling or a creative life']]},
+ {id:'m5b',title:'My Professional Vision',tile:'pv',kind:'steps',
+  prompt:function(A){var o=A.role==='owner'?['Your business can be a vehicle for the life you want.','Finish this sentence: My work is a vehicle for ______, ______, and ______. I am the driver.']:A.role==='leader'?['Your role can be a vehicle for the life you want.','Finish this sentence: My work is a vehicle for ______, ______, and ______.']:['What you are building can be a vehicle for the life you want.','Finish this sentence: My work is a vehicle for ______, ______, and ______.'];return o},
+  why:'When our work has a purpose beyond the paycheck, it gives energy back instead of only taking it.',example:'My work is a vehicle for growth, freedom, and impact. I am the driver.',
+  steps:function(){return[{label:'My professional vision',fields:[{path:'professional',max:200,rows:3,ph:'My work is a vehicle for…'}]}]}}
+ ]},
+{n:6,name:'Board',title:'Integration & Your Board',acc:'#d4aa66',ink:['#8a5f1f','#e4c688'],
+ intro:'We bring it all together. You choose your Power Virtues, set three goals for the next 90 days, and build your board.',
+ done:'Your board is ready. Look at it each morning, and let it remind you who you are choosing to be.',
+ ex:[
+ {id:'m6a',title:'My Power Virtues',tile:'vi',kind:'list',path:'virtues',min:3,max:4,maxc:30,prefix:'I am',
+  first:'I am…  Write the first quality that comes to mind.',
+  prompt:['Power Virtues are the "I am" qualities you choose to live from.','Write three or four, one at a time. Finish this sentence: I am ______.'],
+  why:'Naming who we are choosing to be makes the hard moments easier to meet.',example:'I am calm. I am brave.'},
+ {id:'m6b',title:'My 90-Day Goals',tile:'go',kind:'steps',
+  prompt:['What would you be proud to have done in 90 days?','Set one goal for your personal life, one for your professional life and one for your financial life. Add one line on why it matters.'],
+  why:'A goal with a reason behind it is easier to keep. The reason carries us on the hard days.',example:'Run a 10K in under 60 minutes. Because my energy sets the tone for my family.',
+  steps:function(){var L=['Personal','Professional','Financial'];return L.map(function(l,i){return{label:'Goal #'+(i+1)+' · '+l,fields:[{path:'goals.'+i+'.goal',label:'Goal #'+(i+1)+' · '+l,max:120,rows:2,ph:'In 90 days, I…'},{path:'goals.'+i+'.why',label:'Why it matters',max:120,rows:2,ph:'Because…'}]}})}},
+ {id:'m6c',title:'Build My Board',tile:null,kind:'board',
+  prompt:['Your answers are ready.'],why:''}
+ ]}
+];
+
+var S=load(),v=startView();
+function freshState(){return{a:emptyA(),done:{},completed:{},started:{},welcomed:false}}
+function load(){try{var r=localStorage.getItem(LS);if(r){var o=JSON.parse(r);if(o&&o.a)return o}}catch(e){}return freshState()}
+function modeFor(e){return e.kind==='list'&&cnt(e)>=e.min?'rank':'entry'}
+function startView(){if(!S.welcomed)return{m:0,screen:'welcome',ex:0,tab:'work',step:0,mode:'entry'};var i=0;while(i<5&&S.completed[MODS[i].n])i++;var m=MODS[i],j=0;while(j<m.ex.length-1&&S.done[m.ex[j].id])j++;return{m:i,screen:S.started[m.n]?'ex':'intro',ex:j,tab:'work',step:0,mode:modeFor(m.ex[j])}}
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+function curM(){return MODS[v.m]}
+function curE(){return MODS[v.m].ex[v.ex]}
+function lst(e){return get(S.a,e.path)||[]}
+function cnt(e){return lst(e).filter(function(x){return x&&x.v&&x.v.trim()}).length}
+function clean(){var e=v.screen==='ex'&&curE();if(e&&e.kind==='list'){setp(S.a,e.path,lst(e).filter(function(x){return x&&x.v&&x.v.trim()}));save()}}
+function stepsOf(e){return e.kind==='steps'?e.steps(S.a):[]}
+function tileFilled(id){var a=S.a,t=function(x){return !!(x&&String(x).trim())};
+ switch(id){case'mi':return t(a.mission);case'rl':return t(a.richLife.personal)&&t(a.richLife.professional)&&t(a.richLife.financial);case'to':return top(a.towards,9).length>=3;case'aw':return top(a.away,9).length>=2;case're':return t(a.relationship);case'pv':return t(a.professional);case'vi':return top(a.virtues,9).length>=3;case'go':return (a.goals||[]).every(function(g){return g&&t(g.goal)});case'pq':return t(a.pqNew)}return false}
+function thumb(cur){var ids=['mi','to','rl','aw','re','pv','vi','go','pq'];
+ return '<div class="thumbl">My board</div><div class="thumb" aria-hidden="true"><div class="th hd"></div>'+ids.map(function(id){return '<div class="th '+id+(tileFilled(id)?' on':'')+(cur===id?' cur':'')+'"></div>'}).join('')+'</div><div class="thumbc">'+(cur?'Adds to: '+TN[cur]:'Private. Not on your board.')+'</div>'}
+
+/* ---------- rendering ---------- */
+function render(){
+ var m=curM(),root=document.documentElement;
+ root.style.setProperty('--acc',m.acc);root.style.setProperty('--acc-ink','light-dark('+m.ink[0]+','+m.ink[1]+')');
+ var main=v.screen==='welcome'?welcomeHTML():v.screen==='intro'?introHTML(m):v.screen==='done'?doneHTML(m):exHTML(m);
+ document.getElementById('app').innerHTML=sideHTML()+'<main class="main">'+demoHTML()+main+'</main>';
+ document.querySelectorAll('textarea.ans').forEach(grow);
+ updateControls();
+ var f=document.getElementById('lin')||document.querySelector('textarea.ans');if(f&&v.tab==='work'&&document.activeElement===document.body&&v.screen==='ex'&&!v.noFocus){try{f.focus({preventScroll:true});var l=f.value.length;f.setSelectionRange(l,l)}catch(e){}}
+}
+function sideHTML(){
+ return '<aside class="side"><div class="brand"><div class="logo">Life <i>2.0</i></div><div class="prog">Access Your Next Level</div></div><nav class="pills" aria-label="Modules">'+
+ MODS.map(function(m,i){return '<button class="pill'+(v.m===i&&!(i===5&&v.screen==='ex'&&curE().kind==='board')?' active':'')+'" data-act="mod" data-i="'+i+'"><span class="ck'+(S.completed[m.n]?' on':'')+'">'+I.check+'</span><span class="pl"><small>MODULE '+m.n+'</small>'+m.name+'</span></button>'}).join('')+
+ '<button class="pill'+(v.m===5&&v.screen==='ex'&&curE().kind==='board'?' active':'')+'" data-act="board"><span class="ck'+(S.done.m6c?' on':'')+'">'+I.check+'</span><span class="pl"><small>YOUR</small>Board</span></button></nav><div class="sidefoot"><div>Your answers save on this device as you go. Nothing is sent anywhere.</div><div class="sf"><button class="lk2" data-act="backup">Save a backup file</button><button class="lk2" data-act="restore">Restore a backup</button>'+(v.confirm?'<span>Clear everything?</span><button class="lk2" data-act="resetyes">Yes, clear it</button><button class="lk2" data-act="resetno">Cancel</button>':'<button class="lk2" data-act="reset">Start over</button>')+'</div><input type="file" id="rf" accept=".json,application/json" hidden></div></aside>'}
+function welcomeHTML(){return '<div class="full"><div class="eyebrow">Access Your Next Level</div><h1>Welcome to your <i>board</i>.</h1><p>Over six short modules you will describe the life you are building and what is underneath it. At the end, everything comes together on one board you can print or keep on your phone.</p><p>Your answers are saved only in this browser, on this device. We never see them. Take your time, and come back whenever you like.</p><div class="bctl" style="margin-bottom:28px"><div><label for="wn">What name should go on your board?</label><input id="wn" data-path="name" maxlength="40" value="'+esc(S.a.name)+'" placeholder="Your name" autocomplete="name"></div></div><button class="btn" id="wbegin" data-act="begin"'+(S.a.name&&S.a.name.trim()?'':' disabled')+'>Begin</button></div>'}
+function demoHTML(){return '<div class="topbar"><span class="saved">Saved on this device</span></div>'}
+function demoHTML_old(){return '<div class="demo"><span><b>Prototype.</b> Sample answers are loaded so you can see the finished flow.</span><span><button class="lk" data-act="sample">Reload sample</button> · <button class="lk" data-act="fresh">Start fresh</button> · <span class="saved">Saved</span></span></div>'}
+function introHTML(m){return '<div class="full"><div class="eyebrow">Module '+m.n+' of 6</div><h1>'+esc(m.title)+'</h1><p>'+esc(m.intro)+'</p><button class="btn" data-act="start">Start Module '+m.n+'</button></div>'}
+function doneHTML(m){
+ var tiles=[];m.ex.forEach(function(e){if(e.tile&&tiles.indexOf(e.tile)<0)tiles.push(e.tile)});
+ var last=m.n===6;
+ return '<div class="full"><div class="eyebrow">Module '+m.n+' complete</div><h1>'+(last?'Your board is <i>ready</i>.':'Well done.')+'</h1><p>'+esc(m.done)+'</p>'+(tiles.length?'<div class="eyebrow" style="margin-bottom:10px">Added to your board</div><div class="chips">'+tiles.map(function(t){return '<span class="chip">'+TN[t]+'</span>'}).join('')+'</div>':'<div class="chips"><span class="chip">Private reflection. Kept off your board.</span></div>')+
+ (last?'<div class="bact">'+dlButtons()+'</div><div id="imgprev"></div><p style="margin-top:16px"><button class="link" data-act="board">View or change my board</button></p>':'<button class="btn" data-act="next-mod">Go to Module '+(m.n+1)+'</button>')+'</div>'}
+function tabsHTML(m){return '<div class="tabs" role="tablist"><button class="tab'+(v.tab==='intro'?' on':'')+'" data-act="tab" data-t="intro">Intro</button>'+m.ex.map(function(x,i){return '<button class="tab'+(v.tab==='work'&&v.ex===i?' on':'')+'" data-act="q" data-i="'+i+'">Q'+(i+1)+'</button>'}).join('')+'</div>'}
+function exHTML(m){
+ var e=curE();
+ if(e.kind==='board')return '<div class="pane">'+tabsHTML(m)+boardPageHTML(m,e)+'</div>';
+ var P=typeof e.prompt==='function'?e.prompt(S.a):e.prompt;
+ var ref=e.ref?e.ref(S.a):null;
+ var left='<section class="card"><div class="eyebrow">Module '+m.n+' · '+esc(m.title)+'</div><h1>'+esc(e.title)+'</h1>'+P.map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+(ref?'<div class="ref"><small>'+esc(ref[0])+'</small><span>'+esc(ref[1])+'</span></div>':'')+(e.priv?'<span class="note">Private. This stays between you and your coach.</span>':'')+'<div class="thumbwrap">'+thumb(e.tile)+'</div></section>';
+ var right='<div class="pane">'+tabsHTML(m)+(v.tab==='intro'?introTab(e):e.kind==='steps'?stepsHTML(e):e.kind==='list'?listHTML(e):choiceHTML(e))+'</div>';
+ return '<div class="stage">'+left+right+'</div>'}
+function introTab(e){return '<div class="introtab"><p class="lead">'+esc(e.why)+'</p>'+(e.example?'<blockquote>Example: '+esc(e.example)+'</blockquote>':'')+(e.science?'<p class="sci"><b>Founded in science</b>'+esc(e.science)+'</p>':'')+'<button class="btn" data-act="tab" data-t="work">Start Q'+(v.ex+1)+'</button></div>'}
+function isLastEx(){return v.ex===curM().ex.length-1}
+function saveLabel(){return isLastEx()?'Finish module':'Save & continue'}
+function stepsHTML(e){
+ var steps=stepsOf(e);
+ if(!steps.length)return '<p class="hint">Add your values in the earlier question first, then come back here.</p>';
+ var i=Math.min(v.step,steps.length-1),st=steps[i];
+ var fields=st.fields.map(function(f,k){var val=get(S.a,f.path)||'';
+  return '<div class="fld" style="margin-bottom:22px"><div class="frow"><span class="flab">'+esc(f.label||st.label)+'</span><span class="fmax">'+(f.words?'Up to '+f.words+' words':'Max '+f.max+' chars')+'</span></div>'+(k===0&&st.hint?'<p class="hint">'+esc(st.hint)+'</p>':'')+(st.prefix&&k===0?'<div class="pre">'+esc(st.prefix)+'</div>':'')+'<textarea class="ans" id="f'+k+'" data-path="'+f.path+'" maxlength="'+f.max+'" rows="'+(f.rows||2)+'" placeholder="'+esc(f.ph||'')+'" aria-label="'+esc(f.label||st.label)+'">'+esc(val)+'</textarea><div class="cnt" data-cnt="'+f.path+'" '+(f.words?'data-words="'+f.words+'"':'')+'></div></div>'}).join('');
+ var last=i===steps.length-1;
+ var dots=steps.length>1?'<div class="dots" role="group" aria-label="Steps">'+steps.map(function(s,j){var fl=s.fields.every(function(f){return (get(S.a,f.path)||'').trim()});return '<button class="dot'+(j===i?' on':fl?' fl':'')+'" data-act="step" data-i="'+j+'" aria-label="Step '+(j+1)+'">'+(j+1)+'</button>'}).join('')+'</div>':'';
+ return '<div>'+fields+'<div class="actions"><button class="btn" id="next" data-act="snext">'+(last?saveLabel():'Next')+'</button></div><p class="after">You can come back and amend your answers at any point.</p>'+dots+'</div>'}
+function listHTML(e){
+ var n=cnt(e),arr=lst(e);
+ var dots='<div class="dots" role="group" aria-label="Entries">';
+ for(var j=0;j<e.max;j++){var on=v.mode==='entry'&&Math.min(v.step,n)===j;dots+='<button class="dot'+(on?' on':j<n?' fl':'')+'" data-act="ldot" data-i="'+j+'"'+(j>n?' disabled':'')+' aria-label="Entry '+(j+1)+'">'+(j+1)+'</button>'}
+ dots+='<button class="dot'+(v.mode==='rank'?' on':'')+'" data-act="rank"'+(n<1?' disabled':'')+' aria-label="Put in order">'+I.rank+'</button><button class="dot'+(v.mode==='edit'?' on':'')+'" data-act="edit"'+(n<1?' disabled':'')+' aria-label="Edit all">'+I.pencil+'</button></div>';
+ if(v.mode==='entry'){
+  var idx=Math.min(v.step,n),val=(arr[idx]&&arr[idx].v)||'';
+  return '<div><div class="frow"><span class="flab">'+(idx===0?esc(e.first):'Write another…')+'</span><span class="fmax">Max '+e.maxc+' chars</span></div>'+(e.prefix?'<div class="pre">'+esc(e.prefix)+'</div>':'')+'<textarea class="ans" id="lin" data-lidx="'+idx+'" maxlength="'+e.maxc+'" rows="1" aria-label="Entry '+(idx+1)+'">'+esc(val)+'</textarea><div class="cnt" id="lcnt"></div><div class="actions"><button class="btn" id="next" data-act="lnext">Next</button></div><p class="after" id="lhelp">Add at least '+e.min+' to save your progress. You can come back and amend them at any point.</p>'+dots+'</div>'}
+ if(v.mode==='edit'){
+  return '<div><p class="hint">Edit any entry. Changes save as you type.</p><div class="rows edit">'+arr.map(function(x,i){return '<div class="row"><span class="n">'+(i+1)+'</span><input data-lidx="'+i+'" maxlength="'+e.maxc+'" value="'+esc(x.v)+'" aria-label="Entry '+(i+1)+'"></div>'}).join('')+'</div><div class="actions"><button class="btn" id="lsave" data-act="lsave">'+saveLabel()+'</button></div>'+dots+'</div>'}
+ var rows=arr.map(function(x,i){return '<div class="row"><span class="n">'+(i+1)+'</span><span class="t">'+(e.prefix?'<span style="color:var(--fg-soft);font-style:italic">'+esc(e.prefix)+' </span>':'')+esc(x.v)+'</span><span class="ctl"><button class="ib" data-act="up" data-i="'+i+'"'+(i===0?' disabled':'')+' aria-label="Move up">'+I.up+'</button><button class="ib" data-act="down" data-i="'+i+'"'+(i===arr.length-1?' disabled':'')+' aria-label="Move down">'+I.down+'</button><button class="ib rm" data-act="del" data-i="'+i+'" aria-label="Remove">'+I.minus+'</button></span></div>'}).join('');
+ return '<div><p class="hint">'+(e.kind==='list'&&e.id==='m3a'?'Review your Towards Values. Which one matters most? Move them so they show the order of your life today.':'Move them into the order that feels true for your life today.')+'</p><div class="rows">'+rows+'</div><div class="actions"><button class="btn" id="lsave" data-act="lsave"'+(n<e.min?' disabled':'')+'>'+saveLabel()+'</button>'+(n<e.max?'<button class="link" data-act="addmore">Add another</button>':'')+'</div>'+(n<e.min?'<p class="after">Add at least '+e.min+' to save.</p>':'<p class="after">You can come back and amend your answers at any point.</p>')+dots+'</div>'}
+function choiceHTML(e){
+ return '<div><div class="opts">'+e.options.map(function(o){return '<button class="opt'+(S.a[e.path]===o[0]?' on':'')+'" data-act="choose" data-val="'+o[0]+'">'+esc(o[1])+'</button>'}).join('')+'</div><div class="actions"><button class="btn" id="next" data-act="csave"'+(S.a[e.path]?'':' disabled')+'>'+saveLabel()+'</button></div><p class="after">You can come back and amend your answers at any point.</p></div>'}
+function boardPageHTML(m,e){
+ var T=[['forest','Forest'],['paper','Paper'],['sage','Sage'],['gold','Gold']];
+ return '<h1 style="margin-top:0">Build <i>My Board</i></h1><div class="bctl"><div><label for="nm">Name on your board</label><input id="nm" data-path="name" value="'+esc(S.a.name)+'" maxlength="40" placeholder="Your name"></div><div><label for="co">Line under your name</label><input id="co" data-path="cohort" value="'+esc(S.a.cohort)+'" maxlength="50"></div></div><div class="tpls" role="group" aria-label="Board look">'+T.map(function(t){return '<button class="tp'+(S.a.tpl===t[0]?' on':'')+'" data-act="tpl" data-t="'+t[0]+'"><span class="sw tpl-'+t[0]+'"></span>'+t[1]+'</button>'}).join('')+'</div><div class="board tpl-'+S.a.tpl+'" id="boardMount">'+boardInner()+'</div><div class="bact">'+dlButtons()+'<button class="btn ghost" data-act="copy">Copy board text</button><button class="btn" data-act="finish">Finish module</button></div><p class="after" style="max-width:60ch">Your PDF and phone image are made on this device. Nothing is uploaded.</p><div id="imgprev"></div>'}
+function boardInner(){
+ var a=S.a,rl=a.richLife||{};
+ function vl(arr,n,pre){return top(arr,n).map(function(x,i){return '<li><b>'+(i+1)+'. '+esc(x.v)+'</b>'+(x.rule?'<span>'+esc(pre)+' '+esc(x.rule)+'</span>':'')+'</li>'}).join('')}
+ var em=top(rl.emotions,3).map(function(x){return esc(x.v)}).join(' · ');
+ return '<div class="bd"><div class="hd"><div class="lg">Life <i>2.0</i></div><div class="nm">'+esc(a.name||'Your name')+'</div><div class="co">'+esc(a.cohort)+'</div></div>'+
+ '<div class="tile mi"><h4>'+TN.mi+'</h4><div class="tx">'+esc(a.mission||'')+'</div></div>'+
+ '<div class="tile to"><h4>'+TN.to+'</h4><ul class="vl">'+vl(a.towards,3,'Anytime I')+'</ul></div>'+
+ '<div class="tile rl"><h4>'+TN.rl+'</h4>'+(rl.personal?'<p class="ln"><b>Personal.</b> '+esc(rl.personal)+'</p>':'')+(rl.professional?'<p class="ln"><b>Professional.</b> '+esc(rl.professional)+'</p>':'')+(rl.financial?'<p class="ln"><b>Financial.</b> '+esc(rl.financial)+'</p>':'')+(em?'<div class="em">'+em+'</div>':'')+'</div>'+
+ '<div class="tile aw"><h4>'+TN.aw+'</h4><ul class="vl">'+vl(a.away,2,'Only if I were to consistently')+'</ul></div>'+
+ '<div class="tile re"><h4>'+TN.re+'</h4><p>'+esc(a.relationship||'')+'</p></div>'+
+ '<div class="tile pv"><h4>'+TN.pv+'</h4><p>'+esc(a.professional||'')+'</p></div>'+
+ '<div class="tile vi"><h4>'+TN.vi+'</h4><ol>'+top(a.virtues,4).map(function(x){return '<li>I am '+esc(x.v)+'</li>'}).join('')+'</ol></div>'+
+ '<div class="tile go"><h4>'+TN.go+'</h4><div class="gl">'+(a.goals||[]).map(function(g){return g&&g.goal?'<div class="g"><b>'+esc(g.goal)+'</b>'+(g.why?'<span>'+esc(g.why)+'</span>':'')+'</div>':''}).join('')+'</div></div>'+
+ '<div class="tile pq"><h4>'+TN.pq+'</h4><div class="tx">'+esc(a.pqNew||'')+'</div></div></div>'}
+function boardText(){
+ var a=S.a,rl=a.richLife||{},o=[];
+ o.push((a.name||'')+' | '+a.cohort,'','MY MISSION',a.mission||'','','MY RICH LIFE','Personal: '+(rl.personal||''),'Professional: '+(rl.professional||''),'Financial: '+(rl.financial||''),'Feeling: '+top(rl.emotions,3).map(function(x){return x.v}).join(', '),'','TOWARDS VALUES & RULES');
+ top(a.towards,3).forEach(function(x,i){o.push((i+1)+'. '+x.v+(x.rule?' | Anytime I '+x.rule:''))});
+ o.push('','AWAY FROM VALUES & RULES');top(a.away,2).forEach(function(x,i){o.push((i+1)+'. '+x.v+(x.rule?' | Only if I were to consistently '+x.rule:''))});
+ o.push('','MY RELATIONSHIP VISION',a.relationship||'','','MY PROFESSIONAL VISION',a.professional||'','','MY POWER VIRTUES');
+ top(a.virtues,4).forEach(function(x,i){o.push((i+1)+'. I am '+x.v)});
+ o.push('','MY 90-DAY GOALS');(a.goals||[]).forEach(function(g,i){if(g&&g.goal)o.push((i+1)+'. '+g.goal+(g.why?' '+g.why:''))});
+ o.push('','MY PRIMARY QUESTION',a.pqNew||'');return o.join('\n')}
+
+/* ---------- live updates ---------- */
+function grow(t){t.style.height='auto';t.style.height=t.scrollHeight+'px'}
+function updateControls(){
+ if(v.screen!=='ex')return;
+ var e=curE();
+ var th=document.querySelector('.thumbwrap');if(th)th.innerHTML=thumb(e.tile);
+ if(v.tab!=='work')return;
+ var nx=document.getElementById('next');
+ document.querySelectorAll('[data-cnt]').forEach(function(c){var t=get(S.a,c.dataset.cnt)||'';if(c.dataset.words){var w=wc(t);c.textContent=w+' / '+c.dataset.words+' words';c.classList.toggle('over',w>+c.dataset.words)}else{c.textContent=t.length}});
+ if(e.kind==='steps'&&nx){var st=stepsOf(e)[Math.min(v.step,stepsOf(e).length-1)];if(st)nx.disabled=!st.fields.every(function(f){var t=(get(S.a,f.path)||'').trim();return t&&(!f.words||wc(t)<=f.words)})}
+ if(e.kind==='list'){
+  var n=cnt(e);
+  if(v.mode==='entry'){var inp=document.getElementById('lin'),val=inp?inp.value.trim():'',c2=document.getElementById('lcnt');if(c2)c2.textContent=inp?inp.value.length:'';
+   if(nx){var idx=Math.min(v.step,n);nx.disabled=!(val||n>=e.min);nx.textContent=val&&idx<e.max-1?'Next':'Review & rank'}}
+  if(v.mode==='edit'){var ls=document.getElementById('lsave');if(ls)ls.disabled=lst(e).filter(function(x){return x&&x.v&&x.v.trim()}).length<e.min}
+ }
+}
+function toast(t){var el=document.getElementById('toast');if(el){el.textContent=t;setTimeout(function(){if(el)el.textContent=''},3500)}}
+function enterEx(i){clean();v.ex=i;v.tab='work';v.step=0;var e=curE();v.mode=e.kind==='list'&&cnt(e)>=e.min?'rank':'entry';v.noFocus=false;render();window.scrollTo(0,0)}
+function saveEx(){var e=curE(),m=curM();clean();S.done[e.id]=1;if(v.ex<m.ex.length-1){save();enterEx(v.ex+1)}else{S.completed[m.n]=1;save();v.screen='done';v.noFocus=true;render();window.scrollTo(0,0)}}
+function goMod(i){clean();v.m=i;v.screen=S.started[MODS[i].n]?'ex':'intro';v.ex=0;v.tab='work';v.step=0;var e=curE();v.mode=e.kind==='list'&&cnt(e)>=e.min?'rank':'entry';render();window.scrollTo(0,0)}
+
+document.addEventListener('click',function(ev){
+ var b=ev.target.closest('[data-act]');if(!b)return;var act=b.dataset.act,i=+b.dataset.i,e=v.screen==='ex'?curE():null;
+ switch(act){
+  case'mod':if(!S.welcomed)return;goMod(i);return;
+  case'board':if(!S.welcomed)return;clean();v.m=5;v.screen='ex';v.ex=2;v.tab='work';S.started[6]=1;save();render();window.scrollTo(0,0);return;
+  case'start':S.started[curM().n]=1;save();v.screen='ex';enterEx(0);return;
+  case'next-mod':goMod(v.m+1);return;
+  case'tab':clean();v.tab=b.dataset.t;render();return;
+  case'q':enterEx(i);return;
+  case'step':v.step=i;v.noFocus=false;render();return;
+  case'snext':var steps=stepsOf(e);if(v.step<steps.length-1){v.step++;render();}else saveEx();return;
+  case'csave':saveEx();return;
+  case'choose':S.a[e.path]=b.dataset.val;save();render();return;
+  case'ldot':v.mode='entry';v.step=i;render();return;
+  case'rank':clean();v.mode='rank';render();return;
+  case'edit':clean();v.mode='edit';render();return;
+  case'addmore':clean();v.mode='entry';v.step=cnt(e);render();return;
+  case'lnext':var n=cnt(e),inp=document.getElementById('lin'),val=inp?inp.value.trim():'',idx=Math.min(v.step,n);
+   if(val){if(idx+1<e.max){v.step=idx+1}else{clean();v.mode='rank'}}else if(n>=e.min){clean();v.mode='rank'}
+   render();return;
+  case'lsave':saveEx();return;
+  case'up':case'down':var arr=lst(e).slice(),j=act==='up'?i-1:i+1;if(j<0||j>=arr.length)return;var t=arr[i];arr[i]=arr[j];arr[j]=t;setp(S.a,e.path,arr);save();v.noFocus=true;render();return;
+  case'del':var a2=lst(e).slice();a2.splice(i,1);setp(S.a,e.path,a2);save();if(!a2.length){v.mode='entry';v.step=0}render();return;
+  case'tpl':S.a.tpl=b.dataset.t;save();var bm=document.getElementById('boardMount');if(bm)bm.className='board tpl-'+S.a.tpl;document.querySelectorAll('.tp').forEach(function(x){x.classList.toggle('on',x.dataset.t===S.a.tpl)});return;
+  case'copy':var txt=boardText();try{navigator.clipboard.writeText(txt).then(function(){toast('Copied. Paste it anywhere.')},function(){selectFallback(txt)})}catch(x){selectFallback(txt)}return;
+  case'finish':saveEx();return;
+  case'begin':if(!(S.a.name||'').trim())return;S.welcomed=true;save();goMod(0);return;
+  case'pdf':exportPDF();return;
+  case'png':exportPNG();return;
+  case'backup':backup();return;
+  case'restore':var rf=document.getElementById('rf');if(rf)rf.click();return;
+  case'reset':v.confirm=true;render();return;
+  case'resetno':v.confirm=false;render();return;
+  case'resetyes':try{localStorage.removeItem(LS)}catch(x){}S=freshState();v=startView();render();window.scrollTo(0,0);return;
+ }
+});
+function selectFallback(txt){var ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);toast(ok?'Copied. Paste it anywhere.':'Select the text on the board and copy it.')}
+document.addEventListener('input',function(ev){
+ var t=ev.target;
+ if(t.matches('textarea.ans'))grow(t);
+ if(t.dataset.lidx!==undefined){var e=curE(),arr=lst(e).slice(),i=+t.dataset.lidx;arr[i]=Object.assign({},arr[i],{v:t.value});setp(S.a,e.path,arr);save();updateControls();return}
+ if(t.id==='wn'){var wb=document.getElementById('wbegin');if(wb)wb.disabled=!t.value.trim()}
+ if(t.dataset.path){setp(S.a,t.dataset.path,t.value);save();if(t.dataset.path==='name'||t.dataset.path==='cohort'){var bm=document.getElementById('boardMount');if(bm)bm.innerHTML=boardInner()}else updateControls()}
+});
+document.addEventListener('change',function(ev){var t=ev.target;if(t.id!=='rf'||!t.files||!t.files[0])return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(!o||!o.a)throw 0;S=o;S.welcomed=true;save();v=startView();render();window.scrollTo(0,0)}catch(e){var s=document.querySelector('.saved');if(s)s.textContent='That file could not be read'}};r.readAsText(t.files[0])});
+document.addEventListener('keydown',function(ev){
+ if(ev.key==='Enter'&&ev.target.id==='wn'){var wb=document.getElementById('wbegin');if(wb&&!wb.disabled)wb.click();return}
+ if(ev.key==='Enter'&&!ev.shiftKey&&ev.target.matches('textarea.ans')){ev.preventDefault();var nx=document.getElementById('next');if(nx&&!nx.disabled)nx.click()}
+});
+/* ---------- export: draw the board on a canvas, save as PDF or image ---------- */
+var PF="'Playfair Display',Georgia,serif",IN="Inter,system-ui,-apple-system,sans-serif",MO="'DM Mono',ui-monospace,monospace";
+var TPLC={
+ forest:{fg:'#f6f0e2',acc:'#e4c688',line:'rgba(228,198,136,.38)',tile:'rgba(255,255,255,.035)'},
+ paper:{fg:'#1d2e22',acc:'#8a5f1f',line:'rgba(29,46,34,.24)',tile:'rgba(255,255,255,.6)'},
+ sage:{fg:'#1d2e22',acc:'#3f5236',line:'rgba(29,46,34,.26)',tile:'rgba(255,255,255,.34)'},
+ gold:{fg:'#14201a',acc:'#14201a',line:'rgba(20,32,26,.32)',tile:'rgba(255,255,255,.22)'}};
+function dlButtons(){return '<button class="btn" data-act="pdf">Download PDF</button><button class="btn ghost" data-act="png">Download phone image</button><span class="toast" id="toast" role="status"></span>'}
+function paintBg(c,W,H,k){
+ var g,rad=function(x,y,r,rgb){g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'rgba('+rgb+',1)');g.addColorStop(1,'rgba('+rgb+',0)');c.fillStyle=g;c.fillRect(0,0,W,H)};
+ var m=Math.max(W,H);
+ if(k==='paper'){c.fillStyle='#fbf7ef';c.fillRect(0,0,W,H);rad(W,0,m*.7,'241,231,208')}
+ else if(k==='sage'){c.fillStyle='#cdd7bf';c.fillRect(0,0,W,H);rad(0,0,m*.7,'238,242,230')}
+ else if(k==='gold'){g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,'#ecd5a2');g.addColorStop(1,'#c79a56');c.fillStyle=g;c.fillRect(0,0,W,H)}
+ else{c.fillStyle='#14201a';c.fillRect(0,0,W,H);rad(W*.9,0,m*.7,'47,74,56');rad(0,H,m*.6,'36,58,44')}
+}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function wrapT(c,text,w){var words=String(text||'').split(/\s+/).filter(Boolean),lines=[],cur='';words.forEach(function(x){var t=cur?cur+' '+x:x;if(c.measureText(t).width>w&&cur){lines.push(cur);cur=x}else cur=t});if(cur)lines.push(cur);return lines}
+function drawBoard(layout){
+ var wide=layout==='wide',W=wide?3300:1440,U=wide?W/100:W*.025,tk=TPLC[S.a.tpl]?S.a.tpl:'forest',C=TPLC[tk];
+ var cv=document.createElement('canvas');cv.width=W;cv.height=200;var c=cv.getContext('2d');
+ var pad=2.8*U,gap=1.5*U,tp=1.8*U,rad=1.6*U,inner=W-2*pad,ops=[],a=S.a,rl=a.richLife||{};
+ function fnt(it){return (it.it?'italic ':'')+(it.w||400)+' '+Math.round(it.size*U)+'px '+it.fam}
+ function wrap(it,w){c.font=fnt(it);return wrapT(c,it.text,w)}
+ var SZ=.95*U,tH=SZ*1.2+.9*U;
+ function sp(txt){c.font='500 '+Math.round(SZ)+'px '+MO;var w=0;for(var i=0;i<txt.length;i++)w+=c.measureText(txt[i]).width+.14*SZ;return w}
+ function drawSp(txt,x,y){c.font='500 '+Math.round(SZ)+'px '+MO;c.fillStyle=C.acc;c.textBaseline='alphabetic';c.textAlign='left';for(var i=0;i<txt.length;i++){c.fillText(txt[i],x,y);x+=c.measureText(txt[i]).width+.14*SZ}}
+ function box(x,y,w,h){rr(c,x,y,w,h,rad);c.fillStyle=C.tile;c.fill();c.lineWidth=Math.max(2,U*.1);c.strokeStyle=C.line;c.stroke()}
+ function prep(title,items,w){var h=2*tp+tH;items=items.filter(function(it){return it.text});items.forEach(function(it,i){it._l=wrap(it,w-2*tp);h+=it._l.length*it.size*U*(it.lh||1.35)+(i?(it.mt||0)*U:0)});return{title:title.toUpperCase(),items:items,h:h}}
+ function drawTile(T,x,y,w,h){box(x,y,w,h);drawSp(T.title,x+tp,y+tp+SZ);var yy=y+tp+tH;T.items.forEach(function(it,i){if(i)yy+=(it.mt||0)*U;c.font=fnt(it);c.fillStyle=it.col==='acc'?C.acc:C.fg;c.globalAlpha=it.op||1;c.textAlign='left';c.textBaseline='alphabetic';var lh=it.size*U*(it.lh||1.35);it._l.forEach(function(ln){c.fillText(ln,x+tp,yy+lh/2+it.size*U*.33);yy+=lh});c.globalAlpha=1})}
+ function banner(title,text,italic){
+  var it={text:text,size:2.3,fam:PF,w:500,it:italic,lh:1.3};
+  if(!wide)return prep(title,[it],inner);
+  var tl=title.toUpperCase(),tw_=sp(tl),tx=inner-2*tp-tw_-2.4*U;it._l=wrap(it,tx);
+  return{banner:1,title:tl,it:it,tw:tw_,h:2*tp+Math.max(SZ*1.2,it._l.length*it.size*U*1.3)}}
+ function drawBanner(T,x,y,w,h){box(x,y,w,h);var lh=T.it.size*U*1.3,base=y+tp+lh/2+T.it.size*U*.33;drawSp(T.title,x+tp,base);c.font=fnt(T.it);c.fillStyle=C.fg;c.textAlign='left';T.it._l.forEach(function(ln,i){c.fillText(ln,x+tp+T.tw+2.4*U,base+i*lh)})}
+ function goalsTile(){
+  var gs=(a.goals||[]).filter(function(g){return g&&g.goal});
+  if(!wide){var its=[];gs.forEach(function(g,i){its.push({text:g.goal,size:1.25,w:600,fam:IN,mt:i?1.2:0});if(g.why)its.push({text:g.why,size:1.05,fam:IN,op:.86,mt:.3})});return prep(TN.go,its,inner)}
+  var colw=(inner-2*tp-4*U)/3;
+  var cols=gs.map(function(g){var g1={text:g.goal,size:1.25,w:600,fam:IN},g2={text:g.why||'',size:1.05,fam:IN,op:.86};g1._l=wrap(g1,colw);g2._l=g2.text?wrap(g2,colw):[];return{g1:g1,g2:g2,h:g1._l.length*1.25*U*1.35+(g2._l.length?.4*U+g2._l.length*1.05*U*1.35:0)}});
+  return{goals:1,title:TN.go.toUpperCase(),cols:cols,colw:colw,h:2*tp+tH+Math.max.apply(null,cols.map(function(q){return q.h}).concat([0]))}}
+ function drawGoals(T,x,y,w,h){box(x,y,w,h);drawSp(T.title,x+tp,y+tp+SZ);T.cols.forEach(function(q,i){var cx=x+tp+i*(T.colw+2*U),yy=y+tp+tH;[q.g1,q.g2].forEach(function(it,k){if(k&&!it._l.length)return;if(k)yy+=.4*U;c.font=fnt(it);c.fillStyle=C.fg;c.globalAlpha=it.op||1;c.textAlign='left';var lh=it.size*U*1.35;it._l.forEach(function(ln){c.fillText(ln,cx,yy+lh/2+it.size*U*.33);yy+=lh});c.globalAlpha=1})})}
+ function place(T,x,y,w,h){ops.push(function(){T.banner?drawBanner(T,x,y,w,h):T.goals?drawGoals(T,x,y,w,h):drawTile(T,x,y,w,h)})}
+ /* tile contents */
+ var tw=[],aw=[],rlI=[],viI=[];
+ top(a.towards,3).forEach(function(x,i){tw.push({text:(i+1)+'. '+x.v,size:1.3,w:600,fam:IN,mt:i?1:0});if(x.rule)tw.push({text:'Anytime I '+x.rule,size:1.15,fam:IN,op:.86,mt:.2})});
+ top(a.away,2).forEach(function(x,i){aw.push({text:(i+1)+'. '+x.v,size:1.3,w:600,fam:IN,mt:i?1:0});if(x.rule)aw.push({text:'Only if I were to consistently '+x.rule,size:1.15,fam:IN,op:.86,mt:.2})});
+ [['personal','Personal'],['professional','Professional'],['financial','Financial']].forEach(function(p,i){if(rl[p[0]]){rlI.push({text:p[1].toUpperCase(),size:.9,fam:MO,w:500,col:'acc',mt:i?.9:0});rlI.push({text:rl[p[0]],size:1.15,fam:IN,mt:.2})}});
+ var em=top(rl.emotions,3).map(function(x){return x.v}).join(' · ').toUpperCase();if(em)rlI.push({text:em,size:1.05,fam:MO,w:500,col:'acc',mt:1});
+ top(a.virtues,4).forEach(function(x,i){viI.push({text:'I am '+x.v,size:1.7,fam:PF,w:500,lh:1.2,mt:i?.7:0})});
+ var reI=[{text:a.relationship||'',size:1.45,fam:PF,w:500,lh:1.4}],pvI=[{text:a.professional||'',size:1.45,fam:PF,w:500,lh:1.4}];
+ /* header */
+ var hdH,y=pad;
+ var logo=function(sz){c.font='600 '+Math.round(sz)+'px '+PF;var w1=c.measureText('Life ').width;c.font='italic 600 '+Math.round(sz)+'px '+PF;return[w1,c.measureText('2.0').width]};
+ function drawLogo(x,base,sz){c.textAlign='left';c.textBaseline='alphabetic';c.font='600 '+Math.round(sz)+'px '+PF;c.fillStyle=C.fg;c.fillText('Life ',x,base);var w1=c.measureText('Life ').width;c.font='italic 600 '+Math.round(sz)+'px '+PF;c.fillStyle=C.acc;c.fillText('2.0',x+w1,base)}
+ var co=(a.cohort||'').toUpperCase();
+ if(wide){hdH=3.7*U;(function(yy){ops.push(function(){drawLogo(pad,yy+2.6*U,2.6*U);c.font='600 '+Math.round(3*U)+'px '+PF;c.fillStyle=C.fg;c.textAlign='center';c.fillText(a.name||'',W/2,yy+2.9*U);drawSp(co,W-pad-sp(co),yy+2.4*U)})})(y)}
+ else{hdH=2.6*U*1.3+3*U*1.3+(co?SZ*1.8:0);(function(yy){ops.push(function(){var l=logo(2.6*U),tot=l[0]+l[1];drawLogo(W/2-tot/2,yy+2.6*U,2.6*U);c.font='600 '+Math.round(3*U)+'px '+PF;c.fillStyle=C.fg;c.textAlign='center';c.fillText(a.name||'',W/2,yy+2.6*U*1.3+3*U);if(co)drawSp(co,W/2-sp(co)/2,yy+2.6*U*1.3+3*U*1.3+SZ*1.2)})})(y)}
+ y+=hdH+gap;
+ var mi=banner(TN.mi,a.mission||'',false);place(mi,pad,y,inner,mi.h);y+=mi.h+gap;
+ if(wide){
+  var cw=inner-2*gap,cws=[1.25,.95,1.25].map(function(r){return cw*r/3.45}),xs=[pad,pad+cws[0]+gap,pad+cws[0]+cws[1]+2*gap];
+  var r2=[prep(TN.to,tw,cws[0]),prep(TN.rl,rlI,cws[1]),prep(TN.aw,aw,cws[2])],h2=Math.max(r2[0].h,r2[1].h,r2[2].h);
+  r2.forEach(function(T,i){place(T,xs[i],y,cws[i],h2)});y+=h2+gap;
+  var r3=[prep(TN.re,reI,cws[0]),prep(TN.pv,pvI,cws[1]),prep(TN.vi,viI,cws[2])],h3=Math.max(r3[0].h,r3[1].h,r3[2].h);
+  r3.forEach(function(T,i){place(T,xs[i],y,cws[i],h3)});y+=h3+gap;
+ }else{
+  [prep(TN.to,tw,inner),prep(TN.aw,aw,inner),prep(TN.rl,rlI,inner),prep(TN.re,reI,inner),prep(TN.pv,pvI,inner),prep(TN.vi,viI,inner)].forEach(function(T){place(T,pad,y,inner,T.h);y+=T.h+gap})}
+ var go=goalsTile();place(go,pad,y,inner,go.h);y+=go.h+gap;
+ var pq=banner(TN.pq,a.pqNew||'',true);place(pq,pad,y,inner,pq.h);y+=pq.h+pad;
+ cv.height=Math.ceil(y);
+ paintBg(c,W,cv.height,tk);
+ ops.forEach(function(op){op()});
+ return cv}
+function loadFonts(){var f=["600 40px 'Playfair Display'","500 40px 'Playfair Display'","italic 500 40px 'Playfair Display'","italic 600 40px 'Playfair Display'","600 40px Inter","400 40px Inter","500 40px 'DM Mono'"];return Promise.all(f.map(function(x){return document.fonts.load(x,'Aa life 2.0')})).catch(function(){})}
+function makePDF(jpeg,w,h){
+ var pw=792,ph=Math.round(792*h/w*100)/100,enc=new TextEncoder(),parts=[],offs=[],len=0;
+ function push(b){parts.push(b);len+=b.length}
+ function str(s){push(enc.encode(s))}
+ function obj(n,body){offs[n]=len;str(n+' 0 obj\n'+body+'\nendobj\n')}
+ str('%PDF-1.4\n');
+ obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+ obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+ obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pw+' '+ph+'] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+ offs[4]=len;str('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+w+' /Height '+h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpeg.length+' >>\nstream\n');push(jpeg);str('\nendstream\nendobj\n');
+ var cs='q '+pw+' 0 0 '+ph+' 0 0 cm /Im0 Do Q';
+ obj(5,'<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream');
+ var xr=len;str('xref\n0 6\n0000000000 65535 f \n');
+ for(var n=1;n<=5;n++)str(('0000000000'+offs[n]).slice(-10)+' 00000 n \n');
+ str('trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF');
+ return new Blob(parts,{type:'application/pdf'})}
+function dlBlob(blob,name){var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u)},5000)}
+function fileBase(){return ((S.a.name||'My').replace(/[^\w\- ]+/g,'').trim().replace(/\s+/g,'-')||'My')+'-Life2-Board'}
+function busy(on){document.querySelectorAll('[data-act="pdf"],[data-act="png"]').forEach(function(b){b.disabled=on})}
+function exportPDF(){
+ toast('Making your PDF…');busy(true);
+ loadFonts().then(function(){var cv=drawBoard('wide');cv.toBlob(function(b){if(!b){busy(false);toast('Something went wrong. Please try again.');return}b.arrayBuffer().then(function(ab){dlBlob(makePDF(new Uint8Array(ab),cv.width,cv.height),fileBase()+'.pdf');busy(false);toast('Your PDF is ready. Check your downloads.')})},'image/jpeg',.92)}).catch(function(){busy(false);toast('Something went wrong. Please try again.')})}
+function exportPNG(){
+ toast('Making your image…');busy(true);
+ loadFonts().then(function(){var cv=drawBoard('tall');cv.toBlob(function(b){if(!b){busy(false);toast('Something went wrong. Please try again.');return}dlBlob(b,fileBase()+'-phone.png');var pv=document.getElementById('imgprev');if(pv){pv.innerHTML='<p class="after" style="max-width:60ch">On a phone, press and hold the image to save it to your photos.</p><img alt="Your board, phone version" src="'+URL.createObjectURL(b)+'">'}busy(false);toast('Your image is ready.')},'image/png')}).catch(function(){busy(false);toast('Something went wrong. Please try again.')})}
+function backup(){try{dlBlob(new Blob([JSON.stringify(S)],{type:'application/json'}),fileBase()+'-backup.json')}catch(e){}}
+
+render();
+})();
+</script>
+</body></html>
