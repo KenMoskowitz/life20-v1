@@ -78,36 +78,8 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ ok: false, error: 'invalid-email' }), { status: 400 });
   }
 
-  const apiKey = import.meta.env.RESEND_API_KEY as string | undefined;
-  if (!apiKey) {
-    console.error('[assessment-email] RESEND_API_KEY not configured; email not sent.');
-    return new Response(JSON.stringify({ ok: false, error: 'unavailable' }), { status: 503 });
-  }
-
-  const resend = new Resend(apiKey);
-  const from = (import.meta.env.RESEND_FROM as string | undefined) ?? 'Life 2.0 <results@thelife20.com>';
-
-  const { error } = await resend.emails.send({
-    from,
-    to: body.email,
-    subject: 'Your Life 2.0 Overflow Assessment results',
-    html: renderEmailHtml(body),
-  });
-
-  if (error) {
-    console.error('[assessment-email] Resend error:', error);
-    return new Response(JSON.stringify({ ok: false, error: 'send-failed' }), { status: 502 });
-  }
-
-  // Their lowest score is the natural opener for a personal follow-up.
-  await notifyTeam(`New assessment: lowest is ${body.leverageSkill}`, [
-    ['Email', body.email],
-    ['Lowest (start here)', `${body.leverageSkill} (${body.leverageScore}/10)`],
-    ['Next lowest', `${body.supportSkill} (${body.supportScore}/10)`],
-    ['Result', body.bandLabel],
-    ['All scores', body.scores.map((s) => `${s.skill}: ${s.score}`).join('\n')],
-  ]);
-
+  // Keep the lead first. If the results email then fails, Laura still has
+  // their scores and an alert to follow up personally.
   if (sanityWriteClient) {
     try {
       await sanityWriteClient.create({
@@ -125,6 +97,40 @@ export const POST: APIRoute = async ({ request }) => {
       // Lead capture is best-effort; never fail the user-facing email send over it.
       console.error('[assessment-email] Sanity lead capture failed:', err);
     }
+  }
+
+  const apiKey = import.meta.env.RESEND_API_KEY as string | undefined;
+  let emailError: string | null = null;
+  if (!apiKey) {
+    console.error('[assessment-email] RESEND_API_KEY not configured; email not sent.');
+    emailError = 'unavailable';
+  } else {
+    const resend = new Resend(apiKey);
+    const from = (import.meta.env.RESEND_FROM as string | undefined) ?? 'Life 2.0 <results@thelife20.com>';
+    const { error } = await resend.emails.send({
+      from,
+      to: body.email,
+      subject: 'Your Life 2.0 Overflow Assessment results',
+      html: renderEmailHtml(body),
+    });
+    if (error) {
+      console.error('[assessment-email] Resend error:', error);
+      emailError = 'send-failed';
+    }
+  }
+
+  // Their lowest score is the natural opener for a personal follow-up.
+  await notifyTeam(`New assessment: lowest is ${body.leverageSkill}`, [
+    ['Email', body.email],
+    ['Lowest (start here)', `${body.leverageSkill} (${body.leverageScore}/10)`],
+    ['Next lowest', `${body.supportSkill} (${body.supportScore}/10)`],
+    ['Result', body.bandLabel],
+    ['All scores', body.scores.map((s) => `${s.skill}: ${s.score}`).join('\n')],
+    ['Results email', emailError ? 'FAILED to send, so send them their results personally' : 'Sent'],
+  ]);
+
+  if (emailError) {
+    return new Response(JSON.stringify({ ok: false, error: emailError }), { status: emailError === 'unavailable' ? 503 : 502 });
   }
 
   return new Response(JSON.stringify({ ok: true }), { status: 200 });
