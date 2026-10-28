@@ -8,9 +8,17 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const form = await request.formData();
   const name = String(form.get('name') ?? '').trim();
   const email = String(form.get('email') ?? '').trim();
-  const context = String(form.get('context') ?? '').trim();
+  const field = (key: string) => String(form.get(key) ?? '').trim();
+  const context = field('context');
+  const phone = field('phone');
+  const work = field('work');
+  const businessSize = field('businessSize');
+  const focusArea = field('focusArea');
+  const win = field('win');
+  const investReady = field('investReady');
+  const source = field('source');
 
-  if (!name || !email) {
+  if (!name || !email || !work || !businessSize || !focusArea || !context || !win || !investReady) {
     return redirect('/private-advisory?error=missing-fields#apply');
   }
 
@@ -18,7 +26,14 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   await notifyTeam(`New Private Advisory application: ${name}`, [
     ['Name', name],
     ['Email', email],
+    ['Phone', phone],
+    ['What they do', work],
+    ['Business size', businessSize],
+    ['Area most off', focusArea],
     ["What's going on", context],
+    ['A six-month win', win],
+    ['Ready to invest $3,000/month', investReady],
+    ['Heard about Laura via', source],
   ]);
 
   if (!sanityWriteClient) {
@@ -31,6 +46,13 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     name,
     email,
     context,
+    phone,
+    work,
+    businessSize,
+    focusArea,
+    win,
+    investReady,
+    source,
     submittedAt: new Date().toISOString(),
     status: 'New',
   });
