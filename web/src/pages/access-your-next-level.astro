@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteWall from '../components/QuoteWall.astro';
 import { quotes } from '../data/quotes';
+import { nextGroup } from '../data/enrollment';
 
 // Reads ?error / ?joined off the URL after a Stripe Checkout redirect back
 // to this page, so this can't be prerendered to static HTML.
@@ -18,13 +19,9 @@ const pixelEvent = joined
   ? { name: 'Purchase', params: { value: plan === 'installment' ? 850 : 1500, currency: 'USD', content_name: 'Access Your Next Level' } }
   : undefined;
 
-// The next group. Update these together each time a new group opens.
-const nextStart = 'Tuesday, December 1';
-const schedule = [
-  { label: 'December', dates: 'Dec 1, Dec 8, Dec 15' },
-  { label: 'Holiday break', dates: 'Two weeks off to rest' },
-  { label: 'January', dates: 'Jan 5, Jan 12, Jan 19' },
-];
+// The next group's dates live in src/data/enrollment.ts, shared with /join.
+const nextStart = nextGroup.startLabel;
+const schedule = nextGroup.schedule;
 
 const wall = [quotes.gail, quotes.michelle, quotes.ken, quotes.paul, quotes.indira, quotes.erica];
 const checkoutError = Astro.url.searchParams.get('error');

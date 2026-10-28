@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { nextGroup } from '../data/enrollment';
+import { quotes } from '../data/quotes';
+
+// The short link Laura shows on the webinar's final slide and in the Zoom
+// chat (thelife20.com/join). One job: make joining the next group fast.
+// Rendered per request so the bonus and the close date switch off on time.
+export const prerender = false;
+
+const now = Date.now();
+const bonusOpen = now < new Date(nextGroup.bonusDeadline).getTime();
+const isOpen = now < new Date(nextGroup.closesAt).getTime();
+
+const included = [
+  '6 live group coaching calls with Laura',
+  '6 short Life 2.0 modules, one before each call',
+  'A maximum of 10 people, so you’re never lost in a crowd',
+  'The Life 2.0 Room, our private community, between calls',
+  'Your personal Life 2.0 Integration Board',
+  'Access to Life 2.0 Frameworks as they’re released',
+];
+
+const proof = [quotes.gail, quotes.ken, quotes.michelle];
+---
+<BaseLayout
+  title="Join Access Your Next Level | Life 2.0"
+  description="Join the next Access Your Next Level group with Laura Kelly. Six weeks of live small-group coaching, starting December 1."
+  canonicalUrl="https://thelife20.com/join"
+  noindex
+  bare
+>
+  <section class="jn wrap">
+    {isOpen ? (
+      <>
+        <div class="eyebrow eyebrow-center dz-enter">Access Your Next Level &middot; Founding Cohort</div>
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Join us on {nextGroup.startLabel.replace('Tuesday, ', '')}.</h1>
+        <p class="jn-lede dz-enter" style="--dz-enter-delay:0.16s">Six weeks of live coaching with Laura, in a room of ten people who are doing well and know there’s more available. We start {nextGroup.startLabel}.</p>
+
+        {bonusOpen && (
+          <div class="jn-bonus dz-enter" style="--dz-enter-delay:0.24s">
+            <div class="jn-bonus-tag">Bonus for joining by {nextGroup.bonusDeadlineLabel}</div>
+            <p class="jn-bonus-title">A private one-to-one session with Laura before we start.</p>
+            <p class="jn-bonus-body">We’ll get clear on what you most want from the six weeks, so you walk into the first call already moving.</p>
+            <p class="jn-countdown" data-deadline={nextGroup.bonusDeadline} hidden>Bonus ends in <span></span></p>
+          </div>
+        )}
+
+        <div class="jn-price dz-enter" style="--dz-enter-delay:0.32s">
+          <div class="jn-plan jn-plan--best">
+            <div class="jn-plan-tag">Best value &middot; save $200</div>
+            <div class="jn-plan-price">$1,500</div>
+            <div class="jn-plan-note">paid in full</div>
+            <a class="btn-primary" href="/api/checkout?plan=full">Pay in full &rarr;</a>
+          </div>
+          <div class="jn-plan">
+            <div class="jn-plan-tag">Spread it out</div>
+            <div class="jn-plan-price">2 &times; $850</div>
+            <div class="jn-plan-note">two monthly payments</div>
+            <a class="btn-primary jn-btn-light" href="/api/checkout?plan=installment">Pay in two &rarr;</a>
+          </div>
+        </div>
+        <p class="jn-secure">Secure checkout with Stripe &middot; Enrollment closes {nextGroup.closesLabel}, or when all 10 seats are filled</p>
+
+        <div class="jn-grid">
+          <div class="jn-card">
+            <h2>What’s included</h2>
+            <ul class="jn-list">
+              {included.map((item) => <li><span class="jn-check">&#10003;</span>{item}</li>)}
+            </ul>
+          </div>
+          <div class="jn-card">
+            <h2>The schedule</h2>
+            <ul class="jn-schedule">
+              {nextGroup.schedule.map((row) => (
+                <li><span>{row.label}</span><span>{row.dates}</span></li>
+              ))}
+            </ul>
+            <p class="jn-small">We do the deep work in December, rest over the holidays, and finish in January with a clear plan for the year.</p>
+          </div>
+        </div>
+
+        <div class="jn-proof">
+          {proof.map((q) => (
+            <figure>
+              <blockquote>&ldquo;{q.quote}&rdquo;</blockquote>
+              <figcaption>{q.name}</figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <div class="jn-final">
+          <a class="btn-primary" href="/api/checkout?plan=full">Join for $1,500 &rarr;</a>
+          <a class="btn-text" href="/access-your-next-level">See the full program details</a>
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="eyebrow eyebrow-center">Access Your Next Level</div>
+        <h1>Enrollment for this group has closed.</h1>
+        <p class="jn-lede">Thank you for your interest. The next group opens soon.</p>
+        <div class="jn-final">
+          <a class="btn-primary" href="/access-your-next-level">See the program &rarr;</a>
+        </div>
+      </>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .jn { max-width: 920px; padding-top: clamp(24px, 5vw, 56px); padding-bottom: 72px; text-align: center; }
+  .jn h1 { margin-top: 18px; font: 500 clamp(36px, 5vw, 62px)/1.1 var(--serif); color: var(--forest); }
+  .jn-lede { margin: 20px auto 0; max-width: 640px; font: 400 20px/1.65 var(--sans); color: var(--ink-soft); }
+
+  .jn-bonus { margin: 36px auto 0; max-width: 680px; background: var(--forest); border-radius: 24px; padding: clamp(24px, 4vw, 36px); }
+  .jn-bonus-tag { font: 600 14px/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-light); }
+  .jn-bonus-title { margin-top: 12px; font: 500 clamp(22px, 2.4vw, 28px)/1.3 var(--serif); color: var(--paper); }
+  .jn-bonus-body { margin-top: 10px; font: 400 18px/1.6 var(--sans); color: rgba(251, 247, 239, 0.8); }
+  .jn-countdown { margin-top: 16px; font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-light); }
+
+  .jn-price { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 640px) { .jn-price { grid-template-columns: 1fr; } }
+  .jn-plan { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .jn-plan--best { border: 2px solid var(--gold); }
+  .jn-plan-tag { font: 600 13px/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  .jn-plan-price { margin-top: 6px; font: 600 clamp(36px, 4vw, 46px)/1 var(--serif); color: var(--forest); }
+  .jn-plan-note { font: 400 17px/1.4 var(--sans); color: var(--ink-soft); }
+  .jn-plan .btn-primary { margin-top: 16px; width: 100%; justify-content: center; }
+  .jn-btn-light { background: transparent; color: var(--forest); border: 1px solid var(--forest); }
+  .jn-btn-light:hover { background: var(--paper-warm); }
+  .jn-secure { margin-top: 16px; font: 400 15px/1.5 var(--sans); color: var(--ink-soft); }
+
+  .jn-grid { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; text-align: left; }
+  @media (max-width: 760px) { .jn-grid { grid-template-columns: 1fr; } }
+  .jn-card { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+  .jn-card h2 { font: 500 24px/1.3 var(--serif); color: var(--forest); }
+  .jn-list { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .jn-list li { display: flex; gap: 12px; align-items: flex-start; font: 400 17px/1.5 var(--sans); color: var(--ink); }
+  .jn-check { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--forest); color: var(--paper); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+  .jn-schedule { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .jn-schedule li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .jn-schedule li span:first-child { font: 600 14px/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .jn-schedule li span:last-child { font: 500 17px/1.4 var(--serif); color: var(--forest); text-align: right; }
+  .jn-small { margin-top: 14px; font: 400 16px/1.6 var(--sans); color: var(--ink-soft); }
+
+  .jn-proof { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; text-align: left; }
+  @media (max-width: 860px) { .jn-proof { grid-template-columns: 1fr; } }
+  .jn-proof figure { margin: 0; background: var(--paper-warm); border-radius: 24px; padding: 24px; }
+  .jn-proof blockquote { margin: 0; font: 500 italic 18px/1.5 var(--serif); color: var(--forest); }
+  .jn-proof figcaption { margin-top: 14px; font: 600 14px/1.2 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+
+  .jn-final { margin-top: 48px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+</style>
+
+<script is:inline>
+  // Live countdown to the bonus deadline. Hidden unless JS runs, so the page
+  // never shows a frozen timer.
+  (function () {
+    var el = document.querySelector('.jn-countdown');
+    if (!el) return;
+    var out = el.querySelector('span');
+    var end = new Date(el.getAttribute('data-deadline')).getTime();
+    function tick() {
+      var ms = end - Date.now();
+      // Only show it in the final three days, when it means something.
+      if (ms <= 0 || ms > 3 * 86400000) { el.hidden = true; return; }
+      var d = Math.floor(ms / 86400000), h = Math.floor(ms / 3600000) % 24, m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60;
+      out.textContent = (d ? d + 'd ' : '') + h + 'h ' + m + 'm ' + s + 's';
+      el.hidden = false;
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
