@@ -277,6 +277,7 @@ async function renderResults() {
 
       <div class="assess-card" style="margin-top:40px;">
         <h2 style="font-size:24px;">${escapeHtml(resultsCopy.emailHeading)}</h2>
+        <p class="assess-hint" style="text-align:left; margin-bottom:18px;">${escapeHtml(resultsCopy.emailBody)}</p>
         <form class="email-copy-form" id="assess-email-form">
           <input type="email" id="assess-email-input" placeholder="you@email.com" required />
           <button type="submit" class="btn-primary">${escapeHtml(resultsCopy.emailCta)}</button>

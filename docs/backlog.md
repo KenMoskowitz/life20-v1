@@ -35,6 +35,12 @@ sequence for each of the nine skills (what the research says, one small
 practice, a story), each ending with an invitation to the monthly free
 training or Access Your Next Level.
 
+For a future build: research practical, evidence-based action items for each
+of the nine skills, so the follow-up emails give people real things to do for
+their lowest score. The assessment's email step now promises "research-backed
+ideas for the area that deserves your attention first" (changed Oct 28), so
+these emails need to exist soon after that wording goes live.
+
 Needs decided first:
 - Which email platform sends them (the site uses Resend for one-off emails;
   sequences need a marketing tool such as Kajabi, Klaviyo or ConvertKit).
