@@ -1,142 +1,120 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getWebinar } from '../lib/sanity';
+import QuoteWall from '../components/QuoteWall.astro';
+import WebinarSignup from '../components/WebinarSignup.astro';
+import { findYourNextLevel as event, durationMinutes, formatEventRange } from '../data/webinars';
+import { quotes, proofPoints } from '../data/quotes';
 
-// Everything variable about this event lives in Sanity so Laura can set the
-// date, agenda and copy herself. The page is written to degrade honestly:
-// a section with no content is omitted rather than filled with placeholder
-// text, and the page stays out of Google until `status` says it's real.
-const webinar = (await getWebinar('blueprint')) as Record<string, any> | null;
+// The monthly free training, and the page ad traffic lands on. Its details
+// live in src/data/webinars.ts (not Sanity) so the page, the confirmation
+// email and the calendar invite always agree. Reads ?error off the URL after
+// a failed sign-up, so it can't be prerendered.
+export const prerender = false;
 
-const EVENT_NAME = webinar?.title ?? 'The High Achiever’s Fulfillment Blueprint';
+const error = Astro.url.searchParams.get('error');
+const isPast = new Date(event.endsAt).getTime() < Date.now();
 
-const status: string = webinar?.status ?? 'draft';
-const isLive = status === 'upcoming' || status === 'replay';
-const isReplay = status === 'replay';
-const isClosed = status === 'closed';
-
-// Only index once there's a real event behind the page.
-const noindex = !isLive;
-
-const startsAt: string | null = webinar?.startsAt ?? null;
-const durationMinutes: number | null = webinar?.durationMinutes ?? null;
-const priceNote: string | null = webinar?.priceNote ?? null;
-
-const learn: Array<{ title: string; body?: string }> = webinar?.whatYouWillLearn ?? [];
-const forWhom: string[] = webinar?.whoThisIsFor ?? [];
-// Falls back to a real bio rather than hiding the section, since a webinar
-// page with no visible host reads as anonymous and hurts, not helps, trust.
-const hostNote: string =
-  webinar?.hostNote ??
-  'Laura Kelly built Life 2.0 after doing everything "right" — the career, the marriage, the house — and finding out that right and good aren’t always the same word. She’s spent the years since building a fast, honest way to find exactly where that gap is, for people who’d rather look at it directly than keep outrunning it. This training is the short version of how she does that.';
-const replayNote: string | null = webinar?.replayNote ?? null;
-
-const externalUrl: string | null = webinar?.externalRegistrationUrl ?? null;
-const ctaLabel: string = webinar?.ctaLabel ?? (isLive ? 'Save my seat' : 'Tell me when registration opens');
-
-// This page is prerendered (static) so it stays fast for ad traffic, which
-// means query params can't be read here at build time. The post-submit
-// states are rendered up front and toggled client-side instead.
-
-const title = webinar?.metaTitle ?? `${EVENT_NAME} | Life 2.0`;
+const canonicalUrl = 'https://thelife20.com/blueprint';
+const title = `${event.title} | Free Live Training with Laura Kelly`;
 const description =
-  webinar?.metaDescription ??
-  `${EVENT_NAME}, a live training with Laura Kelly for high achievers who have built real success and want a life that feels as good as it looks.`;
+  'A free 75-minute live training with Laura Kelly for business owners and leaders who have built real success and want the rest of life to grow with it.';
 
-const headline = webinar?.heroHeadline ?? EVENT_NAME;
-const subhead = webinar?.heroSubhead ?? null;
+const learn = [
+  {
+    title: 'Where your instincts stop working',
+    body: 'See where the approach that built so much of your life stops being the one that gets you to the next level.',
+  },
+  {
+    title: 'Achievement vs. experience',
+    body: 'Understand the difference between building a successful life and having the skills to enjoy the life you’ve built.',
+  },
+  {
+    title: 'Your next point of leverage',
+    body: 'Leave knowing exactly what deserves your attention next, without adding seventeen new goals to a list that’s already too long.',
+  },
+];
 
-// Server-rendered fallback in UTC; a small script below rewrites it into the
-// visitor's own timezone, since timezone confusion is the main reason people
-// miss a webinar they registered for.
-function formatUtc(iso: string) {
-  const d = new Date(iso);
-  return d.toLocaleString('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric',
-    hour: 'numeric', minute: '2-digit',
-    timeZone: 'UTC', timeZoneName: 'short',
-  });
-}
+const faqs = [
+  {
+    q: 'Is it really free?',
+    a: 'Yes. No card, no catch. Just bring yourself and something to write with.',
+  },
+  {
+    q: 'Will you be selling something?',
+    a: 'At the end, I’ll share how you can keep working with me if you’d like to go further. The training stands completely on its own either way.',
+  },
+  {
+    q: 'How do I get ready?',
+    a: 'Find somewhere quiet and think of one area of life that’s been nagging at you. If you have six minutes beforehand, take the free Overflow Assessment. You’ll get far more out of the session knowing where you stand.',
+  },
+  {
+    q: 'Who is this for?',
+    a: 'Business owners and leaders who have done well by every outside measure and want the rest of life to feel as good as the business looks.',
+  },
+];
 
-// Event structured data is emitted only when there is a genuine date, so we
-// never publish invented event markup to Google.
-const jsonLd =
-  isLive && startsAt
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'Event',
-        name: EVENT_NAME,
-        description,
-        startDate: startsAt,
-        ...(durationMinutes ? { endDate: new Date(new Date(startsAt).getTime() + durationMinutes * 60000).toISOString() } : {}),
-        eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-        eventStatus: 'https://schema.org/EventScheduled',
-        location: {
-          '@type': 'VirtualLocation',
-          url: 'https://thelife20.com/blueprint',
-        },
-        organizer: { '@type': 'Organization', name: 'Life 2.0', url: 'https://thelife20.com' },
-        performer: { '@type': 'Person', name: 'Laura Kelly' },
-        ...(priceNote && /free/i.test(priceNote)
-          ? { offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: 'https://thelife20.com/blueprint' } }
-          : {}),
-      }
-    : undefined;
+const wall = [quotes.gail, quotes.paul, quotes.ken, quotes.michelle, quotes.indira, quotes.erica, quotes.stefanie];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: event.title,
+  description,
+  startDate: event.startsAt,
+  endDate: event.endsAt,
+  eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'VirtualLocation', url: canonicalUrl },
+  organizer: { '@type': 'Organization', name: 'Life 2.0', url: 'https://thelife20.com' },
+  performer: { '@type': 'Person', name: 'Laura Kelly' },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: canonicalUrl },
+};
 ---
-<BaseLayout
-  title={title}
-  description={description}
-  canonicalUrl="https://thelife20.com/blueprint"
-  jsonLd={jsonLd}
-  noindex={noindex}
-  bare
->
-  <!-- HERO: an "event," not an info page — date badge, framed portrait, elevated facts -->
+<BaseLayout title={title} description={description} canonicalUrl={canonicalUrl} jsonLd={isPast ? undefined : jsonLd} noindex={isPast} bare>
   <section class="wb-hero">
     <div class="wb-hero-grid">
       <div class="wb-hero-copy">
         <div class="wb-eyebrow-pill dz-enter" style="--dz-enter-delay:0s">
           <span class="dot"></span>
-          {isReplay ? 'On-demand training' : 'Live training with Laura Kelly'}
+          Free live training with Laura Kelly
         </div>
-        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{headline}</h1>
-        {subhead && subhead.split(/\n\s*\n/).map((para: string) => (
-          <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">{para}</p>
-        ))}
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{event.title}</h1>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">You’re the person who figures things out. Career, money, goals, momentum. You’ve solved for all of it, on purpose, more than once.</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">Your next level won’t come from more effort. In 75 minutes, we’ll find your highest point of leverage and exactly what deserves your attention next.</p>
 
-        {(startsAt || durationMinutes || priceNote) && (
-          <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
-            {startsAt && (
-              <li class="wb-fact">
-                <span class="wb-fact-label">When</span>
-                <time class="wb-fact-value" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>
-              </li>
-            )}
-            {durationMinutes && (
-              <li class="wb-fact">
-                <span class="wb-fact-label">Length</span>
-                <span class="wb-fact-value">{durationMinutes} minutes</span>
-              </li>
-            )}
-            {priceNote && (
-              <li class="wb-fact">
-                <span class="wb-fact-label">Cost</span>
-                <span class="wb-fact-value">{priceNote}</span>
-              </li>
-            )}
-          </ul>
-        )}
+        <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
+          <li class="wb-fact">
+            <span class="wb-fact-label">When</span>
+            <time class="wb-fact-value" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
+          </li>
+          <li class="wb-fact">
+            <span class="wb-fact-label">Length</span>
+            <span class="wb-fact-value">{durationMinutes(event)} minutes</span>
+          </li>
+          <li class="wb-fact">
+            <span class="wb-fact-label">Cost</span>
+            <span class="wb-fact-value">Free</span>
+          </li>
+        </ul>
 
-        {!isClosed && (
-          <div class="wb-hero-actions dz-enter" style="--dz-enter-delay:0.32s">
-            {externalUrl
-              ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
-              : <a class="btn-primary" href="#register">{ctaLabel} &rarr;</a>}
-            <span class="wb-hero-trust">Live On Zoom &middot; Free To Attend &middot; Seats Are Limited</span>
-          </div>
-        )}
-
-        {replayNote && <p class="webinar-replay-note">{replayNote}</p>}
+        <div class="bp-hero-form dz-enter" style="--dz-enter-delay:0.32s">
+          {isPast ? (
+            <>
+              <p class="body-copy"><strong>This training has ended.</strong> The next one is coming soon. In the meantime, the free assessment is the best place to start.</p>
+              <a class="btn-primary" href="/assessment">Take the free assessment &rarr;</a>
+            </>
+          ) : (
+            <>
+              {error && (
+                <p class="bp-error">
+                  {error === 'missing-fields' ? 'Please add your first name and a valid email.' : 'Something went wrong saving your seat. Please try again in a moment.'}
+                </p>
+              )}
+              <WebinarSignup event={event} id="hero" />
+              <p class="wb-hero-trust">Live on Zoom &middot; Free &middot; Your joining link arrives by email</p>
+            </>
+          )}
+        </div>
       </div>
 
       <div class="wb-hero-photo-wrap dz-enter" style="--dz-enter-delay:0.2s">
@@ -147,53 +125,87 @@ const jsonLd =
     </div>
   </section>
 
-  {learn.length > 0 && (
-    <section class="section wrap wb-section-tight">
-      <div class="eyebrow dz-reveal">What you'll walk away with</div>
-      <h2 class="dz-reveal">The Session</h2>
-      <div class="wb-learn-grid">
-        {learn.map((item, i) => (
-          <div class="wb-learn-card dz-reveal dz-lift" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
-            <span class="wb-num">{`0${i + 1}`}</span>
-            <h3>{item.title}</h3>
-            {item.body && <p>{item.body}</p>}
-          </div>
-        ))}
+  <section class="section wrap wb-section-tight">
+    <div class="bp-proof dz-reveal">
+      {proofPoints.map((p) => (
+        <div class="bp-proof-item">
+          <div class="bp-proof-figure">{p.figure}</div>
+          <p>{p.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="bp-position dz-reveal">
+      <p class="bp-position-line">I don’t teach people how to grow their companies. I coach the human responsible for leading them.</p>
+      <p class="body-copy">My background is in psychology and human performance. I work with ambitious, accomplished people to look at the beliefs, behaviors and identities that shape how they lead and live. Because success in business and fulfillment in life aren’t the same thing, and exceptional leaders deserve both.</p>
+      <p class="bp-sign">Laura Kelly</p>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="eyebrow dz-reveal">What you’ll walk away with</div>
+    <h2 class="dz-reveal">The Session</h2>
+    <div class="wb-learn-grid">
+      {learn.map((item, i) => (
+        <div class="wb-learn-card dz-reveal dz-lift" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
+          <span class="wb-num">{`0${i + 1}`}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap dz-reveal wb-section-tight">
+    <div class="wb-for-split">
+      <div class="wb-for-image">
+        <img src="/assets/success-team.jpg" alt="Laura Kelly with a team of business leaders" loading="lazy" />
+      </div>
+      <div>
+        <div class="eyebrow">Who this is for</div>
+        <h2 style="margin-top:18px;">The problem with being good at figuring things out…</h2>
+        <div class="wb-for-prose">
+          <p class="body-copy">…is that it works. Research, strategy, discipline, execution. We’ve used the same approach to build our careers, our income, our whole adult lives. So it’s fair to assume the next level runs on the same operating system.</p>
+          <p class="body-copy">It doesn’t, not entirely. That’s no flaw in you. It’s just a different kind of problem from the ones you’ve been solving.</p>
+          <p class="body-copy">You don’t have to want less or blow up what you’ve built. Together, we’ll find exactly where your usual approach stops working, and what comes next.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <QuoteWall quotes={wall} />
+
+  <section class="section wrap wb-section-tight">
+    <div class="bp-faq-head dz-reveal">
+      <h2>Before you sign up</h2>
+    </div>
+    <div class="faq">
+      {faqs.map((f) => (
+        <div class="faq-item dz-reveal">
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* No dz-reveal: this is an anchor target and must be visible the instant it's jumped to. */}
+  {!isPast && (
+    <section class="wrap bp-register-wrap" id="register">
+      <div class="bp-register">
+        <div class="bp-register-copy">
+          <div class="eyebrow">Save your free seat</div>
+          <h2>Come find your next level.</h2>
+          <time class="bp-register-when" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
+          <p>Live on Zoom for 75 minutes. Your joining link arrives by email, with a reminder before we start.</p>
+        </div>
+        <WebinarSignup event={event} id="final" dark />
       </div>
     </section>
   )}
 
-  {forWhom.length > 0 && (
-    <section class="section wrap dz-reveal wb-section-tight">
-      <div class="wb-for-split">
-        <div class="wb-for-image">
-          <img src="/assets/success-team.jpg" alt="This is what success looks like" />
-        </div>
-        <div>
-          <div class="eyebrow">Who this is for</div>
-          <h2 style="margin-top:18px;">{forWhom[0]}</h2>
-          <div class="wb-for-prose">
-            {forWhom.slice(1).map((line) => (
-              <p class="body-copy">{line}</p>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- FINAL CTA: restates the promise and date once more before the form, the way a real event page closes the loop -->
-  {!isClosed && (
-    <section class="wb-final-cta wrap dz-reveal">
-      <h2>Come Find Your Next Level</h2>
-      {startsAt && <time class="wb-final-meta" datetime={startsAt} data-webinar-date>{formatUtc(startsAt)}</time>}
-      {externalUrl
-        ? <a class="btn-primary" href={externalUrl} target="_blank" rel="noopener">{ctaLabel} &rarr;</a>
-        : <a class="btn-primary" href="#register">{ctaLabel} &rarr;</a>}
-    </section>
-  )}
-
-  <!-- HOST / SPEAKER: bespoke treatment so Laura reads as real, not a stock bio box. Placed last, closing the page. -->
   <section class="wb-host">
     <div class="wb-host-grid">
       <div class="wb-host-photo-wrap dz-reveal">
@@ -207,31 +219,65 @@ const jsonLd =
       <div class="wb-host-copy dz-reveal" style="--dz-delay:0.1s">
         <div class="wb-host-name">Your host</div>
         <h2>Laura Kelly</h2>
-        <p class="body-copy" style="margin-top:22px;">{hostNote}</p>
+        <p class="body-copy" style="margin-top:22px;">Laura is the founder of Life 2.0 and co-owner of Clover Growth Partners. She studied psychology, graduated as Graduate of the Year, and went on to conduct research inside organizations including Dell, Eli Lilly, Ornua and EMC.</p>
+        <p class="body-copy" style="margin-top:16px;">She has personally coached leaders whose companies are on track to generate $2.5 billion in revenue this year. Her work starts where business strategy ends: with the person leading the business, and the life they’re building around it.</p>
       </div>
     </div>
   </section>
 </BaseLayout>
 
-<script is:inline>
-  // Show the start time in the visitor's own timezone. The server renders UTC
-  // so the page is still correct without JS; this just makes it unambiguous.
+<style>
+  .bp-hero-form { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
+  .bp-hero-form .wb-hero-trust { font-size: 16px; }
+  .bp-error { font-weight: 600; color: #B5533C; }
+
+  /* --- Proof numbers --- */
+  .bp-proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 860px) { .bp-proof { grid-template-columns: 1fr; } }
+  .bp-proof-item { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+  .bp-proof-figure { font: 600 clamp(34px, 3.6vw, 48px)/1 var(--serif); color: var(--gold); }
+  .bp-proof-item p { margin-top: 14px; font: 400 18px/1.55 var(--sans); color: var(--ink-soft); }
+
+  /* --- Positioning statement --- */
+  .bp-position { max-width: 860px; margin: 0 auto; text-align: center; }
+  .bp-position-line { font: 500 clamp(28px, 3.4vw, 44px)/1.3 var(--serif); color: var(--forest); }
+  .bp-position .body-copy { margin: 24px auto 0; max-width: 680px; }
+  .bp-sign { margin-top: 20px; font: 600 16px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+
+  .bp-faq-head { text-align: center; }
+
+  /* --- Final sign-up panel --- */
+  .bp-register-wrap { padding-top: 24px; padding-bottom: 40px; }
+  .bp-register {
+    background: var(--forest);
+    border-radius: 32px;
+    padding: clamp(32px, 5vw, 64px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 860px) { .bp-register { grid-template-columns: 1fr; gap: 28px; } }
+  .bp-register .eyebrow { color: var(--gold-light); }
+  .bp-register h2 { margin-top: 16px; font: 500 clamp(30px, 3.4vw, 44px)/1.2 var(--serif); color: var(--paper); }
+  .bp-register-when { display: block; margin-top: 18px; font: 600 17px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--gold-light); }
+  .bp-register-copy p { margin-top: 16px; font: 400 19px/1.6 var(--sans); color: rgba(251, 247, 239, 0.8); }
+</style>
+
+<script is:inline define:vars={{ START: event.startsAt, END: event.endsAt }}>
+  // Show the time in the visitor's own timezone. The server renders Pacific
+  // so the page is still correct without JS.
   (function () {
-    var els = document.querySelectorAll('[data-webinar-date]');
+    var els = document.querySelectorAll('[data-event-range]');
     if (!els.length) return;
-    els.forEach(function (el) {
-      var iso = el.getAttribute('datetime');
-      if (!iso) return;
-      try {
-        var d = new Date(iso);
-        if (isNaN(d.getTime())) return;
-        el.textContent = d.toLocaleString(undefined, {
-          weekday: 'long', month: 'long', day: 'numeric',
-          hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
-        });
-      } catch (err) {
-        /* keep the server-rendered UTC string */
-      }
-    });
+    try {
+      var s = new Date(START), e = new Date(END);
+      var day = s.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+      var from = s.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+      var to = e.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+      els.forEach(function (el) { el.textContent = day + ', ' + from + ' – ' + to; });
+    } catch (err) {
+      /* keep the server-rendered Pacific string */
+    }
   })();
 </script>

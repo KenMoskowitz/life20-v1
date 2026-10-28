@@ -2,12 +2,21 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuotePanel from '../components/QuotePanel.astro';
 import CtaBand from '../components/CtaBand.astro';
+import QuoteWall from '../components/QuoteWall.astro';
 import { getPage } from '../lib/sanity';
+import { findYourNextLevel as training } from '../data/webinars';
+import { quotes, proofPoints } from '../data/quotes';
+
+// The next free training, e.g. "Thursday, November 19".
+const trainingDay = new Date(training.startsAt).toLocaleDateString('en-US', {
+  weekday: 'long', month: 'long', day: 'numeric', timeZone: training.timeZone,
+});
+const trainingIsUpcoming = new Date(training.endsAt).getTime() > Date.now();
 
 const cms = await getPage('home') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
-const description = cms?.metaDescription ?? "A 6-week small-group Life 2.0 coaching experience for high achievers who are doing well, but know another level is available in business and life.";
+const description = cms?.metaDescription ?? 'Laura Kelly helps business owners and leaders build a life as successful as their business. Founded in science, proven in the real world.';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -34,20 +43,20 @@ const jsonLd = {
       <div>
         <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build the life that feels <em>as good</em> as it looks.</h1>
-        <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">
-          {cms?.heroLede ?? "You mapped the business. Nobody ever handed you a map for the rest of it. Access Your Next Level is a 6-week small-group coaching experience for high achievers who know another level is available."}
-        </p>
+        <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">You mapped the business. Nobody ever handed you a map for the rest of it. I help business owners and leaders build a life as successful as the business they’ve built.</p>
         <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s">
-          <a class="btn-primary" href="/access-your-next-level">Join the founding cohort &rarr;</a>
-          <a class="btn-text" href="/about">Meet Laura</a>
+          {trainingIsUpcoming
+            ? <a class="btn-primary" href="/blueprint">Join the free live training &rarr;</a>
+            : <a class="btn-primary" href="/access-your-next-level">Join the founding cohort &rarr;</a>}
+          <a class="btn-text" href="/assessment">Take the free assessment</a>
         </div>
-        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> Research-grounded. Founder-led. Six weeks to your next level.</div>
+        <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> {trainingIsUpcoming ? `Free live training · ${trainingDay}` : 'Founded in science. Proven in the real world.'}</div>
       </div>
       <div style="position:relative;">
         <div class="hero-photo-frame dz-enter" style="--dz-enter-delay:0.12s">
           <img class="dz-kenburns" src="/assets/laura-hero.jpg" alt="Laura Kelly, founder of Life 2.0" />
         </div>
-        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>10</b><span>max spots in the founding cohort</span></div>
+        <div class="hero-badge dz-enter" style="--dz-enter-delay:0.44s"><b>$2.5B</b><span>in revenue this year across companies led by leaders Laura has coached</span></div>
       </div>
     </div>
   </section>
@@ -72,11 +81,46 @@ const jsonLd = {
     </div>
   </section>
 
+  <section class="section wrap wb-section-tight">
+    <div class="home-proof dz-reveal">
+      {proofPoints.map((p) => (
+        <div class="home-proof-item">
+          <div class="home-proof-figure">{p.figure}</div>
+          <p>{p.label}</p>
+        </div>
+      ))}
+    </div>
+    <p class="home-position dz-reveal">“I don’t teach people how to grow their companies. I coach the human responsible for leading them.”</p>
+  </section>
+
   <QuotePanel />
 
-  <CtaBand
-    eyebrow="Access Your Next Level"
-    heading="A 6-week Life 2.0 coaching experience for what comes next."
-    body="Founding cohort: $1,500 paid in full, or 2 payments of $850. Maximum 10 people."
-  />
+  <QuoteWall quotes={[quotes.gail, quotes.ken, quotes.michelle, quotes.paul]} />
+
+  {trainingIsUpcoming ? (
+    <CtaBand
+      eyebrow="Free live training"
+      heading="Come find your next level."
+      body={`75 minutes, live on Zoom, ${trainingDay}. Free to attend.`}
+      ctaLabel="Save my free seat"
+      ctaHref="/blueprint"
+      secondaryLabel="Or see the six-week program"
+      secondaryHref="/access-your-next-level"
+    />
+  ) : (
+    <CtaBand
+      eyebrow="Access Your Next Level"
+      heading="A 6-week Life 2.0 coaching experience for what comes next."
+      body="Founding cohort: $1,500 paid in full, or 2 payments of $850. Maximum 10 people."
+    />
+  )}
 </BaseLayout>
+
+<style>
+  .home-proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 860px) { .home-proof { grid-template-columns: 1fr; } }
+  .home-proof-item { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+  .home-proof-figure { font: 600 clamp(34px, 3.6vw, 48px)/1 var(--serif); color: var(--gold); }
+  .home-proof-item p { margin-top: 14px; font: 400 18px/1.55 var(--sans); color: var(--ink-soft); }
+  .home-position { max-width: 860px; margin: 48px auto 0; text-align: center; font: 500 italic clamp(26px, 3vw, 40px)/1.35 var(--serif); color: var(--forest); }
+</style>

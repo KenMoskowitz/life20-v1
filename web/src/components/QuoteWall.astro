@@ -1,0 +1,67 @@
+---
+import type { Quote } from '../data/quotes';
+
+// Written quote cards. Pass the quotes to show, strongest first; the first
+// one is featured full width.
+interface Props {
+  quotes: Quote[];
+  eyebrow?: string;
+  heading?: string;
+}
+
+const { quotes, eyebrow = 'In their words', heading = 'What people say about working with Laura' } = Astro.props;
+const [featured, ...rest] = quotes;
+---
+<section class="section wrap wb-section-tight qw">
+  <div class="qw-head dz-reveal">
+    <div class="eyebrow eyebrow-center">{eyebrow}</div>
+    <h2>{heading}</h2>
+  </div>
+  {featured && (
+    <figure class="qw-featured dz-reveal">
+      <blockquote>&ldquo;{featured.quote}&rdquo;</blockquote>
+      <figcaption>
+        <span class="qw-name">{featured.name}</span>
+        {featured.title && <span class="qw-title">{featured.title}</span>}
+      </figcaption>
+    </figure>
+  )}
+  <div class="qw-grid">
+    {rest.map((q, i) => (
+      <figure class="qw-card dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
+        <blockquote>&ldquo;{q.quote}&rdquo;</blockquote>
+        <figcaption>
+          <span class="qw-name">{q.name}</span>
+          {q.title && <span class="qw-title">{q.title}</span>}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .qw-head { max-width: 720px; margin: 0 auto; text-align: center; }
+  .qw-head h2 { margin-top: 14px; }
+  .qw-featured {
+    margin: 40px 0 0;
+    background: var(--forest);
+    border-radius: 28px;
+    padding: clamp(32px, 5vw, 56px);
+  }
+  .qw-featured blockquote { margin: 0; font: 500 italic clamp(22px, 2.4vw, 30px)/1.5 var(--serif); color: var(--paper); }
+  .qw-featured .qw-name { color: var(--gold-light); }
+  .qw-featured .qw-title { color: rgba(251, 247, 239, 0.7); }
+  .qw-grid { margin-top: 22px; columns: 3 280px; column-gap: 22px; }
+  .qw-card {
+    break-inside: avoid;
+    margin: 0 0 22px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(24px, 3vw, 32px);
+  }
+  .qw-card blockquote { margin: 0; font: 500 italic clamp(19px, 1.6vw, 22px)/1.5 var(--serif); color: var(--forest); }
+  figcaption { margin-top: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .qw-name { font: 600 15px/1.2 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .qw-title { font: 400 16px/1.4 var(--sans); color: var(--ink-soft); }
+</style>

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { sanityWriteClient } from '../../lib/sanity';
+import { notifyTeam } from '../../lib/notify';
 
 export const prerender = false;
 
@@ -97,6 +98,15 @@ export const POST: APIRoute = async ({ request }) => {
     console.error('[assessment-email] Resend error:', error);
     return new Response(JSON.stringify({ ok: false, error: 'send-failed' }), { status: 502 });
   }
+
+  // Their lowest score is the natural opener for a personal follow-up.
+  await notifyTeam(`New assessment: lowest is ${body.leverageSkill}`, [
+    ['Email', body.email],
+    ['Lowest (start here)', `${body.leverageSkill} (${body.leverageScore}/10)`],
+    ['Next lowest', `${body.supportSkill} (${body.supportScore}/10)`],
+    ['Result', body.bandLabel],
+    ['All scores', body.scores.map((s) => `${s.skill}: ${s.score}`).join('\n')],
+  ]);
 
   if (sanityWriteClient) {
     try {

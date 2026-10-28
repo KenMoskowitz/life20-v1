@@ -10,6 +10,14 @@ export interface WebinarEvent {
   endsAt: string;
   /** IANA zone the event is announced in; used for the no-JS fallback and the email. */
   timeZone: string;
+  /**
+   * Zoom webinar ID (the digits in the Zoom webinar's link). When set and the
+   * Zoom API credentials are configured, the site's own form registers people
+   * with Zoom directly, so Zoom sends the joining link and its reminders.
+   */
+  zoomWebinarId?: string;
+  /** Zoom's own registration page. Used as the fallback if the API isn't set up. */
+  zoomRegistrationUrl?: string;
 }
 
 // Oct 29, 2026 is before US daylight saving ends (Nov 1), so Pacific is PDT, UTC-7.
@@ -21,8 +29,24 @@ export const betterMentalHealth: WebinarEvent = {
   timeZone: 'America/Los_Angeles',
 };
 
+// The monthly "Find Your Next Level" training at /blueprint. Change the date
+// and Zoom details here each month; the page, the confirmation email and the
+// calendar invite all read from this one place.
+// Nov 19, 2026 is after US daylight saving ends (Nov 1), so Pacific is PST, UTC-8.
+export const findYourNextLevel: WebinarEvent = {
+  slug: 'blueprint',
+  title: 'Find Your Next Level',
+  startsAt: '2026-11-19T11:00:00-08:00',
+  endsAt: '2026-11-19T12:15:00-08:00',
+  timeZone: 'America/Los_Angeles',
+  // TODO: paste the November Zoom webinar's ID and registration link here.
+  zoomWebinarId: undefined,
+  zoomRegistrationUrl: undefined,
+};
+
 export const codeWebinars: Record<string, WebinarEvent> = {
   [betterMentalHealth.slug]: betterMentalHealth,
+  [findYourNextLevel.slug]: findYourNextLevel,
 };
 
 export function durationMinutes(event: WebinarEvent) {

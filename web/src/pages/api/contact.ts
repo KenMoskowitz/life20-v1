@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { sanityWriteClient } from '../../lib/sanity';
+import { notifyTeam } from '../../lib/notify';
 
 export const prerender = false;
 
@@ -12,6 +13,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   if (!name || !email || !message) {
     return redirect('/contact?error=missing-fields');
   }
+
+  await notifyTeam(`New contact message: ${name}`, [
+    ['Name', name],
+    ['Email', email],
+    ['Message', message],
+  ]);
 
   if (!sanityWriteClient) {
     console.error('[contact] SANITY_TOKEN not configured; submission dropped.');

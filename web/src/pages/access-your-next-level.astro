@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProofQuotes from '../components/ProofQuotes.astro';
+import QuoteWall from '../components/QuoteWall.astro';
+import { quotes } from '../data/quotes';
 
 // Reads ?error / ?joined off the URL after a Stripe Checkout redirect back
 // to this page, so this can't be prerendered to static HTML.
@@ -10,6 +11,22 @@ const title = 'Access Your Next Level | Life 2.0';
 const description = 'Six weeks of live small-group coaching with Laura Kelly, for high achievers who are doing well and know there is more available in business and life. Founding cohort: $1,500, maximum 10 people.';
 
 const joined = Astro.url.searchParams.get('joined') === '1';
+const plan = Astro.url.searchParams.get('plan');
+// Tell the Meta Pixel about a completed purchase. The installment plan's
+// first payment is $850.
+const pixelEvent = joined
+  ? { name: 'Purchase', params: { value: plan === 'installment' ? 850 : 1500, currency: 'USD', content_name: 'Access Your Next Level' } }
+  : undefined;
+
+// The next group. Update these together each time a new group opens.
+const nextStart = 'Tuesday, December 1';
+const schedule = [
+  { label: 'December', dates: 'Dec 1, Dec 8, Dec 15' },
+  { label: 'Holiday break', dates: 'Two weeks off to rest' },
+  { label: 'January', dates: 'Jan 5, Jan 12, Jan 19' },
+];
+
+const wall = [quotes.gail, quotes.michelle, quotes.ken, quotes.paul, quotes.indira, quotes.erica];
 const checkoutError = Astro.url.searchParams.get('error');
 
 const tensionSlides = [
@@ -141,17 +158,22 @@ const faqs = [
     a: 'Same six-week framework. Private Advisory is one to one with Laura, with direct access between sessions. Access Your Next Level is the small-group version, and the most direct way to start working with her.',
   },
   {
+    q: 'When does it start?',
+    a: 'Our next group starts Tuesday, December 1, with three calls before the holidays, a two-week break, and three calls in January.',
+  },
+  {
     q: 'Will the price go up?',
     a: 'Yes. This is the founding cohort. Founding members get the founding rate, and the investment increases as future cohorts open.',
   },
 ];
 ---
-<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level">
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level" pixelEvent={pixelEvent}>
   <div class="page-hero ayn-hero-wide wrap">
     <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Access Your Next Level &middot; Founding Cohort</div>
     <h1 class="dz-enter" style="--dz-enter-delay:0.08s">You built the success. Now let’s build the life around it.</h1>
     <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Six weeks of live coaching with Laura Kelly, in a room of ten capable people who are doing well and know there’s more available. You’ll leave with a clear direction for your business and your life, and a plan you’ll actually use.</p>
     <ul class="ayn-hero-facts dz-enter" style="--dz-enter-delay:0.24s">
+      <li>Starts {nextStart}</li>
       <li>6 weeks</li>
       <li>6 live coaching calls with Laura</li>
       <li>Maximum 10 people</li>
@@ -171,7 +193,7 @@ const faqs = [
           <div class="ayn-price-block-label">Founding Cohort</div>
           <div class="ayn-price-block-main">$1,500 paid in full</div>
           <div class="ayn-price-block-alt">or 2 payments of $850</div>
-          <div class="ayn-price-block-note">Maximum 10 people</div>
+          <div class="ayn-price-block-note">Starts {nextStart.replace('Tuesday, ', '')}</div>
           <div class="ayn-price-block-actions">
             <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
             <a class="btn-text" href="#included">See what's included</a>
@@ -236,7 +258,7 @@ const faqs = [
     </div>
   </section>
 
-  <ProofQuotes />
+  <QuoteWall quotes={wall} />
 
   <section class="section wrap dz-reveal wb-section-tight">
     <div class="ayn-section-head">
@@ -341,7 +363,22 @@ const faqs = [
   <section class="section wrap wb-section-tight" id="join">
     <div class="dz-reveal ayn-join-head">
       <h2>Join the founding cohort</h2>
-      <p class="body-copy">Ten seats. The founding rate. A real hand in shaping what this becomes.</p>
+      <p class="body-copy">Ten seats. The founding rate. We start {nextStart}.</p>
+    </div>
+
+    <div class="ayn-schedule dz-reveal">
+      <div class="ayn-schedule-intro">
+        <h3 class="ayn-subhead">Start 2027 already moving</h3>
+        <p class="body-copy">We do the deep work in December, rest over the holidays, and finish in January with a clear plan for the year ahead.</p>
+      </div>
+      <ul class="ayn-schedule-list">
+        {schedule.map((row) => (
+          <li>
+            <span class="ayn-schedule-label">{row.label}</span>
+            <span class="ayn-schedule-dates">{row.dates}</span>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <div class="ayn-join-grid">
@@ -351,7 +388,7 @@ const faqs = [
           <div class="price">$1,500</div>
           <p>paid in full, or 2 payments of $850</p>
           <p class="ayn-save">Save $200 when you pay in full</p>
-          <p>Maximum 10 places available</p>
+          <p>Starts {nextStart} &middot; Maximum 10 places</p>
 
           {joined && (
             <p class="ayn-checkout-status">You're in. Check your email for next steps.</p>
@@ -435,6 +472,16 @@ const faqs = [
   .ayn-week-outcome span { display: block; margin-bottom: 6px; font: 600 13px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
 
   .ayn-save { font-weight: 600; color: var(--gold-light); }
+
+  /* --- Next group schedule --- */
+  .ayn-schedule { margin-bottom: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; background: var(--paper-warm); border: 1px solid var(--line); border-radius: 24px; padding: clamp(26px, 4vw, 40px); }
+  @media (max-width: 860px) { .ayn-schedule { grid-template-columns: 1fr; gap: 20px; } }
+  .ayn-schedule-intro .body-copy { margin-top: 10px; }
+  .ayn-schedule-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .ayn-schedule-list li { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .ayn-schedule-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .ayn-schedule-label { font: 600 15px/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .ayn-schedule-dates { font: 500 18px/1.4 var(--serif); color: var(--forest); text-align: right; }
 
   /* --- What happens after you join --- */
   .ayn-steps { margin-top: 56px; }

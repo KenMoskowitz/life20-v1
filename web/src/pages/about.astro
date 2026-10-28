@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { getPage } from '../lib/sanity';
+import { proofPoints } from '../data/quotes';
 
 const cms = await getPage('about') as Record<string, any> | null;
 
@@ -31,6 +32,23 @@ const beliefs = [
     <p class="body-copy">I still ask myself, most days, "how can I create even more ease and peace in my life right now." I'm still learning to respond instead of react. I'm still building the habit of one full hour of undistracted time with my kids. Life 2.0 works best when I'm honest about being in it with you, not standing outside it, pointing.</p>
   </div>
 
+  <section class="section wb-section-tight wrap about-cred">
+    <div class="about-cred-head dz-reveal">
+      <div class="eyebrow">Founded in science, proven in the real world</div>
+      <h2>I coach the human responsible for leading the business.</h2>
+      <p class="body-copy">I don’t teach people how to grow their companies. That’s never been my expertise, and I’ve never claimed it. My background is in psychology and human performance. I studied psychology, graduated as Graduate of the Year, and went on to conduct my own research inside organizations including Dell, Eli Lilly, Ornua and EMC.</p>
+      <p class="body-copy">Today I work with ambitious, accomplished people to look at the beliefs, behaviors and identities that shape how they lead and live. I challenge the stories they tell themselves. I help them see the patterns that may be limiting them. And most importantly, I help extraordinary people see what I see in them, sometimes long before they can see it themselves.</p>
+    </div>
+    <div class="about-cred-grid">
+      {proofPoints.map((p, i) => (
+        <div class="about-cred-item dz-reveal" style={`--dz-delay:${i * 0.08}s`}>
+          <div class="about-cred-figure">{p.figure}</div>
+          <p>{p.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
   <section class="section wb-section-tight wrap dz-reveal about-believe">
     <h2>What I actually believe</h2>
     <div class="about-beliefs-grid">
@@ -50,12 +68,12 @@ const beliefs = [
   </section>
 
   <CtaBand
-    heading="Ready to access your next level?"
-    body="A 6-week small-group coaching experience for what comes next."
-    ctaLabel="Join the founding cohort"
-    ctaHref="/access-your-next-level"
-    secondaryLabel="Or book a Clarity Call to talk it through with Laura"
-    secondaryHref="/private-advisory#apply"
+    heading="Come spend 75 minutes with me."
+    body="My free live training is the best way to get a feel for how I work, and find your next point of leverage."
+    ctaLabel="Join the free training"
+    ctaHref="/blueprint"
+    secondaryLabel="Or see the six-week program"
+    secondaryHref="/access-your-next-level"
   />
 </BaseLayout>
 
@@ -90,6 +108,15 @@ const beliefs = [
   .about-break-photo { border-radius: 24px; overflow: hidden; aspect-ratio: 16/7; }
   .about-break-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
   @media (max-width: 700px) { .about-break-photo { aspect-ratio: 4/3; } }
+
+  .about-cred-head { max-width: 820px; }
+  .about-cred-head h2 { margin-top: 16px; }
+  .about-cred-head .body-copy { margin-top: 18px; font-size: clamp(20px, 1.4vw, 22px); line-height: 1.75; }
+  .about-cred-grid { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 860px) { .about-cred-grid { grid-template-columns: 1fr; } }
+  .about-cred-item { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+  .about-cred-figure { font: 600 clamp(32px, 3.4vw, 46px)/1 var(--serif); color: var(--gold); }
+  .about-cred-item p { margin-top: 14px; font: 400 18px/1.55 var(--sans); color: var(--ink-soft); }
 
   /* Move this section up slightly — the default .section top padding read
      as too big a gap after the flowing intro text above it. */
