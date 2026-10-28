@@ -1,22 +1,85 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import QuotePanel from '../components/QuotePanel.astro';
 import CtaBand from '../components/CtaBand.astro';
+import NineVariablesGrid from '../components/NineVariablesGrid.astro';
 import QuoteWall from '../components/QuoteWall.astro';
 import { getPage } from '../lib/sanity';
 import { findYourNextLevel as training } from '../data/webinars';
+import { nextGroup } from '../data/enrollment';
 import { quotes, proofPoints } from '../data/quotes';
+import { testimonials } from '../data/testimonials';
 
-// The next free training, e.g. "Thursday, November 19".
+// Only the page title still comes from Sanity; the homepage copy lives here.
+const cms = await getPage('home') as Record<string, any> | null;
+
+const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
+const description = 'Laura Kelly helps business owners and leaders build a life as successful as their business. Founded in science, proven in the real world.';
+
+// The next free training, e.g. "Thursday, November 19". The page is built
+// ahead of time, so these switch over on the first rebuild after it ends.
 const trainingDay = new Date(training.startsAt).toLocaleDateString('en-US', {
   weekday: 'long', month: 'long', day: 'numeric', timeZone: training.timeZone,
 });
 const trainingIsUpcoming = new Date(training.endsAt).getTime() > Date.now();
+const groupIsOpen = new Date(nextGroup.closesAt).getTime() > Date.now();
 
-const cms = await getPage('home') as Record<string, any> | null;
+const logos = [
+  'logo-1.png', 'logo-2.png', 'logo-3.png', 'logo-4.png',
+  'logo-5.png', 'logo-6.png', 'logo-7.png', 'logo-8.png',
+  'logo-9.png', 'logo-10.png', 'logo-11.png', 'logo-12.png',
+];
 
-const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
-const description = cms?.metaDescription ?? 'Laura Kelly helps business owners and leaders build a life as successful as their business. Founded in science, proven in the real world.';
+const signs = [
+  'The business grew, and somewhere along the way it started running us.',
+  'We’re in the room, and somewhere else in our heads.',
+  'The people we love get whatever is left at the end of the day.',
+  'We hit the goal, and the finish line quietly moves again.',
+];
+
+const whatIDo = [
+  'I challenge the stories you tell yourself.',
+  'I help you recognize the patterns that may be limiting your potential.',
+  'And most importantly, I help you see what I see in you, sometimes long before you can see it yourself.',
+];
+
+const featuredVideo = testimonials[0];
+
+const paths = [
+  {
+    tag: 'Free',
+    title: 'The Overflow Assessment',
+    body: 'Six minutes, private. Find the area of life that deserves your attention first.',
+    cta: 'Take the assessment',
+    href: '/assessment',
+  },
+  trainingIsUpcoming
+    ? {
+        tag: 'Free · Start here',
+        title: 'Find Your Next Level',
+        body: `A 75-minute live training with Laura on Zoom, ${trainingDay}.`,
+        cta: 'Save my free seat',
+        href: '/blueprint',
+        featured: true,
+      }
+    : null,
+  {
+    tag: '$1,500 · Small group',
+    title: 'Access Your Next Level',
+    body: groupIsOpen
+      ? `Six weeks of live coaching with Laura, ten people maximum. Starts ${nextGroup.startLabel}.`
+      : 'Six weeks of live coaching with Laura, ten people maximum.',
+    cta: 'See the program',
+    href: '/access-your-next-level',
+    featured: !trainingIsUpcoming,
+  },
+  {
+    tag: 'One to one',
+    title: 'Private Advisory',
+    body: 'The same framework built entirely around your life, with Laura a text away between sessions.',
+    cta: 'Apply',
+    href: '/private-advisory',
+  },
+].filter(Boolean) as Array<{ tag: string; title: string; body: string; cta: string; href: string; featured?: boolean }>;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -43,11 +106,11 @@ const jsonLd = {
       <div>
         <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Life 2.0 &nbsp;&middot;&nbsp; Laura Kelly</div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build the life that feels <em>as good</em> as it looks.</h1>
-        <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">You mapped the business. Nobody ever handed you a map for the rest of it. I help business owners and leaders build a life as successful as the business they’ve built.</p>
+        <p class="hero-lede dz-enter" style="--dz-enter-delay:0.16s">You built the business. Nobody handed you a map for the rest of it. I help business owners and leaders build a life as successful as the business they’ve built.</p>
         <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s">
           {trainingIsUpcoming
             ? <a class="btn-primary" href="/blueprint">Join the free live training &rarr;</a>
-            : <a class="btn-primary" href="/access-your-next-level">Join the founding cohort &rarr;</a>}
+            : <a class="btn-primary" href="/access-your-next-level">See Access Your Next Level &rarr;</a>}
           <a class="btn-text" href="/assessment">Take the free assessment</a>
         </div>
         <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> {trainingIsUpcoming ? `Free live training · ${trainingDay}` : 'Founded in science. Proven in the real world.'}</div>
@@ -61,66 +124,212 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="phrase-band dz-reveal">
+  <section class="section wrap wb-section-tight home-logos-head">
+    <div class="eyebrow eyebrow-center dz-reveal">People and organizations I’ve worked with</div>
+  </section>
+  <section class="logo-marquee dz-reveal" aria-label="Brands and organizations Laura has worked with">
+    <div class="logo-marquee-track" style={`--logo-count:${logos.length};`}>
+      {[...logos, ...logos].map((logo, i) => (
+        <div class="logo-marquee-item" aria-hidden={i >= logos.length ? 'true' : undefined}>
+          <img src={`/assets/${logo}`} alt="Partner or client logo" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap home-signs">
+    <div class="home-signs-head dz-reveal">
+      <div class="eyebrow eyebrow-center">Sound familiar?</div>
+      <h2>We’ve won by every outside measure. So why does something still feel missing?</h2>
+    </div>
+    <ul class="home-signs-list">
+      {signs.map((s, i) => (
+        <li class="dz-reveal" style={`--dz-delay:${i * 0.08}s`}>{s}</li>
+      ))}
+    </ul>
+    <p class="home-signs-close dz-reveal">Nothing is wrong with you. You’ve simply outgrown the approach that got you here.</p>
+  </section>
+
+  <section class="phrase-band home-phrase dz-reveal">
     <div class="wrap">
-      <p>Accomplishment got you here. <span>Fulfillment</span> is what's missing.</p>
+      <p>Accomplishment got you here. <span>Fulfillment</span> is what’s missing.</p>
+    </div>
+  </section>
+
+  <section class="founder home-what">
+    <div class="founder-grid">
+      <div class="founder-photo dz-reveal">
+        <img class="dz-kenburns--rev" src="/assets/laura-teaching.jpg" alt="Laura Kelly teaching" />
+      </div>
+      <div class="dz-reveal" style="--dz-delay:0.1s">
+        <div class="eyebrow">What I do</div>
+        <h2>I don’t teach people how to grow their companies. I coach the human responsible for leading them.</h2>
+        <p class="lede">My background is in psychology and human performance. I work with ambitious, accomplished people to look at the beliefs, behaviors and identities that shape how they lead and live.</p>
+        <ul class="home-what-list">
+          {whatIDo.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="home-what-close">Because success in business and fulfillment in life aren’t the same thing. And exceptional leaders deserve both.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="home-section-head dz-reveal">
+      <div class="eyebrow eyebrow-center">Founded in science, proven in the real world</div>
+      <h2>The work behind the work</h2>
+    </div>
+    <div class="home-proof">
+      {proofPoints.map((p, i) => (
+        <div class="home-proof-item dz-reveal" style={`--dz-delay:${i * 0.08}s`}>
+          <div class="home-proof-figure">{p.figure}</div>
+          <p>{p.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="testimonial-feature dz-reveal">
+      <div class="testimonial-feature-copy">
+        <p class="testimonial-feature-quote">&ldquo;{featuredVideo.quote}&rdquo;</p>
+        <p class="testimonial-feature-who">{featuredVideo.name}</p>
+        <p class="testimonial-feature-title">{featuredVideo.title}</p>
+        <a class="btn-text home-video-link" href="/working-with-laura">Watch more client stories &rarr;</a>
+      </div>
+      <div class="testimonial-feature-video">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${featuredVideo.videoId}`}
+          title={`Video testimonial from ${featuredVideo.name}`}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <QuoteWall quotes={[quotes.gail, quotes.paul, quotes.ken, quotes.michelle, quotes.indira, quotes.erica, quotes.stefanie]} />
+
+  <NineVariablesGrid
+    eyebrow="The framework"
+    heading="Nine skills research links to a flourishing life."
+    intro="Each one is grounded in published research, from the Harvard Study of Adult Development to Self-Determination Theory. Score yourself honestly, and your lowest score shows you exactly where to start."
+  />
+  <div class="home-framework-cta dz-reveal">
+    <a class="btn-primary" href="/assessment">Find your lowest score, free &rarr;</a>
+  </div>
+
+  <section class="section wrap wb-section-tight">
+    <div class="home-section-head dz-reveal">
+      <div class="eyebrow eyebrow-center">Ways to work with me</div>
+      <h2>Start wherever feels right.</h2>
+    </div>
+    <div class={`home-paths home-paths--${paths.length}`}>
+      {paths.map((p, i) => (
+        <a class={`home-path dz-reveal${p.featured ? ' home-path--featured' : ''}`} href={p.href} style={`--dz-delay:${i * 0.08}s`}>
+          <span class="home-path-tag">{p.tag}</span>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+          <span class="home-path-cta">{p.cta} &rarr;</span>
+        </a>
+      ))}
     </div>
   </section>
 
   <section class="founder">
     <div class="founder-grid">
       <div class="founder-photo dz-reveal">
-        <img class="dz-kenburns--rev" src="/assets/laura-teaching.jpg" alt="Laura Kelly" />
+        <img class="dz-kenburns--rev" src="/assets/laura-kitchen.jpg" alt="Laura Kelly" />
       </div>
       <div class="dz-reveal" style="--dz-delay:0.1s">
-        <div class="eyebrow">Hey, it's Laura</div>
+        <div class="eyebrow">Hey, it’s Laura</div>
         <h2>I spent four years asleep at the wheel of a life that looked perfect on paper.</h2>
-        <p class="lede">The business worked. The house, the trips, the title, all of it worked. What I hadn't built was a way to actually feel it. Life 2.0 is the map I wish someone had handed me, built from research and tested on myself first.</p>
+        <p class="lede">The business worked. The house, the trips, the title, all of it worked. What I hadn’t built was a way to actually feel it. Life 2.0 is the map I wish someone had handed me, built from research and tested on myself first.</p>
         <div class="sig">Laura</div>
+        <a class="btn-text home-story-link" href="/about">Read my story &rarr;</a>
       </div>
     </div>
   </section>
-
-  <section class="section wrap wb-section-tight">
-    <div class="home-proof dz-reveal">
-      {proofPoints.map((p) => (
-        <div class="home-proof-item">
-          <div class="home-proof-figure">{p.figure}</div>
-          <p>{p.label}</p>
-        </div>
-      ))}
-    </div>
-    <p class="home-position dz-reveal">“I don’t teach people how to grow their companies. I coach the human responsible for leading them.”</p>
-  </section>
-
-  <QuotePanel />
-
-  <QuoteWall quotes={[quotes.gail, quotes.ken, quotes.michelle, quotes.paul]} />
 
   {trainingIsUpcoming ? (
     <CtaBand
       eyebrow="Free live training"
       heading="Come find your next level."
-      body={`75 minutes, live on Zoom, ${trainingDay}. Free to attend.`}
+      body={`75 minutes with me, live on Zoom, ${trainingDay}. Free to attend.`}
       ctaLabel="Save my free seat"
       ctaHref="/blueprint"
-      secondaryLabel="Or see the six-week program"
-      secondaryHref="/access-your-next-level"
+      secondaryLabel="Or take the free assessment"
+      secondaryHref="/assessment"
     />
   ) : (
     <CtaBand
       eyebrow="Access Your Next Level"
-      heading="A 6-week Life 2.0 coaching experience for what comes next."
-      body="Founding cohort: $1,500 paid in full, or 2 payments of $850. Maximum 10 people."
+      heading="Six weeks to your next level."
+      body="Live small-group coaching with Laura. $1,500 paid in full, or 2 payments of $850. Maximum 10 people."
+      ctaLabel="See the program"
+      ctaHref="/access-your-next-level"
     />
   )}
 </BaseLayout>
 
 <style>
+  .home-logos-head { padding-bottom: 8px; }
+  .home-phrase { padding: 48px 0; }
+  .home-signs { padding-bottom: 0; }
+
+  /* --- Sound familiar --- */
+  .home-signs-head { max-width: 820px; margin: 0 auto; text-align: center; }
+  .home-signs-head h2 { margin-top: 16px; font: 500 clamp(30px, 3.6vw, 48px)/1.2 var(--serif); color: var(--forest); }
+  .home-signs-list { list-style: none; margin: 44px auto 0; padding: 0; max-width: 980px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 760px) { .home-signs-list { grid-template-columns: 1fr; } }
+  .home-signs-list li { background: var(--white); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 18px; padding: 24px 26px; font: 500 italic clamp(19px, 1.7vw, 22px)/1.5 var(--serif); color: var(--forest); }
+  .home-signs-close { margin: 36px auto 0; max-width: 680px; text-align: center; font: 400 20px/1.65 var(--sans); color: var(--ink-soft); }
+
+  /* --- What I do --- */
+  .home-what { padding-top: 40px; padding-bottom: 40px; }
+  .home-what h2 { margin-top: 16px; }
+  .home-what-list { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+  .home-what-list li { display: flex; gap: 14px; font: 400 19px/1.6 var(--sans); color: var(--ink); }
+  .home-what-list li::before { content: "→"; color: var(--gold); flex-shrink: 0; }
+  .home-what-close { margin-top: 24px; max-width: 520px; font: 500 italic 22px/1.45 var(--serif); color: var(--forest); }
+
+  /* --- Shared section heads --- */
+  .home-section-head { max-width: 760px; margin: 0 auto 40px; text-align: center; }
+  .home-section-head h2 { margin-top: 14px; }
+
+  /* --- Proof numbers --- */
   .home-proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   @media (max-width: 860px) { .home-proof { grid-template-columns: 1fr; } }
   .home-proof-item { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
   .home-proof-figure { font: 600 clamp(34px, 3.6vw, 48px)/1 var(--serif); color: var(--gold); }
   .home-proof-item p { margin-top: 14px; font: 400 18px/1.55 var(--sans); color: var(--ink-soft); }
-  .home-position { max-width: 860px; margin: 48px auto 0; text-align: center; font: 500 italic clamp(26px, 3vw, 40px)/1.35 var(--serif); color: var(--forest); }
+
+  .home-video-link { display: inline-block; margin-top: 24px; }
+
+  /* --- Framework button under the dark nine-skills panel --- */
+  .home-framework-cta { display: flex; justify-content: center; margin: 36px 0 24px; }
+
+  /* --- Ways to work with me --- */
+  .home-paths { display: grid; gap: 18px; }
+  .home-paths--4 { grid-template-columns: repeat(4, 1fr); }
+  .home-paths--3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 1100px) { .home-paths--4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .home-paths--4, .home-paths--3 { grid-template-columns: 1fr; } }
+  .home-path {
+    display: flex; flex-direction: column; gap: 10px;
+    background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px 26px;
+    color: inherit; text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .home-path:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -24px rgba(29, 46, 34, 0.4); }
+  .home-path--featured { background: var(--forest); border-color: var(--forest); }
+  .home-path-tag { font: 600 13px/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  .home-path h3 { font: 500 23px/1.25 var(--serif); color: var(--forest); }
+  .home-path p { font: 400 17px/1.55 var(--sans); color: var(--ink-soft); flex: 1; }
+  .home-path-cta { margin-top: 6px; font: 600 16px/1.3 var(--sans); color: var(--forest); }
+  .home-path--featured .home-path-tag { color: var(--gold-light); }
+  .home-path--featured h3, .home-path--featured .home-path-cta { color: var(--paper); }
+  .home-path--featured p { color: rgba(251, 247, 239, 0.8); }
+
+  .home-story-link { display: inline-block; margin-top: 24px; }
 </style>
