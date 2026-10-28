@@ -63,16 +63,27 @@ const compareRows = [
 ];
 
 const howItWorks = [
-  { title: 'Apply', body: 'Tell us a little about what’s going on. It takes two minutes.' },
-  { title: 'Laura reads it', body: 'Every application is read by Laura personally. No automated scheduler.' },
-  { title: 'Clarity Call', body: 'If it looks like a fit, you’ll book a Clarity Call to make sure this is right for you.' },
-  { title: 'Begin', body: 'Your six weeks start, built around your life from the first session.' },
+  { title: 'Apply', body: 'Answer a few short questions about you and what’s going on. It takes about two minutes.' },
+  { title: 'Book your call', body: 'Pick a time for your Clarity Call straight away. No waiting to hear back.' },
+  { title: 'Laura prepares', body: 'Laura reads your answers herself before you talk, so the call goes straight to what matters.' },
+  { title: 'Begin', body: 'If it’s the right fit for you both, your six weeks start, built around your life from the first session.' },
 ];
+
+// Application questions. The answers arrive in Laura's lead alert email and
+// are saved in Sanity under Applications.
+const businessSizes = ['Under $1M a year', '$1M to $5M', '$5M to $20M', '$20M+', 'I lead someone else’s business'];
+const focusAreas = [
+  'Purpose & Meaning', 'Relationships', 'Identity & Autonomy',
+  'Growth & Challenge', 'Physical Vitality', 'Financial Security',
+  'Contribution', 'Presence & Aliveness', 'Character & Virtue', 'Not sure yet',
+];
+const investOptions = ['Yes', 'Possibly, I’d like to talk it through', 'Not right now'];
+const sources = ['Facebook or Instagram', 'LinkedIn', 'A free training or webinar', 'A friend or colleague', 'Clover', 'Google', 'Other'];
 
 const faqs = [
   {
     q: 'Why is there an application?',
-    a: 'Private Advisory is capacity-limited during the founding chapter, and it works best when it’s the right fit. Laura reads every application herself so neither of us wastes a minute.',
+    a: 'Private Advisory is capacity-limited during the founding chapter, and it works best when it’s the right fit. A few short answers mean Laura arrives at your Clarity Call already knowing what matters to you, so neither of you wastes a minute.',
   },
   {
     q: 'How is this different from Access Your Next Level?',
@@ -237,27 +248,68 @@ const faqs = [
   <section class="section wrap" id="apply">
     <div class="pa-apply-head">
       <h2>Apply for Private Advisory</h2>
-      <p class="body-copy">Spots are limited during the founding chapter. Laura reads every application herself, and if it looks like a fit, you'll book a Clarity Call together.</p>
+      <p class="body-copy">Spots are limited during the founding chapter. Answer a few short questions, then book your Clarity Call straight away. Laura reads every answer herself before you talk.</p>
     </div>
     {applyError && (
       <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
-        {applyError === 'missing-fields' ? 'Please fill in your name and email before applying.' : 'Something went wrong submitting your application. Please try again in a moment.'}
+        {applyError === 'missing-fields' ? 'Please answer every question marked with a star before applying.' : 'Something went wrong submitting your application. Please try again in a moment.'}
       </p>
     )}
-    <form class="form-panel" style="margin-top:32px;" action="/api/private-advisory-application" method="post">
-      <div class="form-field">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" required />
+    <form class="form-panel pa-app" style="margin-top:32px;" action="/api/private-advisory-application" method="post">
+      <div class="pa-app-row">
+        <div class="form-field">
+          <label for="name">Name *</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="form-field">
+          <label for="email">Email *</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
       </div>
       <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" required />
+        <label for="phone">Phone <span class="pa-app-optional">(optional)</span></label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" />
       </div>
       <div class="form-field">
-        <label for="context">What's going on right now?</label>
-        <textarea id="context" name="context" rows="4"></textarea>
+        <label for="work">What do you do? *</label>
+        <input id="work" name="work" type="text" placeholder="Your role and business" required />
       </div>
-      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Apply for Private Advisory</button>
+      <div class="form-field">
+        <label for="businessSize">Roughly how big is your business? *</label>
+        <select id="businessSize" name="businessSize" required>
+          <option value="" disabled selected>Choose one</option>
+          {businessSizes.map((o) => <option>{o}</option>)}
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="focusArea">Which area of life feels most off right now? *</label>
+        <select id="focusArea" name="focusArea" required>
+          <option value="" disabled selected>Choose one</option>
+          {focusAreas.map((o) => <option>{o}</option>)}
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="context">What’s going on right now? *</label>
+        <textarea id="context" name="context" rows="4" required></textarea>
+      </div>
+      <div class="form-field">
+        <label for="win">What would make the next six months a real win? *</label>
+        <textarea id="win" name="win" rows="3" required></textarea>
+      </div>
+      <fieldset class="form-field pa-app-invest">
+        <legend>Private Advisory is $3,000 a month for founding clients. If it’s the right fit, are you ready to invest at that level? *</legend>
+        {investOptions.map((o, i) => (
+          <label class="pa-app-radio"><input type="radio" name="investReady" value={o} required={i === 0} /> {o}</label>
+        ))}
+      </fieldset>
+      <div class="form-field">
+        <label for="source">How did you hear about Laura? <span class="pa-app-optional">(optional)</span></label>
+        <select id="source" name="source">
+          <option value="" selected>Choose one</option>
+          {sources.map((o) => <option>{o}</option>)}
+        </select>
+      </div>
+      <button class="btn-primary" type="submit" style="width:100%; justify-content:center;">Apply and book my call &rarr;</button>
     </form>
   </section>
 </BaseLayout>
@@ -341,6 +393,26 @@ const faqs = [
   }
   .pa-pricing-intro-boxed .body-copy { font-size: clamp(20px, 1.7vw, 24px); line-height: 1.7; }
 
+
+  /* --- Application form: sentence-case question labels (the shared
+     uppercase mono labels are unreadable at question length) --- */
+  .pa-app { max-width: 640px; }
+  .pa-app .form-field label, .pa-app legend { font: 600 18px/1.4 var(--sans); letter-spacing: 0; text-transform: none; color: var(--forest); }
+  .pa-app-optional { font-weight: 400; color: var(--ink-soft); }
+  .pa-app-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .pa-app-row .form-field { min-width: 0; }
+  .pa-app input, .pa-app select, .pa-app textarea { width: 100%; box-sizing: border-box; }
+  .pa-app .pa-app-radio input { width: 18px; }
+  @media (max-width: 560px) { .pa-app-row { grid-template-columns: 1fr; } }
+  .pa-app select {
+    font: 400 18px/1.5 var(--sans); color: var(--ink); background: var(--paper);
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+  }
+  .pa-app select:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .pa-app-invest { border: none; padding: 0; margin: 4px 0 20px; }
+  .pa-app-invest legend { margin-bottom: 12px; }
+  .pa-app .pa-app-radio { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); font: 400 18px/1.4 var(--sans); color: var(--ink); cursor: pointer; margin-bottom: 8px; }
+  .pa-app-radio input { accent-color: var(--forest); width: 18px; height: 18px; }
 
   /* Center the apply heading + intro to match the centered form below it. */
   .pa-apply-head { max-width: 560px; margin: 0 auto; text-align: center; }

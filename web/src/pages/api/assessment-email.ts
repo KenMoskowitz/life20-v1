@@ -123,7 +123,7 @@ export const POST: APIRoute = async ({ request }) => {
   await notifyTeam(`New assessment: lowest is ${body.leverageSkill}`, [
     ['Email', body.email],
     ['Lowest (start here)', `${body.leverageSkill} (${body.leverageScore}/10)`],
-    ['Next lowest', `${body.supportSkill} (${body.supportScore}/10)`],
+    ['Strongest (source of support)', `${body.supportSkill} (${body.supportScore}/10)`],
     ['Result', body.bandLabel],
     ['All scores', body.scores.map((s) => `${s.skill}: ${s.score}`).join('\n')],
     ['Results email', emailError ? 'FAILED to send, so send them their results personally' : 'Sent'],
