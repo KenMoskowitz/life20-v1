@@ -1,0 +1,56 @@
+---
+import { testimonials } from '../data/testimonials';
+
+// Short quote cards from the real client video testimonials, for offer
+// pages. The full videos live on /working-with-laura.
+interface Props {
+  heading?: string;
+  eyebrow?: string;
+}
+
+const {
+  heading = 'In their words',
+  eyebrow = 'People who have worked with Laura',
+} = Astro.props;
+---
+<section class="section wrap wb-section-tight proof">
+  <div class="proof-head dz-reveal">
+    <div class="eyebrow eyebrow-center">{eyebrow}</div>
+    <h2>{heading}</h2>
+  </div>
+  <div class="proof-grid">
+    {testimonials.map((t, i) => (
+      <figure class="proof-card dz-reveal" style={`--dz-delay:${Math.min(i * 0.08, 0.3)}s`}>
+        <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+        <figcaption>
+          <span class="proof-name">{t.name}</span>
+          <span class="proof-title">{t.title}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <a class="btn-text proof-link dz-reveal" href="/working-with-laura">Watch their stories &rarr;</a>
+</section>
+
+<style>
+  .proof-head { max-width: 720px; margin: 0 auto; text-align: center; }
+  .proof-head h2 { margin-top: 14px; }
+  .proof-grid { margin-top: 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  @media (max-width: 760px) { .proof-grid { grid-template-columns: 1fr; } }
+  .proof-card {
+    margin: 0;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: clamp(26px, 3.5vw, 36px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 22px;
+  }
+  .proof-card blockquote { margin: 0; font: 500 italic clamp(20px, 1.9vw, 24px)/1.5 var(--serif); color: var(--forest); }
+  .proof-card figcaption { display: flex; flex-direction: column; gap: 6px; }
+  .proof-name { font: 600 16px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .proof-title { font: 400 16px/1.4 var(--sans); color: var(--ink-soft); }
+  .proof-link { display: block; width: fit-content; margin: 32px auto 0; }
+</style>

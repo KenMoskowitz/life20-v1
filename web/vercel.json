@@ -9,6 +9,7 @@
     { "source": "/assessment-diagnosis/:path*", "destination": "/assessment", "permanent": true },
     { "source": "/life20-website", "destination": "/", "permanent": true },
     { "source": "/the-9-variables", "destination": "/the-9-skills", "permanent": true },
+    { "source": "/login", "destination": "https://portal.thelife20.com/portal", "permanent": false },
     { "source": "/board", "destination": "https://portal.thelife20.com/portal/board", "permanent": false },
     { "source": "/board/:path*", "destination": "https://portal.thelife20.com/portal/board", "permanent": false },
     { "source": "/forms/:path*", "destination": "https://laura-kelly.mykajabi.com/forms/:path*", "permanent": false }

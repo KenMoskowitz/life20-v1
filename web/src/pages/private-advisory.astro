@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage } from '../lib/sanity';
+import ProofQuotes from '../components/ProofQuotes.astro';
 
 const cms = await getPage('private-advisory') as Record<string, any> | null;
 
@@ -13,35 +14,35 @@ const whatYouGet = [
   {
     title: 'The Same Six-Week Framework, Fully Individualized',
     body: [
-      "Private Advisory runs on the identical curriculum, Pattern Recognition through Integration, built entirely around your life.",
-      "The pace and depth are set by exactly what's going on for you, session to session.",
+      "The full Life 2.0 curriculum, Pattern Recognition through Integration, built entirely around your life.",
+      "We set the pace and depth by what's going on for you, session to session.",
     ],
   },
   {
     title: 'Six Private Sessions With Laura',
     body: [
-      "One private session for each week of the curriculum, where we apply that week's module directly to what's happening in your business and your life.",
-      "Immediate problems and long-term transformation. You don't have to choose between the two.",
+      "One private session for each week of the curriculum, where we apply that week's work directly to your business and your life.",
+      "We work on the problem in front of you and the life you're building at the same time.",
     ],
   },
   {
     title: 'Direct Access Between Sessions',
     body: [
       "Life doesn't conveniently happen once a week.",
-      "You'll have high-touch access to Laura between sessions via text and voice note for questions, decisions, breakthroughs, and moments when you need another brain in the room.",
-      "You don't have to hold everything until your next scheduled session.",
+      "Text or voice note Laura between sessions for questions, decisions, breakthroughs, and the moments you need another brain in the room.",
+      "You never have to hold it all until the next call.",
     ],
   },
   {
     title: 'Your Final Digital Life 2.0 Integration Board',
     body: [
-      "The same personalized deliverable Access Your Next Level members leave with: a final board that captures your patterns, your primary question, and your direction, built to use after the six weeks end.",
+      "A personal board that captures your patterns, your primary question, and your direction, built to keep using long after the six weeks end.",
     ],
   },
   {
     title: 'Access to the Broader Life 2.0 Ecosystem',
     body: [
-      "You'll have access to relevant Life 2.0 frameworks, resources, and the wider Life 2.0 environment as part of your engagement.",
+      "Relevant Life 2.0 frameworks, resources, and the wider Life 2.0 community, included.",
     ],
   },
 ];
@@ -52,12 +53,51 @@ const rhetoricalQuestions = [
   "What am I tolerating that I don't want to tolerate anymore?",
   'What would I change if I stopped assuming life had to work this way?',
 ];
+const compareRows = [
+  { label: 'Format', group: 'Small group, live', private: 'One to one with Laura' },
+  { label: 'Sessions', group: '6 live group coaching calls', private: '6 private sessions' },
+  { label: 'Between sessions', group: 'The Life 2.0 Room community', private: 'Direct text and voice access to Laura' },
+  { label: 'Pace', group: 'Set by the cohort', private: 'Set by you' },
+  { label: 'Integration Board', group: 'Included', private: 'Included' },
+  { label: 'Founding investment', group: '$1,500', private: '$3,000/month' },
+];
+
+const howItWorks = [
+  { title: 'Apply', body: 'Tell us a little about what’s going on. It takes two minutes.' },
+  { title: 'Laura reads it', body: 'Every application is read by Laura personally. No automated scheduler.' },
+  { title: 'Clarity Call', body: 'If it looks like a fit, you’ll book a Clarity Call to make sure this is right for you.' },
+  { title: 'Begin', body: 'Your six weeks start, built around your life from the first session.' },
+];
+
+const faqs = [
+  {
+    q: 'Why is there an application?',
+    a: 'Private Advisory is capacity-limited during the founding chapter, and it works best when it’s the right fit. Laura reads every application herself so neither of us wastes a minute.',
+  },
+  {
+    q: 'How is this different from Access Your Next Level?',
+    a: 'Same six-week framework. Private Advisory is one to one, paced around your life, with Laura on hand between sessions. If you’d rather start in a small group, Access Your Next Level is the place.',
+  },
+  {
+    q: 'Is this therapy?',
+    a: 'No. This is coaching for capable people designing what comes next. If you’re looking for treatment for a mental-health condition, a licensed professional is the right place to begin.',
+  },
+  {
+    q: 'What does the founding rate mean?',
+    a: 'Founding clients come in at $3,000 a month, and that rate is locked in for as long as you stay continuously active in Private Advisory.',
+  },
+];
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/private-advisory">
   <div class="page-hero wrap">
     <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Private Advisory</div>
     <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build a life that feels as successful as it looks.</h1>
-    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">The same six-week Life 2.0 framework as Access Your Next Level, delivered privately and built entirely around your life, at a depth a group format can't match.</p>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Six weeks, one to one with Laura Kelly. The full Life 2.0 framework built around your life, with Laura a text away between sessions.</p>
+    <ul class="pa-hero-facts dz-enter" style="--dz-enter-delay:0.2s">
+      <li>6 private sessions</li>
+      <li>Direct access between calls</li>
+      <li>Founding clients only</li>
+    </ul>
     <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
       <a class="btn-primary" href="#apply">Apply for Private Advisory &rarr;</a>
       <a class="btn-text" href="#pricing">See founding client pricing</a>
@@ -73,13 +113,13 @@ const rhetoricalQuestions = [
       <p class="body-copy" style="margin-top:20px;">But achievement alone doesn't guarantee that your relationships feel incredible. That your home runs smoothly. That you have time to think. That your health, family, friendships, purpose, and day-to-day life feel the way you want them to.</p>
       <div class="emphasis-lines">
         <p>Life 2.0 is about designing the whole thing.</p>
-        <p>Not abandoning your ambition.</p>
+        <p>Keeping the ambition.</p>
         <p>Building a life big enough to hold it.</p>
       </div>
       <h3 class="pa-founder-subhead">The Life 2.0 Private Advisory</h3>
-      <p class="body-copy">It's six focused weeks, fully individualized and built around exactly what's going on in your life right now.</p>
-      <p class="body-copy">We'll work on what's in front of you right now while building toward the direction you want your life to take.</p>
-      <p class="pull-statement">The goal is simple: to help you create a life you are wildly excited to wake up to.</p>
+      <p class="body-copy">Six focused weeks, built around exactly what's going on in your life right now.</p>
+      <p class="body-copy">We work on what's in front of you while building toward where you want your life to go.</p>
+      <p class="pull-statement">The goal is simple: a life you're wildly excited to wake up to.</p>
     </div>
   </div>
 
@@ -105,6 +145,8 @@ const rhetoricalQuestions = [
     <a class="btn-text dz-reveal" href="/access-your-next-level#included" style="display:inline-block; margin-top:32px;">See the full six-week curriculum &rarr;</a>
   </section>
 
+  <ProofQuotes />
+
   <section class="section wb-section-tight wrap dz-reveal">
     <div class="wb-for-split pa-who-split">
       <div class="wb-for-image">
@@ -112,7 +154,7 @@ const rhetoricalQuestions = [
       </div>
       <div class="pa-who-text">
         <h2>Who this is for</h2>
-        <p class="body-copy">Life 2.0 Private Advisory is designed for people who are ambitious, capable, and willing to do the work. You may already have a successful business, career, family, or life on paper. But you're asking bigger questions now.</p>
+        <p class="body-copy">Private Advisory is for people who are ambitious, capable, and willing to do the work. The business, the career, the family, the life on paper may already be there. The questions are just getting bigger.</p>
         <ul class="rhetorical-list">
           {rhetoricalQuestions.map((q) => <li>{q}</li>)}
         </ul>
@@ -121,18 +163,73 @@ const rhetoricalQuestions = [
     </div>
   </section>
 
+  <section class="section wb-section-tight wrap">
+    <div class="pa-section-head dz-reveal">
+      <h2>Private or group?</h2>
+      <p class="body-copy">Both run on the same six-week framework. Here's how they differ.</p>
+    </div>
+    <div class="pa-compare dz-reveal">
+      <div class="pa-compare-row pa-compare-head">
+        <div></div>
+        <div>Access Your Next Level</div>
+        <div class="pa-compare-private">Private Advisory</div>
+      </div>
+      {compareRows.map((r) => (
+        <div class="pa-compare-row">
+          <div class="pa-compare-label">{r.label}</div>
+          <div><span class="pa-compare-mobile">Group: </span>{r.group}</div>
+          <div class="pa-compare-private"><span class="pa-compare-mobile">Private: </span>{r.private}</div>
+        </div>
+      ))}
+      <div class="pa-compare-row pa-compare-foot">
+        <div></div>
+        <div><a class="btn-text" href="/access-your-next-level">See the group program &rarr;</a></div>
+        <div class="pa-compare-private"><a class="btn-primary" href="#apply">Apply for Private Advisory &rarr;</a></div>
+      </div>
+    </div>
+  </section>
+
   <section class="section wb-section-tight wrap pa-pricing-split" id="pricing">
     <div class="dz-reveal pa-pricing-intro pa-pricing-intro-boxed">
       <h2 class="pa-pricing-eyebrow">Founding client opportunity</h2>
-      <p class="body-copy">Life 2.0 is entering its founding chapter. Laura is opening a small number of spots for the first cohort of Life 2.0 Private Advisory clients. These founding clients will receive the full private advisory experience while also having a unique opportunity to help shape the future of Life 2.0.</p>
+      <p class="body-copy">Life 2.0 is in its founding chapter, and Laura is opening a small number of Private Advisory spots. Founding clients get the full private experience, and a real hand in shaping what Life 2.0 becomes.</p>
       <a class="btn-primary" href="#apply" style="margin-top:28px; align-self:center;">Apply for Private Advisory &rarr;</a>
     </div>
 
     <div class="pricing-card dz-reveal" style="--dz-delay:0.1s">
       <div class="eyebrow">Six-Week Private Advisory</div>
       <div class="price">$3,000<span>/month</span></div>
-      <p>Delivered privately, at the same depth as the group program. Your founding rate is locked in while you remain continuously active in the Private Advisory.</p>
-      <p>This isn't a discounted version of Life 2.0. It's the opportunity to come in at the beginning.</p>
+      <p>Your founding rate is locked in for as long as you stay continuously active in Private Advisory.</p>
+      <p>The full experience, from the very beginning.</p>
+    </div>
+  </section>
+
+  <section class="section wb-section-tight wrap">
+    <div class="pa-section-head dz-reveal">
+      <h2>How it works</h2>
+    </div>
+    <ol class="pa-steps">
+      {howItWorks.map((step, i) => (
+        <li class="dz-reveal" style={`--dz-delay:${i * 0.08}s`}>
+          <span class="stage-num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{step.title}</h3>
+          <p class="body-copy">{step.body}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="section wb-section-tight wrap">
+    <div class="pa-section-head dz-reveal">
+      <h2>Questions people ask</h2>
+    </div>
+    <div class="faq">
+      {faqs.map((f) => (
+        <div class="faq-item dz-reveal">
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -140,7 +237,7 @@ const rhetoricalQuestions = [
   <section class="section wrap" id="apply">
     <div class="pa-apply-head">
       <h2>Apply for Private Advisory</h2>
-      <p class="body-copy">Private Advisory is capacity-limited during the founding chapter. Laura reads every application herself and personally reviews it before booking your Clarity Call, this is the qualifying step, not an instant scheduler.</p>
+      <p class="body-copy">Spots are limited during the founding chapter. Laura reads every application herself, and if it looks like a fit, you'll book a Clarity Call together.</p>
     </div>
     {applyError && (
       <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
@@ -166,6 +263,40 @@ const rhetoricalQuestions = [
 </BaseLayout>
 
 <style>
+  .pa-hero-facts { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+  .pa-hero-facts li { display: flex; align-items: center; gap: 10px; font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
+  .pa-hero-facts li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  .pa-section-head { max-width: 720px; margin: 0 auto; text-align: center; }
+  .pa-section-head .body-copy { margin: 14px auto 0; }
+
+  /* --- Private vs group comparison --- */
+  .pa-compare { margin-top: 40px; background: var(--white); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
+  .pa-compare-row { display: grid; grid-template-columns: 0.8fr 1fr 1fr; border-top: 1px solid var(--line); }
+  .pa-compare-row:first-child { border-top: none; }
+  .pa-compare-row > div { padding: 18px 24px; font: 400 18px/1.5 var(--sans); color: var(--ink); }
+  .pa-compare-head > div { font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
+  .pa-compare-label { font-weight: 600; color: var(--forest); }
+  .pa-compare-private { background: var(--paper-warm); }
+  .pa-compare-head .pa-compare-private { color: var(--gold); }
+  .pa-compare-foot > div { display: flex; align-items: center; }
+  .pa-compare-mobile { display: none; }
+  @media (max-width: 760px) {
+    .pa-compare-row { grid-template-columns: 1fr; }
+    .pa-compare-row > div { padding: 10px 20px; }
+    .pa-compare-head, .pa-compare-foot > div:first-child { display: none; }
+    .pa-compare-label { padding-top: 18px !important; }
+    .pa-compare-mobile { display: inline; font-weight: 600; color: var(--sage); }
+  }
+
+  /* --- How it works --- */
+  .pa-steps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .pa-steps li { background: var(--white); border: 1px solid var(--line); border-radius: 20px; padding: 26px 24px; }
+  .pa-steps h3 { margin-top: 12px; font: 500 21px/1.3 var(--serif); color: var(--forest); }
+  .pa-steps .body-copy { margin-top: 8px; }
+  @media (max-width: 980px) { .pa-steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .pa-steps { grid-template-columns: 1fr; } }
+
   /* "You know how to achieve." had no font rule of its own anywhere in the
      site (only .section h2, .founder h2, etc. exist) — it was quietly
      rendering as a plain bold system heading instead of the branded serif
