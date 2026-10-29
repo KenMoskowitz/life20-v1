@@ -1,5 +1,6 @@
 import type Stripe from 'stripe';
 import { CircleApiError, isSignupComplete, type CircleClient } from './circle.ts';
+import type { DashboardClient } from './dashboard.ts';
 
 // Post-purchase onboarding: paid Life 2.0 checkout → Circle invitation.
 //
@@ -12,6 +13,11 @@ import { CircleApiError, isSignupComplete, type CircleClient } from './circle.ts
 //   invited           Circle accepted the invite and sent its invitation email
 //   signup_completed  the person finished Circle signup (profile confirmed)
 // Only Circle sends email. This module never emails anyone itself.
+//
+// Each paid checkout is also reported to the client dashboard, which adds the
+// buyer as a client. Once the dashboard's Circle invites are switched on it
+// sends the invite (and adds the program's access group), and this module
+// stops inviting. While they're off, it invites exactly as before.
 //
 // Dependencies are injected so the whole flow can be tested without Stripe,
 // Circle or Sanity. See tests/onboarding.test.ts.
@@ -33,9 +39,10 @@ export type OnboardingRecord = {
   status: OnboardingStatus;
   stripeSessionIds: string[];
   circleMemberId?: number | null;
-  // 'website' = this integration sent the invite; 'existing' = the person was
-  // already a member or already had a pending invite, so nothing was sent.
-  inviteSource?: 'website' | 'existing' | null;
+  // 'website' = this integration sent the invite; 'dashboard' = the client
+  // dashboard did; 'existing' = the person was already a member or already
+  // had a pending invite, so nothing was sent.
+  inviteSource?: 'website' | 'dashboard' | 'existing' | null;
   invitedAt?: string | null;
   signupCompletedAt?: string | null;
   attempts: number;
@@ -69,6 +76,9 @@ type StripeLike = {
 export type OnboardingDeps = {
   stripe: StripeLike;
   circle: CircleClient | null;
+  // Null when DASHBOARD_URL / PURCHASE_WEBHOOK_SECRET aren't set: the
+  // dashboard isn't told, and this module invites as before.
+  dashboard?: DashboardClient | null;
   store: OnboardingStore;
   // Price IDs that count as a Life 2.0 purchase (full pay + installment).
   qualifyingPriceIds: string[];
@@ -154,7 +164,42 @@ export async function handleCheckoutEvent(event: Stripe.Event, deps: OnboardingD
     return { outcome: 'awaiting_payment', retry: false };
   }
 
-  return inviteToCircle(email, name, session.id, deps);
+  // Tell the dashboard first. If it invited them (or they were already in
+  // Circle), we're done. If it's switched off, invite here as before. If it
+  // couldn't be reached, invite here anyway so the buyer isn't kept waiting,
+  // and ask Stripe to redeliver so the dashboard still hears about them (the
+  // record then shows the invite as done, so nobody is invited twice).
+  let dashboardUnreachable = false;
+  if (deps.dashboard) {
+    try {
+      const circle = await deps.dashboard.reportPurchase({
+        email,
+        name,
+        plan: session.mode === 'subscription' ? 'installment' : 'full',
+        checkoutSessionId: session.id,
+      });
+      if (circle === 'invited' || circle === 'already_member') {
+        await recordDashboardInvite(email, name, session.id, deps);
+        log.info(`[onboarding] Dashboard handled Circle (${circle}) for checkout ${session.id}.`);
+        return { outcome: circle, retry: false };
+      }
+    } catch (err) {
+      dashboardUnreachable = true;
+      log.error(`[onboarding] Dashboard not told about checkout ${session.id}: ${(err as Error).message}`);
+    }
+  }
+
+  const result = await inviteToCircle(email, name, session.id, deps);
+  return dashboardUnreachable ? { ...result, retry: true } : result;
+}
+
+async function recordDashboardInvite(email: string, name: string | null, sessionId: string, deps: OnboardingDeps) {
+  const now = (deps.now ?? (() => new Date()))().toISOString();
+  const record = await deps.store.ensure(email, name);
+  const fields: RecordFields = DONE.includes(record.status)
+    ? {}
+    : { status: 'invited', inviteSource: 'dashboard', invitedAt: now, lockedAt: null, lastError: null };
+  await deps.store.update(record, fields, sessionId);
 }
 
 async function recordPaymentState(
