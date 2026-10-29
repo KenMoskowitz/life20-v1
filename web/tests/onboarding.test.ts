@@ -138,6 +138,21 @@ function event(type: string, sessionId = 'cs_test_1', id = `evt_${Math.random()}
   return { id, type, data: { object: { id: sessionId } } } as unknown as Stripe.Event;
 }
 
+// Fake dashboard: answers with `circle`, or throws when `circle` is 'down'.
+function fakeDashboard(circle: 'invited' | 'already_member' | 'off' | 'failed' | 'down') {
+  const reports: any[] = [];
+  return {
+    reports,
+    client: {
+      async reportPurchase(input: any) {
+        reports.push(input);
+        if (circle === 'down') throw new Error('Dashboard purchase report failed (503)');
+        return circle;
+      },
+    },
+  };
+}
+
 function setup(opts: { circle?: boolean } = {}) {
   const store = memoryStore();
   const circle = fakeCircle();
@@ -470,4 +485,63 @@ test('Stripe signature: verified against the raw body, tampering rejected', () =
   assert.throws(() => stripe.webhooks.constructEvent(payload.replace('cs_test_1', 'cs_evil'), header, secret));
   assert.throws(() => stripe.webhooks.constructEvent(payload, header, 'whsec_wrong'));
   assert.throws(() => stripe.webhooks.constructEvent(payload, '', secret));
+});
+
+// ---------- client dashboard ----------
+
+test('dashboard with invites on: told about the purchase, website sends no invite of its own', async () => {
+  const t = setup();
+  const dash = fakeDashboard('invited');
+  t.deps.dashboard = dash.client;
+  t.stripe.put();
+  const r = await handleCheckoutEvent(event('checkout.session.completed'), t.deps);
+  assert.equal(r.outcome, 'invited');
+  assert.equal(r.retry, false);
+  assert.deepEqual(dash.reports, [{ email: EMAIL, name: 'Jane Buyer', plan: 'full', checkoutSessionId: 'cs_test_1' }]);
+  assert.equal(t.circle.invites().length, 0, 'the dashboard invited them, not the website');
+  const rec = t.store.docs.get(EMAIL)!;
+  assert.equal(rec.status, 'invited');
+  assert.equal(rec.inviteSource, 'dashboard');
+});
+
+test('dashboard with invites off: told about the purchase, website invites as before', async () => {
+  const t = setup();
+  const dash = fakeDashboard('off');
+  t.deps.dashboard = dash.client;
+  t.stripe.put();
+  const r = await handleCheckoutEvent(event('checkout.session.completed'), t.deps);
+  assert.equal(r.outcome, 'invited');
+  assert.equal(dash.reports.length, 1);
+  assert.equal(t.circle.invites().length, 1);
+  assert.equal(t.store.docs.get(EMAIL)!.inviteSource, 'website');
+});
+
+test('dashboard down: website still invites, and Stripe redelivers so the dashboard hears later', async () => {
+  const t = setup();
+  const dash = fakeDashboard('down');
+  t.deps.dashboard = dash.client;
+  t.stripe.put();
+  const r = await handleCheckoutEvent(event('checkout.session.completed'), t.deps);
+  assert.equal(r.outcome, 'invited');
+  assert.equal(r.retry, true);
+  assert.equal(t.circle.invites().length, 1);
+
+  // Redelivery once the dashboard is back: reported, no second invite.
+  const back = fakeDashboard('already_member');
+  t.deps.dashboard = back.client;
+  const again = await handleCheckoutEvent(event('checkout.session.completed'), t.deps);
+  assert.equal(again.retry, false);
+  assert.equal(back.reports.length, 1);
+  assert.equal(t.circle.invites().length, 1);
+});
+
+test('dashboard is not told about unpaid or unrelated checkouts', async () => {
+  const t = setup();
+  const dash = fakeDashboard('invited');
+  t.deps.dashboard = dash.client;
+  t.stripe.put({ payment_status: 'unpaid' });
+  await handleCheckoutEvent(event('checkout.session.completed'), t.deps);
+  t.stripe.put({ id: 'cs_other', price: 'price_something_else' });
+  await handleCheckoutEvent(event('checkout.session.completed', 'cs_other'), t.deps);
+  assert.equal(dash.reports.length, 0);
 });
