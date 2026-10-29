@@ -6,7 +6,7 @@ import ProofQuotes from '../components/ProofQuotes.astro';
 const cms = await getPage('private-advisory') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
-const description = cms?.metaDescription ?? 'The same six-week Life 2.0 framework as Access Your Next Level, fully individualized for ambitious founders and high performers. Founding client investment: $3,000/month. Apply for Private Advisory.';
+const description = cms?.metaDescription ?? 'The same six-week Life 2.0 framework as Access Your Next Level, fully individualized for ambitious founders and high performers. Investment: $3,000/month. Apply for Private Advisory.';
 
 const applyError = Astro.url.searchParams.get('error');
 
@@ -59,7 +59,7 @@ const compareRows = [
   { label: 'Between sessions', group: 'The Life 2.0 Room community', private: 'Direct text and voice access to Laura' },
   { label: 'Pace', group: 'Set by the cohort', private: 'Set by you' },
   { label: 'Integration Board', group: 'Included', private: 'Included' },
-  { label: 'Founding investment', group: '$1,500', private: '$3,000/month' },
+  { label: 'Investment', group: '$1,500', private: '$3,000/month' },
 ];
 
 const howItWorks = [
@@ -83,7 +83,7 @@ const sources = ['Facebook or Instagram', 'LinkedIn', 'A free training or webina
 const faqs = [
   {
     q: 'Why is there an application?',
-    a: 'Private Advisory is capacity-limited during the founding chapter, and it works best when it’s the right fit. A few short answers mean Laura arrives at your Clarity Call already knowing what matters to you, so neither of you wastes a minute.',
+    a: 'Private Advisory is capacity-limited, and it works best when it’s the right fit. A few short answers mean Laura arrives at your Clarity Call already knowing what matters to you, so neither of you wastes a minute.',
   },
   {
     q: 'How is this different from Access Your Next Level?',
@@ -94,8 +94,8 @@ const faqs = [
     a: 'No. This is coaching for capable people designing what comes next. If you’re looking for treatment for a mental-health condition, a licensed professional is the right place to begin.',
   },
   {
-    q: 'What does the founding rate mean?',
-    a: 'Founding clients come in at $3,000 a month, and that rate is locked in for as long as you stay continuously active in Private Advisory.',
+    q: 'Will my rate change?',
+    a: 'No. Private Advisory is $3,000 a month, and your rate is locked in for as long as you stay continuously active.',
   },
 ];
 ---
@@ -107,11 +107,11 @@ const faqs = [
     <ul class="pa-hero-facts dz-enter" style="--dz-enter-delay:0.2s">
       <li>6 private sessions</li>
       <li>Direct access between calls</li>
-      <li>Founding clients only</li>
+      <li>Limited spots</li>
     </ul>
     <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
       <a class="btn-primary" href="#apply">Apply for Private Advisory &rarr;</a>
-      <a class="btn-text" href="#pricing">See founding client pricing</a>
+      <a class="btn-text" href="#pricing">See pricing</a>
     </div>
   </div>
 
@@ -202,15 +202,15 @@ const faqs = [
 
   <section class="section wb-section-tight wrap pa-pricing-split" id="pricing">
     <div class="dz-reveal pa-pricing-intro pa-pricing-intro-boxed">
-      <h2 class="pa-pricing-eyebrow">Founding client opportunity</h2>
-      <p class="body-copy">Life 2.0 is in its founding chapter, and Laura is opening a small number of Private Advisory spots. Founding clients get the full private experience, and a real hand in shaping what Life 2.0 becomes.</p>
+      <h2 class="pa-pricing-eyebrow">A small number of spots</h2>
+      <p class="body-copy">Laura works privately with a small number of people at a time, so every client gets her full attention, between sessions as well as during them.</p>
       <a class="btn-primary" href="#apply" style="margin-top:28px; align-self:center;">Apply for Private Advisory &rarr;</a>
     </div>
 
     <div class="pricing-card dz-reveal" style="--dz-delay:0.1s">
       <div class="eyebrow">Six-Week Private Advisory</div>
       <div class="price">$3,000<span>/month</span></div>
-      <p>Your founding rate is locked in for as long as you stay continuously active in Private Advisory.</p>
+      <p>Your rate is locked in for as long as you stay continuously active in Private Advisory.</p>
       <p>The full experience, from the very beginning.</p>
     </div>
   </section>
@@ -248,7 +248,7 @@ const faqs = [
   <section class="section wrap" id="apply">
     <div class="pa-apply-head">
       <h2>Apply for Private Advisory</h2>
-      <p class="body-copy">Spots are limited during the founding chapter. Answer a few short questions, then book your Clarity Call straight away. Laura reads every answer herself before you talk.</p>
+      <p class="body-copy">Spots are limited. Answer a few short questions, then book your Clarity Call straight away. Laura reads every answer herself before you talk.</p>
     </div>
     {applyError && (
       <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
@@ -297,7 +297,7 @@ const faqs = [
         <textarea id="win" name="win" rows="3" required></textarea>
       </div>
       <fieldset class="form-field pa-app-invest">
-        <legend>Private Advisory is $3,000 a month for founding clients. If it’s the right fit, are you ready to invest at that level? *</legend>
+        <legend>Private Advisory is $3,000 a month. If it’s the right fit, are you ready to invest at that level? *</legend>
         {investOptions.map((o, i) => (
           <label class="pa-app-radio"><input type="radio" name="investReady" value={o} required={i === 0} /> {o}</label>
         ))}
@@ -364,15 +364,15 @@ const faqs = [
      instead of the punch line. Make it upright and bolder so it lands. */
   .pa-who-closer { font-style: normal; font-weight: 700; font-size: clamp(24px, 2.6vw, 32px); }
 
-  /* One "Founding client opportunity" heading instead of it and the pricing
-     card's own "Founding Client Investment" eyebrow both saying the same
+  /* One pricing heading instead of it and the pricing
+     card's own eyebrow both saying the same
      thing, side by side instead of stacked so the card doesn't sit under a
      full-width intro paragraph with nothing beside it. */
   .pa-pricing-split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
   .pa-pricing-split .pricing-card { margin-top: 0; }
   @media (max-width: 860px) { .pa-pricing-split { grid-template-columns: 1fr; gap: 32px; } }
 
-  /* Match the "Founding client opportunity" heading to the eyebrow tag style
+  /* Match the pricing heading to the eyebrow tag style
      used for "Private Advisory" at the top of the page (mono, uppercase,
      letter-spaced, gold), instead of the default big serif section heading. */
   .pa-pricing-eyebrow { display: flex; align-items: center; gap: 12px; font: 600 clamp(18px, 1.8vw, 22px)/1.3 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }

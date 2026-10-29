@@ -9,7 +9,7 @@ import { nextGroup } from '../data/enrollment';
 export const prerender = false;
 
 const title = 'Access Your Next Level | Life 2.0';
-const description = 'Six weeks of live small-group coaching with Laura Kelly, for high achievers who are doing well and know there is more available in business and life. Founding cohort: $1,500, maximum 10 people.';
+const description = 'Six weeks of live small-group coaching with Laura Kelly, for high achievers who are doing well and know there is more available in business and life. $1,500, maximum 10 people.';
 
 const joined = Astro.url.searchParams.get('joined') === '1';
 const plan = Astro.url.searchParams.get('plan');
@@ -158,15 +158,11 @@ const faqs = [
     q: 'When does it start?',
     a: 'Our next group starts Tuesday, December 1, with three calls before the holidays, a two-week break, and three calls in January.',
   },
-  {
-    q: 'Will the price go up?',
-    a: 'Yes. This is the founding cohort. Founding members get the founding rate, and the investment increases as future cohorts open.',
-  },
 ];
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level" pixelEvent={pixelEvent}>
   <div class="page-hero ayn-hero-wide wrap">
-    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Access Your Next Level &middot; Founding Cohort</div>
+    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Access Your Next Level</div>
     <h1 class="dz-enter" style="--dz-enter-delay:0.08s">You built the success. Now let’s build the life around it.</h1>
     <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Six weeks of live coaching with Laura Kelly, in a room of ten capable people who are doing well and know there’s more available. You’ll leave with a clear direction for your business and your life, and a plan you’ll actually use.</p>
     <ul class="ayn-hero-facts dz-enter" style="--dz-enter-delay:0.24s">
@@ -176,7 +172,7 @@ const faqs = [
       <li>Maximum 10 people</li>
     </ul>
     <div class="hero-actions dz-enter" style="--dz-enter-delay:0.32s; margin-top:28px;">
-      <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+      <a class="btn-primary" href="#join">Join Access Your Next Level &rarr;</a>
       <a class="btn-text" href="#included">See what’s included</a>
     </div>
   </div>
@@ -187,12 +183,12 @@ const faqs = [
       <div class="ayn-tension-banner-scrim" aria-hidden="true"></div>
       <div class="ayn-tension-banner-content">
         <div class="ayn-price-block">
-          <div class="ayn-price-block-label">Founding Cohort</div>
+          <div class="ayn-price-block-label">Access Your Next Level</div>
           <div class="ayn-price-block-main">$1,500 paid in full</div>
           <div class="ayn-price-block-alt">or 2 payments of $850</div>
           <div class="ayn-price-block-note">Starts {nextStart.replace('Tuesday, ', '')}</div>
           <div class="ayn-price-block-actions">
-            <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+            <a class="btn-primary" href="#join">Join Access Your Next Level &rarr;</a>
             <a class="btn-text" href="#included">See what's included</a>
           </div>
         </div>
@@ -359,8 +355,8 @@ const faqs = [
 
   <section class="section wrap wb-section-tight" id="join">
     <div class="dz-reveal ayn-join-head">
-      <h2>Join the founding cohort</h2>
-      <p class="body-copy">Ten seats. The founding rate. We start {nextStart}.</p>
+      <h2>Join Access Your Next Level</h2>
+      <p class="body-copy">Ten seats. Live coaching with Laura. We start {nextStart}.</p>
     </div>
 
     <div class="ayn-schedule dz-reveal">
@@ -404,8 +400,8 @@ const faqs = [
       </div>
 
       <div class="dz-reveal ayn-join-note" style="--dz-delay:0.16s;">
-        <h3 class="ayn-subhead">Why the founding price?</h3>
-        <p class="body-copy">This is the first cohort. Founding members get the full experience at the founding rate, and a real hand in shaping what Access Your Next Level becomes. As future cohorts open, the investment will increase.</p>
+        <h3 class="ayn-subhead">Why only ten people?</h3>
+        <p class="body-copy">Small enough that everyone gets coached, every single week. Big enough to bring real perspective into the room. You’ll never be an anonymous face in a crowd.</p>
       </div>
     </div>
 
@@ -446,7 +442,7 @@ const faqs = [
       <div class="ayn-final-banner-content">
         <h2>If nothing changed over the next year, would you be happy with where your patterns, decisions, and priorities are taking you?</h2>
         <p>Six weeks to get clear, move deliberately, and build more of the life you want. We’d love to have you in the room.</p>
-        <a class="btn-primary" href="#join">Join the founding cohort &rarr;</a>
+        <a class="btn-primary" href="#join">Join Access Your Next Level &rarr;</a>
       </div>
     </div>
   </section>
@@ -675,7 +671,7 @@ const faqs = [
 
   .ayn-subhead { font: 500 24px/1.3 var(--serif); color: var(--forest); }
 
-  /* --- Founding Cohort: pricing card and the "why the founding price"
+  /* --- Join section: pricing card and the "why only ten people"
      note side by side instead of stacked one under the other. --- */
   .ayn-join-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: stretch; }
   .ayn-join-card-col { display: flex; flex-direction: column; }
