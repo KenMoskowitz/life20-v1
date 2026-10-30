@@ -39,9 +39,8 @@ export const findYourNextLevel: WebinarEvent = {
   startsAt: '2026-11-19T11:00:00-08:00',
   endsAt: '2026-11-19T12:15:00-08:00',
   timeZone: 'America/Los_Angeles',
-  // TODO: paste the November Zoom webinar's ID and registration link here.
-  zoomWebinarId: undefined,
-  zoomRegistrationUrl: undefined,
+  zoomWebinarId: '81086897900',
+  zoomRegistrationUrl: 'https://us02web.zoom.us/webinar/register/WN_hc_DQ_aBRvqlA4uUG3_kng',
 };
 
 export const codeWebinars: Record<string, WebinarEvent> = {
