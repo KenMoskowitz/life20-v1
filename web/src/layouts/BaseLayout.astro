@@ -26,8 +26,10 @@ interface Props {
 
 const { title, description, canonicalUrl, ogImage, jsonLd, noindex = false, bare = false, pixelEvent } = Astro.props as Props;
 
-// Meta Pixel switches on site-wide once PUBLIC_META_PIXEL_ID is set in Vercel.
-const metaPixelId = (import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined)?.trim() || null;
+// Meta Pixel "Life 2.0 Website" in the Laura Kelly business portfolio. The ID
+// is public (it ships in every page), so it lives here; PUBLIC_META_PIXEL_ID in
+// Vercel overrides it if the Pixel ever changes.
+const metaPixelId = (import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined)?.trim() || '4813048232251512';
 
 const year = new Date().getFullYear();
 
