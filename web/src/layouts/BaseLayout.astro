@@ -17,9 +17,19 @@ interface Props {
    * footer, since ad platforms expect a reachable privacy policy.
    */
   bare?: boolean;
+  /**
+   * A Meta Pixel standard event to fire on this page, on top of PageView,
+   * e.g. { name: 'Lead' } on a sign-up thank-you page.
+   */
+  pixelEvent?: { name: string; params?: Record<string, unknown> };
 }
 
-const { title, description, canonicalUrl, ogImage, jsonLd, noindex = false, bare = false } = Astro.props as Props;
+const { title, description, canonicalUrl, ogImage, jsonLd, noindex = false, bare = false, pixelEvent } = Astro.props as Props;
+
+// Meta Pixel "Life 2.0 Website" in the Laura Kelly business portfolio. The ID
+// is public (it ships in every page), so it lives here; PUBLIC_META_PIXEL_ID in
+// Vercel overrides it if the Pixel ever changes.
+const metaPixelId = (import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined)?.trim() || '4813048232251512';
 
 const year = new Date().getFullYear();
 
@@ -56,7 +66,18 @@ const defaultOgImage = 'https://thelife20.com/assets/og-default.jpg';
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   )}
 
-  <!-- Analytics slot: GTM/GA4/Meta Pixel IDs not yet confirmed with Laura (see docs/master-plan.md Section 9). -->
+  {metaPixelId && (
+    <script is:inline define:vars={{ metaPixelId, pixelEvent }}>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', metaPixelId);
+      fbq('track', 'PageView');
+      if (pixelEvent) fbq('track', pixelEvent.name, pixelEvent.params || {});
+    </script>
+  )}
 
   <script is:inline>
     // Motion gate. All hide-then-reveal CSS is scoped to html.dz-ready, so if
