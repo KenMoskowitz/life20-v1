@@ -17,20 +17,20 @@ const isPast = new Date(event.endsAt).getTime() < Date.now();
 const canonicalUrl = 'https://thelife20.com/blueprint';
 const title = `${event.title} | Free Live Training with Laura Kelly`;
 const description =
-  'A free 75-minute live training with Laura Kelly for business owners and leaders who have built real success and want the rest of life to grow with it.';
+  'A free 75-minute live training with Laura Kelly on the emotional intelligence gap: why successful people still feel stuck, and the learnable skills that change it.';
 
 const learn = [
   {
-    title: 'Where your instincts stop working',
-    body: 'See where the approach that built so much of your life stops being the one that gets you to the next level.',
+    title: 'The gap nobody talks about',
+    body: 'Why being smart, driven and successful doesn’t protect us from feeling stuck, and what the research on emotional intelligence says is really going on.',
   },
   {
-    title: 'Achievement vs. experience',
-    body: 'Understand the difference between building a successful life and having the skills to enjoy the life you’ve built.',
+    title: 'What emotionally intelligent people do differently',
+    body: 'The everyday skills behind steadier leadership, closer relationships and more calm. Simple, practical, and learnable at any stage of life.',
   },
   {
-    title: 'Your next point of leverage',
-    body: 'Leave knowing exactly what deserves your attention next, without adding seventeen new goals to a list that’s already too long.',
+    title: 'Your first step to closing it',
+    body: 'Leave knowing the one place where a little more emotional intelligence would change the most for you, at work and at home.',
   },
 ];
 
@@ -79,8 +79,8 @@ const jsonLd = {
           Free live training with Laura Kelly
         </div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{event.title}</h1>
-        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">You’re the person who figures things out. Career, money, goals, momentum. You’ve solved for all of it, on purpose, more than once.</p>
-        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">Your next level won’t come from more effort. In 75 minutes, we’ll find your highest point of leverage and exactly what deserves your attention next.</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">We’ve built real success. We solve problems for a living. And still, some days, something feels stuck.</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">It isn’t effort, and it isn’t you. It’s a gap in a skill most of us were never taught. In 75 minutes, we’ll look at what the research says about emotional intelligence, and how to start closing the gap in our own lives.</p>
 
         <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
           <li class="wb-fact">
@@ -139,7 +139,7 @@ const jsonLd = {
   <section class="section wrap wb-section-tight">
     <div class="bp-position dz-reveal">
       <p class="bp-position-line">I don’t teach people how to grow their companies. I coach the human responsible for leading them.</p>
-      <p class="body-copy">My background is in psychology and human performance. I work with ambitious, accomplished people to look at the beliefs, behaviors and identities that shape how they lead and live. Because success in business and fulfillment in life aren’t the same thing, and exceptional leaders deserve both.</p>
+      <p class="body-copy">My background is in psychology. My award-winning thesis studied how emotional intelligence relates to mental toughness, performance and happiness at work. Today I help ambitious, accomplished people use that science in real life, because success in business and fulfillment in life aren’t the same thing, and we deserve both.</p>
       <p class="bp-sign">Laura Kelly</p>
     </div>
   </section>
@@ -168,8 +168,8 @@ const jsonLd = {
         <h2 style="margin-top:18px;">The problem with being good at figuring things out…</h2>
         <div class="wb-for-prose">
           <p class="body-copy">…is that it works. Research, strategy, discipline, execution. We’ve used the same approach to build our careers, our income, our whole adult lives. So it’s fair to assume the next level runs on the same operating system.</p>
-          <p class="body-copy">It doesn’t, not entirely. That’s no flaw in you. It’s just a different kind of problem from the ones you’ve been solving.</p>
-          <p class="body-copy">You don’t have to want less or blow up what you’ve built. Together, we’ll find exactly where your usual approach stops working, and what comes next.</p>
+          <p class="body-copy">It doesn’t, not entirely. Feeling stuck is rarely a strategy problem. Usually it’s an emotional one: how we handle pressure, read the people around us, and show up for the ones we love.</p>
+          <p class="body-copy">That’s good news, because emotional intelligence can be learned. We don’t have to want less or blow up what we’ve built. We start right where we are.</p>
         </div>
       </div>
     </div>
@@ -197,7 +197,7 @@ const jsonLd = {
       <div class="bp-register">
         <div class="bp-register-copy">
           <div class="eyebrow">Save your free seat</div>
-          <h2>Come find your next level.</h2>
+          <h2>Let’s close the gap together.</h2>
           <time class="bp-register-when" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
           <p>Live on Zoom for 75 minutes. Your joining link arrives by email, with a reminder before we start.</p>
         </div>
@@ -213,13 +213,13 @@ const jsonLd = {
           <img class="dz-kenburns--rev" src="/assets/laura-advisory.jpg" alt="Laura Kelly" />
         </div>
         <div class="wb-host-quote">
-          <p>&ldquo;The next level of success isn&rsquo;t always more achievement. Sometimes it&rsquo;s learning how to better experience the life you&rsquo;ve already built.&rdquo;</p>
+          <p>&ldquo;Feeling stuck after building so much isn&rsquo;t a failure. It&rsquo;s a sign we&rsquo;re ready to grow in a new way.&rdquo;</p>
         </div>
       </div>
       <div class="wb-host-copy dz-reveal" style="--dz-delay:0.1s">
         <div class="wb-host-name">Your host</div>
         <h2>Laura Kelly</h2>
-        <p class="body-copy" style="margin-top:22px;">Laura is the founder of Life 2.0 and co-owner of Clover Growth Partners. She studied psychology, graduated as Graduate of the Year, and went on to conduct research inside organizations including Dell, Eli Lilly, Ornua and EMC.</p>
+        <p class="body-copy" style="margin-top:22px;">Laura is the founder of Life 2.0 and co-owner of Clover Growth Partners. She studied psychology, graduated as Graduate of the Year, and wrote an award-winning thesis on emotional intelligence, mental toughness and happiness at work. She went on to conduct research inside organizations including Dell, Eli Lilly, Ornua and EMC.</p>
         <p class="body-copy" style="margin-top:16px;">She has personally coached leaders whose companies are on track to generate $2.5 billion in revenue this year. Her work starts where business strategy ends: with the person leading the business, and the life they’re building around it.</p>
       </div>
     </div>

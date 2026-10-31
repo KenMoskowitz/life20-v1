@@ -20,7 +20,7 @@ export const GET: APIRoute = () => {
     `DTSTAMP:${icsDate(new Date().toISOString())}`,
     `DTSTART:${icsDate(event.startsAt)}`,
     `DTEND:${icsDate(event.endsAt)}`,
-    `SUMMARY:${event.title}: free live training with Laura Kelly`,
+    `SUMMARY:${event.title} (free live training with Laura Kelly)`,
     'DESCRIPTION:Live on Zoom. Your personal joining link is in your confirmation email.',
     'LOCATION:Zoom (link in your confirmation email)',
     'BEGIN:VALARM',

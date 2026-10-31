@@ -29,13 +29,13 @@ export const betterMentalHealth: WebinarEvent = {
   timeZone: 'America/Los_Angeles',
 };
 
-// The monthly "Find Your Next Level" training at /blueprint. Change the date
+// The monthly free training at /blueprint. Change the date
 // and Zoom details here each month; the page, the confirmation email and the
 // calendar invite all read from this one place.
 // Nov 19, 2026 is after US daylight saving ends (Nov 1), so Pacific is PST, UTC-8.
 export const findYourNextLevel: WebinarEvent = {
   slug: 'blueprint',
-  title: 'Find Your Next Level',
+  title: 'The Emotional Intelligence Gap: Why Successful People Still Feel Stuck',
   startsAt: '2026-11-19T11:00:00-08:00',
   endsAt: '2026-11-19T12:15:00-08:00',
   timeZone: 'America/Los_Angeles',
