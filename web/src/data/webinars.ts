@@ -35,7 +35,7 @@ export const betterMentalHealth: WebinarEvent = {
 // Nov 19, 2026 is after US daylight saving ends (Nov 1), so Pacific is PST, UTC-8.
 export const findYourNextLevel: WebinarEvent = {
   slug: 'blueprint',
-  title: 'The Emotional Intelligence Gap: Why Successful People Still Feel Stuck',
+  title: 'How to Stop Feeling Stuck (Even Though You’re Already Successful)',
   startsAt: '2026-11-19T11:00:00-08:00',
   endsAt: '2026-11-19T12:15:00-08:00',
   timeZone: 'America/Los_Angeles',
