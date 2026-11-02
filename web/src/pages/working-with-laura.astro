@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { testimonials } from '../data/testimonials';
+import { testimonials, storyVideos } from '../data/testimonials';
 
 const title = 'Working With Laura | Life 2.0';
 const description = "Who Laura Kelly has worked with, what they say, and what actually changed.";
@@ -119,6 +119,31 @@ const logos = [
     })();
   </script>
 
+  <section class="section wrap wb-section-tight">
+    <div class="eyebrow dz-reveal">More client stories</div>
+    <h2 class="dz-reveal">In their own words, on their own phones.</h2>
+    <div class="story-grid">
+      {storyVideos.map((v, i) => (
+        <figure class="story dz-reveal" style={`--dz-delay:${Math.min(i * 0.1, 0.4)}s`}>
+          <div class="story-video">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${v.videoId}?rel=0`}
+              title={v.headline}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <figcaption>
+            <span class="story-headline">{v.headline}</span>
+            {v.name && <span class="story-name">{v.name}</span>}
+            {v.company && <span class="story-company">{v.company}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
   <CtaBand
     heading="Ready to talk?"
     body="A free 30-minute call with Laura. Get clear on what’s keeping you stuck and your next step."
@@ -133,5 +158,15 @@ const logos = [
   .reel { max-width: 960px; padding-top: 8px; }
   .reel-video { position: relative; aspect-ratio: 16 / 9; border-radius: 24px; overflow: hidden; background: var(--forest); box-shadow: 0 24px 60px rgba(20, 32, 26, 0.18); }
   .reel-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .story-grid { margin-top: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 1100px) { .story-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .story-grid { grid-template-columns: 1fr; max-width: 340px; margin-left: auto; margin-right: auto; } }
+  .story { margin: 0; }
+  .story-video { position: relative; aspect-ratio: 9 / 16; border-radius: 20px; overflow: hidden; background: var(--forest); }
+  .story-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .story figcaption { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .story-headline { font: 500 19px/1.35 var(--serif); color: var(--forest); }
+  .story-name { font: 600 13px/1.2 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .story-company { margin-top: -2px; font: 400 15px/1.4 var(--sans); color: var(--ink-soft); }
   .reel-caption { margin-top: 14px; text-align: center; font: 600 14px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
 </style>

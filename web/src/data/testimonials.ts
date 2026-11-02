@@ -35,3 +35,20 @@ export const testimonials: Testimonial[] = [
     quote: 'There’s a genuine nature to her, about the way that she’s going about this work, that is unique. It’s rare.',
   },
 ];
+
+// Phone-recorded client stories (YouTube Shorts), shown in a grid under the
+// featured videos on /working-with-laura. The headline is each video's own
+// YouTube title.
+export interface StoryVideo {
+  headline: string;
+  name?: string;
+  company?: string;
+  videoId: string;
+}
+
+export const storyVideos: StoryVideo[] = [
+  { headline: 'From stuck mindset to phenomenal results', name: 'Ken Moskowitz', company: 'Ad Zombies', videoId: 'Lfjl78NRRVQ' },
+  { headline: 'From trapped GM to visionary CEO', name: 'Adrian Stephenson', company: 'AnyDay Heating & Cooling', videoId: 'anDolPMwAtk' },
+  { headline: '“She meets me where I am every single week”', name: 'Michelle Leigh Myers', company: 'Pink Callers', videoId: 'f_t-b0cNvCo' },
+  { headline: 'Equally impatient about your goals and dreams', name: 'Svetlana Kerasimian', company: 'Aire Serv of Pasadena', videoId: 'vb6JQwpOSfI' },
+];
