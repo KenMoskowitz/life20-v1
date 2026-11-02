@@ -1,8 +1,9 @@
 import { assessmentVariables } from '../data/assessmentVariables';
 import { assessmentIntro, assessmentQuestionCopy, resultsCopy, bandForCapacity } from '../data/assessmentCopy';
-import { getSiteSettings } from '../lib/sanity';
 
-const FALLBACK_CLARITY_CALL_URL = 'https://calendly.com/thelife_20/clarity-call-with-laura';
+// The results page sends people to the Clarity Call page, which explains the
+// call and embeds the booking calendar.
+const CLARITY_CALL_URL = '/clarity';
 
 type Screen = 'intro' | 'question' | 'results';
 
@@ -184,8 +185,7 @@ function renderQuestion() {
 }
 
 async function renderResults() {
-  const settings = (await getSiteSettings()) as Record<string, any> | null;
-  const clarityCallUrl = settings?.clarityCallUrl ?? FALLBACK_CLARITY_CALL_URL;
+  const clarityCallUrl = CLARITY_CALL_URL;
 
   const finalScores = scores as number[];
   const arithmeticMean = finalScores.reduce((a, b) => a + b, 0) / finalScores.length;
