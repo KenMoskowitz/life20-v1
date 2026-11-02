@@ -49,6 +49,6 @@ export interface StoryVideo {
 export const storyVideos: StoryVideo[] = [
   { headline: 'From stuck mindset to phenomenal results', name: 'Ken Moskowitz', company: 'Ad Zombies', videoId: 'Lfjl78NRRVQ' },
   { headline: 'From trapped GM to visionary CEO', name: 'Adrian Stephenson', company: 'AnyDay Heating & Cooling', videoId: 'anDolPMwAtk' },
-  { headline: '“She meets me where I am every single week”', name: 'Michelle Leigh Myers', company: 'Pink Collars', videoId: 'f_t-b0cNvCo' },
+  { headline: '“She meets me where I am every single week”', name: 'Michelle Leigh Myers', company: 'Pink Callers', videoId: 'f_t-b0cNvCo' },
   { headline: 'Equally impatient about your goals and dreams', name: 'Svetlana Kerasimian', company: 'Aire Serv of Pasadena', videoId: 'vb6JQwpOSfI' },
 ];
