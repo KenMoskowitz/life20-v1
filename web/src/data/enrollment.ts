@@ -3,11 +3,11 @@
 // each time a new group opens.
 
 export const nextGroup = {
-  startLabel: 'Tuesday, December 1',
+  startLabel: 'Tuesday, December 8',
   schedule: [
-    { label: 'December', dates: 'Dec 1, Dec 8, Dec 15' },
+    { label: 'December', dates: 'Dec 8, Dec 15' },
     { label: 'Holiday break', dates: 'Two weeks off to rest' },
-    { label: 'January', dates: 'Jan 5, Jan 12, Jan 19' },
+    { label: 'January', dates: 'Jan 5, Jan 12, Jan 19, Jan 26' },
   ],
   // Fast-action bonus: a private one-to-one session with Laura before the
   // group starts, for anyone who joins by the end of the day after the
@@ -15,6 +15,6 @@ export const nextGroup = {
   bonusDeadline: '2026-11-20T23:59:59-08:00',
   bonusDeadlineLabel: 'Friday, November 20',
   // Enrollment closes at the end of this day (Pacific), or when 10 seats fill.
-  closesAt: '2026-11-30T23:59:59-08:00',
-  closesLabel: 'Monday, November 30',
+  closesAt: '2026-12-04T23:59:59-08:00',
+  closesLabel: 'Friday, December 4',
 };
