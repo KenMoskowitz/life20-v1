@@ -50,6 +50,13 @@ const paths = [
     cta: 'Take the assessment',
     href: '/assessment',
   },
+  {
+    tag: 'Free · 30 minutes',
+    title: 'Clarity Call',
+    body: 'A private conversation with Laura. Get clear on what’s keeping you stuck and your next step.',
+    cta: 'Book a call',
+    href: '/clarity',
+  },
   trainingIsUpcoming
     ? {
         tag: 'Free · Start here',
@@ -309,10 +316,16 @@ const jsonLd = {
 
   /* --- Ways to work with me --- */
   .home-paths { display: grid; gap: 18px; }
+  .home-paths--5 { grid-template-columns: repeat(6, 1fr); }
+  .home-paths--5 > * { grid-column: span 2; }
+  .home-paths--5 > :nth-child(4) { grid-column: 2 / span 2; }
   .home-paths--4 { grid-template-columns: repeat(4, 1fr); }
   .home-paths--3 { grid-template-columns: repeat(3, 1fr); }
-  @media (max-width: 1100px) { .home-paths--4 { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 700px) { .home-paths--4, .home-paths--3 { grid-template-columns: 1fr; } }
+  @media (max-width: 1100px) {
+    .home-paths--4, .home-paths--5 { grid-template-columns: repeat(2, 1fr); }
+    .home-paths--5 > *, .home-paths--5 > :nth-child(4) { grid-column: auto; }
+  }
+  @media (max-width: 700px) { .home-paths--5, .home-paths--4, .home-paths--3 { grid-template-columns: 1fr; } }
   .home-path {
     display: flex; flex-direction: column; gap: 10px;
     background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px 26px;

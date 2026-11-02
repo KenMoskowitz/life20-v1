@@ -60,7 +60,7 @@ function renderEmailHtml(body: RequestBody) {
       ${ledgerRows}
     </table>
 
-    <a href="https://thelife20.com/private-advisory#apply" style="display:inline-block; background:#1D2E22; color:#FBF7EF; font-family:Arial,sans-serif; font-size:13px; padding:14px 24px; border-radius:30px; text-decoration:none;">Apply for a Clarity Call &rarr;</a>
+    <a href="https://thelife20.com/clarity" style="display:inline-block; background:#1D2E22; color:#FBF7EF; font-family:Arial,sans-serif; font-size:13px; padding:14px 24px; border-radius:30px; text-decoration:none;">Book a free Clarity Call &rarr;</a>
 
     <p style="font-family:Arial,sans-serif; font-size:12px; color:#8A9A7C; margin-top:32px;">Life 2.0 &middot; The Overflow Assessment &middot; A starting point, not a diagnosis.</p>
   </div>`;
