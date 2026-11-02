@@ -85,10 +85,18 @@ const proof = [quotes.gail, quotes.michelle, quotes.ken];
         <div class="eyebrow">Who you’ll be talking to</div>
         <h2>Laura Kelly</h2>
         <p class="body-copy">Founder of Life 2.0 and co-owner of Clover Growth Partners. Laura studied psychology, graduated as Graduate of the Year, and wrote an award-winning thesis on emotional intelligence, mental toughness and happiness at work.</p>
-        <ul class="cl-points">
-          {proofPoints.map((p) => <li><strong>{p.figure}</strong> {p.label}</li>)}
-        </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="cl-stats">
+      {proofPoints.map((p, i) => (
+        <div class="cl-stat dz-reveal" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
+          <div class="cl-stat-figure">{p.figure}</div>
+          <p>{p.label}</p>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -145,8 +153,12 @@ const proof = [quotes.gail, quotes.michelle, quotes.ken];
   .cl-about img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 24px; }
   .cl-about h2 { margin-top: 12px; font: 500 clamp(28px, 3vw, 38px)/1.2 var(--serif); color: var(--forest); }
   .cl-about .body-copy { margin-top: 16px; }
-  .cl-points { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font: 400 17px/1.5 var(--sans); color: var(--ink-soft); }
-  .cl-points strong { color: var(--gold); font-family: var(--serif); }
+
+  .cl-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .cl-stats { grid-template-columns: 1fr; } }
+  .cl-stat { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+  .cl-stat-figure { font: 600 clamp(36px, 4vw, 52px)/1 var(--serif); color: var(--gold); }
+  .cl-stat p { margin-top: 14px; font: 400 17px/1.55 var(--sans); color: var(--ink-soft); }
 
   .cl-book-head { text-align: center; }
   .cl-book-head h2 { margin-top: 12px; }
