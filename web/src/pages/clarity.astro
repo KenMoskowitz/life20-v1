@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { quotes, proofPoints } from '../data/quotes';
+
+// The free Clarity Call page (thelife20.com/clarity), the link Laura shares
+// at events and in posts. One job: book the call. Calendly asks the
+// qualifying questions, so the page sells the call and embeds the booking.
+const CALENDLY_URL = 'https://calendly.com/thelife_20/clarity-call-with-laura';
+const embedUrl = `${CALENDLY_URL}?embed_domain=thelife20.com&embed_type=Inline&hide_gdpr_banner=1&background_color=fbf7ef&primary_color=1d2e22`;
+
+const title = 'Book a Free Clarity Call with Laura Kelly | Life 2.0';
+const description =
+  'A free, private call with Laura Kelly for successful people who feel stuck. Get clear on what is really going on and the one next step that would help most.';
+
+const leaveWith = [
+  {
+    title: 'A name for what you’re feeling',
+    body: 'We’ll put words to the heaviness or the restlessness, so it stops being a vague cloud and becomes something we can work with.',
+  },
+  {
+    title: 'The one area that matters most',
+    body: 'Out of everything competing for your attention, we’ll find the one place where a change would make the biggest difference.',
+  },
+  {
+    title: 'A clear next step',
+    body: 'You’ll leave with something genuinely useful to do next, whether or not we ever work together.',
+  },
+];
+
+const steps = [
+  { title: 'Pick a time', body: 'Choose a slot below that suits you. It’s free.' },
+  { title: 'Answer a few questions', body: 'So Laura arrives already knowing what matters to you. No need to prepare anything else.' },
+  { title: 'Talk on Zoom', body: 'A private, honest conversation. Your joining link arrives by email.' },
+];
+
+const proof = [quotes.gail, quotes.michelle, quotes.ken];
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/clarity" bare>
+  <section class="cl-hero wrap">
+    <div class="eyebrow eyebrow-center dz-enter">Free Clarity Call with Laura Kelly</div>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Get clear on what’s keeping you stuck. In one conversation.</h1>
+    <p class="cl-lede dz-enter" style="--dz-enter-delay:0.16s">For successful people who feel like something’s missing. We’ll talk through what you’re carrying, find what’s really going on, and leave you with a clear next step.</p>
+    <div class="cl-cta dz-enter" style="--dz-enter-delay:0.24s">
+      <a class="btn-primary" href="#book">Book my free call &rarr;</a>
+      <p class="cl-small">Free &middot; Private &middot; On Zoom</p>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="eyebrow dz-reveal">What you’ll leave with</div>
+    <div class="cl-grid">
+      {leaveWith.map((item, i) => (
+        <div class="cl-card dz-reveal dz-lift" style={`--dz-delay:${Math.min(i * 0.12, 0.4)}s`}>
+          <span class="wb-num">{`0${i + 1}`}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="cl-honest dz-reveal">
+      <h2>No pitch, no pressure.</h2>
+      <p class="body-copy">This call is about you. If it looks like working together would help, I’ll tell you how, and you can decide in your own time. If not, you’ll still leave with a plan. Either way, I want you to walk away clearer than you came.</p>
+      <p class="cl-sign">Laura Kelly</p>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="cl-proof">
+      {proof.map((q) => (
+        <figure class="dz-reveal">
+          <blockquote>&ldquo;{q.quote}&rdquo;</blockquote>
+          <figcaption>{q.name}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="cl-about dz-reveal">
+      <img src="/assets/laura-advisory.jpg" alt="Laura Kelly" loading="lazy" />
+      <div>
+        <div class="eyebrow">Who you’ll be talking to</div>
+        <h2>Laura Kelly</h2>
+        <p class="body-copy">Founder of Life 2.0 and co-owner of Clover Growth Partners. Laura studied psychology, graduated as Graduate of the Year, and wrote an award-winning thesis on emotional intelligence, mental toughness and happiness at work.</p>
+        <ul class="cl-points">
+          {proofPoints.map((p) => <li><strong>{p.figure}</strong> {p.label}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* No dz-reveal: anchor target, must be visible the instant it's jumped to. */}
+  <section class="section wrap wb-section-tight" id="book">
+    <div class="cl-book-head">
+      <div class="eyebrow eyebrow-center">Book your call</div>
+      <h2>Three simple steps</h2>
+    </div>
+    <ol class="cl-steps">
+      {steps.map((s, i) => (
+        <li>
+          <span class="stage-num">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <div class="cl-embed">
+      <iframe src={embedUrl} title="Book a Clarity Call with Laura Kelly" loading="lazy"></iframe>
+    </div>
+    <p class="cl-fallback">Calendar not loading? <a href={CALENDLY_URL} target="_blank" rel="noopener">Book on Calendly instead &rarr;</a></p>
+  </section>
+</BaseLayout>
+
+<style>
+  .cl-hero { max-width: 860px; text-align: center; padding-top: clamp(32px, 6vw, 72px); padding-bottom: 24px; }
+  .cl-hero h1 { margin-top: 18px; font: 500 clamp(36px, 5vw, 60px)/1.12 var(--serif); color: var(--forest); }
+  .cl-lede { margin: 22px auto 0; max-width: 640px; font: 400 20px/1.65 var(--sans); color: var(--ink-soft); }
+  .cl-cta { margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .cl-small { font: 400 15px/1.4 var(--sans); color: var(--ink-soft); }
+
+  .cl-grid { margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .cl-grid { grid-template-columns: 1fr; } }
+  .cl-card { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+  .cl-card h3 { margin-top: 14px; font: 500 22px/1.3 var(--serif); color: var(--forest); }
+  .cl-card p { margin-top: 10px; font: 400 17px/1.6 var(--sans); color: var(--ink-soft); }
+
+  .cl-honest { max-width: 760px; margin: 0 auto; text-align: center; }
+  .cl-honest h2 { font: 500 clamp(28px, 3.2vw, 40px)/1.25 var(--serif); color: var(--forest); }
+  .cl-honest .body-copy { margin: 18px auto 0; max-width: 640px; }
+  .cl-sign { margin-top: 18px; font: 600 15px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+
+  .cl-proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; }
+  @media (max-width: 860px) { .cl-proof { grid-template-columns: 1fr; } }
+  .cl-proof figure { margin: 0; background: var(--paper-warm); border-radius: 24px; padding: 24px; }
+  .cl-proof blockquote { margin: 0; font: 500 italic 18px/1.5 var(--serif); color: var(--forest); }
+  .cl-proof figcaption { margin-top: 14px; font: 600 14px/1.2 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+
+  .cl-about { display: grid; grid-template-columns: 320px 1fr; gap: 40px; align-items: center; }
+  @media (max-width: 760px) { .cl-about { grid-template-columns: 1fr; gap: 24px; } }
+  .cl-about img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 24px; }
+  .cl-about h2 { margin-top: 12px; font: 500 clamp(28px, 3vw, 38px)/1.2 var(--serif); color: var(--forest); }
+  .cl-about .body-copy { margin-top: 16px; }
+  .cl-points { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font: 400 17px/1.5 var(--sans); color: var(--ink-soft); }
+  .cl-points strong { color: var(--gold); font-family: var(--serif); }
+
+  .cl-book-head { text-align: center; }
+  .cl-book-head h2 { margin-top: 12px; }
+  .cl-steps { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 860px) { .cl-steps { grid-template-columns: 1fr; } }
+  .cl-steps li { display: flex; gap: 14px; align-items: flex-start; }
+  .cl-steps h3 { font: 500 20px/1.3 var(--serif); color: var(--forest); }
+  .cl-steps p { margin-top: 6px; font: 400 16px/1.55 var(--sans); color: var(--ink-soft); }
+  .cl-embed { margin-top: 32px; background: var(--white); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
+  .cl-embed iframe { display: block; width: 100%; height: 760px; border: 0; }
+  .cl-fallback { margin-top: 14px; text-align: center; font: 400 16px/1.5 var(--sans); color: var(--ink-soft); }
+  .cl-fallback a { color: var(--forest); text-decoration: underline; }
+</style>
+
+<script is:inline>
+  // Tell the Meta Pixel when someone books through the embedded calendar.
+  window.addEventListener('message', function (e) {
+    if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled') return;
+    if (window.fbq) window.fbq('track', 'Schedule', { content_name: 'Clarity Call' });
+  });
+</script>
