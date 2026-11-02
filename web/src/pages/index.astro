@@ -115,7 +115,7 @@ const jsonLd = {
         <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s">
           {trainingIsUpcoming
             ? <a class="btn-primary" href="/blueprint">Join the free live training &rarr;</a>
-            : <a class="btn-primary" href="/access-your-next-level">See Access Your Next Level &rarr;</a>}
+            : <a class="btn-primary" href="/clarity">Book a free Clarity Call &rarr;</a>}
           <a class="btn-text" href="/assessment">Take the free assessment</a>
         </div>
         <div class="hero-trust dz-enter" style="--dz-enter-delay:0.32s"><div class="dash"></div> {trainingIsUpcoming ? `Free live training · ${trainingDay}` : 'Founded in science. Proven in the real world.'}</div>
@@ -268,11 +268,12 @@ const jsonLd = {
     />
   ) : (
     <CtaBand
-      eyebrow="Access Your Next Level"
-      heading="Six weeks to your next level."
-      body="Live small-group coaching with Laura. $1,500 paid in full, or 2 payments of $850. Maximum 10 people."
-      ctaLabel="See the program"
-      ctaHref="/access-your-next-level"
+      heading="Ready to talk?"
+      body="A free 30-minute call with Laura. Get clear on what’s keeping you stuck and your next step."
+      ctaLabel="Book a free Clarity Call"
+      ctaHref="/clarity"
+      secondaryLabel="or see Access Your Next Level"
+      secondaryHref="/access-your-next-level"
     />
   )}
 </BaseLayout>
