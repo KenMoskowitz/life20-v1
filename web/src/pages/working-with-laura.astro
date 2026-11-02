@@ -137,6 +137,7 @@ const logos = [
           <figcaption>
             <span class="story-headline">{v.headline}</span>
             {v.name && <span class="story-name">{v.name}</span>}
+            {v.company && <span class="story-company">{v.company}</span>}
           </figcaption>
         </figure>
       ))}
@@ -166,5 +167,6 @@ const logos = [
   .story figcaption { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
   .story-headline { font: 500 19px/1.35 var(--serif); color: var(--forest); }
   .story-name { font: 600 13px/1.2 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .story-company { margin-top: -2px; font: 400 15px/1.4 var(--sans); color: var(--ink-soft); }
   .reel-caption { margin-top: 14px; text-align: center; font: 600 14px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
 </style>

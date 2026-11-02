@@ -42,12 +42,13 @@ export const testimonials: Testimonial[] = [
 export interface StoryVideo {
   headline: string;
   name?: string;
+  company?: string;
   videoId: string;
 }
 
 export const storyVideos: StoryVideo[] = [
-  { headline: 'From stuck mindset to phenomenal results', videoId: 'Lfjl78NRRVQ' },
-  { headline: 'From trapped GM to visionary CEO', videoId: 'anDolPMwAtk' },
+  { headline: 'From stuck mindset to phenomenal results', name: 'Ken Moskowitz', company: 'Ad Zombies', videoId: 'Lfjl78NRRVQ' },
+  { headline: 'From trapped GM to visionary CEO', name: 'Adrian Stephenson', company: 'AnyDay Heating & Cooling', videoId: 'anDolPMwAtk' },
   { headline: '“She meets me where I am every single week”', name: 'Michelle Meyers', videoId: 'f_t-b0cNvCo' },
-  { headline: 'Equally impatient about your goals and dreams', videoId: 'vb6JQwpOSfI' },
+  { headline: 'Equally impatient about your goals and dreams', name: 'Svetlana Kerasimian', company: 'Aire Serv of Pasadena', videoId: 'vb6JQwpOSfI' },
 ];
