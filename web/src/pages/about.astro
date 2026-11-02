@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { getPage } from '../lib/sanity';
 import { proofPoints } from '../data/quotes';
+import { findYourNextLevel as training } from '../data/webinars';
 
 const cms = await getPage('about') as Record<string, any> | null;
 
@@ -16,6 +17,9 @@ const beliefs = [
   "The goal isn't perfect emotional regulation. It's responding in ways that, for the most part, make you proud.",
   'High performers often know how to optimize a business better than they know how to design a life.',
 ];
+
+// Point to the free training until it has happened, then to the Clarity Call.
+const trainingIsUpcoming = new Date(training.endsAt).getTime() > Date.now();
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/about">
   <div class="page-hero wrap">
@@ -67,14 +71,25 @@ const beliefs = [
     </div>
   </section>
 
-  <CtaBand
-    heading="Come spend 75 minutes with me."
-    body="My free live training is the best way to get a feel for how I work, and find your next point of leverage."
-    ctaLabel="Join the free training"
-    ctaHref="/blueprint"
-    secondaryLabel="Or see the six-week program"
-    secondaryHref="/access-your-next-level"
-  />
+  {trainingIsUpcoming ? (
+    <CtaBand
+      heading="Come spend 75 minutes with me."
+      body="My free live training is the best way to get a feel for how I work, and find your next point of leverage."
+      ctaLabel="Join the free training"
+      ctaHref="/blueprint"
+      secondaryLabel="Or book a free Clarity Call"
+      secondaryHref="/clarity"
+    />
+  ) : (
+    <CtaBand
+      heading="Ready to talk?"
+      body="A free 30-minute call with Laura. Get clear on what’s keeping you stuck and your next step."
+      ctaLabel="Book a free Clarity Call"
+      ctaHref="/clarity"
+      secondaryLabel="or see Access Your Next Level"
+      secondaryHref="/access-your-next-level"
+    />
+  )}
 </BaseLayout>
 
 <style>
