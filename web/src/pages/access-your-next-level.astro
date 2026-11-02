@@ -1,24 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import QuoteWall from '../components/QuoteWall.astro';
+import { quotes } from '../data/quotes';
+import { nextGroup } from '../data/enrollment';
 
 // Reads ?error / ?joined off the URL after a Stripe Checkout redirect back
 // to this page, so this can't be prerendered to static HTML.
 export const prerender = false;
 
 const title = 'Access Your Next Level | Life 2.0';
-const description = 'A 6-week small-group Life 2.0 coaching experience for high achievers who are doing well, but know another level is available in business and life.';
+const description = 'Six weeks of live small-group coaching with Laura Kelly, for high achievers who are doing well and know there is more available in business and life. $1,500, maximum 10 people.';
 
 const joined = Astro.url.searchParams.get('joined') === '1';
+const plan = Astro.url.searchParams.get('plan');
+// Tell the Meta Pixel about a completed purchase. The installment plan's
+// first payment is $850.
+const pixelEvent = joined
+  ? { name: 'Purchase', params: { value: plan === 'installment' ? 850 : 1500, currency: 'USD', content_name: 'Access Your Next Level' } }
+  : undefined;
+
+// The next group's dates live in src/data/enrollment.ts, shared with /join.
+const nextStart = nextGroup.startLabel;
+const schedule = nextGroup.schedule;
+
+const wall = [quotes.gail, quotes.michelle, quotes.ken, quotes.paul, quotes.indira, quotes.erica];
 const checkoutError = Astro.url.searchParams.get('error');
 
 const tensionSlides = [
-  'You know how to work hard.',
-  'You know how to solve problems.',
-  'You know how to make things happen.',
-  'It stops being “How do I do more?” and becomes “What am I building this for?”',
-  'Is my business serving my life, or has my life started serving the business?',
-  'It’s about becoming more deliberate about where that ambition is actually taking you.',
+  'We know how to work hard.',
+  'We know how to solve problems.',
+  'We know how to make things happen.',
+  'Then the question changes. It stops being “How do I do more?” and becomes “What am I building all this for?”',
+  'Is the business serving our life? Or has our life started serving the business?',
   'Achievement without direction can become a very expensive way of running in circles.',
+  'The next level is getting deliberate about where all that ambition is taking us.',
 ];
 
 const nextLevelCards = [
@@ -40,45 +55,51 @@ const curriculum = [
   {
     week: 'Week 1',
     title: 'Pattern Recognition',
-    body: 'Get honest about the patterns actually running your decisions, your relationships, and your business, many of which you\'ve never named out loud.',
+    body: 'Get honest about the patterns running your decisions, your relationships, and your business. Many of them you’ve never said out loud.',
+    outcome: 'Your patterns, named.',
   },
   {
     week: 'Week 2',
     title: 'Your Rich Life',
-    body: 'Define what a rich life actually means for you, specifically, instead of borrowing someone else\'s definition of success.',
+    body: 'Define what a rich life means for you, specifically, instead of borrowing someone else’s definition of success.',
+    outcome: 'Your own definition of success.',
   },
   {
     week: 'Week 3',
     title: 'Values & Rules',
-    body: 'Separate the values you actually hold from the rules you inherited and never questioned. They are not always the same thing.',
+    body: 'Separate the values you truly hold from the rules you inherited and never questioned. They aren’t always the same thing.',
+    outcome: 'Values you chose, rules you can drop.',
   },
   {
     week: 'Week 4',
     title: 'Your Primary Question',
-    body: 'Identify the real question underneath this season of your life, the one that\'s actually driving everything else.',
+    body: 'Find the real question underneath this season of your life, the one quietly driving everything else.',
+    outcome: 'The question behind your choices.',
   },
   {
     week: 'Week 5',
     title: 'Business as a Vehicle',
-    body: 'Look directly at whether your business is serving your life or the other way around, and what would need to change either way.',
+    body: 'Look directly at whether your business is serving your life or the other way around, and what needs to change either way.',
+    outcome: 'An honest read on your business.',
   },
   {
     week: 'Week 6',
     title: 'Integration',
-    body: 'Bring the previous five weeks together into one clear, workable direction for what comes next.',
+    body: 'Bring the first five weeks together into one clear, workable direction for what comes next.',
+    outcome: 'One clear direction, on your Integration Board.',
   },
 ];
 
 const methodSteps = [
   { stage: 'Watch', body: 'A short, focused Life 2.0 module before each call. No lecture marathon.' },
-  { stage: 'Tally', body: 'A required pre-call questionnaire that gets you honest before you get coached.' },
+  { stage: 'Reflect', body: 'A short questionnaire before each call, so you arrive honest and ready to be coached.' },
   { stage: 'Live Coaching', body: 'A live group coaching session with Laura, applied to what\'s actually true for you.' },
   { stage: 'Apply', body: 'One clear thing to do differently before the next week starts.' },
 ];
 
 const includedItems = [
   '6 structured Life 2.0 modules',
-  '6 required pre-call Tally questionnaires',
+  '6 pre-call reflection questionnaires',
   '6 live group coaching sessions with Laura',
   'Maximum 10 participants',
   'Access to The Life 2.0 Room during the program',
@@ -106,12 +127,52 @@ const whoNotFor = [
   'Looking for therapy or treatment for a mental-health condition',
   'Want change without changing anything',
 ];
+const faqs = [
+  {
+    q: 'How is this different from a course?',
+    a: 'Every week you watch one short module, answer a few honest questions, and then get coached live by Laura in a group of ten or fewer. No giant workbook, no content library to fall behind on. The coaching is the program.',
+  },
+  {
+    q: 'What if I can’t name what my next level is yet?',
+    a: 'That’s a perfectly good place to start. Week one is built for exactly this. Most of us feel the gap long before we can put words to it.',
+  },
+  {
+    q: 'Is this therapy?',
+    a: 'No. This is coaching for capable people who want to design what comes next. If you’re looking for treatment for a mental-health condition, a licensed professional is the right place to begin.',
+  },
+  {
+    q: 'What if it’s not right for me?',
+    a: 'Come to the first two calls. If it’s not right for you, let Laura know and she’ll refund you in full.',
+  },
+  {
+    q: 'Can I spread out the payment?',
+    a: 'Yes. Choose two payments of $850 at checkout. Paying in full is $1,500, which saves you $200.',
+  },
+  {
+    q: 'How is this different from Private Advisory?',
+    a: 'Same six-week framework. Private Advisory is one to one with Laura, with direct access between sessions. Access Your Next Level is the small-group version, and the most direct way to start working with her.',
+  },
+  {
+    q: 'When does it start?',
+    a: 'Our next group starts Tuesday, December 8, with two calls before the holidays, a two-week break, and four calls in January.',
+  },
+];
 ---
-<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level">
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/access-your-next-level" pixelEvent={pixelEvent}>
   <div class="page-hero ayn-hero-wide wrap">
     <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Access Your Next Level</div>
-    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">A 6-week Life 2.0 coaching experience for what comes next.</h1>
-    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">For high achievers who are doing well, but know there is another level available in business and life.</p>
+    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">You built the success. Now let’s build the life around it.</h1>
+    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Six weeks of live coaching with Laura Kelly, in a room of ten capable people who are doing well and know there’s more available. You’ll leave with a clear direction for your business and your life, and a plan you’ll actually use.</p>
+    <ul class="ayn-hero-facts dz-enter" style="--dz-enter-delay:0.24s">
+      <li>Starts {nextStart}</li>
+      <li>6 weeks</li>
+      <li>6 live coaching calls with Laura</li>
+      <li>Maximum 10 people</li>
+    </ul>
+    <div class="hero-actions dz-enter" style="--dz-enter-delay:0.32s; margin-top:28px;">
+      <a class="btn-primary" href="#join">Join Access Your Next Level &rarr;</a>
+      <a class="btn-text" href="#included">See what’s included</a>
+    </div>
   </div>
 
   <section class="wrap ayn-tension-banner-wrap dz-reveal">
@@ -123,7 +184,7 @@ const whoNotFor = [
           <div class="ayn-price-block-label">Access Your Next Level</div>
           <div class="ayn-price-block-main">$1,500 paid in full</div>
           <div class="ayn-price-block-alt">or 2 payments of $850</div>
-          <div class="ayn-price-block-note">Maximum 10 people</div>
+          <div class="ayn-price-block-note">Starts {nextStart.replace('Tuesday, ', '')}</div>
           <div class="ayn-price-block-actions">
             <a class="btn-primary" href="#join">Join Access Your Next Level &rarr;</a>
             <a class="btn-text" href="#included">See what's included</a>
@@ -131,7 +192,7 @@ const whoNotFor = [
         </div>
 
         <div class="ayn-tension-copy">
-          <h2>You've already proven you can achieve.</h2>
+          <h2>We’ve already proven we can achieve.</h2>
 
           <div class="ayn-carousel-wrap" id="ayn-tension-carousel">
             <div class="ayn-carousel-track">
@@ -156,12 +217,10 @@ const whoNotFor = [
     </div>
   </section>
 
-  {/* TODO: Add case study 1 here when approved client story is ready. */}
-
   <section class="section wrap wb-section-tight">
     <div class="ayn-section-head dz-reveal">
-      <h2>What would your next level change?</h2>
-      <p class="body-copy">You don't need a fully formed answer to start. You just need to be honest about where it's showing up.</p>
+      <h2>Where is it showing up for you?</h2>
+      <p class="body-copy">You don’t need a fully formed answer to start. You just need to be honest about where you feel it.</p>
     </div>
     <div class="card-grid ayn-next-grid" style="margin-top:40px;">
       {nextLevelCards.map((c, i) => (
@@ -175,8 +234,8 @@ const whoNotFor = [
 
   <section class="section wrap wb-section-tight">
     <div class="ayn-section-head dz-reveal">
-      <h2>How we get you there</h2>
-      <p class="body-copy">The six-week curriculum gives us the framework. The coaching makes it yours.</p>
+      <h2>Six weeks. Six things you walk away with.</h2>
+      <p class="body-copy">The curriculum gives us the framework. The coaching makes it yours.</p>
     </div>
     <div class="ayn-week-grid">
       {curriculum.map((w, i) => (
@@ -184,36 +243,16 @@ const whoNotFor = [
           <div class="ayn-week-label">{w.week}</div>
           <h3>{w.title}</h3>
           <p class="body-copy">{w.body}</p>
+          <p class="ayn-week-outcome"><span>You leave with</span>{w.outcome}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <section class="section wrap dz-reveal wb-section-tight">
-    <div class="ayn-section-head">
-      <h2>This is not passive learning.</h2>
-    </div>
-    <div class="ayn-rhythm">
-      {methodSteps.map((s, i) => (
-        <>
-          <div class="method-item ayn-rhythm-step dz-reveal" style={`--dz-delay:${i * 0.08}s`}>
-            <div class="stage-num">{String(i + 1).padStart(2, '0')}</div>
-            <h3>{s.stage}</h3>
-            <p>{s.body}</p>
-          </div>
-          {i < methodSteps.length - 1 && <div class="ayn-rhythm-arrow" aria-hidden="true">&rarr;</div>}
-        </>
-      ))}
-    </div>
-    <div class="ayn-rhythm-notes">
-      <p>No giant workbook.</p>
-      <p>No 50-hour content library.</p>
-      <p>The goal is movement, not more to consume.</p>
-    </div>
-  </section>
+  <QuoteWall quotes={wall} />
 
   <section class="section wrap dz-reveal wb-section-tight">
-    <div class="wb-for-split">
+    <div class="wb-for-split ayn-why">
       <div class="wb-for-image">
         <img src="/assets/laura-conversation.jpg" alt="Laura Kelly in conversation" loading="lazy" />
       </div>
@@ -257,21 +296,6 @@ const whoNotFor = [
         </div>
       </div>
     </div>
-
-    <div class="ayn-included-sub dz-reveal" style="--dz-delay:0.1s;">
-      <div>
-        <h3>The Life 2.0 Room</h3>
-        <p class="body-copy">The course teaches. The Tally gets you honest. The live call coaches and integrates. The Room is where you continue the conversation between sessions, not just during them.</p>
-      </div>
-      <div>
-        <h3>Life 2.0 Frameworks</h3>
-        <p class="body-copy">Access to Life 2.0 Frameworks as they're released. This curriculum is V1, and it will keep evolving as research, coaching experience, and real client results tell us what to keep, upgrade, or replace.</p>
-      </div>
-      <div>
-        <h3>Life 2.0 Integration Board</h3>
-        <p class="body-copy">A final digital Integration Board that captures your patterns, your primary question, and your direction, built to actually use after the six weeks end.</p>
-      </div>
-    </div>
   </section>
 
   <div class="ayn-who-grid wrap">
@@ -289,11 +313,25 @@ const whoNotFor = [
     </div>
   </div>
 
-  {/* TODO: Add 2-3 short testimonials here once real client language is approved. */}
-
   <section class="section wrap wb-section-tight" id="join">
     <div class="dz-reveal ayn-join-head">
       <h2>Join Access Your Next Level</h2>
+      <p class="body-copy">Ten seats. Live coaching with Laura. We start {nextStart}.</p>
+    </div>
+
+    <div class="ayn-schedule dz-reveal">
+      <div class="ayn-schedule-intro">
+        <h3 class="ayn-subhead">Start 2027 already moving</h3>
+        <p class="body-copy">We do the deep work in December, rest over the holidays, and finish in January with a clear plan for the year ahead.</p>
+      </div>
+      <ul class="ayn-schedule-list">
+        {schedule.map((row) => (
+          <li>
+            <span class="ayn-schedule-label">{row.label}</span>
+            <span class="ayn-schedule-dates">{row.dates}</span>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <div class="ayn-join-grid">
@@ -302,7 +340,8 @@ const whoNotFor = [
           <div class="eyebrow">6-Week Small-Group Coaching Experience</div>
           <div class="price">$1,500</div>
           <p>paid in full, or 2 payments of $850</p>
-          <p>Maximum 10 places available</p>
+          <p class="ayn-save">Save $200 when you pay in full</p>
+          <p>Starts {nextStart} &middot; Maximum 10 places</p>
 
           {joined && (
             <p class="ayn-checkout-status">You're in. Check your email for next steps.</p>
@@ -314,7 +353,7 @@ const whoNotFor = [
           )}
 
           <div class="ayn-plan-actions">
-            <a class="btn-primary" href="/api/checkout?plan=full">Pay in full &mdash; $1,500 &rarr;</a>
+            <a class="btn-primary" href="/api/checkout?plan=full">Pay in full: $1,500 &rarr;</a>
             <a class="btn-primary ayn-btn-secondary" href="/api/checkout?plan=installment">2 payments of $850 &rarr;</a>
           </div>
         </div>
@@ -323,7 +362,23 @@ const whoNotFor = [
       <div class="dz-reveal ayn-join-note" style="--dz-delay:0.16s;">
         <h3 class="ayn-subhead">Why only ten people?</h3>
         <p class="body-copy">Small enough that everyone gets coached, every single week. Big enough to bring real perspective into the room. You’ll never be an anonymous face in a crowd.</p>
+        <h3 class="ayn-subhead" style="margin-top:28px;">Our promise to you</h3>
+        <p class="body-copy">Come to the first two calls. If it’s not right for you, Laura will refund you in full. You take no risk.</p>
       </div>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="ayn-section-head dz-reveal">
+      <h2>Questions people ask</h2>
+    </div>
+    <div class="faq">
+      {faqs.map((f) => (
+        <div class="faq-item dz-reveal">
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -332,8 +387,8 @@ const whoNotFor = [
       <img class="ayn-final-banner-img dz-kenburns--rev" src="/assets/laura-interview.jpg" alt="Laura Kelly" loading="lazy" />
       <div class="ayn-final-banner-scrim" aria-hidden="true"></div>
       <div class="ayn-final-banner-content">
-        <h2>If nothing changed over the next year, would you be happy with where your current patterns, decisions, and priorities are taking you?</h2>
-        <p><strong>Access Your Next Level.</strong> Six weeks to get clearer, move deliberately, and build more of the life you actually want.</p>
+        <h2>If nothing changed over the next year, would you be happy with where your patterns, decisions, and priorities are taking you?</h2>
+        <p>Six weeks to get clear, move deliberately, and build more of the life you want. We’d love to have you in the room.</p>
         <a class="btn-primary" href="#join">Join Access Your Next Level &rarr;</a>
       </div>
     </div>
@@ -341,9 +396,36 @@ const whoNotFor = [
 </BaseLayout>
 
 <style>
+  /* Centre the "Why group?" copy against the taller photo beside it. */
+  .ayn-why { align-items: center; }
   /* Wider than the default .page-hero cap (900px) so the headline doesn't
      read as narrow next to the full-width image sections below it. */
   .ayn-hero-wide { max-width: 1100px; }
+
+  /* --- Hero facts: the three numbers that define the offer, at a glance --- */
+  .ayn-hero-facts { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
+  .ayn-hero-facts li { display: flex; align-items: center; gap: 10px; font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
+  .ayn-hero-facts li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  /* --- Week card "You leave with" line --- */
+  .ayn-week-card { display: flex; flex-direction: column; }
+  .ayn-week-outcome { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); font: 500 18px/1.4 var(--serif); color: var(--forest); }
+  .ayn-week-card .body-copy { margin-bottom: 18px; }
+  .ayn-week-outcome span { display: block; margin-bottom: 6px; font: 600 13px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+
+  .ayn-save { font-weight: 600; color: var(--gold-light); }
+
+  /* --- Next group schedule --- */
+  .ayn-schedule { margin-bottom: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; background: var(--paper-warm); border: 1px solid var(--line); border-radius: 24px; padding: clamp(26px, 4vw, 40px); }
+  @media (max-width: 860px) { .ayn-schedule { grid-template-columns: 1fr; gap: 20px; } }
+  .ayn-schedule-intro .body-copy { margin-top: 10px; }
+  .ayn-schedule-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .ayn-schedule-list li { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .ayn-schedule-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .ayn-schedule-label { font: 600 15px/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); }
+  .ayn-schedule-dates { font: 500 18px/1.4 var(--serif); color: var(--forest); text-align: right; }
+
+  /* --- What happens after you join --- */
 
   /* --- Hero price block --- */
   .ayn-price-block {
@@ -504,9 +586,6 @@ const whoNotFor = [
     display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;
   }
 
-  .ayn-included-sub { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-  .ayn-included-sub h3 { font: 600 20px/1.2 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--sage); margin-bottom: 12px; }
-  @media (max-width: 900px) { .ayn-included-sub { grid-template-columns: 1fr; } }
 
   /* --- Who for / not for --- */
   .ayn-who-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding-bottom: 40px; align-items: stretch; }
@@ -535,7 +614,8 @@ const whoNotFor = [
      note side by side instead of stacked one under the other. --- */
   .ayn-join-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: stretch; }
   .ayn-join-card-col { display: flex; flex-direction: column; }
-  .ayn-join-head { margin-bottom: 20px; }
+  .ayn-join-head { margin-bottom: 28px; }
+  .ayn-join-head .body-copy { margin-top: 12px; }
   .ayn-pricing-card.ayn-pricing-card { margin-left: 0; margin-right: 0; flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .ayn-join-note {
     max-width: 480px;
