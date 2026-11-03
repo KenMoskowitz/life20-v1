@@ -18,7 +18,7 @@ const beliefs = [
   'High performers often know how to optimize a business better than they know how to design a life.',
 ];
 
-// Point to the free training until it has happened, then to the Clarity Call.
+// Offer the free training as the second option until it has happened.
 const trainingIsUpcoming = new Date(training.endsAt).getTime() > Date.now();
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/about">
@@ -71,25 +71,14 @@ const trainingIsUpcoming = new Date(training.endsAt).getTime() > Date.now();
     </div>
   </section>
 
-  {trainingIsUpcoming ? (
-    <CtaBand
-      heading="Come spend 75 minutes with me."
-      body="My free live training is the best way to get a feel for how I work, and find your next point of leverage."
-      ctaLabel="Join the free training"
-      ctaHref="/blueprint"
-      secondaryLabel="Or book a free Clarity Call"
-      secondaryHref="/clarity"
-    />
-  ) : (
-    <CtaBand
-      heading="Ready to talk?"
-      body="A free 30-minute call with Laura. Get clear on what’s keeping you stuck and your next step."
-      ctaLabel="Book a free Clarity Call"
-      ctaHref="/clarity"
-      secondaryLabel="or see Access Your Next Level"
-      secondaryHref="/access-your-next-level"
-    />
-  )}
+  <CtaBand
+    heading="Ready to talk?"
+    body="A free 30-minute call with Laura. Get clear on what’s keeping you stuck and your next step."
+    ctaLabel="Book a free Clarity Call"
+    ctaHref="/clarity"
+    secondaryLabel={trainingIsUpcoming ? 'or join the free live training on November 19' : 'or see Access Your Next Level'}
+    secondaryHref={trainingIsUpcoming ? '/blueprint' : '/access-your-next-level'}
+  />
 </BaseLayout>
 
 <style>
