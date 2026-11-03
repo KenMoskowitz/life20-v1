@@ -7,11 +7,11 @@ import { proofPoints } from '../data/quotes';
 const cms = await getPage('private-advisory') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
-const description = cms?.metaDescription ?? 'Three months, one to one with Laura Kelly, for ambitious business owners who want to keep growing without losing their peace, family or health. $3,000/month. Apply for Private Advisory.';
+const description = cms?.metaDescription ?? 'Three months, one to one with Laura Kelly. No set curriculum: Laura meets you exactly where you are, through whatever change you are navigating. $3,000/month. Apply for Private Advisory.';
 
 const applyError = Astro.url.searchParams.get('error');
 
-const facts = ['Three months', 'One to one with Laura', 'A text away between sessions', 'A few clients at a time'];
+const facts = ['Three months', 'Built entirely around you', 'A text away between sessions', 'A few clients at a time'];
 
 // Every testimonial on the site comes from Laura's one-to-one clients.
 const featured = testimonials[0];
@@ -19,32 +19,32 @@ const stories = storyVideos.filter((v) => ['anDolPMwAtk', 'vb6JQwpOSfI'].include
 
 const whatYouGet = [
   {
-    title: 'Three months, built entirely around your life',
-    body: 'The full Life 2.0 framework, paced and shaped around what is actually happening for you. We work on what’s in front of you while building toward where you want your life to go.',
+    title: 'Three months, built entirely around you',
+    body: 'No set curriculum. Each session follows what is actually happening in your life, and where you want it to go.',
   },
   {
     title: 'Private sessions with Laura',
-    body: 'Just the two of us, applying the work directly to your business, your relationships and the way you lead.',
+    body: 'Just the two of us. Honest conversations about your work, your relationships, the way you lead and the way you feel.',
   },
   {
     title: 'Laura, a text away',
     body: 'Life doesn’t happen once a week. Send a text or a voice note for the decisions, the hard conversations and the breakthroughs in between. You never have to hold it all until the next call.',
   },
   {
-    title: 'Your Life 2.0 Integration Board',
-    body: 'Your patterns, your primary question and your direction in one place, built to keep using long after our three months end.',
+    title: 'A coach in your corner',
+    body: 'Someone who sees you clearly, tells you the truth with warmth, and believes in where you’re going, sometimes before you can see it yourself.',
   },
 ];
 
-const rhetoricalQuestions = [
-  'Is this the life I want?',
-  'What would make it extraordinary?',
-  "What am I tolerating that I don't want to tolerate anymore?",
-  'What would I change if I stopped assuming life had to work this way?',
+const whoFor = [
+  { title: 'You want to feel differently.', body: 'Calmer, more confident, more present, more like yourself again.' },
+  { title: 'You’re in a season of transition.', body: 'A new role, stepping back from the business, a relationship shifting, a chapter closing or a new one opening.' },
+  { title: 'You want an exceptional coach beside you.', body: 'Not a program to follow, but someone to think with, lean on and be challenged by while you find your way through.' },
 ];
 
 const compareRows = [
   { label: 'Format', group: 'Small group, live', private: 'One to one with Laura' },
+  { label: 'Approach', group: 'A six-week curriculum', private: 'No set curriculum, built around you' },
   { label: 'Length', group: 'Six weeks', private: 'Three months' },
   { label: 'Between sessions', group: 'The Life 2.0 Room community', private: 'Direct text and voice access to Laura' },
   { label: 'Pace', group: 'Set by the group', private: 'Set by you' },
@@ -80,7 +80,7 @@ const faqs = [
   },
   {
     q: 'How is this different from Access Your Next Level?',
-    a: 'Access Your Next Level is six weeks in a small group. Private Advisory is three months one to one, paced around your life, with Laura on hand between sessions.',
+    a: 'Access Your Next Level follows a six-week curriculum in a small group. Private Advisory has no set curriculum: it’s three months one to one, shaped entirely around what you’re moving through, with Laura on hand between sessions.',
   },
   {
     q: 'Is this therapy?',
@@ -93,8 +93,8 @@ const faqs = [
     <div class="pa-hero-grid wrap">
       <div class="pa-hero-copy">
         <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Private Advisory &middot; By application</div>
-        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Keep growing. <em>Without losing yourself.</em></h1>
-        <p class="pa-hero-lede dz-enter" style="--dz-enter-delay:0.16s">Three months, one to one with Laura Kelly, for ambitious business owners who want the business to keep growing and the rest of life to feel just as good.</p>
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Whatever you’re moving through, <em>you don’t have to do it alone.</em></h1>
+        <p class="pa-hero-lede dz-enter" style="--dz-enter-delay:0.16s">Three months, one to one with Laura Kelly. No set curriculum and no script. Laura meets you exactly where you are, and walks with you through whatever comes next.</p>
         <ul class="pa-hero-facts dz-enter" style="--dz-enter-delay:0.2s">
           {facts.map((f) => <li>{f}</li>)}
         </ul>
@@ -111,11 +111,11 @@ const faqs = [
 
   <section class="section wrap pa-intro">
     <div class="pa-intro-inner dz-reveal">
-      <h2>You know how to achieve.</h2>
-      <p class="body-copy">Achievement alone doesn’t guarantee that your relationships feel incredible, that your home runs smoothly, or that you have time to think. Private Advisory is for designing the whole thing.</p>
+      <h2>No framework. Just you.</h2>
+      <p class="body-copy">Private Advisory doesn’t follow a curriculum. Every client arrives with something different: a feeling they want to change, a chapter that’s ending, a decision that keeps them up at night. So we start exactly there.</p>
       <div class="pa-intro-lines">
-        <p>Keep the ambition.</p>
-        <p>Build a life big enough to hold it.</p>
+        <p>Where you are is where we begin.</p>
+        <p>Where you want to go is where we head.</p>
       </div>
     </div>
   </section>
@@ -195,11 +195,11 @@ const faqs = [
       </div>
       <div class="pa-who-text">
         <div class="eyebrow">Who this is for</div>
-        <h2>The business is there. The questions are getting bigger.</h2>
-        <ul class="rhetorical-list">
-          {rhetoricalQuestions.map((q) => <li>{q}</li>)}
+        <h2>For people ready for change, and wanting the right guide for it.</h2>
+        <ul class="pa-who-list">
+          {whoFor.map((w) => <li><strong>{w.title}</strong> {w.body}</li>)}
         </ul>
-        <p class="pull-statement pa-who-closer">And most importantly: what do I want my Life 2.0 to be?</p>
+        <p class="pull-statement pa-who-closer">If something in your life is asking to change, this is where we start.</p>
       </div>
     </div>
   </section>
@@ -415,6 +415,9 @@ const faqs = [
   .pa-who-text .eyebrow { margin-bottom: 0; }
   .pa-who-text .rhetorical-list, .pa-who-text .pull-statement { margin-top: 0; }
   .pa-who-closer { font-style: normal; font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); }
+  .pa-who-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .pa-who-list li { padding-left: 20px; border-left: 2px solid var(--gold); font: 400 18px/1.6 var(--sans); color: var(--ink-soft); }
+  .pa-who-list strong { display: block; font: 500 21px/1.35 var(--serif); color: var(--forest); }
 
   /* --- Investment --- */
   .pa-invest { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
