@@ -1,0 +1,58 @@
+---
+// Sign-up form for a code-defined webinar. Posts to the site's own handler,
+// which registers with Zoom (when set up), saves the lead and alerts Laura.
+// If the Zoom API isn't configured but a Zoom registration link is, it shows
+// a button to Zoom instead, so people still get Zoom's joining link.
+import type { WebinarEvent } from '../data/webinars';
+import { zoomConfigured } from '../lib/zoom';
+
+interface Props {
+  event: WebinarEvent;
+  id: string;
+  label?: string;
+  dark?: boolean;
+}
+
+const { event, id, label = 'Save my free seat', dark = false } = Astro.props;
+const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegistrationUrl;
+---
+{useZoomLink ? (
+  <a class="btn-primary ws-zoom" href={event.zoomRegistrationUrl} target="_blank" rel="noopener">{label} &rarr;</a>
+) : (
+  <form class={`ws-form${dark ? ' ws-form--dark' : ''}`} action="/api/webinar-registration" method="post">
+    <input type="hidden" name="webinar" value={event.slug} />
+    <div class="ws-fields">
+      <label class="ws-field">
+        <span>First name</span>
+        <input id={`${id}-name`} name="name" type="text" autocomplete="given-name" required />
+      </label>
+      <label class="ws-field">
+        <span>Email</span>
+        <input id={`${id}-email`} name="email" type="email" autocomplete="email" required />
+      </label>
+    </div>
+    <button class="btn-primary ws-submit" type="submit">{label} &rarr;</button>
+  </form>
+)}
+
+<style>
+  .ws-form { width: 100%; max-width: 560px; }
+  .ws-fields { display: grid; grid-template-columns: 1fr 1.3fr; gap: 12px; }
+  @media (max-width: 560px) { .ws-fields { grid-template-columns: 1fr; } }
+  .ws-field { display: flex; flex-direction: column; gap: 6px; }
+  .ws-field span { font: 600 14px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
+  .ws-field input {
+    font: 400 18px/1.4 var(--sans);
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+    color: var(--ink);
+  }
+  .ws-field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .ws-submit { margin-top: 14px; width: 100%; justify-content: center; }
+  .ws-form--dark .ws-field span { color: var(--gold-light); }
+  .ws-form--dark .ws-field input { border-color: rgba(251, 247, 239, 0.3); }
+  .ws-form--dark .ws-submit { background: var(--gold); color: var(--forest-deep); }
+  .ws-form--dark .ws-submit:hover { background: var(--gold-light); }
+</style>

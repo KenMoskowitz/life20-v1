@@ -4,6 +4,8 @@ import CtaBand from '../components/CtaBand.astro';
 import NineVariablesGrid from '../components/NineVariablesGrid.astro';
 import QuoteWall from '../components/QuoteWall.astro';
 import { getPage } from '../lib/sanity';
+import { findYourNextLevel as training } from '../data/webinars';
+import { nextGroup } from '../data/enrollment';
 import { quotes, proofPoints } from '../data/quotes';
 import { testimonials } from '../data/testimonials';
 
@@ -13,13 +15,13 @@ const cms = await getPage('home') as Record<string, any> | null;
 const title = cms?.metaTitle ?? 'Life 2.0 | Build the Life That Feels As Good As It Looks';
 const description = 'Laura Kelly helps business owners and leaders build a life as successful as their business. Founded in science, proven in the real world.';
 
-// The free-training and next-group promotions switch on once the new
-// /blueprint page and its dates go live. Until then the homepage points to
-// the six-week program and the assessment.
-const trainingDay = '';
-const trainingIsUpcoming = false;
-const groupIsOpen = false;
-const nextGroup = { startLabel: '' };
+// The next free training, e.g. "Thursday, November 19". The page is built
+// ahead of time, so these switch over on the first rebuild after it ends.
+const trainingDay = new Date(training.startsAt).toLocaleDateString('en-US', {
+  weekday: 'long', month: 'long', day: 'numeric', timeZone: training.timeZone,
+});
+const trainingIsUpcoming = new Date(training.endsAt).getTime() > Date.now();
+const groupIsOpen = new Date(nextGroup.closesAt).getTime() > Date.now();
 
 const logos = [
   'logo-1.png', 'logo-2.png', 'logo-3.png', 'logo-4.png',
@@ -60,7 +62,7 @@ const paths = [
   trainingIsUpcoming
     ? {
         tag: 'Free · Start here',
-        title: 'Find Your Next Level',
+        title: training.title,
         body: `A 75-minute live training with Laura on Zoom, ${trainingDay}.`,
         cta: 'Save my free seat',
         href: '/blueprint',
