@@ -1,49 +1,38 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPage } from '../lib/sanity';
-import ProofQuotes from '../components/ProofQuotes.astro';
+import { testimonials, storyVideos } from '../data/testimonials';
+import { proofPoints } from '../data/quotes';
 
 const cms = await getPage('private-advisory') as Record<string, any> | null;
 
 const title = cms?.metaTitle ?? 'Private Advisory | Life 2.0';
-const description = cms?.metaDescription ?? 'The same six-week Life 2.0 framework as Access Your Next Level, fully individualized for ambitious founders and high performers. Investment: $3,000/month. Apply for Private Advisory.';
+const description = cms?.metaDescription ?? 'Three months, one to one with Laura Kelly, for ambitious business owners who want to keep growing without losing their peace, family or health. $3,000/month. Apply for Private Advisory.';
 
 const applyError = Astro.url.searchParams.get('error');
 
+const facts = ['Three months', 'One to one with Laura', 'A text away between sessions', 'A few clients at a time'];
+
+// Every testimonial on the site comes from Laura's one-to-one clients.
+const featured = testimonials[0];
+const stories = storyVideos.filter((v) => ['anDolPMwAtk', 'vb6JQwpOSfI'].includes(v.videoId));
+
 const whatYouGet = [
   {
-    title: 'The Same Six-Week Framework, Fully Individualized',
-    body: [
-      "The full Life 2.0 curriculum, Pattern Recognition through Integration, built entirely around your life.",
-      "We set the pace and depth by what's going on for you, session to session.",
-    ],
+    title: 'Three months, built entirely around your life',
+    body: 'The full Life 2.0 framework, paced and shaped around what is actually happening for you. We work on what’s in front of you while building toward where you want your life to go.',
   },
   {
-    title: 'Six Private Sessions With Laura',
-    body: [
-      "One private session for each week of the curriculum, where we apply that week's work directly to your business and your life.",
-      "We work on the problem in front of you and the life you're building at the same time.",
-    ],
+    title: 'Private sessions with Laura',
+    body: 'Just the two of us, applying the work directly to your business, your relationships and the way you lead.',
   },
   {
-    title: 'Direct Access Between Sessions',
-    body: [
-      "Life doesn't conveniently happen once a week.",
-      "Text or voice note Laura between sessions for questions, decisions, breakthroughs, and the moments you need another brain in the room.",
-      "You never have to hold it all until the next call.",
-    ],
+    title: 'Laura, a text away',
+    body: 'Life doesn’t happen once a week. Send a text or a voice note for the decisions, the hard conversations and the breakthroughs in between. You never have to hold it all until the next call.',
   },
   {
-    title: 'Your Final Digital Life 2.0 Integration Board',
-    body: [
-      "A personal board that captures your patterns, your primary question, and your direction, built to keep using long after the six weeks end.",
-    ],
-  },
-  {
-    title: 'Access to the Broader Life 2.0 Ecosystem',
-    body: [
-      "Relevant Life 2.0 frameworks, resources, and the wider Life 2.0 community, included.",
-    ],
+    title: 'Your Life 2.0 Integration Board',
+    body: 'Your patterns, your primary question and your direction in one place, built to keep using long after our three months end.',
   },
 ];
 
@@ -53,20 +42,20 @@ const rhetoricalQuestions = [
   "What am I tolerating that I don't want to tolerate anymore?",
   'What would I change if I stopped assuming life had to work this way?',
 ];
+
 const compareRows = [
   { label: 'Format', group: 'Small group, live', private: 'One to one with Laura' },
-  { label: 'Sessions', group: '6 live group coaching calls', private: '6 private sessions' },
+  { label: 'Length', group: 'Six weeks', private: 'Three months' },
   { label: 'Between sessions', group: 'The Life 2.0 Room community', private: 'Direct text and voice access to Laura' },
-  { label: 'Pace', group: 'Set by the cohort', private: 'Set by you' },
-  { label: 'Integration Board', group: 'Included', private: 'Included' },
+  { label: 'Pace', group: 'Set by the group', private: 'Set by you' },
   { label: 'Investment', group: '$1,500', private: '$3,000/month' },
 ];
 
 const howItWorks = [
-  { title: 'Apply', body: 'Answer a few short questions about you and what’s going on. It takes about two minutes.' },
+  { title: 'Apply', body: 'A few short questions about you and what’s going on. About two minutes.' },
   { title: 'Book your call', body: 'Pick a time for your Clarity Call straight away. No waiting to hear back.' },
-  { title: 'Laura prepares', body: 'Laura reads your answers herself before you talk, so the call goes straight to what matters.' },
-  { title: 'Begin', body: 'If it’s the right fit for you both, your six weeks start, built around your life from the first session.' },
+  { title: 'Laura prepares', body: 'Laura reads your answers herself, so the call goes straight to what matters.' },
+  { title: 'Begin', body: 'If it’s the right fit for you both, your three months start, built around your life from the first session.' },
 ];
 
 // Application questions. The answers arrive in Laura's lead alert email and
@@ -83,80 +72,121 @@ const sources = ['Facebook or Instagram', 'LinkedIn', 'A free training or webina
 const faqs = [
   {
     q: 'Why is there an application?',
-    a: 'Private Advisory is capacity-limited, and it works best when it’s the right fit. A few short answers mean Laura arrives at your Clarity Call already knowing what matters to you, so neither of you wastes a minute.',
+    a: 'Laura works with a small number of private clients at a time, and it works best when it’s the right fit. A few short answers mean Laura arrives at your Clarity Call already knowing what matters to you.',
+  },
+  {
+    q: 'What happens after the three months?',
+    a: 'Many clients choose to keep working with Laura through ongoing support. If that’s right for you, you’ll talk about it together as your three months come to a close.',
   },
   {
     q: 'How is this different from Access Your Next Level?',
-    a: 'Same six-week framework. Private Advisory is one to one, paced around your life, with Laura on hand between sessions. If you’d rather start in a small group, Access Your Next Level is the place.',
+    a: 'Access Your Next Level is six weeks in a small group. Private Advisory is three months one to one, paced around your life, with Laura on hand between sessions.',
   },
   {
     q: 'Is this therapy?',
     a: 'No. This is coaching for capable people designing what comes next. If you’re looking for treatment for a mental-health condition, a licensed professional is the right place to begin.',
   },
-  {
-    q: 'Will my rate change?',
-    a: 'No. Private Advisory is $3,000 a month, and your rate is locked in for as long as you stay continuously active.',
-  },
 ];
 ---
 <BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/private-advisory">
-  <div class="page-hero wrap">
-    <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Private Advisory</div>
-    <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Build a life that feels as successful as it looks.</h1>
-    <p class="lede dz-enter" style="--dz-enter-delay:0.16s">Six weeks, one to one with Laura Kelly. The full Life 2.0 framework built around your life, with Laura a text away between sessions.</p>
-    <ul class="pa-hero-facts dz-enter" style="--dz-enter-delay:0.2s">
-      <li>6 private sessions</li>
-      <li>Direct access between calls</li>
-      <li>Limited spots</li>
-    </ul>
-    <div class="hero-actions dz-enter" style="--dz-enter-delay:0.24s; margin-top:32px;">
-      <a class="btn-primary" href="#apply">Apply for Private Advisory &rarr;</a>
-      <a class="btn-text" href="#pricing">See pricing</a>
-    </div>
-  </div>
-
-  <div class="founder-grid pa-founder-grid wrap" style="padding-bottom: 40px;">
-    <div class="founder-photo dz-reveal">
-      <img class="dz-kenburns" src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
-    </div>
-    <div class="dz-reveal" style="--dz-delay:0.1s">
-      <h2>You know how to achieve.</h2>
-      <p class="body-copy" style="margin-top:20px;">But achievement alone doesn't guarantee that your relationships feel incredible. That your home runs smoothly. That you have time to think. That your health, family, friendships, purpose, and day-to-day life feel the way you want them to.</p>
-      <div class="emphasis-lines">
-        <p>Life 2.0 is about designing the whole thing.</p>
-        <p>Keeping the ambition.</p>
-        <p>Building a life big enough to hold it.</p>
-      </div>
-      <h3 class="pa-founder-subhead">The Life 2.0 Private Advisory</h3>
-      <p class="body-copy">Six focused weeks, built around exactly what's going on in your life right now.</p>
-      <p class="body-copy">We work on what's in front of you while building toward where you want your life to go.</p>
-      <p class="pull-statement">The goal is simple: a life you're wildly excited to wake up to.</p>
-    </div>
-  </div>
-
-  <section class="section wb-section-tight wrap">
-    <h2 class="dz-reveal">What you get</h2>
-    <div class="numbered-features">
-      {whatYouGet.map((item, i) => (
-        <div class="numbered-feature dz-reveal" style={`--dz-delay:${Math.min(i * 0.06, 0.3)}s`}>
-          <div class="num">{String(i + 1).padStart(2, '0')}</div>
-          <div>
-            <h3>{item.title}</h3>
-            {item.body.map((p) => <p class="body-copy">{p}</p>)}
-            {item.subList && (
-              <ul class="sub-list">
-                {item.subList.map((s) => <li>{s}</li>)}
-              </ul>
-            )}
-            {item.closing && <p class="body-copy" style="font-weight:600; color:var(--forest);">{item.closing}</p>}
-          </div>
+  <section class="pa-hero">
+    <div class="pa-hero-grid wrap">
+      <div class="pa-hero-copy">
+        <div class="eyebrow dz-enter" style="--dz-enter-delay:0s">Private Advisory &middot; By application</div>
+        <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Keep growing. <em>Without losing yourself.</em></h1>
+        <p class="pa-hero-lede dz-enter" style="--dz-enter-delay:0.16s">Three months, one to one with Laura Kelly, for ambitious business owners who want the business to keep growing and the rest of life to feel just as good.</p>
+        <ul class="pa-hero-facts dz-enter" style="--dz-enter-delay:0.2s">
+          {facts.map((f) => <li>{f}</li>)}
+        </ul>
+        <div class="pa-hero-actions dz-enter" style="--dz-enter-delay:0.24s">
+          <a class="btn-primary pa-btn-gold" href="#apply">Apply for Private Advisory &rarr;</a>
+          <a class="pa-hero-link" href="#investment">See the investment</a>
         </div>
-      ))}
+      </div>
+      <div class="pa-hero-photo dz-enter" style="--dz-enter-delay:0.12s">
+        <img class="dz-kenburns" src="/assets/laura-advisory.jpg" alt="Laura Kelly, Private Advisory" />
+      </div>
     </div>
-    <a class="btn-text dz-reveal" href="/access-your-next-level#included" style="display:inline-block; margin-top:32px;">See the full six-week curriculum &rarr;</a>
   </section>
 
-  <ProofQuotes />
+  <section class="section wrap pa-intro">
+    <div class="pa-intro-inner dz-reveal">
+      <h2>You know how to achieve.</h2>
+      <p class="body-copy">Achievement alone doesn’t guarantee that your relationships feel incredible, that your home runs smoothly, or that you have time to think. Private Advisory is for designing the whole thing.</p>
+      <div class="pa-intro-lines">
+        <p>Keep the ambition.</p>
+        <p>Build a life big enough to hold it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap wb-section-tight">
+    <div class="pa-feature dz-reveal">
+      <div class="pa-feature-video">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${featured.videoId}?rel=0`}
+          title={`${featured.name} on working with Laura Kelly`}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <figure class="pa-feature-quote">
+        <blockquote>&ldquo;{featured.quote}&rdquo;</blockquote>
+        <figcaption>
+          <span class="pa-feature-name">{featured.name}</span>
+          <span class="pa-feature-title">{featured.title}</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="pa-stories">
+      {stories.map((v) => (
+        <figure class="pa-story dz-reveal">
+          <div class="pa-story-video">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${v.videoId}?rel=0`}
+              title={v.headline}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <figcaption>
+            <span class="pa-story-headline">{v.headline}</span>
+            {v.name && <span class="pa-feature-name">{v.name}</span>}
+            {v.company && <span class="pa-feature-title">{v.company}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <a class="btn-text dz-reveal pa-more" href="/working-with-laura">More client stories &rarr;</a>
+  </section>
+
+  <section class="pa-dark">
+    <div class="wrap">
+      <div class="pa-dark-head dz-reveal">
+        <div class="eyebrow">What you get</div>
+        <h2>Your full attention on your life, with mine on it too.</h2>
+      </div>
+      <div class="pa-get">
+        {whatYouGet.map((item, i) => (
+          <div class="pa-get-item dz-reveal" style={`--dz-delay:${Math.min(i * 0.08, 0.3)}s`}>
+            <span class="pa-get-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="pa-proof">
+        {proofPoints.map((p) => (
+          <div class="pa-proof-item dz-reveal">
+            <div class="pa-proof-figure">{p.figure}</div>
+            <p>{p.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section class="section wb-section-tight wrap dz-reveal">
     <div class="wb-for-split pa-who-split">
@@ -164,8 +194,8 @@ const faqs = [
         <img src="/assets/laura-bookshelf.jpg" alt="Laura Kelly" loading="lazy" />
       </div>
       <div class="pa-who-text">
-        <h2>Who this is for</h2>
-        <p class="body-copy">Private Advisory is for people who are ambitious, capable, and willing to do the work. The business, the career, the family, the life on paper may already be there. The questions are just getting bigger.</p>
+        <div class="eyebrow">Who this is for</div>
+        <h2>The business is there. The questions are getting bigger.</h2>
         <ul class="rhetorical-list">
           {rhetoricalQuestions.map((q) => <li>{q}</li>)}
         </ul>
@@ -174,10 +204,26 @@ const faqs = [
     </div>
   </section>
 
+  <section class="section wb-section-tight wrap" id="investment">
+    <div class="pa-invest dz-reveal">
+      <div class="pa-invest-copy">
+        <div class="eyebrow">A few clients at a time</div>
+        <h2>Laura works privately with a small number of people, so every client gets her full attention.</h2>
+        <p class="body-copy">Between sessions as well as during them. That’s why there’s an application, and why spots open only when a client finishes.</p>
+      </div>
+      <div class="pa-invest-card">
+        <div class="pa-invest-label">Private Advisory</div>
+        <div class="pa-invest-price">$3,000<span>/month</span></div>
+        <div class="pa-invest-term">Three months</div>
+        <p>Many clients choose to continue with ongoing support afterwards. Your rate is locked in for as long as you stay continuously active.</p>
+        <a class="btn-primary pa-btn-gold" href="#apply">Apply for Private Advisory &rarr;</a>
+      </div>
+    </div>
+  </section>
+
   <section class="section wb-section-tight wrap">
     <div class="pa-section-head dz-reveal">
       <h2>Private or group?</h2>
-      <p class="body-copy">Both run on the same six-week framework. Here's how they differ.</p>
     </div>
     <div class="pa-compare dz-reveal">
       <div class="pa-compare-row pa-compare-head">
@@ -195,23 +241,8 @@ const faqs = [
       <div class="pa-compare-row pa-compare-foot">
         <div></div>
         <div><a class="btn-text" href="/access-your-next-level">See the group program &rarr;</a></div>
-        <div class="pa-compare-private"><a class="btn-primary" href="#apply">Apply for Private Advisory &rarr;</a></div>
+        <div class="pa-compare-private"><a class="btn-primary" href="#apply">Apply &rarr;</a></div>
       </div>
-    </div>
-  </section>
-
-  <section class="section wb-section-tight wrap pa-pricing-split" id="pricing">
-    <div class="dz-reveal pa-pricing-intro pa-pricing-intro-boxed">
-      <h2 class="pa-pricing-eyebrow">A small number of spots</h2>
-      <p class="body-copy">Laura works privately with a small number of people at a time, so every client gets her full attention, between sessions as well as during them.</p>
-      <a class="btn-primary" href="#apply" style="margin-top:28px; align-self:center;">Apply for Private Advisory &rarr;</a>
-    </div>
-
-    <div class="pricing-card dz-reveal" style="--dz-delay:0.1s">
-      <div class="eyebrow">Six-Week Private Advisory</div>
-      <div class="price">$3,000<span>/month</span></div>
-      <p>Your rate is locked in for as long as you stay continuously active in Private Advisory.</p>
-      <p>The full experience, from the very beginning.</p>
     </div>
   </section>
 
@@ -248,10 +279,10 @@ const faqs = [
   <section class="section wrap" id="apply">
     <div class="pa-apply-head">
       <h2>Apply for Private Advisory</h2>
-      <p class="body-copy">Spots are limited. Answer a few short questions, then book your Clarity Call straight away. Laura reads every answer herself before you talk.</p>
+      <p class="body-copy">Answer a few short questions, then book your Clarity Call straight away. Laura reads every answer herself before you talk.</p>
     </div>
     {applyError && (
-      <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px;">
+      <p class="body-copy" style="color:#B5533C; font-weight:600; margin-top:20px; text-align:center;">
         {applyError === 'missing-fields' ? 'Please answer every question marked with a star before applying.' : 'Something went wrong submitting your application. Please try again in a moment.'}
       </p>
     )}
@@ -293,11 +324,11 @@ const faqs = [
         <textarea id="context" name="context" rows="4" required></textarea>
       </div>
       <div class="form-field">
-        <label for="win">What would make the next six months a real win? *</label>
+        <label for="win">What would make the next three months a real win? *</label>
         <textarea id="win" name="win" rows="3" required></textarea>
       </div>
       <fieldset class="form-field pa-app-invest">
-        <legend>Private Advisory is $3,000 a month. If it’s the right fit, are you ready to invest at that level? *</legend>
+        <legend>Private Advisory is $3,000 a month for three months. If it’s the right fit, are you ready to invest at that level? *</legend>
         {investOptions.map((o, i) => (
           <label class="pa-app-radio"><input type="radio" name="investReady" value={o} required={i === 0} /> {o}</label>
         ))}
@@ -315,12 +346,90 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .pa-hero-facts { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; }
-  .pa-hero-facts li { display: flex; align-items: center; gap: 10px; font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
-  .pa-hero-facts li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  /* --- Hero: the one dark, full-bleed hero on the site, so Private Advisory
+     reads as the most exclusive room. --- */
+  .pa-hero { background: var(--forest-deep); color: var(--paper); padding: clamp(40px, 7vw, 96px) 0; }
+  .pa-hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  @media (max-width: 900px) { .pa-hero-grid { grid-template-columns: 1fr; } }
+  .pa-hero .eyebrow { color: var(--gold-light); }
+  .pa-hero .eyebrow::before { background: var(--gold-light); }
+  .pa-hero h1 { font: 500 clamp(44px, 5.6vw, 80px)/1.04 var(--serif); letter-spacing: -0.02em; color: var(--paper); }
+  .pa-hero h1 em { display: block; font-style: italic; color: var(--gold-light); }
+  .pa-hero-lede { margin-top: 26px; max-width: 560px; font: 400 clamp(19px, 1.6vw, 22px)/1.65 var(--sans); color: rgba(251, 247, 239, 0.82); }
+  .pa-hero-facts { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 28px; }
+  .pa-hero-facts li { display: flex; align-items: center; gap: 10px; font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-light); }
+  .pa-hero-facts li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .pa-hero-actions { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+  .pa-hero-link { font: 600 17px/1 var(--sans); color: var(--paper); text-decoration: underline; text-underline-offset: 5px; text-decoration-color: rgba(251, 247, 239, 0.4); }
+  .pa-btn-gold { background: var(--gold); color: var(--forest-deep); }
+  .pa-btn-gold:hover { background: var(--gold-light); }
+  .pa-hero-photo { border-radius: 28px; overflow: hidden; aspect-ratio: 4 / 5; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35); }
+  .pa-hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* --- Intro --- */
+  .pa-intro-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .pa-intro h2 { font: 500 clamp(34px, 4vw, 52px)/1.15 var(--serif); color: var(--forest); }
+  .pa-intro .body-copy { margin: 22px auto 0; font-size: clamp(19px, 1.5vw, 21px); }
+  .pa-intro-lines { margin-top: 30px; display: flex; flex-direction: column; gap: 6px; }
+  .pa-intro-lines p { font: 500 italic clamp(24px, 2.4vw, 30px)/1.35 var(--serif); color: var(--gold); }
+
+  /* --- One-to-one stories --- */
+  .pa-feature { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(28px, 4vw, 56px); align-items: center; }
+  @media (max-width: 900px) { .pa-feature { grid-template-columns: 1fr; } }
+  .pa-feature-video { position: relative; aspect-ratio: 16 / 9; border-radius: 24px; overflow: hidden; background: var(--forest); }
+  .pa-feature-video iframe, .pa-story-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .pa-feature-quote { margin: 0; }
+  .pa-feature-quote blockquote { margin: 0; font: 500 italic clamp(24px, 2.4vw, 32px)/1.35 var(--serif); color: var(--forest); }
+  .pa-feature-quote figcaption, .pa-story figcaption { margin-top: 18px; display: flex; flex-direction: column; gap: 4px; }
+  .pa-feature-name { font: 600 14px/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  .pa-feature-title { font: 400 16px/1.4 var(--sans); color: var(--ink-soft); }
+  .pa-stories { margin: 40px auto 0; max-width: 720px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 600px) { .pa-stories { grid-template-columns: 1fr; max-width: 340px; } }
+  .pa-story { margin: 0; }
+  .pa-story-video { position: relative; aspect-ratio: 9 / 16; border-radius: 20px; overflow: hidden; background: var(--forest); }
+  .pa-story-headline { font: 500 19px/1.35 var(--serif); color: var(--forest); }
+  .pa-more { display: block; width: fit-content; margin: 32px auto 0; }
+
+  /* --- What you get, on deep green --- */
+  .pa-dark { background: var(--forest); color: var(--paper); padding: clamp(56px, 8vw, 104px) 0; margin: clamp(32px, 5vw, 64px) 0; }
+  .pa-dark-head { max-width: 760px; }
+  .pa-dark .eyebrow { color: var(--gold-light); }
+  .pa-dark .eyebrow::before { background: var(--gold-light); }
+  .pa-dark h2 { font: 500 clamp(32px, 3.8vw, 50px)/1.15 var(--serif); color: var(--paper); }
+  .pa-get { margin-top: 48px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 56px; }
+  @media (max-width: 760px) { .pa-get { grid-template-columns: 1fr; gap: 32px; } }
+  .pa-get-item { border-top: 1px solid rgba(251, 247, 239, 0.18); padding-top: 24px; }
+  .pa-get-num { font: 600 14px/1 var(--mono); letter-spacing: 0.08em; color: var(--gold-light); }
+  .pa-get-item h3 { margin-top: 14px; font: 500 clamp(22px, 2vw, 27px)/1.3 var(--serif); color: var(--paper); }
+  .pa-get-item p { margin-top: 10px; font: 400 18px/1.65 var(--sans); color: rgba(251, 247, 239, 0.78); }
+  .pa-proof { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 860px) { .pa-proof { grid-template-columns: 1fr; } }
+  .pa-proof-item { background: rgba(251, 247, 239, 0.06); border: 1px solid rgba(251, 247, 239, 0.14); border-radius: 22px; padding: 26px; }
+  .pa-proof-figure { font: 600 clamp(34px, 3.6vw, 46px)/1 var(--serif); color: var(--gold-light); }
+  .pa-proof-item p { margin-top: 12px; font: 400 16px/1.55 var(--sans); color: rgba(251, 247, 239, 0.75); }
+
+  /* --- Who this is for --- */
+  .pa-who-split { align-items: center; }
+  .pa-who-text { display: flex; flex-direction: column; gap: 24px; }
+  .pa-who-text h2 { font: 500 clamp(28px, 3vw, 40px)/1.2 var(--serif); color: var(--forest); }
+  .pa-who-text .eyebrow { margin-bottom: 0; }
+  .pa-who-text .rhetorical-list, .pa-who-text .pull-statement { margin-top: 0; }
+  .pa-who-closer { font-style: normal; font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); }
+
+  /* --- Investment --- */
+  .pa-invest { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+  @media (max-width: 860px) { .pa-invest { grid-template-columns: 1fr; } }
+  .pa-invest-copy h2 { font: 500 clamp(28px, 3vw, 40px)/1.25 var(--serif); color: var(--forest); }
+  .pa-invest-copy .body-copy { margin-top: 18px; }
+  .pa-invest-card { background: var(--forest-deep); color: var(--paper); border-radius: 28px; padding: clamp(32px, 4vw, 44px); display: flex; flex-direction: column; gap: 10px; }
+  .pa-invest-label { font: 600 14px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-light); }
+  .pa-invest-price { margin-top: 10px; font: 600 clamp(48px, 5vw, 64px)/1 var(--serif); color: var(--paper); }
+  .pa-invest-price span { font: 400 20px/1 var(--sans); color: rgba(251, 247, 239, 0.7); }
+  .pa-invest-term { font: 600 15px/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-light); }
+  .pa-invest-card p { margin-top: 8px; font: 400 17px/1.6 var(--sans); color: rgba(251, 247, 239, 0.78); }
+  .pa-invest-card .btn-primary { margin-top: 16px; justify-content: center; }
 
   .pa-section-head { max-width: 720px; margin: 0 auto; text-align: center; }
-  .pa-section-head .body-copy { margin: 14px auto 0; }
 
   /* --- Private vs group comparison --- */
   .pa-compare { margin-top: 40px; background: var(--white); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
@@ -349,60 +458,16 @@ const faqs = [
   @media (max-width: 980px) { .pa-steps { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .pa-steps { grid-template-columns: 1fr; } }
 
-  /* "You know how to achieve." had no font rule of its own anywhere in the
-     site (only .section h2, .founder h2, etc. exist) — it was quietly
-     rendering as a plain bold system heading instead of the branded serif
-     used everywhere else. Style it here, and size both it and the "Life 2.0
-     Private Advisory" copy folded in below it down to fit as supporting
-     column text beside the photo, not a full page-width section heading. */
-  .pa-founder-grid h2 { font: 500 clamp(26px, 2.6vw, 34px)/1.2 var(--serif); color: var(--forest); }
-  .pa-founder-subhead { margin-top: 32px; margin-bottom: 12px; font: 500 clamp(21px, 2vw, 26px)/1.3 var(--serif); color: var(--forest); }
-  .pa-founder-grid .pull-statement { font-size: 20px; max-width: none; }
-
-  /* The rhetorical questions above it are already italic serif, so the
-     closing line in that same style read as just one more item in the list
-     instead of the punch line. Make it upright and bolder so it lands. */
-  .pa-who-closer { font-style: normal; font-weight: 700; font-size: clamp(24px, 2.6vw, 32px); }
-
-  /* One pricing heading instead of it and the pricing
-     card's own eyebrow both saying the same
-     thing, side by side instead of stacked so the card doesn't sit under a
-     full-width intro paragraph with nothing beside it. */
-  .pa-pricing-split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; }
-  .pa-pricing-split .pricing-card { margin-top: 0; }
-  @media (max-width: 860px) { .pa-pricing-split { grid-template-columns: 1fr; gap: 32px; } }
-
-  /* Match the pricing heading to the eyebrow tag style
-     used for "Private Advisory" at the top of the page (mono, uppercase,
-     letter-spaced, gold), instead of the default big serif section heading. */
-  .pa-pricing-eyebrow { display: flex; align-items: center; gap: 12px; font: 600 clamp(18px, 1.8vw, 22px)/1.3 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
-  .pa-pricing-eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); flex-shrink: 0; }
-
-  .pa-pricing-intro .body-copy { margin-top: 16px; }
-
-  /* A bordered box matching the pricing card's shape and weight, instead of
-     plain unboxed text that read as thin and small beside it. Bigger body
-     text too, to hold its own next to the card's bold price and copy. */
-  .pa-pricing-intro-boxed {
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    padding: clamp(32px, 5vw, 48px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .pa-pricing-intro-boxed .body-copy { font-size: clamp(20px, 1.7vw, 24px); line-height: 1.7; }
-
-
   /* --- Application form: sentence-case question labels (the shared
      uppercase mono labels are unreadable at question length) --- */
-  .pa-app { max-width: 640px; }
+  .pa-apply-head { max-width: 560px; margin: 0 auto; text-align: center; }
+  .pa-apply-head .body-copy { margin-top: 16px; }
+  .pa-app { max-width: 640px; margin-left: auto; margin-right: auto; }
   .pa-app .form-field label, .pa-app legend { font: 600 18px/1.4 var(--sans); letter-spacing: 0; text-transform: none; color: var(--forest); }
   .pa-app-optional { font-weight: 400; color: var(--ink-soft); }
   .pa-app-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
   .pa-app-row .form-field { min-width: 0; }
   .pa-app input, .pa-app select, .pa-app textarea { width: 100%; box-sizing: border-box; }
-  .pa-app .pa-app-radio input { width: 18px; }
   @media (max-width: 560px) { .pa-app-row { grid-template-columns: 1fr; } }
   .pa-app select {
     font: 400 18px/1.5 var(--sans); color: var(--ink); background: var(--paper);
@@ -413,18 +478,4 @@ const faqs = [
   .pa-app-invest legend { margin-bottom: 12px; }
   .pa-app .pa-app-radio { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); font: 400 18px/1.4 var(--sans); color: var(--ink); cursor: pointer; margin-bottom: 8px; }
   .pa-app-radio input { accent-color: var(--forest); width: 18px; height: 18px; }
-
-  /* Center the apply heading + intro to match the centered form below it. */
-  .pa-apply-head { max-width: 560px; margin: 0 auto; text-align: center; }
-  .pa-apply-head .body-copy { margin-top: 16px; }
-
-  /* The heading, paragraph, question list, and closing line had three
-     different fixed gaps between them (20px, 18px, 32px), which read as
-     lumpy rather than an even rhythm running the length of the photo.
-     space-between looked like the fix, but this column's content is
-     already about as tall as the photo, so there was no slack left for it
-     to distribute — every gap just collapsed to 0. A single consistent
-     gap gets the even rhythm without depending on leftover space. */
-  .pa-who-text { display: flex; flex-direction: column; gap: 28px; }
-  .pa-who-text .body-copy, .pa-who-text .rhetorical-list, .pa-who-text .pull-statement { margin-top: 0; }
 </style>
