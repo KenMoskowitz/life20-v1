@@ -545,3 +545,16 @@ test('dashboard is not told about unpaid or unrelated checkouts', async () => {
   await handleCheckoutEvent(event('checkout.session.completed', 'cs_other'), t.deps);
   assert.equal(dash.reports.length, 0);
 });
+
+test('dashboard settings missing: website still invites, and logs that the dashboard was not told', async () => {
+  const t = setup();
+  t.deps.dashboard = null;
+  t.stripe.put();
+  const r = await handleCheckoutEvent(event('checkout.session.completed'), t.deps);
+  assert.equal(r.outcome, 'invited');
+  assert.equal(t.circle.invites().length, 1);
+  assert.ok(
+    t.logs.some((l) => l.includes('Dashboard not told about checkout cs_test_1') && l.includes('DASHBOARD_URL')),
+    'missing settings are logged',
+  );
+});
