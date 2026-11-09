@@ -227,6 +227,19 @@ const proof = [quotes.gail, quotes.michelle, quotes.ken];
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
   })();
 
+  // Pass ad tracking tags (utm_source, utm_campaign...) from this page's link
+  // through to Calendly, so each booking records which ad or post it came from.
+  (function () {
+    var f = document.querySelector('.cl-embed iframe');
+    if (!f) return;
+    var q = new URLSearchParams(location.search), extra = [];
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+      var v = q.get(k);
+      if (v) extra.push(k + '=' + encodeURIComponent(v));
+    });
+    if (extra.length) f.src = f.getAttribute('src') + '&' + extra.join('&');
+  })();
+
   // Tell the Meta Pixel when someone books through the embedded calendar.
   window.addEventListener('message', function (e) {
     if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled') return;

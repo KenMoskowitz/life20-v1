@@ -17,7 +17,7 @@ const { event, id, label = 'Save my free seat', dark = false } = Astro.props;
 const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegistrationUrl;
 ---
 {useZoomLink ? (
-  <a class="btn-primary ws-zoom" href={event.zoomRegistrationUrl} target="_blank" rel="noopener">{label} &rarr;</a>
+  <a class="btn-primary ws-zoom" href={event.zoomRegistrationUrl} target="_blank" rel="noopener" data-webinar={event.title}>{label} &rarr;</a>
 ) : (
   <form class={`ws-form${dark ? ' ws-form--dark' : ''}`} action="/api/webinar-registration" method="post">
     <input type="hidden" name="webinar" value={event.slug} />
@@ -56,3 +56,12 @@ const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegist
   .ws-form--dark .ws-submit { background: var(--gold); color: var(--forest-deep); }
   .ws-form--dark .ws-submit:hover { background: var(--gold-light); }
 </style>
+
+<script is:inline>
+  // Sign-ups finish on Zoom's site, where the Meta Pixel can't see them, so we
+  // count the click through to Zoom's registration page instead.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.ws-zoom');
+    if (a && window.fbq) window.fbq('trackCustom', 'WebinarRegisterClick', { content_name: a.dataset.webinar });
+  });
+</script>
