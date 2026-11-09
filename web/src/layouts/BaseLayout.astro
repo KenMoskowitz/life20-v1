@@ -88,9 +88,13 @@ const defaultOgImage = 'https://thelife20.com/assets/og-default.jpg';
 </head>
 <body>
   {bare ? (
-    <header class="bare-header">
-      <a class="nav-mark" href="/"><span>Life <em>2.0</em></span></a>
-    </header>
+    Astro.slots.has('header') ? (
+      <slot name="header" />
+    ) : (
+      <header class="bare-header">
+        <a class="nav-mark" href="/"><span>Life <em>2.0</em></span></a>
+      </header>
+    )
   ) : (
     <Nav currentPath={Astro.url.pathname} />
   )}

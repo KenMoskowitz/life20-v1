@@ -36,6 +36,22 @@ const steps = [
 const proof = [quotes.gail, quotes.michelle, quotes.ken];
 ---
 <BaseLayout ogImage="https://thelife20.com/assets/og-clarity.jpg" title={title} description={description} canonicalUrl="https://thelife20.com/clarity" bare>
+  {/* Slim sticky header: a way to learn about Laura without leaving the booking page. */}
+  <header class="cl-bar" slot="header">
+    <a class="cl-bar-mark" href="/">Life <em>2.0</em></a>
+    <nav class="cl-bar-links" id="cl-bar-menu" aria-label="Clarity page">
+      <a href="/about">About</a>
+      <a href="/assessment">9 Variables</a>
+      <a href="#book">Book a call</a>
+    </nav>
+    <div class="cl-bar-right">
+      <a class="cl-bar-btn" href="#book">Book my free call</a>
+      <button class="cl-bar-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="cl-bar-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
   <section class="cl-hero wrap">
     <div class="eyebrow eyebrow-center dz-enter">Free Clarity Call with Laura Kelly</div>
     <h1 class="dz-enter" style="--dz-enter-delay:0.08s">Get clear on what’s keeping you stuck. In one conversation.</h1>
@@ -125,6 +141,28 @@ const proof = [quotes.gail, quotes.michelle, quotes.ken];
 </BaseLayout>
 
 <style>
+  .cl-bar { position: sticky; top: 0; z-index: 50; height: 60px; padding: 0 clamp(16px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; gap: 24px; background: rgba(251, 247, 239, 0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .cl-bar-mark { font: 600 22px/1 var(--serif); color: var(--forest); white-space: nowrap; }
+  .cl-bar-mark em { color: var(--gold); font-style: italic; }
+  .cl-bar-links { display: flex; gap: 28px; margin-left: auto; }
+  .cl-bar-links a { font: 500 15px/1 var(--sans); color: var(--forest); }
+  .cl-bar-links a:hover { color: var(--gold); }
+  .cl-bar-right { display: flex; align-items: center; gap: 8px; }
+  .cl-bar-btn { font: 600 13px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--white); background: var(--forest); padding: 12px 18px; border-radius: 30px; white-space: nowrap; transition: background .25s ease; }
+  .cl-bar-btn:hover { background: var(--forest-deep); }
+  .cl-bar-toggle { display: none; width: 40px; height: 40px; padding: 10px 9px; border: 0; background: none; cursor: pointer; flex-direction: column; justify-content: space-between; }
+  .cl-bar-toggle span { display: block; height: 2px; background: var(--forest); border-radius: 2px; }
+  @media (max-width: 760px) {
+    .cl-bar { gap: 12px; }
+    .cl-bar-toggle { display: flex; }
+    .cl-bar-links { display: none; position: absolute; top: 60px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 12px 24px rgba(29, 46, 34, 0.08); }
+    .cl-bar-links.is-open { display: flex; }
+    .cl-bar-links a { padding: 18px clamp(16px, 4vw, 48px); font-size: 17px; border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 360px) { .cl-bar-btn { padding: 11px 12px; font-size: 12px; } }
+  /* Keep the calendar heading clear of the sticky bar when jumped to. */
+  #book { scroll-margin-top: 72px; }
+
   .cl-hero { max-width: 860px; text-align: center; padding-top: clamp(32px, 6vw, 72px); padding-bottom: 24px; }
   .cl-hero h1 { margin-top: 18px; font: 500 clamp(36px, 5vw, 60px)/1.12 var(--serif); color: var(--forest); }
   .cl-lede { margin: 22px auto 0; max-width: 640px; font: 400 20px/1.65 var(--sans); color: var(--ink-soft); }
@@ -174,6 +212,21 @@ const proof = [quotes.gail, quotes.michelle, quotes.ken];
 </style>
 
 <script is:inline>
+  // Mobile menu for the slim header.
+  (function () {
+    var t = document.querySelector('.cl-bar-toggle');
+    var m = document.getElementById('cl-bar-menu');
+    if (!t || !m) return;
+    function setOpen(open) {
+      m.classList.toggle('is-open', open);
+      t.setAttribute('aria-expanded', String(open));
+      t.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    t.addEventListener('click', function () { setOpen(!m.classList.contains('is-open')); });
+    m.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  })();
+
   // Tell the Meta Pixel when someone books through the embedded calendar.
   window.addEventListener('message', function (e) {
     if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled') return;
