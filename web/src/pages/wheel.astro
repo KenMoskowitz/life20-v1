@@ -1,0 +1,449 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Wheel of Life (thelife20.com/wheel). A hidden page Laura uses live on
+// Clarity Calls: not in the nav or sitemap, and marked noindex. Visitors can
+// download their wheel, or pop in their email to get a copy, which also adds
+// them to Laura's list.
+const title = 'Wheel of Life | Life 2.0';
+const description = 'Rate each area of your life from 1 to 10 and see where you are strongest and where the biggest opportunity is.';
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/wheel" noindex bare>
+  <div class="wl-page wrap">
+    <header class="wl-head">
+      <div class="eyebrow">Life 2.0</div>
+      <h1>Wheel of Life</h1>
+      <p class="wl-lead">Rate how satisfied you are in each area of life right now, from 1 to 10. Go with your gut. Drag the sliders, or tap the wheel itself.</p>
+      <div class="wl-who">
+        <div class="wl-field">
+          <label for="wl-name">Name</label>
+          <input id="wl-name" type="text" autocomplete="given-name" placeholder="Your name" />
+        </div>
+        <div class="wl-date" id="wl-date"></div>
+      </div>
+    </header>
+
+    <main class="wl-grid">
+      <section class="wl-card wl-wheel-wrap" aria-label="Your wheel">
+        <canvas id="wl-wheel" tabindex="0" role="img" aria-label="Wheel of Life chart"></canvas>
+        <div class="wl-chips">
+          <div class="wl-chip high"><b>Strongest</b><span id="wl-high">Set your scores to see this</span></div>
+          <div class="wl-chip low"><b>Biggest opportunity</b><span id="wl-low">Set your scores to see this</span></div>
+        </div>
+      </section>
+
+      <section class="wl-card" aria-labelledby="wl-scores-h">
+        <h2 id="wl-scores-h">Your scores</h2>
+        <p class="wl-hint">How satisfied are you with this area today? 1 is not at all, 10 is completely.</p>
+        <div class="wl-sliders" id="wl-sliders"></div>
+      </section>
+    </main>
+
+    <section class="wl-reflect" aria-label="Reflection">
+      <div class="wl-card">
+        <h2>What is already working</h2>
+        <label class="wl-label" for="wl-working" id="wl-working-label">Where are you strongest? What are you doing there that makes it work?</label>
+        <textarea id="wl-working" placeholder="Write what you notice. Rough is fine."></textarea>
+      </div>
+      <div class="wl-card">
+        <h2>Your next steps</h2>
+        <p class="wl-label" id="wl-act-label">One or two small actions you can take this week.</p>
+        <p class="wl-hint">Ask yourself: what would one point higher look like?</p>
+        <div class="wl-actions">
+          <input id="wl-act1" type="text" autocomplete="off" aria-labelledby="wl-act-label" placeholder="Action 1" />
+          <input id="wl-act2" type="text" autocomplete="off" aria-labelledby="wl-act-label" placeholder="Action 2 (optional)" />
+        </div>
+      </div>
+    </section>
+
+    <section class="wl-card wl-send" aria-labelledby="wl-send-h">
+      <h2 id="wl-send-h">Want a copy of your wheel?</h2>
+      <p class="wl-hint">Pop in your email and I’ll send you a copy of your results.</p>
+      <form class="wl-send-form" id="wl-send-form" novalidate>
+        <label class="wl-sr" for="wl-email">Email</label>
+        <input id="wl-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        <button class="btn-primary" type="submit" id="wl-send-btn">Send me my wheel &rarr;</button>
+      </form>
+      <p class="wl-status" id="wl-send-status" role="status" aria-live="polite"></p>
+      <div class="wl-bar">
+        <button class="wl-btn" id="wl-download" type="button">Download my wheel</button>
+        <button class="wl-btn" id="wl-reset" type="button">Start a new wheel</button>
+      </div>
+      <p class="wl-status" id="wl-status" role="status" aria-live="polite"></p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .wl-page { max-width: 1120px; padding-top: clamp(16px, 3vw, 32px); padding-bottom: 72px; display: grid; gap: 24px; }
+  .wl-head h1 { margin-top: 12px; font: 500 clamp(36px, 5vw, 56px)/1.1 var(--serif); color: var(--forest); }
+  .wl-lead { margin-top: 14px; max-width: 62ch; font: 400 18px/1.6 var(--sans); color: var(--ink-soft); }
+  .wl-who { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; margin-top: 20px; }
+  .wl-field { display: grid; gap: 6px; flex: 1 1 260px; max-width: 360px; }
+  .wl-field label, .wl-label { font: 600 15px/1.4 var(--sans); color: var(--forest); }
+  .wl-date { font: 400 15px/1 var(--sans); color: var(--ink-soft); padding-bottom: 14px; }
+  .wl-hint { margin: 4px 0 12px; font: 400 15px/1.5 var(--sans); color: var(--ink-soft); }
+  .wl-page input[type="text"], .wl-page input[type="email"], .wl-page textarea {
+    width: 100%; font: 400 17px/1.4 var(--sans); color: var(--ink); background: var(--white);
+    border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px;
+  }
+  .wl-page textarea { min-height: 120px; resize: vertical; }
+  .wl-page input:focus-visible, .wl-page textarea:focus-visible, .wl-page canvas:focus-visible, .wl-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .wl-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .wl-card { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: clamp(18px, 3vw, 28px); }
+  .wl-card h2 { font: 500 24px/1.25 var(--serif); color: var(--forest); }
+  .wl-wheel-wrap { display: grid; gap: 16px; justify-items: center; }
+  .wl-wheel-wrap canvas { display: block; width: 100%; max-width: 620px; aspect-ratio: 1 / 1; height: auto; touch-action: none; cursor: pointer; }
+  .wl-chips { display: grid; gap: 10px; width: 100%; }
+  .wl-chip { display: grid; gap: 4px; border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; }
+  .wl-chip b { font: 600 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .wl-chip span { font: 600 16px/1.4 var(--sans); color: var(--forest); }
+  .wl-chip.high { border-left: 6px solid var(--forest); }
+  .wl-chip.low { border-left: 6px solid var(--gold); }
+
+  .wl-sliders { display: grid; gap: 4px; }
+  .wl-sliders :global(.wl-row) { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; padding: 10px 12px; border-radius: 14px; border-left: 6px solid transparent; }
+  .wl-sliders :global(.wl-row label) { font: 600 16px/1.4 var(--sans); color: var(--forest); }
+  .wl-sliders :global(.wl-row output) { font: 600 20px/1 var(--serif); color: var(--forest); min-width: 2ch; text-align: right; }
+  .wl-sliders :global(.wl-row input) { grid-column: 1 / -1; width: 100%; accent-color: var(--forest); margin: 6px 0 0; }
+  .wl-sliders :global(.wl-row.low) { background: rgba(199, 154, 86, 0.14); border-left-color: var(--gold); }
+
+  .wl-reflect { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .wl-reflect .wl-card { display: grid; gap: 10px; }
+  .wl-actions { display: grid; gap: 10px; }
+
+  .wl-send { display: grid; gap: 6px; }
+  .wl-send-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+  .wl-send-form input { flex: 1 1 260px; max-width: 420px; }
+  .wl-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .wl-btn { font: 600 15px/1 var(--sans); border-radius: 999px; padding: 12px 22px; border: 1px solid var(--forest); background: transparent; color: var(--forest); cursor: pointer; }
+  .wl-btn:hover { background: var(--paper-warm); }
+  .wl-status { min-height: 1.5em; font: 400 15px/1.5 var(--sans); color: var(--ink-soft); }
+  .wl-status.ok { color: var(--forest); font-weight: 600; }
+  .wl-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 880px) { .wl-grid, .wl-reflect { grid-template-columns: 1fr; } }
+</style>
+
+<script is:inline>
+(function () {
+  var AREAS = [
+    { name: 'Business or Career', lines: ['Business', 'or Career'] },
+    { name: 'Finances', lines: ['Finances'] },
+    { name: 'Health and Energy', lines: ['Health', 'and Energy'] },
+    { name: 'Family', lines: ['Family'] },
+    { name: 'Partner or Romance', lines: ['Partner', 'or Romance'] },
+    { name: 'Friends and Community', lines: ['Friends and', 'Community'] },
+    { name: 'Personal Growth', lines: ['Personal', 'Growth'] },
+    { name: 'Fun and Recreation', lines: ['Fun and', 'Recreation'] },
+  ];
+  var N = AREAS.length, SIZE = 720, C = SIZE / 2, R = 235, START = 5;
+  var PAL = { paper: '#FBF7EF', card: '#FFFFFF', ink: '#2A322B', forest: '#1D2E22', muted: '#5B645C', line: '#E5DED0', accent: '#1D2E22', accentSoft: 'rgba(29,46,34,0.14)', gold: '#C79A56', onAccent: '#FBF7EF' };
+  var SANS = 'Inter, Arial, sans-serif', SERIF = '"Playfair Display", Georgia, serif';
+  var scores = AREAS.map(function () { return START; });
+
+  function $(id) { return document.getElementById(id); }
+  var canvas = $('wl-wheel'), nameEl = $('wl-name'), statusEl = $('wl-status');
+
+  function ang(i) { return -Math.PI / 2 + i * 2 * Math.PI / N; }
+  function todayStr() {
+    try { return new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
+    catch (e) { return new Date().toDateString(); }
+  }
+  function extremes() {
+    var mx = Math.max.apply(null, scores), mn = Math.min.apply(null, scores);
+    if (mx === mn) return { high: [], low: [] };
+    var high = [], low = [];
+    scores.forEach(function (s, i) { if (s === mx) high.push(i); if (s === mn) low.push(i); });
+    return { high: high, low: low };
+  }
+  function names(idx) {
+    var n = idx.slice(0, 3).map(function (i) { return AREAS[i].name; });
+    if (n.length < 2) return n[0] || '';
+    return n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1];
+  }
+
+  /* ---------- wheel drawing (design space 720 x 720) ---------- */
+  function drawWheel(ctx, sc, lowIdx) {
+    var i, k, a, r;
+    ctx.save();
+    ctx.beginPath(); ctx.arc(C, C, R, 0, 2 * Math.PI); ctx.fillStyle = PAL.card; ctx.fill();
+    for (k = 1; k <= 5; k++) {
+      ctx.beginPath(); ctx.arc(C, C, R * k / 5, 0, 2 * Math.PI);
+      ctx.strokeStyle = PAL.line; ctx.lineWidth = (k === 5 ? 2 : 1); ctx.stroke();
+    }
+    for (i = 0; i < N; i++) {
+      a = ang(i);
+      ctx.beginPath(); ctx.moveTo(C, C); ctx.lineTo(C + R * Math.cos(a), C + R * Math.sin(a));
+      ctx.strokeStyle = PAL.line; ctx.lineWidth = 1; ctx.stroke();
+    }
+    ctx.font = '500 11px ' + SANS;
+    ctx.fillStyle = PAL.muted; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    var ra = -Math.PI / 2 + Math.PI / N;
+    for (k = 2; k <= 10; k += 2) { r = R * k / 10; ctx.fillText(String(k), C + r * Math.cos(ra), C + r * Math.sin(ra)); }
+    ctx.beginPath();
+    sc.forEach(function (s, j) {
+      var aa = ang(j), rr = R * s / 10, xx = C + rr * Math.cos(aa), yy = C + rr * Math.sin(aa);
+      if (j === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
+    });
+    ctx.closePath();
+    ctx.fillStyle = PAL.accentSoft; ctx.fill();
+    ctx.strokeStyle = PAL.accent; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.stroke();
+    ctx.font = '600 11px ' + SANS;
+    sc.forEach(function (s, j) {
+      var aa = ang(j), rr = R * s / 10, xx = C + rr * Math.cos(aa), yy = C + rr * Math.sin(aa);
+      var isLow = lowIdx.indexOf(j) >= 0;
+      ctx.beginPath(); ctx.arc(xx, yy, 11, 0, 2 * Math.PI);
+      ctx.fillStyle = isLow ? PAL.gold : PAL.accent; ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = PAL.card; ctx.stroke();
+      ctx.fillStyle = isLow ? PAL.forest : PAL.onAccent;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(String(s), xx, yy + 0.5);
+    });
+    ctx.font = '500 16px ' + SANS;
+    ctx.fillStyle = PAL.forest;
+    AREAS.forEach(function (ar, j) {
+      var aa = ang(j), cx = Math.cos(aa), cy = Math.sin(aa);
+      var lx = C + (R + 26) * cx, ly = C + (R + 26) * cy, lh = 18, n = ar.lines.length;
+      ctx.textAlign = cx > 0.3 ? 'left' : (cx < -0.3 ? 'right' : 'center');
+      ctx.textBaseline = 'middle';
+      ar.lines.forEach(function (ln, m) { ctx.fillText(ln, lx, ly + (m - (n - 1) / 2) * lh); });
+    });
+    ctx.restore();
+  }
+
+  function render() {
+    var dpr = window.devicePixelRatio || 1;
+    var css = canvas.getBoundingClientRect().width || 620;
+    var px = Math.max(200, Math.round(css * dpr));
+    if (canvas.width !== px) { canvas.width = px; canvas.height = px; }
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(px / SIZE, 0, 0, px / SIZE, 0, 0);
+    ctx.clearRect(0, 0, SIZE, SIZE);
+    drawWheel(ctx, scores, extremes().low);
+  }
+
+  /* ---------- sliders ---------- */
+  var slidersEl = $('wl-sliders');
+  AREAS.forEach(function (ar, i) {
+    var row = document.createElement('div'); row.className = 'wl-row'; row.id = 'wl-row' + i;
+    var lab = document.createElement('label'); lab.setAttribute('for', 'wl-s' + i); lab.textContent = ar.name;
+    var out = document.createElement('output'); out.id = 'wl-o' + i; out.setAttribute('for', 'wl-s' + i); out.textContent = String(START);
+    var inp = document.createElement('input'); inp.type = 'range'; inp.min = '1'; inp.max = '10'; inp.step = '1'; inp.value = String(START); inp.id = 'wl-s' + i;
+    inp.addEventListener('input', function () { scores[i] = parseInt(inp.value, 10); update(); });
+    row.appendChild(lab); row.appendChild(out); row.appendChild(inp);
+    slidersEl.appendChild(row);
+  });
+
+  function update() {
+    var ex = extremes(), i;
+    for (i = 0; i < N; i++) {
+      $('wl-o' + i).textContent = String(scores[i]);
+      $('wl-s' + i).value = String(scores[i]);
+      $('wl-row' + i).className = 'wl-row' + (ex.low.indexOf(i) >= 0 ? ' low' : '');
+    }
+    $('wl-high').textContent = ex.high.length ? names(ex.high) + ' (' + scores[ex.high[0]] + ')' : 'Set your scores to see this';
+    $('wl-low').textContent = ex.low.length ? names(ex.low) + ' (' + scores[ex.low[0]] + ')' : 'Set your scores to see this';
+    $('wl-working-label').textContent = ex.high.length
+      ? 'You scored highest in ' + names(ex.high) + '. What are you doing there that makes it work?'
+      : 'Where are you strongest? What are you doing there that makes it work?';
+    $('wl-act-label').textContent = ex.low.length
+      ? 'One or two small actions for ' + names(ex.low) + ' this week.'
+      : 'One or two small actions you can take this week.';
+    canvas.setAttribute('aria-label', 'Wheel of Life chart. ' + AREAS.map(function (a, j) { return a.name + ' ' + scores[j]; }).join(', ') + '.');
+    render();
+  }
+
+  /* ---------- click and drag on the wheel ---------- */
+  var dragIdx = -1;
+  function pointerXY(e) {
+    var r = canvas.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * SIZE / r.width - C, y: (e.clientY - r.top) * SIZE / r.height - C };
+  }
+  canvas.addEventListener('pointerdown', function (e) {
+    var p = pointerXY(e), dist = Math.hypot(p.x, p.y);
+    if (dist > R * 1.08) return;
+    var a = Math.atan2(p.y, p.x) + Math.PI / 2; if (a < 0) a += 2 * Math.PI;
+    dragIdx = Math.round(a / (2 * Math.PI / N)) % N;
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    applyDrag(p);
+  });
+  canvas.addEventListener('pointermove', function (e) { if (dragIdx >= 0) applyDrag(pointerXY(e)); });
+  function endDrag() { dragIdx = -1; }
+  canvas.addEventListener('pointerup', endDrag);
+  canvas.addEventListener('pointercancel', endDrag);
+  function applyDrag(p) {
+    var a = ang(dragIdx), proj = p.x * Math.cos(a) + p.y * Math.sin(a);
+    var s = Math.max(1, Math.min(10, Math.round(proj / R * 10)));
+    if (s !== scores[dragIdx]) { scores[dragIdx] = s; update(); }
+  }
+
+  /* ---------- the shareable card (download and email) ---------- */
+  function wrap(ctx, text, maxW) {
+    var out = [];
+    String(text).split(/\n/).forEach(function (par) {
+      var words = par.split(/\s+/).filter(Boolean), line = '';
+      if (!words.length) { out.push(''); return; }
+      words.forEach(function (w) {
+        var t = line ? line + ' ' + w : w;
+        if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else { line = t; }
+      });
+      out.push(line);
+    });
+    return out;
+  }
+  function actions() { return [$('wl-act1').value.trim(), $('wl-act2').value.trim()].filter(Boolean); }
+  function drawCard(ctx, W, P) {
+    var y = P, i, name = nameEl.value.trim(), low = extremes().low;
+    ctx.fillStyle = PAL.paper; ctx.fillRect(0, 0, W, ctx.canvas.height);
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = PAL.gold; ctx.font = '600 22px ' + SANS;
+    try { ctx.letterSpacing = '4px'; } catch (e) {}
+    ctx.fillText('LIFE 2.0', P, y + 22);
+    try { ctx.letterSpacing = '0px'; } catch (e) {}
+    y += 70;
+    ctx.fillStyle = PAL.forest; ctx.font = '500 64px ' + SERIF;
+    ctx.fillText('Your Wheel of Life', P, y + 50); y += 84;
+    if (name) { ctx.font = '600 32px ' + SANS; ctx.fillStyle = PAL.forest; ctx.fillText(name, P, y + 32); y += 46; }
+    ctx.font = '400 24px ' + SANS; ctx.fillStyle = PAL.muted; ctx.fillText(todayStr(), P, y + 24); y += 64;
+
+    ctx.save(); ctx.translate((W - SIZE) / 2, y); drawWheel(ctx, scores, low); ctx.restore();
+    y += SIZE + 30;
+
+    function section(title) {
+      ctx.textAlign = 'left'; ctx.fillStyle = PAL.forest; ctx.font = '500 36px ' + SERIF;
+      ctx.fillText(title, P, y + 36); y += 36 + 28;
+    }
+    section('Your scores');
+    var colW = (W - 2 * P - 60) / 2, rowH = 72;
+    for (i = 0; i < N; i++) {
+      var col = i < 4 ? 0 : 1, ry = y + (i % 4) * rowH, rx = P + col * (colW + 60);
+      ctx.textAlign = 'left'; ctx.fillStyle = PAL.forest; ctx.font = '500 26px ' + SANS;
+      ctx.fillText(AREAS[i].name, rx, ry + 24);
+      ctx.textAlign = 'right'; ctx.font = '600 26px ' + SANS; ctx.fillText(String(scores[i]), rx + colW, ry + 24);
+      ctx.fillStyle = PAL.line; ctx.fillRect(rx, ry + 38, colW, 10);
+      ctx.fillStyle = low.indexOf(i) >= 0 ? PAL.gold : PAL.accent; ctx.fillRect(rx, ry + 38, colW * scores[i] / 10, 10);
+    }
+    y += 4 * rowH + 24;
+
+    var working = $('wl-working').value.trim();
+    if (working) {
+      section('What is already working');
+      ctx.textAlign = 'left'; ctx.fillStyle = PAL.ink; ctx.font = '400 28px ' + SANS;
+      wrap(ctx, working, W - 2 * P).forEach(function (ln) { ctx.fillText(ln, P, y + 28); y += 42; });
+      y += 30;
+    }
+    var acts = actions();
+    if (acts.length) {
+      section('My next steps');
+      acts.forEach(function (t, n) {
+        ctx.beginPath(); ctx.arc(P + 18, y + 16, 18, 0, 2 * Math.PI); ctx.fillStyle = PAL.accent; ctx.fill();
+        ctx.fillStyle = PAL.onAccent; ctx.font = '600 22px ' + SANS; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(String(n + 1), P + 18, y + 17); ctx.textBaseline = 'alphabetic';
+        ctx.textAlign = 'left'; ctx.fillStyle = PAL.ink; ctx.font = '400 28px ' + SANS;
+        var lines = wrap(ctx, t, W - 2 * P - 60);
+        lines.forEach(function (ln, m) { ctx.fillText(ln, P + 60, y + 26 + m * 42); });
+        y += Math.max(44, lines.length * 42) + 16;
+      });
+      y += 14;
+    }
+    ctx.fillStyle = PAL.line; ctx.fillRect(P, y, W - 2 * P, 2); y += 56;
+    ctx.textAlign = 'center'; ctx.fillStyle = PAL.forest; ctx.font = 'italic 500 30px ' + SERIF;
+    ctx.fillText('Accomplishment got you here. Fulfillment is what’s missing.', W / 2, y); y += 48;
+    ctx.fillStyle = PAL.gold; ctx.font = '600 24px ' + SANS;
+    ctx.fillText('thelife20.com', W / 2, y);
+    return y + P;
+  }
+  async function buildCard() {
+    try {
+      await Promise.all([
+        document.fonts.load('500 64px "Playfair Display"'),
+        document.fonts.load('italic 500 30px "Playfair Display"'),
+        document.fonts.load('500 26px Inter'),
+        document.fonts.load('600 26px Inter'),
+        document.fonts.load('400 28px Inter'),
+      ]);
+    } catch (e) {}
+    var W = 1200, P = 90;
+    var probe = document.createElement('canvas'); probe.width = W; probe.height = 10;
+    var H = drawCard(probe.getContext('2d'), W, P);
+    var cv = document.createElement('canvas'); cv.width = W; cv.height = Math.ceil(H);
+    drawCard(cv.getContext('2d'), W, P);
+    return cv;
+  }
+  function slug() { return nameEl.value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+  $('wl-download').addEventListener('click', async function () {
+    statusEl.textContent = 'Preparing your wheel...';
+    try {
+      var cv = await buildCard();
+      var blob = await new Promise(function (res) { cv.toBlob(res, 'image/png'); });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'wheel-of-life' + (slug() ? '-' + slug() : '') + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      statusEl.textContent = 'Saved. Your wheel is in your downloads.';
+    } catch (e) {
+      statusEl.textContent = 'The download didn’t go through. Take a screenshot instead, or pop in your email above.';
+    }
+  });
+
+  /* ---------- email a copy ---------- */
+  var form = $('wl-send-form'), sendStatus = $('wl-send-status'), sendBtn = $('wl-send-btn');
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = $('wl-email').value.trim();
+    sendStatus.className = 'wl-status';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { sendStatus.textContent = 'Please check your email address.'; return; }
+    sendBtn.disabled = true; sendStatus.textContent = 'Sending...';
+    try {
+      var cv = await buildCard();
+      var ex = extremes();
+      var res = await fetch('/api/wheel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          name: nameEl.value.trim(),
+          scores: AREAS.map(function (a, i) { return { area: a.name, score: scores[i] }; }),
+          strongest: names(ex.high),
+          opportunity: names(ex.low),
+          working: $('wl-working').value.trim(),
+          actions: actions(),
+          image: cv.toDataURL('image/png'),
+        }),
+      });
+      if (!res.ok) throw new Error('send failed');
+      sendStatus.className = 'wl-status ok';
+      sendStatus.textContent = 'Sent! Check your inbox for your wheel.';
+      if (window.fbq) window.fbq('track', 'Lead', { content_name: 'Wheel of Life' });
+    } catch (err) {
+      sendStatus.textContent = 'That didn’t send. Please try again, or download your wheel below.';
+    } finally {
+      sendBtn.disabled = false;
+    }
+  });
+
+  var resetArmed = false, resetTimer = null;
+  $('wl-reset').addEventListener('click', function () {
+    var btn = $('wl-reset');
+    if (!resetArmed) {
+      resetArmed = true; btn.textContent = 'Tap again to clear everything';
+      resetTimer = setTimeout(function () { resetArmed = false; btn.textContent = 'Start a new wheel'; }, 4000);
+      return;
+    }
+    clearTimeout(resetTimer); resetArmed = false; btn.textContent = 'Start a new wheel';
+    scores = AREAS.map(function () { return START; });
+    nameEl.value = ''; $('wl-working').value = ''; $('wl-act1').value = ''; $('wl-act2').value = ''; $('wl-email').value = '';
+    sendStatus.textContent = ''; statusEl.textContent = 'Fresh wheel ready.'; update();
+  });
+
+  $('wl-date').textContent = todayStr();
+  update();
+  if (typeof ResizeObserver !== 'undefined') { new ResizeObserver(function () { render(); }).observe(canvas); }
+  window.addEventListener('resize', render);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(render); }
+})();
+</script>
