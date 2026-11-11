@@ -15,7 +15,14 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       <div class="eyebrow">Life 2.0 &middot; Free tool</div>
       <h1>The Confidence Gap worksheets</h1>
       <p class="cg-lead">These worksheets come from <em>{credit.book}</em> by {credit.author}. Take your time. Your answers save on this device as you go, and at the end you can email yourself a copy.</p>
-      <p class="cg-credit">{credit.copyright} &middot; {credit.links.map((l, i) => (<>{i > 0 && ' · '}<a href={l.href} target="_blank" rel="noopener">{l.label}</a></>))}</p>
+      <aside class="cg-about" aria-labelledby="cg-about-h">
+        <h2 id="cg-about-h">About these worksheets</h2>
+        <p>These worksheets come from <em>The Confidence Gap</em> by Dr. Russ Harris, a medical doctor and psychotherapist, and one of the world’s leading trainers in Acceptance and Commitment Therapy (ACT). He’s also the author of the international bestseller <em>The Happiness Trap</em>.</p>
+        <p>ACT is a well-researched approach in psychology. It’s been tested in hundreds of studies, and it rests on a simple, freeing idea: we don’t have to wait to feel confident before we act. When we act on what matters to us, confidence grows.</p>
+        <p><strong>Why I use them:</strong> My background is in psychology, and I look for tools that are proven, not just popular. These are some of the most useful I’ve found for getting clear on what matters, especially for people who’ve achieved a lot and still feel something’s missing.</p>
+        <p class="cg-sign">Laura Kelly</p>
+        <p class="cg-credit">Copyright Russ Harris, 2010. Learn more at <a href="https://www.thehappinesstrap.com" target="_blank" rel="noopener">thehappinesstrap.com</a>.</p>
+      </aside>
       <div class="cg-field cg-name">
         <label for="cg-name">Your name</label>
         <input id="cg-name" name="name" type="text" autocomplete="given-name" data-save />
@@ -132,6 +139,11 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   .cg-page { max-width: 900px; padding-top: clamp(16px, 3vw, 32px); padding-bottom: 72px; display: grid; gap: 24px; }
   .cg-head h1 { margin-top: 12px; font: 500 clamp(34px, 5vw, 52px)/1.12 var(--serif); color: var(--forest); }
   .cg-lead { margin-top: 14px; font: 400 18px/1.6 var(--sans); color: var(--ink-soft); }
+  .cg-about { margin-top: 24px; padding: clamp(20px, 3vw, 28px); border-radius: 24px; background: var(--paper-warm); }
+  .cg-about h2 { font: 500 24px/1.25 var(--serif); color: var(--forest); }
+  .cg-about p { margin-top: 12px; font: 400 17px/1.65 var(--sans); color: var(--ink-soft); }
+  .cg-about strong { color: var(--forest); }
+  .cg-about .cg-sign { margin-top: 14px; font: 600 14px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--gold); }
   .cg-credit { margin-top: 10px; font: 400 14px/1.5 var(--sans); color: var(--ink-soft); }
   .cg-credit a { color: var(--forest); text-decoration: underline; }
   .cg-name { margin-top: 20px; max-width: 360px; }
