@@ -170,7 +170,12 @@ export async function handleCheckoutEvent(event: Stripe.Event, deps: OnboardingD
   // and ask Stripe to redeliver so the dashboard still hears about them (the
   // record then shows the invite as done, so nobody is invited twice).
   let dashboardUnreachable = false;
-  if (deps.dashboard) {
+  if (!deps.dashboard) {
+    // Without this the buyer gets their Circle invite but never shows up on the dashboard.
+    log.error(
+      `[onboarding] Dashboard not told about checkout ${session.id}: DASHBOARD_URL or PURCHASE_WEBHOOK_SECRET is not set on the website.`,
+    );
+  } else {
     try {
       const circle = await deps.dashboard.reportPurchase({
         email,
