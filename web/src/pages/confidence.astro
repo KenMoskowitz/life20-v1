@@ -1,0 +1,331 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { credit, part1, lifeChangeList, valuesIntro, values, domains, domainFields } from '../data/confidenceGap';
+
+// The Confidence Gap worksheets (thelife20.com/confidence), a hidden page for
+// Clarity Calls and clients. PERMISSION PENDING from Russ Harris: keep this on
+// the testing branch until it is granted (see src/data/confidenceGap.ts).
+const title = 'The Confidence Gap Worksheets | Life 2.0';
+const description = 'Clarify your values and make life changes with the worksheets from The Confidence Gap by Russ Harris.';
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+<BaseLayout title={title} description={description} canonicalUrl="https://thelife20.com/confidence" noindex bare>
+  <div class="cg-page wrap">
+    <header class="cg-head">
+      <div class="eyebrow">Life 2.0 &middot; Free tool</div>
+      <h1>The Confidence Gap worksheets</h1>
+      <p class="cg-lead">These worksheets come from <em>{credit.book}</em> by {credit.author}. Take your time. Your answers save on this device as you go, and at the end you can email yourself a copy.</p>
+      <p class="cg-credit">{credit.copyright} &middot; {credit.links.map((l, i) => (<>{i > 0 && ' · '}<a href={l.href} target="_blank" rel="noopener">{l.label}</a></>))}</p>
+      <div class="cg-field cg-name">
+        <label for="cg-name">Your name</label>
+        <input id="cg-name" name="name" type="text" autocomplete="given-name" data-save />
+      </div>
+      <nav class="cg-steps" aria-label="Sections">
+        <a href="#cg-1">1. Clarifying values</a>
+        <a href="#cg-2">2. The Life Change List</a>
+        <a href="#cg-3">3. Your values</a>
+        <a href="#cg-4">4. Love, work, play, health</a>
+      </nav>
+    </header>
+
+    <section class="cg-card" id="cg-1">
+      <span class="cg-num">01</span>
+      <h2>{part1.title}</h2>
+      <p class="cg-body">{part1.intro}</p>
+      <p class="cg-sub">{part1.lead}</p>
+      <ul class="cg-qs">{part1.questions.map((q) => <li>{q}</li>)}</ul>
+      <p class="cg-body"><em>{part1.after}</em></p>
+    </section>
+
+    <section class="cg-card" id="cg-2">
+      <span class="cg-num">02</span>
+      <h2>{lifeChangeList.title}</h2>
+      <p class="cg-sub">{lifeChangeList.lead}</p>
+      {lifeChangeList.prompts.map((p, i) => (
+        <div class="cg-field">
+          <label for={`cg-lc${i}`}>{p}</label>
+          <textarea id={`cg-lc${i}`} data-save data-lc={i} rows="3"></textarea>
+        </div>
+      ))}
+    </section>
+
+    <section class="cg-card" id="cg-3">
+      <span class="cg-num">03</span>
+      <h2>{valuesIntro.title}</h2>
+      {valuesIntro.paragraphs.map((p) => <p class="cg-body">{p}</p>)}
+      <div class="cg-counter" id="cg-counter" aria-live="polite">Very important: 0 of at least 10</div>
+      <ol class="cg-values">
+        {values.map(([name, def], i) => (
+          <li class="cg-value"><div class="cg-value-row">
+            <div class="cg-value-text"><strong>{name}:</strong> {def}</div>
+            <div class="cg-vqn" role="radiogroup" aria-label={`How important is ${name}?`}>
+              {['V', 'Q', 'N'].map((r) => (
+                <label class="cg-pill"><input type="radio" name={`cg-v-${slug(name)}`} value={r} data-value={name} data-save /><span>{r}</span></label>
+              ))}
+            </div>
+          </div></li>
+        ))}
+        {[0, 1].map((n) => (
+          <li class="cg-value"><div class="cg-value-row">
+            <div class="cg-value-text"><input type="text" class="cg-own" id={`cg-own${n}`} data-save data-own={n} placeholder="Insert your own unlisted value here:" aria-label="Insert your own unlisted value here" /></div>
+            <div class="cg-vqn" role="radiogroup" aria-label="How important is your own value?">
+              {['V', 'Q', 'N'].map((r) => (
+                <label class="cg-pill"><input type="radio" name={`cg-v-own${n}`} value={r} data-own-rating={n} data-save /><span>{r}</span></label>
+              ))}
+            </div>
+          </div></li>
+        ))}
+      </ol>
+      <p class="cg-legend">V = Very important &middot; Q = Quite important &middot; N = Not so important</p>
+
+      <h3 class="cg-h3">Your top six</h3>
+      <p class="cg-body">{valuesIntro.topSix}</p>
+      <div class="cg-top" id="cg-top"><p class="cg-hint">Mark some values as V above, then choose your top six here.</p></div>
+      <p class="cg-hint" id="cg-top-count"></p>
+    </section>
+
+    <section class="cg-card" id="cg-4">
+      <span class="cg-num">04</span>
+      <h2>Love, work, play and health</h2>
+      <div class="cg-domains">
+        {domains.map((d) => (
+          <div class="cg-domain">
+            <h3>{d.title}</h3>
+            <p class="cg-hint">({d.desc})</p>
+            {domainFields.map((f) => (
+              <div class="cg-field">
+                <label for={`cg-${d.key}-${slug(f)}`}>{f}:</label>
+                <textarea id={`cg-${d.key}-${slug(f)}`} rows="2" data-save data-domain={d.key} data-field={f}></textarea>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="cg-card cg-send" aria-labelledby="cg-send-h">
+      <h2 id="cg-send-h">Want a copy of your answers?</h2>
+      <p class="cg-body">Pop in your email and I’ll send you a copy of everything you’ve written.</p>
+      <form class="cg-send-form" id="cg-send-form" novalidate>
+        <label class="cg-sr" for="cg-email">Email</label>
+        <input id="cg-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        <button class="btn-primary" type="submit" id="cg-send-btn">Send me my answers &rarr;</button>
+      </form>
+      <p class="cg-status" id="cg-send-status" role="status" aria-live="polite"></p>
+      <div class="cg-bar">
+        <button class="cg-btn" type="button" id="cg-print">Print or save as PDF</button>
+        <button class="cg-btn" type="button" id="cg-reset">Start fresh</button>
+      </div>
+      <p class="cg-status" id="cg-status" role="status" aria-live="polite"></p>
+      <p class="cg-credit">From <em>{credit.book}</em> by {credit.author}. {credit.copyright}.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .cg-page { max-width: 900px; padding-top: clamp(16px, 3vw, 32px); padding-bottom: 72px; display: grid; gap: 24px; }
+  .cg-head h1 { margin-top: 12px; font: 500 clamp(34px, 5vw, 52px)/1.12 var(--serif); color: var(--forest); }
+  .cg-lead { margin-top: 14px; font: 400 18px/1.6 var(--sans); color: var(--ink-soft); }
+  .cg-credit { margin-top: 10px; font: 400 14px/1.5 var(--sans); color: var(--ink-soft); }
+  .cg-credit a { color: var(--forest); text-decoration: underline; }
+  .cg-name { margin-top: 20px; max-width: 360px; }
+  .cg-steps { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .cg-steps a { font: 500 14px/1 var(--sans); color: var(--forest); border: 1px solid var(--line); background: var(--white); border-radius: 999px; padding: 10px 14px; }
+  .cg-steps a:hover { border-color: var(--forest); }
+
+  .cg-card { background: var(--white); border: 1px solid var(--line); border-radius: 24px; padding: clamp(20px, 4vw, 36px); scroll-margin-top: 16px; }
+  .cg-num { font: 600 14px/1 var(--mono); color: var(--gold); letter-spacing: .08em; }
+  .cg-card h2 { margin-top: 8px; font: 500 clamp(26px, 3vw, 32px)/1.2 var(--serif); color: var(--forest); }
+  .cg-h3, .cg-domain h3 { margin-top: 28px; font: 500 22px/1.3 var(--serif); color: var(--forest); }
+  .cg-domain h3 { margin-top: 0; letter-spacing: .04em; }
+  .cg-body { margin-top: 14px; font: 400 17px/1.65 var(--sans); color: var(--ink-soft); }
+  .cg-sub { margin-top: 18px; font: 500 italic 19px/1.4 var(--serif); color: var(--forest); }
+  .cg-qs { margin: 10px 0 0; padding-left: 22px; display: grid; gap: 8px; font: 400 17px/1.55 var(--sans); color: var(--ink); }
+  .cg-hint { margin-top: 6px; font: 400 15px/1.5 var(--sans); color: var(--ink-soft); }
+
+  .cg-field { display: grid; gap: 6px; margin-top: 18px; }
+  .cg-field label { font: 600 15px/1.45 var(--sans); color: var(--forest); }
+  .cg-page input[type="text"], .cg-page input[type="email"], .cg-page textarea {
+    width: 100%; font: 400 17px/1.5 var(--sans); color: var(--ink); background: var(--paper);
+    border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px;
+  }
+  .cg-page textarea { resize: vertical; min-height: 84px; }
+  .cg-page input:focus-visible, .cg-page textarea:focus-visible, .cg-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .cg-counter { position: sticky; top: 0; z-index: 5; margin-top: 18px; padding: 12px 16px; border-radius: 14px; background: var(--paper-warm); font: 600 15px/1.3 var(--sans); color: var(--forest); }
+  .cg-counter.done { background: rgba(29, 46, 34, 0.08); }
+  .cg-values { list-style: decimal; margin: 14px 0 0; padding-left: 28px; display: grid; gap: 2px; }
+  .cg-value { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .cg-value::marker { font: 500 14px var(--sans); color: var(--ink-soft); }
+  .cg-value { display: list-item; }
+  .cg-value-text { font: 400 16px/1.5 var(--sans); color: var(--ink); }
+  .cg-value-text strong { color: var(--forest); }
+  .cg-own { max-width: 420px; }
+  .cg-value-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .cg-value-text { flex: 1 1 auto; }
+  .cg-vqn { display: flex; gap: 8px; flex: none; }
+  @media (max-width: 600px) { .cg-value-row { flex-direction: column; align-items: flex-start; gap: 8px; } }
+  .cg-pill { position: relative; cursor: pointer; }
+  .cg-pill input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .cg-pill span { display: inline-grid; place-items: center; width: 44px; height: 36px; border-radius: 999px; border: 1px solid var(--line); font: 600 14px/1 var(--mono); color: var(--ink-soft); background: var(--white); }
+  .cg-pill input:checked + span { background: var(--forest); border-color: var(--forest); color: var(--paper); }
+  .cg-pill input[value="V"]:checked + span { background: var(--gold); border-color: var(--gold); color: var(--forest-deep); }
+  .cg-pill input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .cg-legend { margin-top: 12px; font: 400 14px/1.5 var(--sans); color: var(--ink-soft); }
+
+  .cg-top { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .cg-top :global(.cg-chip) { position: relative; cursor: pointer; }
+  .cg-top :global(.cg-chip input) { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .cg-top :global(.cg-chip span) { display: inline-block; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); font: 500 15px/1 var(--sans); color: var(--forest); background: var(--white); }
+  .cg-top :global(.cg-chip input:checked + span) { background: var(--forest); color: var(--paper); border-color: var(--forest); }
+  .cg-top :global(.cg-chip input:disabled + span) { opacity: .45; cursor: not-allowed; }
+
+  .cg-domains { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 760px) { .cg-domains { grid-template-columns: 1fr; } }
+  .cg-domain { border: 1px solid var(--line); border-radius: 20px; padding: 20px; background: var(--paper); }
+  .cg-domain textarea { background: var(--white) !important; }
+
+  .cg-send-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+  .cg-send-form input { flex: 1 1 260px; max-width: 420px; }
+  .cg-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .cg-btn { font: 600 15px/1 var(--sans); border-radius: 999px; padding: 12px 22px; border: 1px solid var(--forest); background: transparent; color: var(--forest); cursor: pointer; }
+  .cg-btn:hover { background: var(--paper-warm); }
+  .cg-status { min-height: 1.5em; margin-top: 8px; font: 400 15px/1.5 var(--sans); color: var(--ink-soft); }
+  .cg-status.ok { color: var(--forest); font-weight: 600; }
+  .cg-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media print {
+    :global(.bare-header), :global(.bare-footer), .cg-steps, .cg-send-form, .cg-bar, .cg-status, .cg-counter { display: none !important; }
+    .cg-card { border: 0; padding: 0; break-inside: auto; }
+    .cg-page textarea { border: 1px solid #ccc; }
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var KEY = 'life20-confidence-v1';
+  var fields = Array.prototype.slice.call(document.querySelectorAll('[data-save]'));
+  var topEl = document.getElementById('cg-top'), counter = document.getElementById('cg-counter');
+  var topCount = document.getElementById('cg-top-count');
+  var topSix = [];
+
+  function read() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } }
+  function keyOf(el) { return el.type === 'radio' ? el.name : el.id; }
+  function save() {
+    var data = { topSix: topSix };
+    fields.forEach(function (el) {
+      if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; }
+      else data[el.id] = el.value;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  }
+  function restore() {
+    var d = read();
+    fields.forEach(function (el) {
+      var v = d[keyOf(el)];
+      if (v == null) return;
+      if (el.type === 'radio') el.checked = el.value === v; else el.value = v;
+    });
+    topSix = Array.isArray(d.topSix) ? d.topSix : [];
+  }
+
+  function veryValues() {
+    var out = [];
+    document.querySelectorAll('input[data-value]:checked').forEach(function (el) { if (el.value === 'V') out.push(el.dataset.value); });
+    [0, 1].forEach(function (n) {
+      var r = document.querySelector('input[data-own-rating="' + n + '"]:checked');
+      var name = document.getElementById('cg-own' + n).value.trim();
+      if (r && r.value === 'V' && name) out.push(name);
+    });
+    return out;
+  }
+
+  function renderTop() {
+    var vs = veryValues();
+    topSix = topSix.filter(function (t) { return vs.indexOf(t) >= 0; });
+    counter.textContent = 'Very important: ' + vs.length + (vs.length >= 10 ? ' (great, now pick your top six below)' : ' of at least 10');
+    counter.classList.toggle('done', vs.length >= 10);
+    if (!vs.length) {
+      topEl.innerHTML = '<p class="cg-hint">Mark some values as V above, then choose your top six here.</p>';
+      topCount.textContent = '';
+      return;
+    }
+    topEl.innerHTML = '';
+    vs.forEach(function (v) {
+      var lab = document.createElement('label'); lab.className = 'cg-chip';
+      var inp = document.createElement('input'); inp.type = 'checkbox'; inp.value = v; inp.checked = topSix.indexOf(v) >= 0;
+      inp.disabled = !inp.checked && topSix.length >= 6;
+      inp.addEventListener('change', function () {
+        if (inp.checked) { if (topSix.length < 6) topSix.push(v); } else topSix = topSix.filter(function (t) { return t !== v; });
+        renderTop(); save();
+      });
+      var sp = document.createElement('span'); sp.textContent = v;
+      lab.appendChild(inp); lab.appendChild(sp); topEl.appendChild(lab);
+    });
+    topCount.textContent = 'Top six chosen: ' + topSix.length + ' of 6';
+  }
+
+  fields.forEach(function (el) {
+    el.addEventListener(el.tagName === 'TEXTAREA' || el.type === 'text' ? 'input' : 'change', function () {
+      if (el.type === 'radio' || el.dataset.own != null) renderTop();
+      save();
+    });
+  });
+
+  function collect() {
+    var lc = [];
+    document.querySelectorAll('textarea[data-lc]').forEach(function (el) {
+      lc.push({ prompt: el.labels[0].textContent, answer: el.value.trim() });
+    });
+    var ratings = [];
+    document.querySelectorAll('input[data-value]:checked').forEach(function (el) { ratings.push({ value: el.dataset.value, rating: el.value }); });
+    [0, 1].forEach(function (n) {
+      var r = document.querySelector('input[data-own-rating="' + n + '"]:checked');
+      var name = document.getElementById('cg-own' + n).value.trim();
+      if (name) ratings.push({ value: name, rating: r ? r.value : '' });
+    });
+    var domains = {};
+    document.querySelectorAll('textarea[data-domain]').forEach(function (el) {
+      var d = el.dataset.domain;
+      domains[d] = domains[d] || {};
+      domains[d][el.dataset.field] = el.value.trim();
+    });
+    return { name: document.getElementById('cg-name').value.trim(), lifeChange: lc, ratings: ratings, topSix: topSix.slice(), domains: domains };
+  }
+
+  var form = document.getElementById('cg-send-form'), st = document.getElementById('cg-send-status'), btn = document.getElementById('cg-send-btn');
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = document.getElementById('cg-email').value.trim();
+    st.className = 'cg-status';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { st.textContent = 'Please check your email address.'; return; }
+    btn.disabled = true; st.textContent = 'Sending...';
+    try {
+      var body = collect(); body.email = email;
+      var res = await fetch('/api/confidence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (!res.ok) throw new Error('failed');
+      st.className = 'cg-status ok'; st.textContent = 'Sent! Check your inbox for your answers.';
+      if (window.fbq) window.fbq('track', 'Lead', { content_name: 'Confidence Gap worksheets' });
+    } catch (err) {
+      st.textContent = 'That didn’t send. Please try again, or use Print or save as PDF.';
+    } finally { btn.disabled = false; }
+  });
+
+  document.getElementById('cg-print').addEventListener('click', function () { window.print(); });
+
+  var armed = false, timer = null;
+  document.getElementById('cg-reset').addEventListener('click', function () {
+    var b = this;
+    if (!armed) { armed = true; b.textContent = 'Tap again to clear everything'; timer = setTimeout(function () { armed = false; b.textContent = 'Start fresh'; }, 4000); return; }
+    clearTimeout(timer); armed = false; b.textContent = 'Start fresh';
+    fields.forEach(function (el) { if (el.type === 'radio') el.checked = false; else el.value = ''; });
+    topSix = []; document.getElementById('cg-email').value = ''; st.textContent = '';
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    renderTop(); document.getElementById('cg-status').textContent = 'Everything is cleared.';
+    window.scrollTo(0, 0);
+  });
+
+  restore();
+  renderTop();
+})();
+</script>
