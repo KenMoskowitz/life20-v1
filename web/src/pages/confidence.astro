@@ -40,6 +40,7 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     <section class="cg-card" id="cg-2">
       <span class="cg-num">02</span>
       <h2>{lifeChangeList.title}</h2>
+      <p class="cg-note">Hold those questions in mind. Your answers go here.</p>
       <p class="cg-sub">{lifeChangeList.lead}</p>
       {lifeChangeList.prompts.map((p, i) => (
         <div class="cg-field">
@@ -47,6 +48,11 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
           <textarea id={`cg-lc${i}`} data-save data-lc={i} rows="3"></textarea>
         </div>
       ))}
+      <div class="cg-themes" id="cg-themes" aria-live="polite">
+        <h3>Ideas that keep coming up</h3>
+        <p class="cg-hint" id="cg-themes-hint">As you write, any idea that shows up in more than one answer will appear here. When the same idea keeps coming back, it often points to a core value.</p>
+        <div class="cg-theme-list" id="cg-theme-list"></div>
+      </div>
     </section>
 
     <section class="cg-card" id="cg-3">
@@ -141,6 +147,13 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   .cg-body { margin-top: 14px; font: 400 17px/1.65 var(--sans); color: var(--ink-soft); }
   .cg-sub { margin-top: 18px; font: 500 italic 19px/1.4 var(--serif); color: var(--forest); }
   .cg-qs { margin: 10px 0 0; padding-left: 22px; display: grid; gap: 8px; font: 400 17px/1.55 var(--sans); color: var(--ink); }
+  .cg-note { margin-top: 16px; padding: 12px 16px; border-left: 4px solid var(--gold); background: var(--paper-warm); border-radius: 0 12px 12px 0; font: 500 16px/1.5 var(--sans); color: var(--forest); }
+  .cg-themes { margin-top: 28px; padding: 20px; border-radius: 20px; background: var(--paper); border: 1px dashed var(--gold); }
+  .cg-themes h3 { font: 500 22px/1.3 var(--serif); color: var(--forest); }
+  .cg-theme-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .cg-theme-list:empty { display: none; }
+  .cg-theme-list :global(.cg-theme) { display: inline-flex; align-items: baseline; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--forest); color: var(--paper); font: 600 16px/1 var(--sans); }
+  .cg-theme-list :global(.cg-theme small) { font: 500 13px/1 var(--sans); color: var(--gold-light); }
   .cg-hint { margin-top: 6px; font: 400 15px/1.5 var(--sans); color: var(--ink-soft); }
 
   .cg-field { display: grid; gap: 6px; margin-top: 18px; }
@@ -321,11 +334,48 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     fields.forEach(function (el) { if (el.type === 'radio') el.checked = false; else el.value = ''; });
     topSix = []; document.getElementById('cg-email').value = ''; st.textContent = '';
     try { localStorage.removeItem(KEY); } catch (e) {}
-    renderTop(); document.getElementById('cg-status').textContent = 'Everything is cleared.';
+    renderTop(); renderThemes(); document.getElementById('cg-status').textContent = 'Everything is cleared.';
     window.scrollTo(0, 0);
   });
 
+  /* Ideas that keep coming up: words found in more than one Life Change List answer. */
+  var STOP = ('about above after again against also always am an and any are around as at be because been before being below between both but by can could did do does doing done down during each even every few for from further get getting give go going good got had has have having he her here hers him his how i if in into is it its just keep know less like make making many may me more most much must my myself never new no nor not now of off often on once one only or other our ours out over own people really same see she should so some something still such than that the their them then there these they thing things this those through time to too try under until up us very want was way ways we well were what when where which while who why will with would you your yours more being able little lot lots start stop doing differently different others other someone sometimes every day days will also make sure').split(' ');
+  function norm(w) {
+    w = w.toLowerCase().replace(/[^a-z']/g, '').replace(/'s$/, '').replace(/'/g, '');
+    if (w.length > 4 && /ies$/.test(w)) w = w.slice(0, -3) + 'y';
+    else if (w.length > 4 && /s$/.test(w) && !/ss$/.test(w)) w = w.slice(0, -1);
+    return w;
+  }
+  var themeList = document.getElementById('cg-theme-list'), themeHint = document.getElementById('cg-themes-hint');
+  var HINT_EMPTY = themeHint.textContent;
+  function renderThemes() {
+    var counts = {}, label = {};
+    document.querySelectorAll('textarea[data-lc]').forEach(function (el) {
+      var seen = {};
+      el.value.split(/\s+/).forEach(function (raw) {
+        var w = norm(raw);
+        if (w.length < 4 || STOP.indexOf(w) >= 0 || seen[w]) return;
+        seen[w] = true; counts[w] = (counts[w] || 0) + 1;
+        if (!label[w]) label[w] = raw.toLowerCase().replace(/[^a-z'-]/g, '');
+      });
+    });
+    var top = Object.keys(counts).filter(function (w) { return counts[w] >= 2; })
+      .sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); }).slice(0, 10);
+    themeList.innerHTML = '';
+    top.forEach(function (w) {
+      var s = document.createElement('span'); s.className = 'cg-theme';
+      s.textContent = label[w] || w;
+      var sm = document.createElement('small'); sm.textContent = 'in ' + counts[w] + ' answers';
+      s.appendChild(sm); themeList.appendChild(s);
+    });
+    themeHint.textContent = top.length
+      ? 'These ideas show up in more than one of your answers. When the same idea keeps coming back, it often points to a core value. Keep them in mind as you choose your values below.'
+      : HINT_EMPTY;
+  }
+  document.querySelectorAll('textarea[data-lc]').forEach(function (el) { el.addEventListener('input', renderThemes); });
+
   restore();
   renderTop();
+  renderThemes();
 })();
 </script>
