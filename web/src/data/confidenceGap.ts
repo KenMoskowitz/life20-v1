@@ -1,9 +1,8 @@
 // Worksheets from The Confidence Gap by Russ Harris (copyright Russ Harris,
 // 2010), reproduced word for word for thelife20.com/confidence.
-// PERMISSION PENDING: Laura has asked Russ Harris's team for permission to
-// publish these. Do not push this page live until permission is granted. If
-// it is refused, replace this text with original Life 2.0 wording that
-// follows the same steps.
+// Published at Laura's direction on 2026-11-12, after she contacted Russ
+// Harris's team about using them. If that permission is ever withdrawn,
+// replace this text with original Life 2.0 wording that follows the same steps.
 
 export const credit = {
   book: 'The Confidence Gap',
