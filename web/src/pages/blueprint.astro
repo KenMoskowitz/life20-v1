@@ -17,20 +17,20 @@ const isPast = new Date(event.endsAt).getTime() < Date.now();
 const canonicalUrl = 'https://thelife20.com/blueprint';
 const title = `${event.title} | Free Live Training with Laura Kelly`;
 const description =
-  'A free 75-minute live training with Laura Kelly for successful people who still feel stuck. Learn why it happens, and how emotional intelligence gets us moving again without working harder.';
+  'A free 75-minute live training with Laura Kelly for the strong ones who hold everything together, and are quietly asking, “Is this it?”';
 
 const learn = [
   {
-    title: 'The gap nobody talks about',
-    body: 'Why being smart, driven and successful doesn’t protect us from feeling stuck, and what the research on emotional intelligence says is really going on.',
+    title: 'Why the strong one gets stuck',
+    body: 'The strength that helped us build everything can quietly become what holds us back. We’ll name the patterns, with curiosity instead of judgment.',
   },
   {
-    title: 'What emotionally intelligent people do differently',
-    body: 'The everyday skills behind steadier leadership, closer relationships and more calm. Simple, practical, and learnable at any stage of life.',
+    title: 'Where our energy is really going',
+    body: 'An honest look at where our time and energy go, what the research says matters most, and what it’s costing the people we love.',
   },
   {
-    title: 'Your first step to closing it',
-    body: 'Leave knowing the one place where a little more emotional intelligence would change the most for you, at work and at home.',
+    title: 'The question that changes everything',
+    body: '“Is this it?” keeps us stuck. Leave with a better question, and one decision that makes this week feel different, at work and at home.',
   },
 ];
 
@@ -49,7 +49,7 @@ const faqs = [
   },
   {
     q: 'Who is this for?',
-    a: 'Business owners and leaders who have done well by every outside measure and want the rest of life to feel as good as the business looks.',
+    a: 'The strong ones: business owners and leaders who hold everything together at work and at home, and want the rest of life to feel as good as the business looks.',
   },
 ];
 
@@ -79,8 +79,9 @@ const jsonLd = {
           Free live training with Laura Kelly
         </div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{event.title}</h1>
-        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">We’ve built real success. We solve problems for a living. And still, some days, something feels stuck.</p>
-        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">It isn’t effort, and it isn’t you. It’s a skill most of us were never taught. In 75 minutes, we’ll look at what the research says about emotional intelligence, and how it gets us unstuck without working harder.</p>
+        <p class="wb-hero-tagline dz-enter" style="--dz-enter-delay:0.12s">For the strong ones who hold everything together, and are quietly asking, “Is this it?”</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">On paper, it’s working. We’ve built real success, and everyone counts on us. And still, late at night or even on a good day, a quiet question shows up.</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">In 75 minutes, we’ll look at why the strength that got us here can keep us stuck, what the research says matters most, and how to start feeling as good at home as we look at work.</p>
 
         <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
           <li class="wb-fact">
@@ -165,11 +166,11 @@ const jsonLd = {
       </div>
       <div>
         <div class="eyebrow">Who this is for</div>
-        <h2 style="margin-top:18px;">The problem with being good at figuring things out…</h2>
+        <h2 style="margin-top:18px;">For the one everyone leans on</h2>
         <div class="wb-for-prose">
-          <p class="body-copy">…is that it works. Research, strategy, discipline, execution. We’ve used the same approach to build our careers, our income, our whole adult lives. So it’s fair to assume the next level runs on the same operating system.</p>
-          <p class="body-copy">It doesn’t, not entirely. Feeling stuck is rarely a strategy problem. Usually it’s an emotional one: how we handle pressure, read the people around us, and show up for the ones we love.</p>
-          <p class="body-copy">That’s good news, because emotional intelligence can be learned. We don’t have to want less or blow up what we’ve built. We start right where we are.</p>
+          <p class="body-copy">We’re the ones who figure it out. The ones who hold it all together, at work and at home. We built the business, kept everyone going, and rarely let anyone see how tired we are.</p>
+          <p class="body-copy">That strength got us here. But somewhere along the way, the people we love started getting what’s left of us, and we stopped asking what we need.</p>
+          <p class="body-copy">If you’ve ever quietly wondered “Is this it?”, this hour is for you. We don’t have to want less or blow up what we’ve built. We start right where we are.</p>
         </div>
       </div>
     </div>
@@ -197,7 +198,7 @@ const jsonLd = {
       <div class="bp-register">
         <div class="bp-register-copy">
           <div class="eyebrow">Save your free seat</div>
-          <h2>Let’s get you unstuck.</h2>
+          <h2>Come as you are.</h2>
           <time class="bp-register-when" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
           <p>Live on Zoom for 75 minutes. Your joining link arrives by email, with a reminder before we start.</p>
         </div>
@@ -213,7 +214,7 @@ const jsonLd = {
           <img class="dz-kenburns--rev" src="/assets/laura-advisory.jpg" alt="Laura Kelly" />
         </div>
         <div class="wb-host-quote">
-          <p>&ldquo;Feeling stuck after building so much isn&rsquo;t a failure. It&rsquo;s a sign we&rsquo;re ready to grow in a new way.&rdquo;</p>
+          <p>&ldquo;Asking &lsquo;Is this it?&rsquo; after building so much isn&rsquo;t a failure. It&rsquo;s a sign we&rsquo;re ready to grow in a new way.&rdquo;</p>
         </div>
       </div>
       <div class="wb-host-copy dz-reveal" style="--dz-delay:0.1s">
@@ -227,6 +228,7 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  .wb-hero-tagline { margin-top: 18px; font: 500 italic clamp(20px, 2.2vw, 26px)/1.4 var(--serif); color: var(--gold); }
   .bp-hero-form { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
   .bp-hero-form .wb-hero-trust { font-size: 16px; }
   .bp-error { font-weight: 600; color: #B5533C; }
