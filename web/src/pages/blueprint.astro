@@ -17,20 +17,20 @@ const isPast = new Date(event.endsAt).getTime() < Date.now();
 const canonicalUrl = 'https://thelife20.com/blueprint';
 const title = `${event.title} | Free Live Training with Laura Kelly`;
 const description =
-  'A free 75-minute live training with Laura Kelly for the strong ones who hold everything together, and are quietly asking, “Is this it?”';
+  'A free 75-minute live training with Laura Kelly for successful people who look confident on the outside, and quietly doubt themselves on the inside.';
 
 const learn = [
   {
-    title: 'Why the strong one gets stuck',
-    body: 'The strength that helped us build everything can quietly become what holds us back. We’ll name the patterns, with curiosity instead of judgment.',
+    title: 'Where self-doubt really comes from',
+    body: 'Why so many capable, successful people still quietly wonder if they’re enough, and the patterns that keep that doubt running, seen with curiosity instead of judgment.',
   },
   {
-    title: 'Where our energy is really going',
-    body: 'An honest look at where our time and energy go, what the research says matters most, and what it’s costing the people we love.',
+    title: 'Why we don’t need to wait to feel ready',
+    body: 'What the research says about how confidence actually grows: not before we act, but because we act on what matters to us.',
   },
   {
     title: 'The question that changes everything',
-    body: '“Is this it?” keeps us stuck. Leave with a better question, and one decision that makes this week feel different, at work and at home.',
+    body: '“How can I prove I’m enough?” keeps us small. Leave with a better question, and one brave step to take this week.',
   },
 ];
 
@@ -49,7 +49,7 @@ const faqs = [
   },
   {
     q: 'Who is this for?',
-    a: 'The strong ones: business owners and leaders who hold everything together at work and at home, and want the rest of life to feel as good as the business looks.',
+    a: 'Business owners and leaders who look confident on the outside, quietly doubt themselves on the inside, and are ready to go after what they really want.',
   },
 ];
 
@@ -79,9 +79,9 @@ const jsonLd = {
           Free live training with Laura Kelly
         </div>
         <h1 class="dz-enter" style="--dz-enter-delay:0.08s">{event.title}</h1>
-        <p class="wb-hero-tagline dz-enter" style="--dz-enter-delay:0.12s">For the strong ones who hold everything together, and are quietly asking, “Is this it?”</p>
-        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">On paper, it’s working. We’ve built real success, and everyone counts on us. And still, late at night or even on a good day, a quiet question shows up.</p>
-        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">In 75 minutes, we’ll look at why the strength that got us here can keep us stuck, what the research says matters most, and how to start feeling as good at home as we look at work.</p>
+        <p class="wb-hero-tagline dz-enter" style="--dz-enter-delay:0.12s">For successful people who look confident on the outside, and quietly doubt themselves on the inside</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">We all want more confidence. To speak up. To go after what we really want. To stop second-guessing ourselves.</p>
+        <p class="wb-hero-sub dz-enter" style="--dz-enter-delay:0.16s">In 75 minutes, we’ll look at where self-doubt really comes from, what the research says about how confidence grows, and how to take one brave step without waiting to feel ready.</p>
 
         <ul class="wb-facts dz-enter" style="--dz-enter-delay:0.24s">
           <li class="wb-fact">
@@ -166,11 +166,11 @@ const jsonLd = {
       </div>
       <div>
         <div class="eyebrow">Who this is for</div>
-        <h2 style="margin-top:18px;">For the one everyone leans on</h2>
+        <h2 style="margin-top:18px;">Confident on the outside</h2>
         <div class="wb-for-prose">
-          <p class="body-copy">We’re the ones who figure it out. The ones who hold it all together, at work and at home. We built the business, kept everyone going, and rarely let anyone see how tired we are.</p>
-          <p class="body-copy">That strength got us here. But somewhere along the way, the people we love started getting what’s left of us, and we stopped asking what we need.</p>
-          <p class="body-copy">If you’ve ever quietly wondered “Is this it?”, this hour is for you. We don’t have to want less or blow up what we’ve built. We start right where we are.</p>
+          <p class="body-copy">We’re the ones people lean on. We built the business, we make the big calls, and from the outside it looks like we have it all together.</p>
+          <p class="body-copy">But so many of us carry a quiet doubt. That we’re not quite enough. That one day someone will find out. So we hold back, overthink, and wait until we feel ready.</p>
+          <p class="body-copy">Confidence isn’t something we’re born with or missing. It grows. And we can start growing it right where we are.</p>
         </div>
       </div>
     </div>
@@ -198,7 +198,7 @@ const jsonLd = {
       <div class="bp-register">
         <div class="bp-register-copy">
           <div class="eyebrow">Save your free seat</div>
-          <h2>Come as you are.</h2>
+          <h2>We don’t have to wait to feel ready.</h2>
           <time class="bp-register-when" datetime={event.startsAt} data-event-range>{formatEventRange(event)}</time>
           <p>Live on Zoom for 75 minutes. Your joining link arrives by email, with a reminder before we start.</p>
         </div>
@@ -214,7 +214,7 @@ const jsonLd = {
           <img class="dz-kenburns--rev" src="/assets/laura-advisory.jpg" alt="Laura Kelly" />
         </div>
         <div class="wb-host-quote">
-          <p>&ldquo;Asking &lsquo;Is this it?&rsquo; after building so much isn&rsquo;t a failure. It&rsquo;s a sign we&rsquo;re ready to grow in a new way.&rdquo;</p>
+          <p>&ldquo;Confidence doesn&rsquo;t come before we act. It grows because we do.&rdquo;</p>
         </div>
       </div>
       <div class="wb-host-copy dz-reveal" style="--dz-delay:0.1s">
