@@ -1,4 +1,5 @@
 ---
+import Analytics from '@vercel/analytics/astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -144,5 +145,7 @@ const defaultOgImage = 'https://thelife20.com/assets/og-default.jpg';
       }
     }, 2500);
   </script>
+  {/* Vercel Web Analytics: page views and visitors, shown in the Vercel dashboard. */}
+  <Analytics />
 </body>
 </html>

@@ -115,15 +115,21 @@ export const POST: APIRoute = async ({ request }) => {
     }
   }
 
+  // Laura gets everything they wrote, so she can follow up personally.
+  const lifeChangeRows: Array<[string, string]> = (b.lifeChange ?? [])
+    .filter((x) => x.answer)
+    .map((x) => [x.prompt.replace(/:$/, ''), x.answer]);
+  const domainRows: Array<[string, string]> = DOMAIN_ORDER.flatMap((d) =>
+    FIELD_ORDER.filter((f) => b.domains?.[d]?.[f]).map((f) => [`${d.toUpperCase()} · ${f}`, b.domains![d][f]] as [string, string]),
+  );
   await notifyTeam(`New Confidence worksheets: ${b.name || b.email}`, [
     ['Name', b.name],
     ['Email', b.email],
-    ['Top six values', (b.topSix ?? []).join(', ')],
-    ['Goals (love)', b.domains?.love?.['Short Term Goals']],
-    ['Goals (work)', b.domains?.work?.['Short Term Goals']],
-    ['Goals (play)', b.domains?.play?.['Short Term Goals']],
-    ['Goals (health)', b.domains?.health?.['Short Term Goals']],
     ['Answers email', emailError ? 'FAILED to send, so send them their answers personally' : 'Sent'],
+    ['Top six values', (b.topSix ?? []).join(', ')],
+    ['Marked Very important', (b.ratings ?? []).filter((r) => r.rating === 'V').map((r) => r.value).join(', ')],
+    ...lifeChangeRows,
+    ...domainRows,
   ]);
 
   if (emailError) {
