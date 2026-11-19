@@ -11,7 +11,7 @@ const googleCalUrl =
   'https://calendar.google.com/calendar/render?action=TEMPLATE' +
   `&text=${encodeURIComponent(`${event.title} (free live training with Laura Kelly)`)}` +
   `&dates=${fmt(event.startsAt)}/${fmt(event.endsAt)}` +
-  `&details=${encodeURIComponent('Live on Zoom. Your personal joining link is in your confirmation email.')}` +
+  `&details=${encodeURIComponent('Live on Zoom. Your joining link will arrive by email before the training.')}` +
   `&location=${encodeURIComponent('Zoom')}`;
 ---
 <BaseLayout
@@ -43,8 +43,8 @@ const googleCalUrl =
       <li class="dz-enter" style="--dz-enter-delay:0.32s">
         <span class="stage-num">02</span>
         <div>
-          <h2>Look for your joining link</h2>
-          <p>It’s on its way to your inbox now. If you can’t see it in a few minutes, check your spam or promotions folder.</p>
+          <h2>Look for your confirmation</h2>
+          <p>A confirmation is on its way to your inbox now, and your Zoom joining link will follow before the training. If you can’t see it in a few minutes, check your spam or promotions folder.</p>
         </div>
       </li>
       <li class="dz-enter" style="--dz-enter-delay:0.4s">
