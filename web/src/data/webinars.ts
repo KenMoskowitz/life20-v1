@@ -40,10 +40,7 @@ export const findYourNextLevel: WebinarEvent = {
   endsAt: '2026-12-03T12:15:00-08:00',
   timeZone: 'America/Los_Angeles',
   zoomWebinarId: '81086897900',
-  // Zoom's own registration page. Left off for now so sign-ups use the site's
-  // own form (Laura's Zoom webinar access is being restored). Put it back once
-  // the Zoom webinar shows Dec 3 and the new title.
-  // zoomRegistrationUrl: 'https://us02web.zoom.us/webinar/register/WN_hc_DQ_aBRvqlA4uUG3_kng',
+  zoomRegistrationUrl: 'https://us02web.zoom.us/webinar/register/WN_hc_DQ_aBRvqlA4uUG3_kng',
 };
 
 export const codeWebinars: Record<string, WebinarEvent> = {
