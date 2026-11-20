@@ -63,7 +63,12 @@ export async function addToKit(email: string, firstName: string | undefined, tag
     }
     return true;
   } catch (err) {
-    lastKitError = String(err instanceof Error ? err.message : err).slice(0, 400);
+    const msg = String(err instanceof Error ? err.message : err);
+    // A malformed key makes fetch throw with the header's value in the message.
+    // Never repeat that value in an alert, since it could be a real secret.
+    lastKitError = /Headers\.|header/i.test(msg) && !msg.startsWith('Kit ')
+      ? 'The KIT_API_KEY value in Vercel is not a valid key (it contains spaces, line breaks or other text). Replace it with just the key.'
+      : msg.slice(0, 400);
     console.error('[kit] Could not add subscriber:', err);
     return false;
   }
