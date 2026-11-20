@@ -64,4 +64,27 @@ const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegist
     var a = e.target.closest && e.target.closest('a.ws-zoom');
     if (a && window.fbq) window.fbq('trackCustom', 'WebinarRegisterClick', { content_name: a.dataset.webinar });
   });
+
+  // Lock the button after the first tap, so a double tap can't sign someone
+  // up twice. This component appears more than once on a page, so only set
+  // the handlers up once.
+  if (!window.__l20SignupLock) {
+  window.__l20SignupLock = true;
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (!f.classList || !f.classList.contains('ws-form')) return;
+    if (f.dataset.sending === '1') { e.preventDefault(); return; }
+    f.dataset.sending = '1';
+    var btn = f.querySelector('.ws-submit');
+    if (btn) { btn.dataset.label = btn.innerHTML; btn.setAttribute('aria-disabled', 'true'); btn.style.opacity = '0.7'; btn.textContent = 'Saving your seat…'; }
+  });
+  // If someone comes back with the browser's back button, unlock it again.
+  window.addEventListener('pageshow', function () {
+    document.querySelectorAll('form.ws-form').forEach(function (f) {
+      f.dataset.sending = '';
+      var btn = f.querySelector('.ws-submit');
+      if (btn && btn.dataset.label) { btn.innerHTML = btn.dataset.label; btn.removeAttribute('aria-disabled'); btn.style.opacity = ''; }
+    });
+  });
+  }
 </script>
