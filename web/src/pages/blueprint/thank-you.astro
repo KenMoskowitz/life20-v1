@@ -1,18 +1,29 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { findYourNextLevel as event, formatEventRange } from '../../data/webinars';
+import { JOIN_COOKIE, isZoomJoinUrl } from '../../lib/zoomJoin';
+
+// Reads the person's own Zoom link from the sign-up cookie, so it can't be
+// prerendered.
+export const prerender = false;
 
 // Where people land after signing up for /blueprint. This page is what the
 // Meta Pixel counts as a sign-up (the Lead event), and its only job is to
 // get them to actually show up.
 
+const cookieJoin = Astro.cookies.get(JOIN_COOKIE)?.value;
+const joinUrl = isZoomJoinUrl(cookieJoin) ? cookieJoin : null;
+
 const fmt = (iso: string) => new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+const details = joinUrl
+  ? `Live on Zoom. Join here: ${joinUrl}\n\nThis is your personal link, so please don't share it.`
+  : 'Live on Zoom. Your personal joining link is in your confirmation email from Zoom.';
 const googleCalUrl =
   'https://calendar.google.com/calendar/render?action=TEMPLATE' +
   `&text=${encodeURIComponent(`${event.title} (free live training with Laura Kelly)`)}` +
   `&dates=${fmt(event.startsAt)}/${fmt(event.endsAt)}` +
-  `&details=${encodeURIComponent('Live on Zoom. Your joining link will arrive by email before the training.')}` +
-  `&location=${encodeURIComponent('Zoom')}`;
+  `&details=${encodeURIComponent(details)}` +
+  `&location=${encodeURIComponent(joinUrl ?? 'Zoom')}`;
 ---
 <BaseLayout
   ogImage="https://thelife20.com/assets/og-webinar.jpg"
@@ -43,8 +54,8 @@ const googleCalUrl =
       <li class="dz-enter" style="--dz-enter-delay:0.32s">
         <span class="stage-num">02</span>
         <div>
-          <h2>Look for your confirmation</h2>
-          <p>A confirmation is on its way to your inbox now, and your Zoom joining link will follow before the training. If you can’t see it in a few minutes, check your spam or promotions folder.</p>
+          <h2>Look for your joining link</h2>
+          <p>It’s on its way to your inbox now. If you can’t see it in a few minutes, check your spam or promotions folder.</p>
         </div>
       </li>
       <li class="dz-enter" style="--dz-enter-delay:0.4s">
