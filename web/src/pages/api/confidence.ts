@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { sanityWriteClient } from '../../lib/sanity';
 import { notifyTeam } from '../../lib/notify';
+import { addToKit } from '../../lib/kit';
 
 export const prerender = false;
 
@@ -122,7 +123,10 @@ export const POST: APIRoute = async ({ request }) => {
   const domainRows: Array<[string, string]> = DOMAIN_ORDER.flatMap((d) =>
     FIELD_ORDER.filter((f) => b.domains?.[d]?.[f]).map((f) => [`${d.toUpperCase()} · ${f}`, b.domains![d][f]] as [string, string]),
   );
+  const onList = await addToKit(b.email, b.name, ['confidence']);
+
   await notifyTeam(`New Confidence worksheets: ${b.name || b.email}`, [
+    ['Added to email list', onList ? 'Yes' : 'No'],
     ['Name', b.name],
     ['Email', b.email],
     ['Answers email', emailError ? 'FAILED to send, so send them their answers personally' : 'Sent'],

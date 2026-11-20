@@ -113,6 +113,7 @@ const jsonLd = {
               )}
               <WebinarSignup event={event} id="hero" />
               <p class="wb-hero-trust">Live on Zoom &middot; Free &middot; Your joining link arrives by email</p>
+              <p class="wb-consent">You’ll also get occasional emails from Laura. Unsubscribe anytime.</p>
             </>
           )}
         </div>
@@ -215,6 +216,7 @@ const jsonLd = {
           <p>Live on Zoom for 75 minutes. Your joining link arrives by email, with a reminder before we start.</p>
         </div>
         <WebinarSignup event={event} id="final" dark />
+        <p class="wb-consent bp-consent-dark">You’ll also get occasional emails from Laura. Unsubscribe anytime.</p>
       </div>
     </section>
   )}
@@ -246,6 +248,8 @@ const jsonLd = {
   .bp-story .body-copy { margin: 16px auto 0; max-width: 640px; }
   .bp-hero-form { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
   .bp-hero-form .wb-hero-trust { font-size: 16px; }
+  .wb-consent { font: 400 13px/1.5 var(--sans); color: var(--ink-soft); margin-top: -8px; }
+  .bp-consent-dark { margin-top: 10px; color: rgba(251, 247, 239, 0.75); }
   .bp-error { font-weight: 600; color: #B5533C; }
 
   /* --- Proof numbers --- */

@@ -4,6 +4,7 @@ import { sanityWriteClient, getWebinar } from '../../lib/sanity';
 import { codeWebinars, formatEventRange } from '../../data/webinars';
 import { zoomConfigured, registerForZoomWebinar } from '../../lib/zoom';
 import { notifyTeam } from '../../lib/notify';
+import { addToKit } from '../../lib/kit';
 import { JOIN_COOKIE, isZoomJoinUrl } from '../../lib/zoomJoin';
 
 export const prerender = false;
@@ -105,11 +106,15 @@ export const POST: APIRoute = async ({ request, redirect, cookies }) => {
     console.error('[webinar-registration] RESEND_API_KEY not configured; no confirmation sent.');
   }
 
+  // Add them to Laura's email list, tagged with this webinar.
+  const onList = await addToKit(email, name, ['webinar', `webinar-${codeEvent?.startsAt?.slice(0, 10) ?? 'blueprint'}`]);
+
   await notifyTeam(`New webinar sign-up: ${name}`, [
     ['Name', name],
     ['Email', email],
     ['Webinar', webinarTitle],
     ['When', whenLine],
+    ['Added to email list', onList ? 'Yes' : 'No'],
     ['Registered with Zoom', codeEvent?.zoomWebinarId ? (zoomRegistered ? 'Yes' : 'No, send them the joining link') : null],
   ]);
 
