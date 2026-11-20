@@ -66,7 +66,10 @@ const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegist
   });
 
   // Lock the button after the first tap, so a double tap can't sign someone
-  // up twice.
+  // up twice. This component appears more than once on a page, so only set
+  // the handlers up once.
+  if (!window.__l20SignupLock) {
+  window.__l20SignupLock = true;
   document.addEventListener('submit', function (e) {
     var f = e.target;
     if (!f.classList || !f.classList.contains('ws-form')) return;
@@ -83,4 +86,5 @@ const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegist
       if (btn && btn.dataset.label) { btn.innerHTML = btn.dataset.label; btn.removeAttribute('aria-disabled'); btn.style.opacity = ''; }
     });
   });
+  }
 </script>
