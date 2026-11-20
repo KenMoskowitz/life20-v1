@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// thelife20.com/subscribe: the page Laura links to (for example from a Clover
+// email) so people can choose to get her emails. ?from=clover tags them.
+export const prerender = false;
+
+const params = Astro.url.searchParams;
+const joined = params.get('joined') === '1';
+const error = params.get('error');
+const from = (params.get('from') ?? '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40);
+---
+<BaseLayout title="Get Laura’s emails | Life 2.0" description="Real things Josh and Laura Kelly are doing to build a life as full as their business. Straight to your inbox." canonicalUrl="https://thelife20.com/subscribe" noindex bare>
+  <section class="sb wrap" id="join">
+    {joined ? (
+      <div class="sb-card dz-enter">
+        <div class="eyebrow eyebrow-center">You’re in</div>
+        <h1>Thank you. I’m so glad you’re here.</h1>
+        <p class="sb-lede">Look out for my emails in your inbox. If you don’t see the first one, check your promotions or spam folder.</p>
+        <a class="btn-primary" href="/blueprint">Join my free live training &rarr;</a>
+      </div>
+    ) : (
+      <div class="sb-card dz-enter">
+        <div class="eyebrow eyebrow-center">Life 2.0 emails</div>
+        <h1>Winning at work, and at home too.</h1>
+        <p class="sb-lede">Josh and I spend our days helping business owners grow. Along the way, we’ve been working on the rest of life too: our health, our marriage, our time with our kids, and how to keep growing without losing what matters most.</p>
+        <p class="sb-lede">I share what we’re learning in a short email. Real things we’re doing, what’s working, and what isn’t.</p>
+        {error && <p class="sb-error">{error === 'email' ? 'Please check your email address.' : 'Something went wrong. Please try again in a moment.'}</p>}
+        <form class="sb-form" action="/api/subscribe" method="post">
+          <input type="hidden" name="from" value={from} />
+          <label class="sb-field"><span>First name</span><input name="name" type="text" autocomplete="given-name" /></label>
+          <label class="sb-field"><span>Email</span><input name="email" type="email" autocomplete="email" required /></label>
+          <button class="btn-primary sb-submit" type="submit">Yes, send me the emails &rarr;</button>
+        </form>
+        <p class="sb-small">Unsubscribe anytime, with one click.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .sb { max-width: 640px; padding-top: clamp(24px, 5vw, 64px); padding-bottom: 80px; }
+  .sb-card { text-align: center; }
+  .sb-card h1 { margin-top: 14px; font: 500 clamp(32px, 4.6vw, 48px)/1.15 var(--serif); color: var(--forest); }
+  .sb-lede { margin: 16px auto 0; max-width: 560px; font: 400 18px/1.65 var(--sans); color: var(--ink-soft); }
+  .sb-card .btn-primary { margin-top: 28px; }
+  .sb-form { margin: 28px auto 0; max-width: 440px; display: grid; gap: 12px; text-align: left; }
+  .sb-field { display: grid; gap: 6px; }
+  .sb-field span { font: 600 14px/1 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--sage); }
+  .sb-field input { font: 400 18px/1.4 var(--sans); padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); color: var(--ink); }
+  .sb-field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .sb-submit { margin-top: 8px !important; width: 100%; justify-content: center; }
+  .sb-small { margin-top: 14px; font: 400 14px/1.5 var(--sans); color: var(--ink-soft); }
+  .sb-error { margin-top: 18px; font-weight: 600; color: #B5533C; }
+</style>
