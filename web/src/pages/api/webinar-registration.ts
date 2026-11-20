@@ -4,6 +4,7 @@ import { sanityWriteClient, getWebinar } from '../../lib/sanity';
 import { codeWebinars, formatEventRange } from '../../data/webinars';
 import { zoomConfigured, registerForZoomWebinar } from '../../lib/zoom';
 import { notifyTeam } from '../../lib/notify';
+import { JOIN_COOKIE, isZoomJoinUrl } from '../../lib/zoomJoin';
 
 export const prerender = false;
 
@@ -15,7 +16,7 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request, redirect, cookies }) => {
   const form = await request.formData();
   const name = String(form.get('name') ?? '').trim();
   const email = String(form.get('email') ?? '').trim();
@@ -54,8 +55,14 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   let zoomRegistered = false;
   if (codeEvent?.zoomWebinarId && zoomConfigured) {
     try {
-      await registerForZoomWebinar(codeEvent.zoomWebinarId, name, email);
+      const joinUrl = await registerForZoomWebinar(codeEvent.zoomWebinarId, name, email);
       zoomRegistered = true;
+      // Hand the person's own Zoom link to the thank-you page, so the
+      // "add to calendar" buttons there include it. Short-lived and only
+      // readable by the site's server.
+      if (joinUrl && isZoomJoinUrl(joinUrl)) {
+        cookies.set(JOIN_COOKIE, joinUrl, { path: '/blueprint', maxAge: 60 * 60 * 24, httpOnly: true, secure: true, sameSite: 'lax' });
+      }
     } catch (err) {
       console.error('[webinar-registration] Zoom registration failed:', err);
     }
