@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
-import { addToKit } from '../../lib/kit';
+import { addToKit, lastKitError } from '../../lib/kit';
+import { notifyTeam } from '../../lib/notify';
 
 export const prerender = false;
 
@@ -21,6 +22,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   const ok = await addToKit(email, name, ['newsletter', ...(from ? [`from-${from}`] : [])]);
+  await notifyTeam(ok ? `New subscriber: ${name || email}` : `Email list sign-up FAILED: ${email}`, [
+    ['Name', name],
+    ['Email', email],
+    ['Came from', from || 'direct'],
+    ['Added to email list', ok ? 'Yes' : `No: ${lastKitError}`],
+  ]);
   if (!ok) return redirect(`${back}${back.includes('?') ? '&' : '?'}error=unavailable#join`);
   return redirect(`/subscribe?joined=1${from ? `&from=${encodeURIComponent(from)}` : ''}#join`);
 };

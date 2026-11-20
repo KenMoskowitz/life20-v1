@@ -41,9 +41,14 @@ async function tagId(name: string): Promise<number> {
   return created.tag.id;
 }
 
+/** The last Kit error, without any secrets, so alerts can explain a failure. */
+export let lastKitError = '';
+
 /** Add (or update) a subscriber and apply tags. Returns true if it worked. */
 export async function addToKit(email: string, firstName: string | undefined, tags: string[]): Promise<boolean> {
+  lastKitError = '';
   if (!kitConfigured) {
+    lastKitError = 'KIT_API_KEY is not set on this deployment.';
     console.warn('[kit] KIT_API_KEY not set; subscriber not added:', tags.join(', '));
     return false;
   }
@@ -58,6 +63,7 @@ export async function addToKit(email: string, firstName: string | undefined, tag
     }
     return true;
   } catch (err) {
+    lastKitError = String(err instanceof Error ? err.message : err).slice(0, 400);
     console.error('[kit] Could not add subscriber:', err);
     return false;
   }

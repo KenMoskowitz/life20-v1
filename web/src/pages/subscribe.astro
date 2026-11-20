@@ -21,6 +21,7 @@ const from = (params.get('from') ?? '').toLowerCase().replace(/[^a-z0-9-]/g, '')
       </div>
     ) : (
       <div class="sb-card dz-enter">
+        <img class="sb-photo" src="/assets/laura-josh-home.jpg" alt="Laura and Josh Kelly at home" width="1086" height="724" />
         <div class="eyebrow eyebrow-center">Life 2.0 emails</div>
         <h1>Winning at work, and at home too.</h1>
         <p class="sb-lede">Josh and I spend our days helping business owners grow. Along the way, we’ve been working on the rest of life too: our health, our marriage, our time with our kids, and how to keep growing without losing what matters most.</p>
@@ -41,6 +42,7 @@ const from = (params.get('from') ?? '').toLowerCase().replace(/[^a-z0-9-]/g, '')
 <style>
   .sb { max-width: 640px; padding-top: clamp(24px, 5vw, 64px); padding-bottom: 80px; }
   .sb-card { text-align: center; }
+  .sb-photo { display: block; width: 100%; height: auto; border-radius: 24px; margin: 0 auto 28px; box-shadow: 0 18px 40px rgba(29, 46, 34, 0.12); }
   .sb-card h1 { margin-top: 14px; font: 500 clamp(32px, 4.6vw, 48px)/1.15 var(--serif); color: var(--forest); }
   .sb-lede { margin: 16px auto 0; max-width: 560px; font: 400 18px/1.65 var(--sans); color: var(--ink-soft); }
   .sb-card .btn-primary { margin-top: 28px; }
