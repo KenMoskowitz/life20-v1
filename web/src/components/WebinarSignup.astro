@@ -73,10 +73,14 @@ const useZoomLink = !(zoomConfigured && event.zoomWebinarId) && event.zoomRegist
     if (f.dataset.sending === '1') { e.preventDefault(); return; }
     f.dataset.sending = '1';
     var btn = f.querySelector('.ws-submit');
-    if (btn) { btn.setAttribute('aria-disabled', 'true'); btn.style.opacity = '0.7'; btn.textContent = 'Saving your seat…'; }
+    if (btn) { btn.dataset.label = btn.innerHTML; btn.setAttribute('aria-disabled', 'true'); btn.style.opacity = '0.7'; btn.textContent = 'Saving your seat…'; }
   });
   // If someone comes back with the browser's back button, unlock it again.
   window.addEventListener('pageshow', function () {
-    document.querySelectorAll('form.ws-form').forEach(function (f) { f.dataset.sending = ''; });
+    document.querySelectorAll('form.ws-form').forEach(function (f) {
+      f.dataset.sending = '';
+      var btn = f.querySelector('.ws-submit');
+      if (btn && btn.dataset.label) { btn.innerHTML = btn.dataset.label; btn.removeAttribute('aria-disabled'); btn.style.opacity = ''; }
+    });
   });
 </script>
