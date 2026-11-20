@@ -34,7 +34,10 @@ export async function registerForZoomWebinar(webinarId: string, name: string, em
   const res = await fetch(`https://api.zoom.us/v2/webinars/${encodeURIComponent(webinarId)}/registrants`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, first_name: firstName, last_name: rest.join(' ') || undefined }),
+    // The webinar's registration form requires a last name, but our sign-up form
+    // only asks for a first name, so fall back to a placeholder or Zoom rejects
+    // the registration. Zoom's emails greet people by first name only.
+    body: JSON.stringify({ email, first_name: firstName, last_name: rest.join(' ') || '-' }),
   });
   if (!res.ok) throw new Error(`Zoom registration failed: ${res.status} ${await res.text()}`);
   const data = (await res.json()) as { join_url?: string };
