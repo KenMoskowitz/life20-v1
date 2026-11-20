@@ -35,7 +35,7 @@ export const betterMentalHealth: WebinarEvent = {
 // Dec 3, 2026 is after US daylight saving ends (Nov 1), so Pacific is PST, UTC-8.
 export const findYourNextLevel: WebinarEvent = {
   slug: 'blueprint',
-  title: 'How to Build Real Confidence',
+  title: 'Winning at Work, Missing at Home',
   startsAt: '2026-12-03T11:00:00-08:00',
   endsAt: '2026-12-03T12:15:00-08:00',
   timeZone: 'America/Los_Angeles',
